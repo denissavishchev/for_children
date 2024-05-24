@@ -23,4 +23,10 @@ final textFieldDecoration = InputDecoration(
     focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: kDarkGrey)
     ),
+    focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: kRed)
+    ),
+    errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: kRed)
+    ),
 );

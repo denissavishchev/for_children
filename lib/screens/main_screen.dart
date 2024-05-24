@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/add_task_screen.dart';
+import 'package:for_children/screens/settings_screen.dart';
 
 import '../widgets/basic_container_widget.dart';
 
@@ -23,7 +24,7 @@ class MainScreen extends StatelessWidget {
                   IconButton(
                       onPressed: () => Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) =>
-                          const AddTaskScreen())),
+                          const SettingsScreen())),
                       icon: const Icon(
                         Icons.settings,
                         color: kPurple,

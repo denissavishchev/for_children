@@ -15,6 +15,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   provider:
   flutter_screenutil: ^5.9.1
+  easy_localization: ^3.0.7
+  country_flags: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -27,7 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
-   - assets/
+   - assets/translations/
 
 
   # fonts:

@@ -1,0 +1,9 @@
+{
+  "language": "Language",
+  "name": "Name",
+  "task": "Task",
+  "description": "Description",
+  "price": "Price",
+  "deadline": "Deadline",
+  "add": "Add"
+}

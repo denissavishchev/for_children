@@ -1,0 +1,9 @@
+{
+  "language": "Język",
+  "name": "Imię",
+  "task": "Zadanie",
+  "description": "Opis",
+  "price": "Cena",
+  "deadline": "Termin",
+  "add": "Dodaj"
+}
