@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/add_task_screen.dart';
-import 'package:for_children/screens/settings_screen.dart';
-
+import '../screens/settings_screen.dart';
 import '../widgets/basic_container_widget.dart';
 
 class MainScreen extends StatelessWidget {
@@ -12,6 +12,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kGrey,
       body: SafeArea(
         child: Column(
@@ -45,13 +46,24 @@ class MainScreen extends StatelessWidget {
             ),
             SizedBox(
               height: size.height * 0.8,
-              child: ListView.builder(
-                itemCount: 20,
-                  itemBuilder: (context, index){
-                    return BasicContainerWidget(
-                      child: Text('Neo Capsule', style: kTextStyle,),
-                    );
-                  }),
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                        .collection('tasks')
+                        // .orderBy('', descending: false)
+                        .snapshots(),
+                builder: (context, snapshot){
+                  if(!snapshot.hasData){
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return ListView.builder(
+                      itemCount: snapshot.data?.docs.length,
+                      itemBuilder: (context, index){
+                        return BasicContainerWidget(
+                          child: Text(snapshot.data?.docs[index].get('taskName'), style: kTextStyle,),
+                        );
+                      });
+                },
+              )
             )
           ],
         ),

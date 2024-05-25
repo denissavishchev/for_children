@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/main_provider.dart';
 import 'package:provider/provider.dart';
-import 'main_screen.dart';
+import 'package:for_children/screens/main_screen.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
@@ -134,36 +134,39 @@ class AddTaskScreen extends StatelessWidget {
                           ],
                         ),
                         const Spacer(),
-                        Container(
-                          width: size.width,
-                          height: size.height * 0.06,
-                          margin: const EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(12)),
-                            border: Border.all(width: 1, color: kPurple.withOpacity(0.8)),
-                            gradient: LinearGradient(
-                              colors: [
-                                kPurple.withOpacity(0.4),
-                                kPurple.withOpacity(0.6)
-                              ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 6,
+                        GestureDetector(
+                          onTap: () => data.addTaskToBase(context),
+                          child: Container(
+                            width: size.width,
+                            height: size.height * 0.06,
+                            margin: const EdgeInsets.symmetric(horizontal: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                              border: Border.all(width: 1, color: kPurple.withOpacity(0.8)),
+                              gradient: LinearGradient(
+                                colors: [
+                                  kPurple.withOpacity(0.4),
+                                  kPurple.withOpacity(0.6)
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 6,
+                                    spreadRadius: 2,
+                                    offset: const Offset(0, 6)
+                                ),
+                                BoxShadow(
+                                  color: kGrey.withOpacity(0.2),
+                                  blurRadius: 2,
                                   spreadRadius: 2,
-                                  offset: const Offset(0, 6)
-                              ),
-                              BoxShadow(
-                                color: kGrey.withOpacity(0.2),
-                                blurRadius: 2,
-                                spreadRadius: 2,
-                              ),
-                            ]
+                                ),
+                              ]
+                            ),
+                            child: Center(child: Text('add'.tr())),
                           ),
-                          child: Center(child: Text('add'.tr())),
                         ),
                         SizedBox(
                           height: MediaQuery.viewInsetsOf(context).bottom == 0

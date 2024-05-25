@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "403074544562",
+    "project_id": "forkids-6f5ab",
+    "storage_bucket": "forkids-6f5ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403074544562:android:929551b8a32e0cb42faaab",
+        "android_client_info": {
+          "package_name": "com.example.for_children"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQB9hcPJENDcNq6taQlMRRMNWoIlKQaGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

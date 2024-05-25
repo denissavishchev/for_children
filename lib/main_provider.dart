@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:for_children/screens/main_screen.dart';
 
 class MainProvider with ChangeNotifier {
 
@@ -13,6 +13,28 @@ class MainProvider with ChangeNotifier {
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
+
+  Future addTaskToBase(context)async{
+    await FirebaseFirestore.instance.collection('tasks').add({
+      'elderName': '',
+      'kidName': addChildTaskNameController.text,
+      'taskName': addTaskNameController.text,
+      'description': addTaskDescriptionController.text,
+      'status': 'check',
+      'price': addTaskPriceController.text,
+      'deadline': taskDeadline.toString(),
+      'stars': '0',
+    });
+    addChildTaskNameController.clear();
+    addTaskNameController.clear();
+    addTaskDescriptionController.clear();
+    addTaskPriceController.clear();
+    taskDeadline = DateTime.now();
+    isDeadline = false;
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const MainScreen()));
+  }
 
   void setTaskTime(DateTime time){
     taskDeadline = time;
