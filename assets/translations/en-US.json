@@ -3,7 +3,12 @@
   "name": "Name",
   "task": "Task",
   "description": "Description",
+  "taskPrice": "Price: ",
   "price": "Price",
   "deadline": "Deadline",
-  "add": "Add"
+  "add": "Add",
+  "inProgress": "In progress",
+  "done": "Done",
+  "checked": "Checked",
+  "paid": "Paid"
 }

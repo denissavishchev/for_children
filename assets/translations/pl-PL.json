@@ -3,7 +3,12 @@
   "name": "Imię",
   "task": "Zadanie",
   "description": "Opis",
+  "taskPrice": "Cena: ",
   "price": "Cena",
   "deadline": "Termin",
-  "add": "Dodaj"
+  "add": "Dodaj",
+  "inProgress": "W trakcie",
+  "done": "Zrobione",
+  "checked": "Sprawdzone",
+  "paid": "Zapłacone"
 }

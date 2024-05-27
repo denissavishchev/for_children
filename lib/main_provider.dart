@@ -14,16 +14,18 @@ class MainProvider with ChangeNotifier {
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
 
+  List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
+
   Future addTaskToBase(context)async{
     await FirebaseFirestore.instance.collection('tasks').add({
       'elderName': '',
       'kidName': addChildTaskNameController.text,
       'taskName': addTaskNameController.text,
       'description': addTaskDescriptionController.text,
-      'status': 'check',
+      'status': 'done',
       'price': addTaskPriceController.text,
-      'deadline': taskDeadline.toString(),
-      'stars': '0',
+      'deadline': isDeadline ? taskDeadline.toString() : 'false',
+      'stars': '3',
     });
     addChildTaskNameController.clear();
     addTaskNameController.clear();

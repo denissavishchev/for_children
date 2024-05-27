@@ -6,12 +6,32 @@ const kBlue = Color(0xff4b75b1);
 const kDarkGrey = Color(0xff92949a);
 const kRed = Color(0xffee6561);
 const kGreen = Color(0xff2f8d5c);
-const kPurple = Color(0xff423af4);
 
 final kTextStyle = TextStyle(
-    color: kPurple,
+    color: kBlue,
+    fontWeight: FontWeight.bold,
+    fontSize: 24.sp,
+    // fontFamily: 'Roboto'
+);
+
+final kBigTextStyle = TextStyle(
+    color: kBlue,
+    fontWeight: FontWeight.bold,
+    fontSize: 32.sp,
+    // fontFamily: 'Roboto'
+);
+
+final kSmallTextStyle = TextStyle(
+    color: kBlue,
     fontWeight: FontWeight.bold,
     fontSize: 18.sp,
+    // fontFamily: 'Roboto'
+);
+
+final kGreenTextStyle = TextStyle(
+    color: kGreen,
+    fontWeight: FontWeight.bold,
+    fontSize: 28.sp,
     // fontFamily: 'Roboto'
 );
 

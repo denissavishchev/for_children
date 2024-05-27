@@ -37,7 +37,7 @@ class SettingsScreen extends StatelessWidget {
                                       const MainScreen())),
                                   icon: const Icon(
                                     Icons.backspace_outlined,
-                                    color: kPurple,
+                                    color: kBlue,
                                     size: 32,
                                   )),
                               const Spacer(),

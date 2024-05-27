@@ -37,7 +37,7 @@ class AddTaskScreen extends StatelessWidget {
                                     const MainScreen())),
                                 icon: const Icon(
                                   Icons.backspace_outlined,
-                                  color: kPurple,
+                                  color: kBlue,
                                   size: 32,
                                 )),
                             const Spacer(),
@@ -110,7 +110,7 @@ class AddTaskScreen extends StatelessWidget {
                               width: size.width * 0.7,
                               height: size.height * 0.1,
                               child: Opacity(
-                                opacity: data.isDeadline ? 1 : 0.3,
+                                opacity: data.isDeadline ? 1 : 0.1,
                                 child: AbsorbPointer(
                                   absorbing: !data.isDeadline,
                                   child: CupertinoDatePicker(
@@ -142,11 +142,11 @@ class AddTaskScreen extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(Radius.circular(12)),
-                              border: Border.all(width: 1, color: kPurple.withOpacity(0.8)),
+                              border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
                               gradient: LinearGradient(
                                 colors: [
-                                  kPurple.withOpacity(0.4),
-                                  kPurple.withOpacity(0.6)
+                                  kBlue.withOpacity(0.4),
+                                  kBlue.withOpacity(0.6)
                                 ],
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.topCenter
@@ -170,7 +170,7 @@ class AddTaskScreen extends StatelessWidget {
                         ),
                         SizedBox(
                           height: MediaQuery.viewInsetsOf(context).bottom == 0
-                              ? 40 : 320,),
+                              ? size.height * 0.1 : size.height * 0.3,),
                       ],
                     ),
                   ),
