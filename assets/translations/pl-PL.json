@@ -10,5 +10,7 @@
   "inProgress": "W trakcie",
   "done": "Zrobione",
   "checked": "Sprawdzone",
-  "paid": "Zapłacone"
+  "paid": "Zapłacone",
+  "withoutDeadline": "To zadanie nie ma terminu realizacji",
+  "taskDeadline": "Termin: "
 }

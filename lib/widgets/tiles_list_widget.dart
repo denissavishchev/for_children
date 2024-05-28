@@ -32,81 +32,84 @@ class TilesListWidget extends StatelessWidget {
                   return ListView.builder(
                       itemCount: snapshot.data?.docs.length,
                       itemBuilder: (context, index){
-                        return BasicContainerWidget(
-                          padding: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(snapshot.data?.docs[index].get('kidName'),
-                                              style: kBigTextStyle,),
-                                            Visibility(
-                                              // visible: snapshot.data?.docs[index].get('status') == 'Checked'
-                                              //           || snapshot.data?.docs[index].get('status') == 'Paid',
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: List.generate(3, (i){
-                                                  return Icon(
-                                                    Icons.star,
-                                                    color: i < int.parse(snapshot.data?.docs[index].get('stars'))
-                                                        ? kGreen : kBlue.withOpacity(0.25),);
-                                                }),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 60,
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: kBlue.withOpacity(0.1),
-                                          borderRadius: const BorderRadius.horizontal(
-                                              right: Radius.circular(4)
+                        return GestureDetector(
+                          onTap: () => data.showTaskDescription(snapshot, index, context),
+                          child: BasicContainerWidget(
+                            padding: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(snapshot.data?.docs[index].get('kidName'),
+                                                style: kBigTextStyle,),
+                                              Visibility(
+                                                // visible: snapshot.data?.docs[index].get('status') == 'Checked'
+                                                //           || snapshot.data?.docs[index].get('status') == 'Paid',
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: List.generate(3, (i){
+                                                    return Icon(
+                                                      Icons.star,
+                                                      color: i < int.parse(snapshot.data?.docs[index].get('stars'))
+                                                          ? kGreen : kBlue.withOpacity(0.25),);
+                                                  }),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        child: Text(snapshot.data?.docs[index].get('taskName'),
-                                          style: kBigTextStyle,),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8),
-                                        child: Row(
-                                          children: [
-                                            Text('taskPrice'.tr(),
-                                              style: kTextStyle.copyWith(
-                                                  color: kBlue.withOpacity(0.6)),),
-                                            Text(snapshot.data?.docs[index].get('price'),
-                                              style: kTextStyle,),
-                                          ],
+                                        Container(
+                                          height: 60,
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: kBlue.withOpacity(0.1),
+                                            borderRadius: const BorderRadius.horizontal(
+                                                right: Radius.circular(4)
+                                            ),
+                                          ),
+                                          child: Text(snapshot.data?.docs[index].get('taskName'),
+                                            style: kBigTextStyle,),
                                         ),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8),
+                                          child: Row(
+                                            children: [
+                                              Text('taskPrice'.tr(),
+                                                style: kTextStyle.copyWith(
+                                                    color: kBlue.withOpacity(0.6)),),
+                                              Text(snapshot.data?.docs[index].get('price'),
+                                                style: kTextStyle,),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: List.generate(5, (i){
-                                      return StatusWidget(
-                                        snapshot: snapshot,
-                                        index: index,
-                                        name: data.status[i],);
-                                    }),
-                                  ),
-                                )
-                              ],
+                                  Expanded(
+                                    flex: 1,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: List.generate(5, (i){
+                                        return StatusWidget(
+                                          snapshot: snapshot,
+                                          index: index,
+                                          name: data.status[i],);
+                                      }),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );

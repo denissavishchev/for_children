@@ -10,5 +10,7 @@
   "inProgress": "In progress",
   "done": "Done",
   "checked": "Checked",
-  "paid": "Paid"
+  "paid": "Paid",
+  "withoutDeadline": "This task has no deadline",
+  "taskDeadline": "Deadline: "
 }
