@@ -13,7 +13,8 @@ void main() async{
           apiKey: 'key',
           appId: '1:403074544562:android:929551b8a32e0cb42faaab',
           messagingSenderId: 'sendid',
-          projectId: 'forkids-6f5ab'
+          projectId: 'forkids-6f5ab',
+          storageBucket: 'forkids-6f5ab.appspot.com',
     ));
   await EasyLocalization.ensureInitialized();
   runApp(

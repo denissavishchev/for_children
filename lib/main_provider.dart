@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/main_screen.dart';
 import 'package:for_children/widgets/status_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MainProvider with ChangeNotifier {
 
@@ -18,6 +22,20 @@ class MainProvider with ChangeNotifier {
   bool isDeadline = false;
 
   List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
+
+  String imageUrl = '';
+  String fileName = '';
+  late Reference imageToUpload;
+  late XFile? file;
+
+  Future pickAnImage()async{
+    ImagePicker image = ImagePicker();
+    file = await image.pickImage(source: ImageSource.camera);
+    if(file == null) return;
+    fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    imageToUpload = FirebaseStorage.instance.ref().child('images').child(fileName);
+    notifyListeners();
+  }
 
   Future showTaskDescription(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context) {
     Size size = MediaQuery.sizeOf(context);
@@ -160,17 +178,35 @@ class MainProvider with ChangeNotifier {
                       )
                     ],
                   ),
-                  Expanded(
-                    child: Container(
-                      width: size.width,
-                      padding: const EdgeInsets.all(12),
-                      margin: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-                      decoration: BoxDecoration(
-                        color: kBlue.withOpacity(0.1),
-                        borderRadius: const BorderRadius.all(Radius.circular(4))
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 300,
+                          padding: const EdgeInsets.all(12),
+                          margin: EdgeInsets.fromLTRB(12, 12,
+                              snapshot.data?.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
+                          decoration: BoxDecoration(
+                            color: kBlue.withOpacity(0.1),
+                            borderRadius: const BorderRadius.all(Radius.circular(4))
+                          ),
+                          child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyle),
+                        ),
                       ),
-                      child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyle),
-                    ),
+                      snapshot.data?.docs[index].get('imageUrl') == 'false'
+                      ? const SizedBox.shrink()
+                      : Expanded(
+                          child: Container(
+                            height: 300,
+                            clipBehavior: Clip.hardEdge,
+                            margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
+                            decoration: BoxDecoration(
+                              color: kBlue.withOpacity(0.3),
+                              borderRadius: const BorderRadius.all(Radius.circular(4)),
+                            ),
+                            child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
+                          ),)
+                    ],
                   )
                 ],
               )
@@ -179,15 +215,24 @@ class MainProvider with ChangeNotifier {
   }
 
   Future addTaskToBase(context)async{
+    if(fileName != ''){
+      try{
+        await imageToUpload.putFile(File(file!.path));
+        imageUrl = await imageToUpload.getDownloadURL();
+      }catch(e){
+        return;
+      }
+    }
     await FirebaseFirestore.instance.collection('tasks').add({
       'elderName': '',
       'kidName': addChildTaskNameController.text,
       'taskName': addTaskNameController.text,
       'description': addTaskDescriptionController.text,
-      'status': 'done',
+      'status': 'paid',
       'price': addTaskPriceController.text,
       'deadline': isDeadline ? taskDeadline.toString() : 'false',
-      'stars': '3',
+      'stars' : '2',
+      'imageUrl' : fileName == '' ? 'false' : imageUrl
     });
     addChildTaskNameController.clear();
     addTaskNameController.clear();
@@ -195,6 +240,8 @@ class MainProvider with ChangeNotifier {
     addTaskPriceController.clear();
     taskDeadline = DateTime.now();
     isDeadline = false;
+    imageUrl = '';
+    fileName = '';
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         const MainScreen()));
