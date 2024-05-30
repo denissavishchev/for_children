@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
-import '../main_provider.dart';
+import '../providers/parent_provider.dart';
 import '../widgets/flag_widget.dart';
-import 'main_screen.dart';
+import 'parent_screens/main_parent_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -16,7 +16,7 @@ class SettingsScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: kGrey,
       body: SafeArea(
-          child: Consumer<MainProvider>(
+          child: Consumer<ParentProvider>(
             builder: (context, data, _){
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),

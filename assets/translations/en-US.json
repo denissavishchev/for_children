@@ -12,5 +12,9 @@
   "checked": "Checked",
   "paid": "Paid",
   "withoutDeadline": "This task has no deadline",
-  "taskDeadline": "Deadline: "
+  "taskDeadline": "Deadline: ",
+  "ImTheParent": "I'm the parent",
+  "ImTheKid": "I'm the kid",
+  "selectYourRole": "Select your role",
+  "selectDescription": "Parents assign tasks, inspect their completion, and reward their children accordingly. This fosters diligence, integrity, responsibility, and a sense of pride in their daily lives, instilling a sense of accomplishment in parenting"
 }

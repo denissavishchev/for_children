@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_children/screens/main_screen.dart';
+import 'package:for_children/providers/login_provider.dart';
+import 'package:for_children/screens/login_screens/select_screen.dart';
+import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'main_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'providers/parent_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async{
@@ -16,6 +19,7 @@ void main() async{
           projectId: 'forkids-6f5ab',
           storageBucket: 'forkids-6f5ab.appspot.com',
     ));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   await EasyLocalization.ensureInitialized();
   runApp(
       EasyLocalization(
@@ -25,31 +29,27 @@ void main() async{
           Locale('ru', 'RU'),],
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
-        child: const MyApp()));
+        child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ParentProvider>(create: (_) => ParentProvider()),
+              ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
+            ],
+            builder: (context, child) {
+              return ScreenUtilInit(
+                designSize: const Size(720, 1560),
+                builder: (_, child) => MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
+                  home: prefs.getString('email') == null
+                    ? const SelectScreen()
+                    : const MainScreen(),
+                ),
+              );
+            }
+        )));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<MainProvider>(create: (_) => MainProvider()),
-        ],
-        builder: (context, child) {
-          return ScreenUtilInit(
-            designSize: const Size(720, 1560),
-            builder: (_, child) => MaterialApp(
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              home: const MainScreen(),
-            ),
-          );
-        }
-    );
-  }
-}
 

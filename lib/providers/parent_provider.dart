@@ -5,11 +5,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
-import 'package:for_children/screens/main_screen.dart';
+import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
-class MainProvider with ChangeNotifier {
+class ParentProvider with ChangeNotifier {
 
   GlobalKey taskKey = GlobalKey<FormState>();
 

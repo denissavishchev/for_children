@@ -12,5 +12,10 @@
   "checked": "Sprawdzone",
   "paid": "Zapłacone",
   "withoutDeadline": "To zadanie nie ma terminu realizacji",
-  "taskDeadline": "Termin: "
+  "taskDeadline": "Termin: ",
+  "ImTheParent": "Jestem rodzicem",
+  "ImTheKid": "Jestem dzieckiem",
+  "selectYourRole": "Wybierz swoją rolę",
+  "selectDescription": "Rodzice wyznaczają zadania, sprawdzają ich wykonanie i odpowiednio nagradzają swoje dzieci. Sprzyja to pracowitości, uczciwości, odpowiedzialności i poczuciu dumy w codziennym życiu, wpajając poczucie spełnienia w rodzicielstwie"
+
 }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:for_children/main_provider.dart';
+import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,7 @@ class TilesListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return Consumer<MainProvider>(
+    return Consumer<ParentProvider>(
         builder: (context, data, _){
           return SizedBox(
               height: size.height * 0.8,

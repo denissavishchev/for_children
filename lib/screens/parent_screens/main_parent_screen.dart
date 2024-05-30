@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
-import 'package:for_children/screens/add_task_screen.dart';
-import '../screens/settings_screen.dart';
-import '../widgets/tiles_list_widget.dart';
+import 'package:for_children/screens/parent_screens/add_task_screen.dart';
+import '../settings_screen.dart';
+import '../../widgets/tiles_list_widget.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
