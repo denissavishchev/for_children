@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/providers/login_provider.dart';
-import 'package:for_children/screens/login_screens/select_screen.dart';
+import 'package:for_children/screens/login_screens/login_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -43,7 +43,7 @@ void main() async{
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
                   home: prefs.getString('email') == null
-                    ? const SelectScreen()
+                    ? const LoginScreen()
                     : const MainScreen(),
                 ),
               );

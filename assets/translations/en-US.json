@@ -16,5 +16,15 @@
   "ImTheParent": "I'm the parent",
   "ImTheKid": "I'm the kid",
   "selectYourRole": "Select your role",
-  "selectDescription": "Parents assign tasks, inspect their completion, and reward their children accordingly. This fosters diligence, integrity, responsibility, and a sense of pride in their daily lives, instilling a sense of accomplishment in parenting"
+  "selectDescription": "Parents assign tasks, inspect their completion, and reward their children accordingly. This fosters diligence, integrity, responsibility, and a sense of pride in their daily lives, instilling a sense of accomplishment in parenting",
+  "email": "Email",
+  "password": "Password",
+  "thisFieldCannotBeEmpty": "This field cannot be empty",
+  "wrongEmail": "Wrong Email",
+  "login": "Login",
+  "hello": "Hello there! Whether you are a parent or a child, we invite you on a journey together",
+  "createAccount": "Create account",
+  "skip": "Skip",
+  "next": "Next"
+
 }

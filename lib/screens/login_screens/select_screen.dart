@@ -4,6 +4,7 @@ import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
+import 'onboarding_screens.dart';
 
 class SelectScreen extends StatelessWidget {
   const SelectScreen({super.key});
@@ -19,7 +20,7 @@ class SelectScreen extends StatelessWidget {
           builder: (context, data, _){
             return Column(
               children: [
-                const SizedBox(height: 40,),
+                SizedBox(height: size.height * 0.02,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -67,8 +68,10 @@ class SelectScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 ButtonWidget(
-                    onTap: (){},
-                    name: data.role == 'parent'
+                    onTap: () => Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) =>
+                        const OnboardingScreens())),
+                    text: data.role == 'parent'
                         ? 'ImTheParent'
                         : data.role == 'child'
                         ? 'ImTheKid'

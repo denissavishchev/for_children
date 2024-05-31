@@ -6,11 +6,11 @@ import '../constants.dart';
 
 class ButtonWidget extends StatelessWidget {
   const ButtonWidget({
-    super.key, required this.onTap, required this.name,
+    super.key, required this.onTap, required this.text,
   });
 
   final VoidCallback onTap;
-  final String name;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class ButtonWidget extends StatelessWidget {
                     ),
                   ]
               ),
-              child: Center(child: Text(name.tr(), style: kBigTextStyleGrey,)),
+              child: Center(child: Text(text.tr(), style: kBigTextStyleGrey,)),
             ),
           );
         }

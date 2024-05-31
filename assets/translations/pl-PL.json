@@ -16,6 +16,14 @@
   "ImTheParent": "Jestem rodzicem",
   "ImTheKid": "Jestem dzieckiem",
   "selectYourRole": "Wybierz swoją rolę",
-  "selectDescription": "Rodzice wyznaczają zadania, sprawdzają ich wykonanie i odpowiednio nagradzają swoje dzieci. Sprzyja to pracowitości, uczciwości, odpowiedzialności i poczuciu dumy w codziennym życiu, wpajając poczucie spełnienia w rodzicielstwie"
-
+  "selectDescription": "Rodzice wyznaczają zadania, sprawdzają ich wykonanie i odpowiednio nagradzają swoje dzieci. Sprzyja to pracowitości, uczciwości, odpowiedzialności i poczuciu dumy w codziennym życiu, wpajając poczucie spełnienia w rodzicielstwie",
+  "email": "Email",
+  "password": "Hasło",
+  "thisFieldCannotBeEmpty": "To pole nie może być puste",
+  "wrongEmail": "Błędny adres e-mail",
+  "login": "Zaloguj się",
+  "hello": "Witam! Niezależnie od tego, czy jesteś rodzicem, czy dzieckiem, zapraszamy Cię we wspólną podróż",
+  "createAccount": "Utwórz konto",
+  "skip": "Pominąć",
+  "next": "Następny"
 }

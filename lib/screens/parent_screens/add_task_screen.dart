@@ -56,7 +56,7 @@ class AddTaskScreen extends StatelessWidget {
                               maxLength: 64,
                               validator: (value){
                                 if(value == null || value.isEmpty) {
-                                  return 'thisFieldCannotBeEmpty';
+                                  return 'thisFieldCannotBeEmpty'.tr();
                                 }
                                 return null;
                               },
@@ -71,7 +71,7 @@ class AddTaskScreen extends StatelessWidget {
                               maxLength: 64,
                               validator: (value){
                                 if(value == null || value.isEmpty) {
-                                  return 'thisFieldCannotBeEmpty';
+                                  return 'thisFieldCannotBeEmpty'.tr();
                                 }
                                 return null;
                               },
@@ -150,7 +150,7 @@ class AddTaskScreen extends StatelessWidget {
                     const SizedBox(height: 30,),
                     ButtonWidget(
                       onTap: () => data.addTaskToBase(context),
-                      name: 'add',
+                      text: 'add',
                     ),
                     SizedBox(
                       height: MediaQuery.viewInsetsOf(context).bottom == 0
