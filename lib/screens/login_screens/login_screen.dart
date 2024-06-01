@@ -22,9 +22,19 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 100,),
-                      Text('hello'.tr(), style: kTextStyle,),
-                      const SizedBox(height: 100,),
+                      const SizedBox(height: 50,),
+                      Row(
+                        children: [
+                          SizedBox(
+                            height: 250,
+                            child: Image.asset('assets/images/login.png'),),
+                          Expanded(child: Text('hello'.tr(),
+                            style: kTextStyle,
+                              textAlign: TextAlign.justify)),
+                          const SizedBox(width: 12,)
+                        ],
+                      ),
+                      const SizedBox(height: 50,),
                       Form(
                         key: data.loginKey,
                         child: Column(
@@ -61,10 +71,10 @@ class LoginScreen extends StatelessWidget {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 200,),
+                            const SizedBox(height: 120,),
                             ButtonWidget(
                                 onTap: (){},
-                                text: 'login'.tr()
+                                text: 'login'
                             ),
                             const SizedBox(height: 20,),
                             GestureDetector(

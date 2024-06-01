@@ -68,9 +68,13 @@ class SelectScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 ButtonWidget(
-                    onTap: () => Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) =>
-                        const OnboardingScreens())),
+                    onTap: () {
+                      if(data.role != ''){
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) =>
+                            const OnboardingScreens()));
+                      }
+                    },
                     text: data.role == 'parent'
                         ? 'ImTheParent'
                         : data.role == 'child'

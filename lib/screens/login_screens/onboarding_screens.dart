@@ -31,35 +31,40 @@ class OnboardingScreens extends StatelessWidget {
                 bottom: 20,
                 child: SizedBox(
                   width: size.width,
-                  child: Row(
-                    children: [
-                      TextButton(
-                          onPressed: () => data.onboardingController.jumpToPage(2),
-                          child: Text('skip'.tr())),
-                      const Spacer(),
-                      SmoothPageIndicator(
-                          controller: data.onboardingController,
-                          count: 3,
-                          effect: ExpandingDotsEffect(
-                            spacing: 16,
-                            dotColor: kBlue.withOpacity(0.5),
-                            activeDotColor: kBlue
-                          ),
-                        onDotClicked: (index){
-                            data.onboardingController.animateToPage(
-                                index,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut);
-                        },
-                      ),
-                      const Spacer(),
-                      TextButton(
-                          onPressed: () => data.onboardingController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut
-                          ),
-                          child: Text('next'.tr())),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      children: [
+                        TextButton(
+                            onPressed: () => data.onboardingController.jumpToPage(2),
+                            child: Text('skip'.tr(), style: kTextStyle,)),
+                        const Spacer(),
+                        SmoothPageIndicator(
+                            controller: data.onboardingController,
+                            count: 3,
+                            effect: ExpandingDotsEffect(
+                              dotWidth: 20,
+                              dotHeight: 20,
+                              spacing: 16,
+                              dotColor: kBlue.withOpacity(0.5),
+                              activeDotColor: kBlue.withOpacity(0.8)
+                            ),
+                          onDotClicked: (index){
+                              data.onboardingController.animateToPage(
+                                  index,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut);
+                          },
+                        ),
+                        const Spacer(),
+                        TextButton(
+                            onPressed: () => data.onboardingController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut
+                            ),
+                            child: Text('next'.tr(), style: kTextStyle,)),
+                      ],
+                    ),
                   ),
                 ),
               )
