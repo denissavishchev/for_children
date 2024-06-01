@@ -40,9 +40,9 @@ class OnboardingScreens extends StatelessWidget {
                       SmoothPageIndicator(
                           controller: data.onboardingController,
                           count: 3,
-                          effect: const ExpandingDotsEffect(
+                          effect: ExpandingDotsEffect(
                             spacing: 16,
-                            dotColor: kGrey,
+                            dotColor: kBlue.withOpacity(0.5),
                             activeDotColor: kBlue
                           ),
                         onDotClicked: (index){
