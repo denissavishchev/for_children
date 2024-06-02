@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/screens/login_screens/select_screen.dart';
-import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -62,8 +61,14 @@ class LoginScreen extends StatelessWidget {
                               controller: data.passwordController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               cursorColor: kDarkGrey,
+                              obscureText: data.isPasswordVisible,
                               decoration: textFieldDecoration.copyWith(
-                                  label: Text('password'.tr(),)),
+                                  label: Text('password'.tr(),),
+                                  suffixIcon: IconButton(
+                                    onPressed: () => data.switchPasswordVisibility(),
+                                    icon: Icon(data.isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off))),
                               maxLength: 64,
                               validator: (value){
                                 if(value == null || value.isEmpty) {
@@ -74,9 +79,12 @@ class LoginScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 120,),
                             ButtonWidget(
-                                onTap: () => Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) =>
-                                    const MainScreen())),
+                                onTap: () {
+                                  data.signIn();
+                                  // Navigator.pushReplacement(context,
+                                  //     MaterialPageRoute(builder: (context) =>
+                                  //     const MainScreen()));
+                                },
                                 text: 'login'
                             ),
                             const SizedBox(height: 20,),

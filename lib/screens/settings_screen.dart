@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:for_children/providers/login_provider.dart';
+import 'package:for_children/screens/login_screens/auth_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../providers/parent_provider.dart';
@@ -58,7 +60,17 @@ class SettingsScreen extends StatelessWidget {
                                 onTap: () => context.setLocale(const Locale('ru', 'RU')),
                                   child: const FlagWidget(country: 'RU')),
                             ],
-                          )
+                          ),
+                          const SizedBox(height: 50,),
+                          Consumer<LoginProvider>(
+                              builder: (context, data, _){
+                                return TextButton(
+                                    onPressed: () => data.signOut().then((value) =>
+                                        Navigator.pushReplacement(context,
+                                            MaterialPageRoute(builder: (context) =>
+                                            const AuthScreen()))),
+                                    child: Text('LogOut',style: kTextStyle,));
+                              })
                         ],
                       ),
                     ),
