@@ -79,24 +79,27 @@ class LoginScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 120,),
                             ButtonWidget(
-                                onTap: () {
-                                  data.signIn();
-                                  // Navigator.pushReplacement(context,
-                                  //     MaterialPageRoute(builder: (context) =>
-                                  //     const MainScreen()));
-                                },
+                                onTap: () => data.signIn(),
                                 text: 'login'
                             ),
                             const SizedBox(height: 20,),
-                            GestureDetector(
-                              onTap: () {
-                                data.emailController.text = '';
-                                data.passwordController.text = '';
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) =>
-                                    const SelectScreen()));
-                              },
-                                child: Text('createAccount'.tr())),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                    onTap: () => data.resetPassword(context),
+                                    child: Text('forgotPassword'.tr())),
+                                GestureDetector(
+                                    onTap: () {
+                                      data.emailController.text = '';
+                                      data.passwordController.text = '';
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (context) =>
+                                          const SelectScreen()));
+                                    },
+                                    child: Text('createAccount'.tr())),
+                              ],
+                            ),
                             SizedBox(
                               height: MediaQuery.viewInsetsOf(context).bottom == 0
                                   ? size.height * 0.05 : size.height * 0.4,),

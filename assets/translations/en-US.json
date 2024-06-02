@@ -33,6 +33,11 @@
   "onboardingKidTwo": "Children should follow instructions from their parents for several reasons. First, parents have the experience and knowledge to help children avoid dangerous situations and make the right decisions. Second, running errands teaches children responsibility and discipline, which are important skills for a successful life. Finally, it is a way to strengthen the bond between parents and children by showing trust and respect for the parent's authority",
   "onboardingKidThree": "Children who listen to their parents and follow their advice tend to build more successful and sustainable futures. First, such children learn discipline and responsibility, which helps them succeed in school and achieve their goals in life.\nIn addition, children who listen to their parents tend to have a better understanding of family values and social norms, which helps them interact more easily with the world around them and build quality relationships with others.\nAlso, by following the advice and guidance of their parents, children often avoid dangerous situations and make more informed decisions, which contributes to their physical and emotional well-being",
   "surname": "Surname",
-  "register": "Register"
+  "register": "Register",
+  "confirmPassword": "Confirm password",
+  "forgotPassword": "Forgot password?",
+  "resetPassword": "Reset password",
+  "typeYourEmail": "Type your Email here and change password link will be sent"
+
 
 }

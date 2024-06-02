@@ -22,7 +22,6 @@ class RegisterScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 20,),
                       SizedBox(
                         height: 250,
                         child: Image.asset(
@@ -94,9 +93,24 @@ class RegisterScreen extends StatelessWidget {
                                 return null;
                               },
                             ),
+                            const SizedBox(height: 18,),
+                            TextFormField(
+                              controller: data.confirmPasswordController,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              cursorColor: kDarkGrey,
+                              decoration: textFieldDecoration.copyWith(
+                                  label: Text('confirmPassword'.tr(),)),
+                              maxLength: 64,
+                              validator: (value){
+                                if(value == null || value.isEmpty) {
+                                  return 'thisFieldCannotBeEmpty'.tr();
+                                }
+                                return null;
+                              },
+                            ),
                             const SizedBox(height: 36,),
                             ButtonWidget(
-                                onTap: (){},
+                                onTap: () => data.signUp(),
                                 text: 'register'
                             ),
                             SizedBox(
