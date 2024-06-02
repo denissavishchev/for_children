@@ -78,9 +78,13 @@ class LoginScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 20,),
                             GestureDetector(
-                              onTap: () => Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) =>
-                                  const SelectScreen())),
+                              onTap: () {
+                                data.emailController.text = '';
+                                data.passwordController.text = '';
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                    const SelectScreen()));
+                              },
                                 child: Text('createAccount'.tr())),
                             SizedBox(
                               height: MediaQuery.viewInsetsOf(context).bottom == 0

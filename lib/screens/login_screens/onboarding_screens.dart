@@ -5,6 +5,7 @@ import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/screens/login_screens/onboarding_screen_one.dart';
 import 'package:for_children/screens/login_screens/onboarding_screen_three.dart';
 import 'package:for_children/screens/login_screens/onboarding_screen_two.dart';
+import 'package:for_children/screens/login_screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -58,10 +59,18 @@ class OnboardingScreens extends StatelessWidget {
                         ),
                         const Spacer(),
                         TextButton(
-                            onPressed: () => data.onboardingController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut
-                            ),
+                            onPressed: () {
+                              if(data.onboardingController.page == 2){
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                    const RegisterScreen()));
+                              }else{
+                                data.onboardingController.nextPage(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut
+                                );
+                              }
+                            },
                             child: Text('next'.tr(), style: kTextStyle,)),
                       ],
                     ),
