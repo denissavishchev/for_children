@@ -12,8 +12,8 @@ class FlagWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return CountryFlag.fromCountryCode(
       country,
-      height: 48,
-      width: 62,
+      height: 36,
+      width: 46,
       borderRadius: 8,
     );
   }

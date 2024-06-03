@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../constants.dart';
+import '../widgets/language.dart';
 
 class LoginProvider with ChangeNotifier {
 
@@ -20,6 +20,7 @@ class LoginProvider with ChangeNotifier {
 
   String role = '';
   bool isPasswordVisible = false;
+  String selectedLanguage = 'English - UK';
 
   Future signIn() async{
     await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -112,6 +113,11 @@ class LoginProvider with ChangeNotifier {
 
   void selectRole(String r){
     role = r;
+    notifyListeners();
+  }
+
+  void setLanguage(Language value, context){
+    selectedLanguage = value.toString();
     notifyListeners();
   }
 

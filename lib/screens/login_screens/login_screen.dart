@@ -5,6 +5,7 @@ import 'package:for_children/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/login_provider.dart';
+import '../../widgets/language_widget.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -22,7 +23,17 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 50,),
+                      const SizedBox(height: 10,),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 12.0),
+                        child: Row(
+                          children: [
+                            Spacer(),
+                            LanguageWidget(),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
                       Row(
                         children: [
                           SizedBox(
