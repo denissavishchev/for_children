@@ -8,6 +8,7 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ParentProvider with ChangeNotifier {
 
@@ -223,8 +224,10 @@ class ParentProvider with ChangeNotifier {
         return;
       }
     }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('email');
     await FirebaseFirestore.instance.collection('tasks').add({
-      'elderName': '',
+      'elderName': prefs.getString('email'),
       'kidName': addChildTaskNameController.text,
       'taskName': addTaskNameController.text,
       'description': addTaskDescriptionController.text,
@@ -232,7 +235,8 @@ class ParentProvider with ChangeNotifier {
       'price': addTaskPriceController.text,
       'deadline': isDeadline ? taskDeadline.toString() : 'false',
       'stars' : '2',
-      'imageUrl' : fileName == '' ? 'false' : imageUrl
+      'imageUrl' : fileName == '' ? 'false' : imageUrl,
+      'time' : DateTime.now().toString()
     });
     addChildTaskNameController.clear();
     addTaskNameController.clear();

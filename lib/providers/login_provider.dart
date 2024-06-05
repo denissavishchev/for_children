@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class LoginProvider with ChangeNotifier {
         email: emailController.text.trim(),
         password: passwordController.text.trim()
     );
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', emailController.text.trim());
   }
 
   Future signOut() async{
@@ -38,6 +41,12 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future signUp() async{
+    await FirebaseFirestore.instance.collection('users').doc(emailController.text.trim()).set({
+      'name': nameController.text.trim(),
+      'surName': surnameController.text.trim(),
+      'role': role,
+      'time' : DateTime.now().toString()
+    });
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim());
