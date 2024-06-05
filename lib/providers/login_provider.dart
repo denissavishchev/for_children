@@ -3,8 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/widgets/button_widget.dart';
+import 'package:for_children/widgets/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
+import '../screens/login_screens/auth_screen.dart';
 import '../widgets/language.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -32,15 +34,18 @@ class LoginProvider with ChangeNotifier {
     prefs.setString('email', emailController.text.trim());
   }
 
-  Future signOut() async{
+  Future signOut(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
     emailController.clear();
     passwordController.clear();
     FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const AuthScreen()));
   }
 
-  Future signUp() async{
+  Future signUp(context) async{
     await FirebaseFirestore.instance.collection('users').doc(emailController.text.trim()).set({
       'name': nameController.text.trim(),
       'surName': surnameController.text.trim(),
@@ -50,6 +55,7 @@ class LoginProvider with ChangeNotifier {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim());
+    signOut(context);
   }
 
   Future resetPassword(context) {
@@ -95,14 +101,8 @@ class LoginProvider with ChangeNotifier {
                           try{
                             await FirebaseAuth.instance.sendPasswordResetEmail(
                                 email: resetPasswordController.text.trim());
-                          }on FirebaseAuthException catch (e){
-                            showDialog(
-                                context: context,
-                                builder: (context){
-                                  return AlertDialog(
-                                    content: Text('${e.message}'),
-                                  );
-                                });
+                          }on FirebaseAuthException {
+                            sadToast('noEmail');
                           }
                         },
                         text: 'resetPassword'),

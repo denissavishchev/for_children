@@ -110,7 +110,7 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 36,),
                             ButtonWidget(
-                                onTap: () => data.signUp(),
+                                onTap: () => data.signUp(context),
                                 text: 'register'
                             ),
                             SizedBox(

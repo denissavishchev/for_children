@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/login_provider.dart';
-import 'package:for_children/screens/login_screens/auth_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../providers/parent_provider.dart';
@@ -46,10 +45,10 @@ class SettingsScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 18,),
-                          Text('language'.tr()),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              Text('language'.tr(),style: kTextStyle,),
                               GestureDetector(
                                 onTap: () => context.setLocale(const Locale('en', 'US')),
                                   child: const FlagWidget(country: 'GB')),
@@ -62,13 +61,72 @@ class SettingsScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 50,),
+                          FutureBuilder(
+                              future: data.getKids(),
+                              builder: (context, snapshot) {
+                                if(snapshot.hasData){
+                                  return Column(
+                                    children: [
+                                      Text(
+                                        'yourKids'.tr(), style: kTextStyle,),
+                                      SizedBox(
+                                        height: 50,
+                                        child: ListView.builder(
+                                          itemCount: data.kidsNames.length,
+                                            itemBuilder: (context, index){
+                                            return Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text('${data.kidsNames[index]}', style: kTextStyle,),
+                                                const Icon(Icons.check, color: kDarkGrey,)
+                                              ],
+                                            );
+                                            }
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                }else{
+                                  return Text('noAddedKids'.tr(),style: kTextStyle,);
+                                }
+
+                              }),
+                          const SizedBox(height: 18,),
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: TextFormField(
+                                  controller: data.kidSearchController,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  cursorColor: kDarkGrey,
+                                  decoration: textFieldDecoration.copyWith(
+                                      label: Text('kidsEmail'.tr(),)),
+                                  onTapOutside: (e) => FocusManager.instance.primaryFocus?.unfocus(),
+                                  validator: (value){
+                                    if(value == null || value.isEmpty) {
+                                      return 'thisFieldCannotBeEmpty'.tr();
+                                    }else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        .hasMatch(value)){
+                                      return 'wrongEmail'.tr();
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: IconButton(
+                                    onPressed: () => data.kidSearch(context),
+                                    icon: const Icon(Icons.search, size: 44,))
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 50,),
                           Consumer<LoginProvider>(
                               builder: (context, data, _){
                                 return TextButton(
-                                    onPressed: () => data.signOut().then((value) =>
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(builder: (context) =>
-                                            const AuthScreen()))),
+                                    onPressed: () => data.signOut(context),
                                     child: Text('LogOut',style: kTextStyle,));
                               })
                         ],

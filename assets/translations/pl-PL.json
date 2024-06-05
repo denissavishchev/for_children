@@ -37,5 +37,10 @@
   "confirmPassword": "Potwierdź hasło",
   "forgotPassword": "Zapomniałeś hasła?",
   "resetPassword": "Zresetuj hasło",
-  "typeYourEmail": "Wpisz tutaj swój adres e-mail, a link do zmiany hasła zostanie wysłany"
+  "typeYourEmail": "Wpisz tutaj swój adres e-mail, a link do zmiany hasła zostanie wysłany",
+  "kidsEmail": "E-mail dziecka",
+  "noEmail": "Ten adres e-mail nie jest zarejestrowany",
+  "addKidSure": "Dodać {} do swojej listy dzieci?",
+  "yourKids": "Twoje dzieci: ",
+  "noAddedKids": "Nie dodano żadnych dzieci"
 }

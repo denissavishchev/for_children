@@ -37,7 +37,12 @@
   "confirmPassword": "Confirm password",
   "forgotPassword": "Forgot password?",
   "resetPassword": "Reset password",
-  "typeYourEmail": "Type your Email here and change password link will be sent"
+  "typeYourEmail": "Type your Email here and change password link will be sent",
+  "kidsEmail": "Kids Email",
+  "noEmail": "This Email not registered",
+  "addKidSure": "Add {} to your kids list?",
+  "yourKids": "Your kids: ",
+  "noAddedKids": "No kids added"
 
 
 }

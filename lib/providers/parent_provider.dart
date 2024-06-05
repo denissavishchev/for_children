@@ -1,14 +1,16 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
+import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../widgets/toasts.dart';
 
 class ParentProvider with ChangeNotifier {
 
@@ -18,6 +20,7 @@ class ParentProvider with ChangeNotifier {
   TextEditingController addTaskNameController = TextEditingController();
   TextEditingController addTaskDescriptionController = TextEditingController();
   TextEditingController addTaskPriceController = TextEditingController();
+  TextEditingController kidSearchController = TextEditingController();
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -28,6 +31,92 @@ class ParentProvider with ChangeNotifier {
   String fileName = '';
   late Reference imageToUpload;
   late XFile? file;
+  List kidsNames = [];
+
+  Future addKidToParent(context) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('email');
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+    if(doc.data()?['kidsEmail'] == null){
+      await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
+        'kidsEmail': kidSearchController.text.trim(),
+      });
+    }else{
+      Map<String, dynamic>? data = doc.data();
+      await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
+        'kidsEmail': '${data?['kidsEmail']}///${kidSearchController.text.trim()}',
+      });
+    }
+    kidSearchController.clear();
+    Navigator.of(context).pop();
+    notifyListeners();
+  }
+
+  Future kidSearch(context) async{
+      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+      instance.collection('users').doc(kidSearchController.text.trim().toLowerCase()).get();
+      if(doc.exists && doc.data()?['role'] == 'child'){
+        Map<String, dynamic>? data = doc.data();
+        showKidSearchInfo(context, data?['name'], data?['surName'], kidSearchController.text.trim());
+        }else{
+        sadToast('noEmail');
+      }
+  }
+
+  Future<List> getKids() async{
+    kidsNames = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('email');
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+    Map<String, dynamic>? data = doc.data();
+    final names = data?['kidsEmail'].split('///');
+    for(final n in names){
+      DocumentSnapshot<Map<String, dynamic>> docK = await FirebaseFirestore.
+      instance.collection('users').doc(n?.toLowerCase()).get();
+      Map<String, dynamic>? data = docK.data();
+      kidsNames.add(data?['name']);
+    }
+    return kidsNames;
+  }
+
+  Future showKidSearchInfo(context, String name, String surname, String email) {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.3,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                    ],
+                  ),
+                  Text('addKidSure'.tr(args: ['$name $surname']), style: kTextStyle,),
+                  Text('email: $email', style: kTextStyle,),
+                  ButtonWidget(
+                      onTap: () => addKidToParent(context),
+                      text: 'add')
+                ],
+              )
+          );
+        });
+  }
 
   Future pickAnImage()async{
     ImagePicker image = ImagePicker();
