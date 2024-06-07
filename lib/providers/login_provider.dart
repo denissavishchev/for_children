@@ -47,6 +47,16 @@ class LoginProvider with ChangeNotifier {
 
   Future signUp(context) async{
     await FirebaseFirestore.instance.collection('users').doc(emailController.text.trim()).set({
+      'kid0': '',
+      'kid0Accept': false,
+      'kid1': '',
+      'kid1Accept': false,
+      'kid2': '',
+      'kid2Accept': false,
+      'kid3': '',
+      'kid3Accept': false,
+      'kid4': '',
+      'kid4Accept': false,
       'name': nameController.text.trim(),
       'surName': surnameController.text.trim(),
       'role': role,

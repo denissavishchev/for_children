@@ -42,5 +42,6 @@
   "noEmail": "Ten adres e-mail nie jest zarejestrowany",
   "addKidSure": "Dodać {} do swojej listy dzieci?",
   "yourKids": "Twoje dzieci: ",
-  "noAddedKids": "Nie dodano żadnych dzieci"
+  "noAddedKids": "Nie dodano żadnych dzieci",
+  "onlyFiveKids": "Możesz dodać tylko 5 dzieci"
 }

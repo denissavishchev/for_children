@@ -42,7 +42,8 @@
   "noEmail": "This Email not registered",
   "addKidSure": "Add {} to your kids list?",
   "yourKids": "Your kids: ",
-  "noAddedKids": "No kids added"
+  "noAddedKids": "No kids added",
+  "onlyFiveKids": "You can add only 5 kids"
 
 
 }

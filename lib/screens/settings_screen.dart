@@ -7,8 +7,21 @@ import '../providers/parent_provider.dart';
 import '../widgets/flag_widget.dart';
 import 'parent_screens/main_parent_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+
+  @override
+  void initState() {
+    final data = Provider.of<ParentProvider>(context, listen: false);
+    data.getKidsData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,36 +74,36 @@ class SettingsScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 50,),
-                          FutureBuilder(
-                              future: data.getKids(),
-                              builder: (context, snapshot) {
-                                if(snapshot.hasData){
-                                  return Column(
-                                    children: [
-                                      Text(
-                                        'yourKids'.tr(), style: kTextStyle,),
-                                      SizedBox(
-                                        height: 50,
-                                        child: ListView.builder(
-                                          itemCount: data.kidsNames.length,
-                                            itemBuilder: (context, index){
-                                            return Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text('${data.kidsNames[index]}', style: kTextStyle,),
-                                                const Icon(Icons.check, color: kDarkGrey,)
-                                              ],
-                                            );
-                                            }
-                                        ),
-                                      )
-                                    ],
+                      Column(
+                        children: [
+                          Text(
+                            'yourKids'.tr(), style: kTextStyle,),
+                          SizedBox(
+                              height: 24.0 * data.kidsList.length,
+                              child: FutureBuilder(
+                                future: data.getKid,
+                                builder: (context, snapshot){
+                                  return ListView.builder(
+                                    itemCount: data.kidsList.length,
+                                      itemBuilder: (context, index){
+                                        return data.kidsList[index] !=''
+                                        ? Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(data.kidsList[index], style: kTextStyle,),
+                                            Icon(Icons.check,
+                                              color: data.kidsListAccept[index]
+                                                  ? kGreen : kDarkGrey,),
+                                          ],
+                                        )
+                                        : const SizedBox.shrink();
+                                      }
                                   );
-                                }else{
-                                  return Text('noAddedKids'.tr(),style: kTextStyle,);
-                                }
-
-                              }),
+                                },
+                              ),
+                              )
+                            ],
+                          ),
                           const SizedBox(height: 18,),
                           Row(
                             children: [

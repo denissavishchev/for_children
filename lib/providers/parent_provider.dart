@@ -31,25 +31,33 @@ class ParentProvider with ChangeNotifier {
   String fileName = '';
   late Reference imageToUpload;
   late XFile? file;
-  List kidsNames = [];
+  late Future<void> getKid;
+  List<String> kidsList = [];
+  List<bool> kidsListAccept = [];
+
+  void getKidsData(){
+    getKid = getKids();
+  }
 
   Future addKidToParent(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getString('email');
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    if(doc.data()?['kidsEmail'] == null){
-      await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
-        'kidsEmail': kidSearchController.text.trim(),
-      });
+    if(doc.data()?['kid4'] == ''){
+      for(var k = 0; k < 5; k++){
+        if(doc.data()?['kid$k'] == ''){
+          await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
+            'kid$k': kidSearchController.text.trim(),});
+          break;
+        }
+      }
     }else{
-      Map<String, dynamic>? data = doc.data();
-      await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
-        'kidsEmail': '${data?['kidsEmail']}///${kidSearchController.text.trim()}',
-      });
+      sadToast('onlyFiveKids');
     }
     kidSearchController.clear();
     Navigator.of(context).pop();
+    getKidsData();
     notifyListeners();
   }
 
@@ -64,21 +72,20 @@ class ParentProvider with ChangeNotifier {
       }
   }
 
-  Future<List> getKids() async{
-    kidsNames = [];
+  Future<void> getKids() async{
+    kidsList.clear();
+    kidsListAccept.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getString('email');
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    Map<String, dynamic>? data = doc.data();
-    final names = data?['kidsEmail'].split('///');
-    for(final n in names){
-      DocumentSnapshot<Map<String, dynamic>> docK = await FirebaseFirestore.
-      instance.collection('users').doc(n?.toLowerCase()).get();
-      Map<String, dynamic>? data = docK.data();
-      kidsNames.add(data?['name']);
+    for(var k = 0; k < 5; k++){
+      DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
+      instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
+      kidsList.add(docEmail.data()?['name']);
+      kidsListAccept.add(doc.data()?['kid${k}Accept']);
+      notifyListeners();
     }
-    return kidsNames;
   }
 
   Future showKidSearchInfo(context, String name, String surname, String email) {
