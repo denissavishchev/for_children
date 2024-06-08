@@ -45,5 +45,7 @@
   "noAddedKids": "Nie dodano żadnych dzieci",
   "onlyFiveKids": "Możesz dodać tylko 5 dzieci",
   "kidAlreadyInList": "Dzieciak jest już na liście",
-  "selectKid": "Wybierz dziecko"
+  "selectKid": "Wybierz dziecko",
+  "deleteThisTask": "Usunąć to zadanie?",
+  "delete": "Usunąć"
 }

@@ -45,7 +45,9 @@
   "noAddedKids": "No kids added",
   "onlyFiveKids": "You can add only 5 kids",
   "kidAlreadyInList": "The kid is in list already",
-  "selectKid": "Select kid"
+  "selectKid": "Select kid",
+  "deleteThisTask": "Delete this task?",
+  "delete": "Delete"
 
 
 }

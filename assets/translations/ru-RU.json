@@ -45,5 +45,7 @@
   "noAddedKids": "Дети не добавлены",
   "onlyFiveKids": "Вы можете добавить только 5 детей",
   "kidAlreadyInList": "Ребенок уже в списке",
-  "selectKid": "Выберите ребенка"
+  "selectKid": "Выберите ребенка",
+  "deleteThisTask": "Удалить эту задачу?",
+  "delete": "Удалить"
 }

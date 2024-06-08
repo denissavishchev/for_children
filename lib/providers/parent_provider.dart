@@ -32,18 +32,61 @@ class ParentProvider with ChangeNotifier {
   late Reference imageToUpload;
   late XFile? file;
   late Future<void> getKid;
+  late Future<void> getEmailVoid;
   Map<String, String> kidsList = {};
   List<bool> kidsListAccept = [];
 
-  String kid = '';
+  String? email = '';
+
+  Future<void> getEmail() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    email = prefs.getString('email');
+    notifyListeners();
+  }
 
   void getKidsData(){
     getKid = getKids();
   }
 
-  void kidsFilter(String value){
-    kid = value;
-    notifyListeners();
+  void getEmailData(){
+    getEmailVoid = getEmail();
+  }
+
+  Future<void> deleteTask(AsyncSnapshot snapshot, int index, context)async {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.3,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                    ],
+                  ),
+                  Text('deleteThisTask'.tr(), style: kTextStyle,),
+                  ButtonWidget(
+                      onTap: () => FirebaseFirestore.instance.collection('tasks').doc(
+                          snapshot.data?.docs[index].id).delete(),
+                      text: 'delete')
+                ],
+              )
+          );
+        });
   }
 
   Future addKidToParent(context) async{

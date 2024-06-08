@@ -8,10 +8,23 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import 'basic_container_widget.dart';
 
-class TilesListWidget extends StatelessWidget {
+class TilesListWidget extends StatefulWidget {
   const TilesListWidget({
     super.key,
   });
+
+  @override
+  State<TilesListWidget> createState() => _TilesListWidgetState();
+}
+
+class _TilesListWidgetState extends State<TilesListWidget> {
+
+  @override
+  void initState() {
+    final data = Provider.of<ParentProvider>(context, listen: false);
+    data.getEmailData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +43,10 @@ class TilesListWidget extends StatelessWidget {
                     return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index){
-                          if(snapshot.data?.docs[index].get('kidName').toLowerCase() == data.kid){
+                          if(snapshot.data?.docs[index].get('parentEmail').toLowerCase() == data.email){
                             return GestureDetector(
                               onTap: () => data.showTaskDescription(snapshot, index, context),
+                              onLongPress: () => data.deleteTask(snapshot, index, context),
                               child: BasicContainerWidget(
                                 padding: 0,
                                 child: Padding(
