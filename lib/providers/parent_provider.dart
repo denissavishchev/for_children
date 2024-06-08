@@ -16,7 +16,6 @@ class ParentProvider with ChangeNotifier {
 
   GlobalKey taskKey = GlobalKey<FormState>();
 
-  TextEditingController addChildTaskNameController = TextEditingController();
   TextEditingController addTaskNameController = TextEditingController();
   TextEditingController addTaskDescriptionController = TextEditingController();
   TextEditingController addTaskPriceController = TextEditingController();
@@ -84,11 +83,10 @@ class ParentProvider with ChangeNotifier {
     prefs.getString('email');
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    for(var k = 0; k < 5; k++){
+    for(int k = 0; k < 6; k++){
       DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
       instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
       kidsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
-      print(kidsList);
       kidsListAccept.add(doc.data()?['kid${k}Accept']);
       notifyListeners();
     }
@@ -329,8 +327,9 @@ class ParentProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getString('email');
     await FirebaseFirestore.instance.collection('tasks').add({
-      'elderName': prefs.getString('email'),
-      'kidName': addChildTaskNameController.text,
+      'parentEmail': prefs.getString('email'),
+      'kidName': '',
+      'kidEmail': '',
       'taskName': addTaskNameController.text,
       'description': addTaskDescriptionController.text,
       'status': 'paid',
@@ -340,7 +339,6 @@ class ParentProvider with ChangeNotifier {
       'imageUrl' : fileName == '' ? 'false' : imageUrl,
       'time' : DateTime.now().toString()
     });
-    addChildTaskNameController.clear();
     addTaskNameController.clear();
     addTaskDescriptionController.clear();
     addTaskPriceController.clear();

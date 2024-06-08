@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +6,23 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
-
 import '../../widgets/button_widget.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
+
+  @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+
+  @override
+  void initState() {
+    final data = Provider.of<ParentProvider>(context, listen: false);
+    data.getKidsData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +58,34 @@ class AddTaskScreen extends StatelessWidget {
                         key: data.taskKey,
                         child: Column(
                           children: [
-                            TextFormField(
-                              controller: data.addChildTaskNameController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              cursorColor: kDarkGrey,
-                              decoration: textFieldDecoration.copyWith(
-                                  label: Text('name'.tr(),)),
-                              maxLength: 64,
-                              validator: (value){
-                                if(value == null || value.isEmpty) {
-                                  return 'thisFieldCannotBeEmpty'.tr();
-                                }
-                                return null;
-                              },
+                            SizedBox(
+                              width: size.width,
+                              height: 40.0 * (data.kidsList.length / 2).round(),
+                              child: FutureBuilder(
+                                future: data.getKid,
+                                builder: (context, snapshot){
+                                  return GridView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: data.kidsList.length,
+                                    itemBuilder: (context, index){
+                                      String key = data.kidsList.keys.elementAt(index);
+                                      return Container(
+                                        width: size.width * 0.4,
+                                        margin: const EdgeInsets.all(2),
+                                        decoration: const BoxDecoration(
+                                            color: kDarkGrey,
+                                            borderRadius: BorderRadius.all(Radius.circular(12))
+                                        ),
+                                        child: Center(
+                                            child: Text(key, style: kTextStyle,)),
+                                      );
+                                    },
+                                    gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisExtent: 40),);
+                                },
+                              )
                             ),
                             const SizedBox(height: 18,),
                             TextFormField(

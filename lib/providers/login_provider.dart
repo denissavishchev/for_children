@@ -57,6 +57,8 @@ class LoginProvider with ChangeNotifier {
       'kid3Accept': false,
       'kid4': '',
       'kid4Accept': false,
+      'kid5': '',
+      'kid5Accept': false,
       'name': nameController.text.trim(),
       'surName': surnameController.text.trim(),
       'role': role,
