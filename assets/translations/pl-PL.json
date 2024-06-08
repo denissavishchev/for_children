@@ -43,5 +43,6 @@
   "addKidSure": "Dodać {} do swojej listy dzieci?",
   "yourKids": "Twoje dzieci: ",
   "noAddedKids": "Nie dodano żadnych dzieci",
-  "onlyFiveKids": "Możesz dodać tylko 5 dzieci"
+  "onlyFiveKids": "Możesz dodać tylko 5 dzieci",
+  "kidAlreadyInList": "Dzieciak jest już na liście"
 }

@@ -86,11 +86,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   return ListView.builder(
                                     itemCount: data.kidsList.length,
                                       itemBuilder: (context, index){
-                                        return data.kidsList[index] !=''
+                                      String key = data.kidsList.keys.elementAt(index);
+                                        return data.kidsList[key] !=''
                                         ? Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
-                                            Text(data.kidsList[index], style: kTextStyle,),
+                                            Text(key, style: kTextStyle,),
                                             Icon(Icons.check,
                                               color: data.kidsListAccept[index]
                                                   ? kGreen : kDarkGrey,),

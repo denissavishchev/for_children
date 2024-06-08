@@ -43,7 +43,8 @@
   "addKidSure": "Add {} to your kids list?",
   "yourKids": "Your kids: ",
   "noAddedKids": "No kids added",
-  "onlyFiveKids": "You can add only 5 kids"
+  "onlyFiveKids": "You can add only 5 kids",
+  "kidAlreadyInList": "The kid is in list already"
 
 
 }

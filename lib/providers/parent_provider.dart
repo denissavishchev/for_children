@@ -32,7 +32,7 @@ class ParentProvider with ChangeNotifier {
   late Reference imageToUpload;
   late XFile? file;
   late Future<void> getKid;
-  List<String> kidsList = [];
+  Map<String, String> kidsList = {};
   List<bool> kidsListAccept = [];
 
   void getKidsData(){
@@ -46,9 +46,14 @@ class ParentProvider with ChangeNotifier {
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     if(doc.data()?['kid4'] == ''){
       for(var k = 0; k < 5; k++){
-        if(doc.data()?['kid$k'] == ''){
-          await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
-            'kid$k': kidSearchController.text.trim(),});
+        if(doc.data()?['kid$k'] != kidSearchController.text.trim()){
+          if(doc.data()?['kid$k'] == ''){
+            await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
+              'kid$k': kidSearchController.text.trim(),});
+            break;
+          }
+        }else{
+          sadToast('kidAlreadyInList');
           break;
         }
       }
@@ -82,7 +87,8 @@ class ParentProvider with ChangeNotifier {
     for(var k = 0; k < 5; k++){
       DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
       instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
-      kidsList.add(docEmail.data()?['name']);
+      kidsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
+      print(kidsList);
       kidsListAccept.add(doc.data()?['kid${k}Accept']);
       notifyListeners();
     }
