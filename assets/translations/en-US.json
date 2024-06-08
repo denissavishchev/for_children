@@ -44,7 +44,8 @@
   "yourKids": "Your kids: ",
   "noAddedKids": "No kids added",
   "onlyFiveKids": "You can add only 5 kids",
-  "kidAlreadyInList": "The kid is in list already"
+  "kidAlreadyInList": "The kid is in list already",
+  "selectKid": "Select kid"
 
 
 }

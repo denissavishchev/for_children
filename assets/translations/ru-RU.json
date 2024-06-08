@@ -44,5 +44,6 @@
   "yourKids": "Ваши дети: ",
   "noAddedKids": "Дети не добавлены",
   "onlyFiveKids": "Вы можете добавить только 5 детей",
-  "kidAlreadyInList": "Ребенок уже в списке"
+  "kidAlreadyInList": "Ребенок уже в списке",
+  "selectKid": "Выберите ребенка"
 }

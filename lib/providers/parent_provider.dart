@@ -9,7 +9,6 @@ import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../widgets/toasts.dart';
 
 class ParentProvider with ChangeNotifier {
@@ -20,6 +19,8 @@ class ParentProvider with ChangeNotifier {
   TextEditingController addTaskDescriptionController = TextEditingController();
   TextEditingController addTaskPriceController = TextEditingController();
   TextEditingController kidSearchController = TextEditingController();
+  String selectedKidName = '';
+  String selectedKidEmail = '';
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -34,8 +35,15 @@ class ParentProvider with ChangeNotifier {
   Map<String, String> kidsList = {};
   List<bool> kidsListAccept = [];
 
+  String kid = '';
+
   void getKidsData(){
     getKid = getKids();
+  }
+
+  void kidsFilter(String value){
+    kid = value;
+    notifyListeners();
   }
 
   Future addKidToParent(context) async{
@@ -315,6 +323,12 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
+  void selectKid(String key, String value){
+    selectedKidName = key;
+    selectedKidEmail = value;
+    notifyListeners();
+  }
+
   Future addTaskToBase(context)async{
     if(fileName != ''){
       try{
@@ -326,29 +340,34 @@ class ParentProvider with ChangeNotifier {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getString('email');
-    await FirebaseFirestore.instance.collection('tasks').add({
-      'parentEmail': prefs.getString('email'),
-      'kidName': '',
-      'kidEmail': '',
-      'taskName': addTaskNameController.text,
-      'description': addTaskDescriptionController.text,
-      'status': 'paid',
-      'price': addTaskPriceController.text,
-      'deadline': isDeadline ? taskDeadline.toString() : 'false',
-      'stars' : '2',
-      'imageUrl' : fileName == '' ? 'false' : imageUrl,
-      'time' : DateTime.now().toString()
-    });
-    addTaskNameController.clear();
-    addTaskDescriptionController.clear();
-    addTaskPriceController.clear();
-    taskDeadline = DateTime.now();
-    isDeadline = false;
-    imageUrl = '';
-    fileName = '';
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) =>
-        const MainScreen()));
+    if(selectedKidName != ''){
+      await FirebaseFirestore.instance.collection('tasks').add({
+        'parentEmail': prefs.getString('email'),
+        'kidName': selectedKidName,
+        'kidEmail': selectedKidEmail,
+        'taskName': addTaskNameController.text,
+        'description': addTaskDescriptionController.text,
+        'status': 'paid',
+        'price': addTaskPriceController.text,
+        'deadline': isDeadline ? taskDeadline.toString() : 'false',
+        'stars' : '2',
+        'imageUrl' : fileName == '' ? 'false' : imageUrl,
+        'time' : DateTime.now().toString()
+      });
+      addTaskNameController.clear();
+      addTaskDescriptionController.clear();
+      addTaskPriceController.clear();
+      taskDeadline = DateTime.now();
+      isDeadline = false;
+      imageUrl = '';
+      fileName = '';
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) =>
+          const MainScreen()));
+    }else{
+      sadToast('selectKid');
+    }
+
   }
 
   void setTaskTime(DateTime time){

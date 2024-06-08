@@ -69,15 +69,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     itemCount: data.kidsList.length,
                                     itemBuilder: (context, index){
                                       String key = data.kidsList.keys.elementAt(index);
-                                      return Container(
-                                        width: size.width * 0.4,
-                                        margin: const EdgeInsets.all(2),
-                                        decoration: const BoxDecoration(
-                                            color: kDarkGrey,
-                                            borderRadius: BorderRadius.all(Radius.circular(12))
+                                      String value = data.kidsList.values.elementAt(index);
+                                      return GestureDetector(
+                                        onTap: () => data.selectKid(key, value),
+                                        child: Container(
+                                          width: size.width * 0.4,
+                                          margin: const EdgeInsets.all(2),
+                                          decoration: BoxDecoration(
+                                              color: kDarkGrey,
+                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                              border: Border.all(
+                                                  width: 2,
+                                                  color: data.selectedKidName == key
+                                                  ? kBlue : kDarkGrey)
+                                          ),
+                                          child: Center(
+                                              child: Text(key, style: kTextStyle,)),
                                         ),
-                                        child: Center(
-                                            child: Text(key, style: kTextStyle,)),
                                       );
                                     },
                                     gridDelegate:

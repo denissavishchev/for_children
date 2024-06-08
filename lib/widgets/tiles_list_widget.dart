@@ -30,7 +30,7 @@ class TilesListWidget extends StatelessWidget {
                     return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index){
-                          if(snapshot.data?.docs[index].get('kidName').toLowerCase() == 'leonard@kid.com'){
+                          if(snapshot.data?.docs[index].get('kidName').toLowerCase() == data.kid){
                             return GestureDetector(
                               onTap: () => data.showTaskDescription(snapshot, index, context),
                               child: BasicContainerWidget(

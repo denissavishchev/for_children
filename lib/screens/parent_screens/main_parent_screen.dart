@@ -36,6 +36,23 @@ class MainScreen extends StatelessWidget {
                             size: 32,
                           )),
                       const Spacer(),
+                      Row(
+                        children: [
+                          TextButton(
+                              onPressed: () => data.kidsFilter('leonard'),
+                              child: const Text('Leonard')
+                          ),
+                          TextButton(
+                              onPressed: ()=> data.kidsFilter('daniel'),
+                              child: const Text('Daniel')
+                          ),
+                          TextButton(
+                              onPressed: ()=> data.kidsFilter(''),
+                              child: const Text('All')
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
                       IconButton(
                           onPressed: () => Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
