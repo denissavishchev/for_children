@@ -30,7 +30,7 @@ class RegisterScreen extends StatelessWidget {
                                 : 'assets/images/registerKid.png'),),
                       const SizedBox(height: 20,),
                       Form(
-                        key: data.loginKey,
+                        key: data.registerKey,
                         child: Column(
                           children: [
                             TextFormField(

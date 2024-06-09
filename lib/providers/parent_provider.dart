@@ -13,7 +13,7 @@ import '../widgets/toasts.dart';
 
 class ParentProvider with ChangeNotifier {
 
-  GlobalKey taskKey = GlobalKey<FormState>();
+  GlobalKey<FormState> taskKey = GlobalKey<FormState>();
 
   TextEditingController addTaskNameController = TextEditingController();
   TextEditingController addTaskDescriptionController = TextEditingController();
@@ -37,6 +37,7 @@ class ParentProvider with ChangeNotifier {
   List<bool> kidsListAccept = [];
 
   String? email = '';
+  String role = '';
 
   Future<void> getEmail() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,6 +51,14 @@ class ParentProvider with ChangeNotifier {
 
   void getEmailData(){
     getEmailVoid = getEmail();
+  }
+
+  Future getRole() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+    role = doc.data()?['role'];
+    notifyListeners();
   }
 
   Future<void> deleteTask(AsyncSnapshot snapshot, int index, context)async {
@@ -383,8 +392,12 @@ class ParentProvider with ChangeNotifier {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getString('email');
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+    String parentName = doc.data()?['name'];
     if(selectedKidName != ''){
       await FirebaseFirestore.instance.collection('tasks').add({
+        'parentName': parentName,
         'parentEmail': prefs.getString('email'),
         'kidName': selectedKidName,
         'kidEmail': selectedKidEmail,
@@ -406,7 +419,7 @@ class ParentProvider with ChangeNotifier {
       fileName = '';
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) =>
-          const MainScreen()));
+          const MainParentScreen()));
     }else{
       sadToast('selectKid');
     }

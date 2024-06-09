@@ -44,7 +44,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         IconButton(
                             onPressed: () => Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (context) =>
-                                const MainScreen())),
+                                const MainParentScreen())),
                             icon: const Icon(
                               Icons.backspace_outlined,
                               color: kBlue,

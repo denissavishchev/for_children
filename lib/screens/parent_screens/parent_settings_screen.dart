@@ -2,19 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:provider/provider.dart';
-import '../constants.dart';
-import '../providers/parent_provider.dart';
-import '../widgets/flag_widget.dart';
-import 'parent_screens/main_parent_screen.dart';
+import '../../constants.dart';
+import '../../providers/parent_provider.dart';
+import '../../widgets/flag_widget.dart';
+import 'main_parent_screen.dart';
 
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+class ParentSettingsScreen extends StatefulWidget {
+  const ParentSettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  State<ParentSettingsScreen> createState() => _ParentSettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               IconButton(
                                   onPressed: () => Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
-                                      const MainScreen())),
+                                      const MainParentScreen())),
                                   icon: const Icon(
                                     Icons.backspace_outlined,
                                     color: kBlue,

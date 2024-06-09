@@ -1,23 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
+import '../providers/parent_provider.dart';
 import 'basic_container_widget.dart';
 
-class TilesListWidget extends StatefulWidget {
-  const TilesListWidget({
+class KidTilesListWidget extends StatefulWidget {
+  const KidTilesListWidget({
     super.key,
   });
 
   @override
-  State<TilesListWidget> createState() => _TilesListWidgetState();
+  State<KidTilesListWidget> createState() => _KidTilesListWidgetState();
 }
 
-class _TilesListWidgetState extends State<TilesListWidget> {
+class _KidTilesListWidgetState extends State<KidTilesListWidget> {
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _TilesListWidgetState extends State<TilesListWidget> {
                     return ListView.builder(
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index){
-                          if(snapshot.data?.docs[index].get('parentEmail').toLowerCase() == data.email){
+                          if(snapshot.data?.docs[index].get('kidEmail').toLowerCase() == data.email){
                             return GestureDetector(
                               onTap: () => data.showTaskDescription(snapshot, index, context),
                               onLongPress: () => data.deleteTask(snapshot, index, context),
@@ -63,7 +63,7 @@ class _TilesListWidgetState extends State<TilesListWidget> {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Text(snapshot.data?.docs[index].get('kidName'),
+                                                  Text(snapshot.data?.docs[index].get('parentName'),
                                                     style: kBigTextStyle,),
                                                   Visibility(
                                                     // visible: snapshot.data?.docs[index].get('status') == 'Checked'
@@ -138,5 +138,3 @@ class _TilesListWidgetState extends State<TilesListWidget> {
         });
   }
 }
-
-

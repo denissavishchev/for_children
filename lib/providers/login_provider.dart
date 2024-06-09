@@ -11,7 +11,8 @@ import '../widgets/language.dart';
 
 class LoginProvider with ChangeNotifier {
 
-  GlobalKey loginKey = GlobalKey<FormState>();
+  GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+  GlobalKey<FormState> registerKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();

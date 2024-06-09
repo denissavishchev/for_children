@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_children/providers/kid_provider.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/screens/login_screens/auth_screen.dart';
-import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
+import 'package:for_children/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +35,7 @@ void main() async{
             providers: [
               ChangeNotifierProvider<ParentProvider>(create: (_) => ParentProvider()),
               ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
+              ChangeNotifierProvider<KidProvider>(create: (_) => KidProvider()),
             ],
             builder: (context, child) {
               return ScreenUtilInit(
