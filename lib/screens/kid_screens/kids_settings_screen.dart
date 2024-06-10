@@ -3,13 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
-import '../../providers/parent_provider.dart';
+import '../../providers/kid_provider.dart';
 import '../../widgets/flag_widget.dart';
 import 'main_kid_screen.dart';
 
 
-class KidsSettingsScreen extends StatelessWidget {
+class KidsSettingsScreen extends StatefulWidget {
   const KidsSettingsScreen({super.key});
+
+  @override
+  State<KidsSettingsScreen> createState() => _KidsSettingsScreenState();
+}
+
+class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
+
+  @override
+  void initState() {
+    final data = Provider.of<KidProvider>(context, listen: false);
+    data.getParentsData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +31,7 @@ class KidsSettingsScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: kGrey,
       body: SafeArea(
-          child: Consumer<ParentProvider>(
+          child: Consumer<KidProvider>(
             builder: (context, data, _){
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -62,6 +75,41 @@ class KidsSettingsScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 50,),
+                          Column(
+                            children: [
+                              Text(
+                                'yourParents'.tr(), style: kTextStyle,),
+                              SizedBox(
+                                height: 24.0 * data.parentsList.length,
+                                child: FutureBuilder(
+                                  future: data.getParent,
+                                  builder: (context, snapshot){
+                                    return ListView.builder(
+                                        itemCount: data.parentsList.length,
+                                        itemBuilder: (context, index){
+                                          String key = data.parentsList.keys.elementAt(index);
+                                          return data.parentsList[key] !=''
+                                              ? Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(key, style: kTextStyle,),
+                                              data.parentsListAccept[index]
+                                              ? const Icon(Icons.check,
+                                                color: kGreen)
+                                              : GestureDetector(
+                                                onTap: () => data.acceptParent(index),
+                                                  child: Text('accept'.tr()))
+                                            ],
+                                          )
+                                              : const SizedBox.shrink();
+                                        }
+                                    );
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 18,),
                           Consumer<LoginProvider>(
                               builder: (context, data, _){
                                 return TextButton(

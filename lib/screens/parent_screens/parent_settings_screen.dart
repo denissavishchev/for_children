@@ -74,7 +74,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                             ],
                           ),
                           const SizedBox(height: 50,),
-                      Column(
+                           Column(
                         children: [
                           Text(
                             'yourKids'.tr(), style: kTextStyle,),

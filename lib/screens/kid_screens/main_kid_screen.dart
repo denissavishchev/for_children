@@ -13,7 +13,7 @@ class MainKidScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: kGrey,
       body: SafeArea(
           child: Consumer2<KidProvider, ParentProvider>(

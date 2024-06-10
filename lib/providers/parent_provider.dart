@@ -37,7 +37,7 @@ class ParentProvider with ChangeNotifier {
   List<bool> kidsListAccept = [];
 
   String? email = '';
-  String role = '';
+  String? role = '';
 
   Future<void> getEmail() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -57,7 +57,8 @@ class ParentProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    role = doc.data()?['role'];
+    prefs.setString('role', doc.data()?['role']);
+    role = prefs.getString('role');
     notifyListeners();
   }
 
@@ -101,12 +102,12 @@ class ParentProvider with ChangeNotifier {
   Future addKidToParent(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getString('email');
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    DocumentSnapshot<Map<String, dynamic>> docP = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    if(doc.data()?['kid4'] == ''){
+    if(docP.data()?['kid4'] == ''){
       for(var k = 0; k < 5; k++){
-        if(doc.data()?['kid$k'] != kidSearchController.text.trim()){
-          if(doc.data()?['kid$k'] == ''){
+        if(docP.data()?['kid$k'] != kidSearchController.text.trim()){
+          if(docP.data()?['kid$k'] == ''){
             await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
               'kid$k': kidSearchController.text.trim(),});
             break;
@@ -118,6 +119,23 @@ class ParentProvider with ChangeNotifier {
       }
     }else{
       sadToast('onlyFiveKids');
+    }
+    DocumentSnapshot<Map<String, dynamic>> docK = await FirebaseFirestore.
+    instance.collection('users').doc(kidSearchController.text.trim().toLowerCase()).get();
+    if(docK.data()?['kid4'] == ''){
+      for(var k = 0; k < 5; k++){
+        if(docK.data()?['kid$k'] != prefs.getString('email')){
+          if(docK.data()?['kid$k'] == ''){
+            await FirebaseFirestore.instance.collection('users').doc(kidSearchController.text.trim()).update({
+              'kid$k': prefs.getString('email'),});
+            break;
+          }
+        }else{
+          break;
+        }
+      }
+    }else{
+      sadToast('kidHasFiveParent');
     }
     kidSearchController.clear();
     Navigator.of(context).pop();

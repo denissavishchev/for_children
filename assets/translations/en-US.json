@@ -47,7 +47,10 @@
   "kidAlreadyInList": "The kid is in list already",
   "selectKid": "Select kid",
   "deleteThisTask": "Delete this task?",
-  "delete": "Delete"
+  "delete": "Delete",
+  "kidHasFiveParent": "Kid has 5 parents already",
+  "yourParents": "Your parents:",
+  "accept": "Accept"
 
 
 }

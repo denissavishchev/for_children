@@ -47,5 +47,8 @@
   "kidAlreadyInList": "Ребенок уже в списке",
   "selectKid": "Выберите ребенка",
   "deleteThisTask": "Удалить эту задачу?",
-  "delete": "Удалить"
+  "delete": "Удалить",
+  "kidHasFiveParent": "У ребенка уже 5 родителей",
+  "yourParents": "Ваши родители:",
+  "accept": "Принять"
 }

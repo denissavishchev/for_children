@@ -103,8 +103,8 @@ class LoginScreen extends StatelessWidget {
                                     child: Text('forgotPassword'.tr())),
                                 GestureDetector(
                                     onTap: () {
-                                      data.emailController.text = '';
-                                      data.passwordController.text = '';
+                                      data.emailController.clear();
+                                      data.passwordController.clear();
                                       Navigator.pushReplacement(context,
                                           MaterialPageRoute(builder: (context) =>
                                           const SelectScreen()));
