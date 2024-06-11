@@ -84,26 +84,30 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                 child: FutureBuilder(
                                   future: data.getParent,
                                   builder: (context, snapshot){
-                                    return ListView.builder(
-                                        itemCount: data.parentsList.length,
-                                        itemBuilder: (context, index){
-                                          String key = data.parentsList.keys.elementAt(index);
-                                          return data.parentsList[key] !=''
-                                              ? Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(key, style: kTextStyle,),
-                                              data.parentsListAccept[index]
-                                              ? const Icon(Icons.check,
-                                                color: kGreen)
-                                              : GestureDetector(
-                                                onTap: () => data.acceptParent(index),
-                                                  child: Text('accept'.tr()))
-                                            ],
-                                          )
-                                              : const SizedBox.shrink();
-                                        }
-                                    );
+                                    if(snapshot.connectionState == ConnectionState.waiting){
+                                      return const Center(child: CircularProgressIndicator(),);
+                                    }else{
+                                      return ListView.builder(
+                                          itemCount: data.parentsList.length,
+                                          itemBuilder: (context, index){
+                                            String key = data.parentsList.keys.elementAt(index);
+                                            return data.parentsList[key] !=''
+                                                ? Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(key, style: kTextStyle,),
+                                                data.parentsListAccept[index]
+                                                    ? const Icon(Icons.check,
+                                                    color: kGreen)
+                                                    : GestureDetector(
+                                                    onTap: () => data.acceptParent(index),
+                                                    child: Text('accept'.tr()))
+                                              ],
+                                            )
+                                                : const SizedBox.shrink();
+                                          }
+                                      );
+                                    }
                                   },
                                 ),
                               )

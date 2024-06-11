@@ -64,34 +64,38 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               child: FutureBuilder(
                                 future: data.getKid,
                                 builder: (context, snapshot){
-                                  return GridView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: data.kidsList.length,
-                                    itemBuilder: (context, index){
-                                      String key = data.kidsList.keys.elementAt(index);
-                                      String value = data.kidsList.values.elementAt(index);
-                                      return GestureDetector(
-                                        onTap: () => data.selectKid(key, value),
-                                        child: Container(
-                                          width: size.width * 0.4,
-                                          margin: const EdgeInsets.all(2),
-                                          decoration: BoxDecoration(
-                                              color: kDarkGrey,
-                                              borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: data.selectedKidName == key
-                                                  ? kBlue : kDarkGrey)
+                                  if(snapshot.connectionState == ConnectionState.waiting){
+                                    return const Center(child: CircularProgressIndicator(),);
+                                  }else{
+                                    return GridView.builder(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      itemCount: data.kidsList.length,
+                                      itemBuilder: (context, index){
+                                        String key = data.kidsList.keys.elementAt(index);
+                                        String value = data.kidsList.values.elementAt(index);
+                                        return GestureDetector(
+                                          onTap: () => data.selectKid(key, value),
+                                          child: Container(
+                                            width: size.width * 0.4,
+                                            margin: const EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                                color: kDarkGrey,
+                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                border: Border.all(
+                                                    width: 2,
+                                                    color: data.selectedKidName == key
+                                                        ? kBlue : kDarkGrey)
+                                            ),
+                                            child: Center(
+                                                child: Text(key, style: kTextStyle,)),
                                           ),
-                                          child: Center(
-                                              child: Text(key, style: kTextStyle,)),
-                                        ),
-                                      );
-                                    },
-                                    gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisExtent: 40),);
+                                        );
+                                      },
+                                      gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          mainAxisExtent: 40),);
+                                  }
                                 },
                               )
                             ),

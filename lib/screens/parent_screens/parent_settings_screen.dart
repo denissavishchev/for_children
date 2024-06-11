@@ -83,23 +83,27 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                               child: FutureBuilder(
                                 future: data.getKid,
                                 builder: (context, snapshot){
-                                  return ListView.builder(
-                                    itemCount: data.kidsList.length,
-                                      itemBuilder: (context, index){
-                                      String key = data.kidsList.keys.elementAt(index);
-                                        return data.kidsList[key] !=''
-                                        ? Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text(key, style: kTextStyle,),
-                                            Icon(Icons.check,
-                                              color: data.kidsListAccept[index]
-                                                  ? kGreen : kDarkGrey,),
-                                          ],
-                                        )
-                                        : const SizedBox.shrink();
-                                      }
-                                  );
+                                  if(snapshot.connectionState == ConnectionState.waiting){
+                                    return const Center(child: CircularProgressIndicator(),);
+                                  }else{
+                                    return ListView.builder(
+                                        itemCount: data.kidsList.length,
+                                        itemBuilder: (context, index){
+                                          String key = data.kidsList.keys.elementAt(index);
+                                          return data.kidsList[key] !=''
+                                              ? Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(key, style: kTextStyle,),
+                                              Icon(Icons.check,
+                                                color: data.kidsListAccept[index]
+                                                    ? kGreen : kDarkGrey,),
+                                            ],
+                                          )
+                                              : const SizedBox.shrink();
+                                        }
+                                    );
+                                  }
                                 },
                               ),
                               )
