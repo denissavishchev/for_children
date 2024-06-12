@@ -50,7 +50,9 @@
   "delete": "Delete",
   "kidHasFiveParent": "Kid has 5 parents already",
   "yourParents": "Your parents:",
-  "accept": "Accept"
+  "accept": "Accept",
+  "changeStatus": "Change status",
+  "acceptPriceChangeStatus": "Accept price and change status"
 
 
 }

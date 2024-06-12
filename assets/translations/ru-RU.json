@@ -50,5 +50,7 @@
   "delete": "Удалить",
   "kidHasFiveParent": "У ребенка уже 5 родителей",
   "yourParents": "Ваши родители:",
-  "accept": "Принять"
+  "accept": "Принять",
+  "changeStatus": "Изменить статус",
+  "acceptPriceChangeStatus": "Принять цену и изменить статус"
 }

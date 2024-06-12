@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/widgets/stars_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
@@ -122,20 +123,23 @@ class BasicContainerWidget extends StatelessWidget {
                           ),
                         ]
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(5, (i){
-                        return StatusWidget(
-                          snapshot: snapshot,
-                          index: index,
-                          name: data.status[i],);
-                      }),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
-        });
+                    child: snapshot.data?.docs[index].get('status') == 'check' ||
+                        snapshot.data?.docs[index].get('status') == 'paid'
+                        ? StarsWidget(stars: 1, snapshot: snapshot, index: index,)
+                        : Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: List.generate(3, (i){
+                            return StatusWidget(
+                              snapshot: snapshot,
+                              index: index,
+                              name: data.status[i],);
+                          }),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            });
   }
 }

@@ -21,6 +21,13 @@ final kBigTextStyleGrey = TextStyle(
     // fontFamily: 'Roboto'
 );
 
+final kTextStyleGrey = TextStyle(
+    color: kGrey,
+    fontWeight: FontWeight.bold,
+    fontSize: 24.sp,
+    // fontFamily: 'Roboto'
+);
+
 final kBigTextStyle = TextStyle(
     color: kBlue,
     fontWeight: FontWeight.bold,
@@ -38,7 +45,7 @@ final kSmallTextStyle = TextStyle(
 final kGreenTextStyle = TextStyle(
     color: kGreen,
     fontWeight: FontWeight.bold,
-    fontSize: 28.sp,
+    fontSize: 24.sp,
     // fontFamily: 'Roboto'
 );
 

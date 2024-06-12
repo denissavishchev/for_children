@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
+import 'package:for_children/screens/kid_screens/main_kid_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
@@ -19,6 +20,7 @@ class ParentProvider with ChangeNotifier {
   TextEditingController addTaskDescriptionController = TextEditingController();
   TextEditingController addTaskPriceController = TextEditingController();
   TextEditingController kidSearchController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
   String selectedKidName = '';
   String selectedKidEmail = '';
 
@@ -320,11 +322,14 @@ class ParentProvider with ChangeNotifier {
                                 index: index,
                                 border: false,
                                 name: snapshot.data?.docs[index].get('status'),),
-                              GestureDetector(
-                                onTap: (){},
+                                snapshot.data?.docs[index].get('status') == 'price' &&
+                                  snapshot.data?.docs[index].get('priceStatus') == 'set' &&
+                                  role == 'child'
+                                  ? GestureDetector(
+                                onTap: () => priceStatus(snapshot, index, context),
                                 child: Container(
                                   width: size.width * 0.2,
-                                  height: 60,
+                                  height: 50,
                                   margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(Radius.circular(4)),
@@ -351,9 +356,14 @@ class ParentProvider with ChangeNotifier {
                                         ),
                                       ]
                                   ),
-                                  child: const Center(child: Text('change')),
+                                  child: Center(
+                                    child: Text('changeStatus'.tr(),
+                                      style: kTextStyleGrey,
+                                      textAlign: TextAlign.center,),
+                                  ),
                                 ),
-                              ),
+                              )
+                                  : const Text('Waiting fo parent')
                             ],
                           ),
                         ),
@@ -396,6 +406,109 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
+  Future priceStatus(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context){
+    priceController.text = snapshot.data?.docs[index].get('price');
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 380),
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.clear), color: kBlue,)
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: priceController,
+                            cursorColor: kDarkGrey,
+                            decoration: textFieldDecoration.copyWith(
+                                label: Text('price'.tr(),)),
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              changePriceStatus(snapshot, index);
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                  const MainKidScreen()));
+                            },
+                            icon: const Icon(Icons.change_circle_outlined)
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 12,),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        width: size.width * 0.6,
+                        height: 50,
+                        margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(4)),
+                            border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
+                            gradient: LinearGradient(
+                                colors: [
+                                  kBlue.withOpacity(0.4),
+                                  kBlue.withOpacity(0.6)
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 4,
+                                  spreadRadius: 2,
+                                  offset: const Offset(0, 1)
+                              ),
+                              BoxShadow(
+                                color: kGrey.withOpacity(0.2),
+                                blurRadius: 2,
+                                spreadRadius: 2,
+                              ),
+                            ]
+                        ),
+                        child: Center(
+                          child: Text('acceptPriceChangeStatus'.tr(),
+                            style: kTextStyleGrey,
+                            textAlign: TextAlign.center,),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+          );
+        });
+  }
+
+  Future changePriceStatus(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+      'price': priceController.text.trim(),
+      'priceStatus': 'changed'
+    });
+  }
+
   void selectKid(String key, String value){
     selectedKidName = key;
     selectedKidEmail = value;
@@ -418,6 +531,7 @@ class ParentProvider with ChangeNotifier {
     String parentName = doc.data()?['name'];
     if(selectedKidName != ''){
       await FirebaseFirestore.instance.collection('tasks').add({
+        'priceStatus': 'set',
         'parentName': parentName,
         'parentEmail': prefs.getString('email'),
         'kidName': selectedKidName,
