@@ -10,6 +10,7 @@ import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../widgets/change_status_widget.dart';
 import '../widgets/toasts.dart';
 
 class ParentProvider with ChangeNotifier {
@@ -322,48 +323,7 @@ class ParentProvider with ChangeNotifier {
                                 index: index,
                                 border: false,
                                 name: snapshot.data?.docs[index].get('status'),),
-                                snapshot.data?.docs[index].get('status') == 'price' &&
-                                  snapshot.data?.docs[index].get('priceStatus') == 'set' &&
-                                  role == 'child'
-                                  ? GestureDetector(
-                                onTap: () => priceStatus(snapshot, index, context),
-                                child: Container(
-                                  width: size.width * 0.2,
-                                  height: 50,
-                                  margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                      border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
-                                      gradient: LinearGradient(
-                                          colors: [
-                                            kBlue.withOpacity(0.4),
-                                            kBlue.withOpacity(0.6)
-                                          ],
-                                          begin: Alignment.bottomCenter,
-                                          end: Alignment.topCenter
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.2),
-                                            blurRadius: 4,
-                                            spreadRadius: 2,
-                                            offset: const Offset(0, 1)
-                                        ),
-                                        BoxShadow(
-                                          color: kGrey.withOpacity(0.2),
-                                          blurRadius: 2,
-                                          spreadRadius: 2,
-                                        ),
-                                      ]
-                                  ),
-                                  child: Center(
-                                    child: Text('changeStatus'.tr(),
-                                      style: kTextStyleGrey,
-                                      textAlign: TextAlign.center,),
-                                  ),
-                                ),
-                              )
-                                  : const Text('Waiting fo parent')
+                                ChangeStatusWidget(snapshot: snapshot, index: index,)
                             ],
                           ),
                         ),
