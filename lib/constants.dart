@@ -49,6 +49,13 @@ final kGreenTextStyle = TextStyle(
     // fontFamily: 'Roboto'
 );
 
+final kRedTextStyle = TextStyle(
+    color: kRed,
+    fontWeight: FontWeight.bold,
+    fontSize: 24.sp,
+    // fontFamily: 'Roboto'
+);
+
 final textFieldDecoration = InputDecoration(
     hintStyle: kTextStyle,
     enabledBorder: const OutlineInputBorder(

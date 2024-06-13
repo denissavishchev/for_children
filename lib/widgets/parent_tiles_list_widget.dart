@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/screens/description_screen.dart';
 import 'package:provider/provider.dart';
 import 'basic_container_widget.dart';
 
@@ -41,7 +42,12 @@ class _ParentTilesListWidgetState extends State<ParentTilesListWidget> {
                         itemBuilder: (context, index){
                           if(snapshot.data?.docs[index].get('parentEmail').toLowerCase() == data.email){
                             return GestureDetector(
-                              onTap: () => data.showTaskDescription(snapshot, index, context),
+                              onTap: () {
+                                data.priceController.text = snapshot.data?.docs[index].get('price');
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                        DescriptionScreen(index: index, snapshot: snapshot)));
+                              },
                               onLongPress: () => data.deleteTask(snapshot, index, context),
                               child: BasicContainerWidget(
                                 snapshot: snapshot,

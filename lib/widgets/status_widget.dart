@@ -8,7 +8,8 @@ class StatusWidget extends StatelessWidget {
   const StatusWidget({
     super.key,
     required this.snapshot,
-    required this.index, required this.name,
+    required this.index,
+    required this.name,
     this.border = true,
   });
 
@@ -29,8 +30,13 @@ class StatusWidget extends StatelessWidget {
             ? kBlue : Colors.transparent,) : null
       ),
       child: Text(name.tr(),
-        style: snapshot.data?.docs[index].get('status') == name
-            ? kGreenTextStyle : kSmallTextStyle,),
+        style: snapshot.data?.docs[index].get('status') == name &&
+            snapshot.data?.docs[index].get('priceStatus') == 'changed'
+            ? kRedTextStyle
+            : snapshot.data?.docs[index].get('status') == name &&
+            snapshot.data?.docs[index].get('priceStatus') == 'set'
+            ? kGreenTextStyle
+            : kSmallTextStyle,),
     );
   }
 }

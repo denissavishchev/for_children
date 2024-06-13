@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     final data = Provider.of<ParentProvider>(context, listen: false);
-    data.getRole();
+    data.getRole(context);
     super.initState();
   }
 

@@ -4,13 +4,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
-import 'package:for_children/screens/kid_screens/main_kid_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
-import 'package:for_children/widgets/status_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../widgets/change_status_widget.dart';
 import '../widgets/toasts.dart';
 
 class ParentProvider with ChangeNotifier {
@@ -56,11 +53,11 @@ class ParentProvider with ChangeNotifier {
     getEmailVoid = getEmail();
   }
 
-  Future getRole() async{
+  Future getRole(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    prefs.setString('role', doc.data()?['role']);
+    prefs.setString('role', doc.data()?['role'] ?? '');
     role = prefs.getString('role');
     notifyListeners();
   }
@@ -222,250 +219,16 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future showTaskDescription(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context) {
-    Size size = MediaQuery.sizeOf(context);
-    return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return Container(
-              height: size.height * 0.6,
-              width: size.width,
-              decoration: const BoxDecoration(
-                color: kGrey,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(snapshot.data?.docs[index].get('kidName'),
-                          style: kBigTextStyle,),
-                        IconButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(Icons.clear), color: kBlue,)
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 104,
-                        child: IntrinsicWidth(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 60,
-                                width: size.width * 0.7,
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: kBlue.withOpacity(0.1),
-                                  borderRadius: const BorderRadius.horizontal(
-                                      right: Radius.circular(4)
-                                  ),
-                                ),
-                                child: Text(snapshot.data?.docs[index].get('taskName'),
-                                  style: kBigTextStyle,),
-                              ),
-                              Divider(color: kBlue.withOpacity(0.2), height: 0.1,),
-                              Container(
-                                width: size.width * 0.7,
-                                padding: const EdgeInsets.only(left: 12),
-                                color: kBlue.withOpacity(0.1),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text('taskPrice'.tr(),
-                                          style: kTextStyle.copyWith(
-                                              color: kBlue.withOpacity(0.6)),),
-                                        Text(snapshot.data?.docs[index].get('price'),
-                                          style: kTextStyle,),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(snapshot.data?.docs[index].get('deadline') != 'false'
-                                            ? 'taskDeadline'.tr()
-                                            : '',
-                                          style: kTextStyle.copyWith(
-                                              color: kBlue.withOpacity(0.6)),),
-                                        Text(snapshot.data?.docs[index].get('deadline') == 'false'
-                                            ? 'withoutDeadline'.tr()
-                                            : snapshot.data?.docs[index].get('deadline') != null
-                                            ? DateFormat('dd-MM-yyyy').format(
-                                            DateTime.parse(snapshot.data!.docs[index].get('deadline')))
-                                            : snapshot.data?.docs[index].get('deadline'),
-                                          style: kTextStyle,),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 100,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              StatusWidget(
-                                snapshot: snapshot,
-                                index: index,
-                                border: false,
-                                name: snapshot.data?.docs[index].get('status'),),
-                                ChangeStatusWidget(snapshot: snapshot, index: index,)
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 300,
-                          padding: const EdgeInsets.all(12),
-                          margin: EdgeInsets.fromLTRB(12, 12,
-                              snapshot.data?.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
-                          decoration: BoxDecoration(
-                            color: kBlue.withOpacity(0.1),
-                            borderRadius: const BorderRadius.all(Radius.circular(4))
-                          ),
-                          child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyle),
-                        ),
-                      ),
-                      snapshot.data?.docs[index].get('imageUrl') == 'false'
-                      ? const SizedBox.shrink()
-                      : Expanded(
-                          child: Container(
-                            height: 300,
-                            clipBehavior: Clip.hardEdge,
-                            margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
-                            decoration: BoxDecoration(
-                              color: kBlue.withOpacity(0.3),
-                              borderRadius: const BorderRadius.all(Radius.circular(4)),
-                            ),
-                            child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
-                          ),)
-                    ],
-                  )
-                ],
-              )
-          );
-        });
-  }
-
-  Future priceStatus(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context){
-    priceController.text = snapshot.data?.docs[index].get('price');
-    Size size = MediaQuery.sizeOf(context);
-    return showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (context) {
-          return Container(
-              height: size.height * 0.25,
-              width: size.width,
-              margin: const EdgeInsets.only(bottom: 380),
-              decoration: const BoxDecoration(
-                color: kGrey,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          icon: const Icon(Icons.clear), color: kBlue,)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: priceController,
-                            cursorColor: kDarkGrey,
-                            decoration: textFieldDecoration.copyWith(
-                                label: Text('price'.tr(),)),
-                          ),
-                        ),
-                        IconButton(
-                            onPressed: () {
-                              changePriceStatus(snapshot, index);
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) =>
-                                  const MainKidScreen()));
-                            },
-                            icon: const Icon(Icons.change_circle_outlined)
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 12,),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width: size.width * 0.6,
-                        height: 50,
-                        margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
-                            border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
-                            gradient: LinearGradient(
-                                colors: [
-                                  kBlue.withOpacity(0.4),
-                                  kBlue.withOpacity(0.6)
-                                ],
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 4,
-                                  spreadRadius: 2,
-                                  offset: const Offset(0, 1)
-                              ),
-                              BoxShadow(
-                                color: kGrey.withOpacity(0.2),
-                                blurRadius: 2,
-                                spreadRadius: 2,
-                              ),
-                            ]
-                        ),
-                        child: Center(
-                          child: Text('acceptPriceChangeStatus'.tr(),
-                            style: kTextStyleGrey,
-                            textAlign: TextAlign.center,),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-          );
-        });
-  }
-
-  Future changePriceStatus(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index)async{
+  Future changePriceStatus(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, String? role)async{
     FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
       'price': priceController.text.trim(),
-      'priceStatus': 'changed'
+      'priceStatus': role == 'parent' ? 'set' : 'changed'
+    });
+  }
+
+  Future changeToInProgress(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+      'status': 'inProgress'
     });
   }
 
