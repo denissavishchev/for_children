@@ -8,6 +8,7 @@ import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
 
 class ParentProvider with ChangeNotifier {
@@ -226,10 +227,26 @@ class ParentProvider with ChangeNotifier {
     });
   }
 
-  Future changeToInProgress(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index)async{
+  Future changeToInProgress(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
     FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
       'status': 'inProgress'
     });
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        role == 'parent'
+            ? const MainParentScreen()
+            : const MainKidScreen()));
+  }
+
+  Future changeToDone(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+      'status': 'done'
+    });
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        role == 'parent'
+            ? const MainParentScreen()
+            : const MainKidScreen()));
   }
 
   void selectKid(String key, String value){

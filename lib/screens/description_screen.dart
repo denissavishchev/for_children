@@ -5,7 +5,6 @@ import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
-import '../widgets/status_widget.dart';
 import 'kid_screens/main_kid_screen.dart';
 
 class DescriptionScreen extends StatelessWidget {
@@ -57,7 +56,7 @@ class DescriptionScreen extends StatelessWidget {
                             children: [
                               Container(
                                 height: 60,
-                                width: size.width * 0.7,
+                                width: size.width,
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
                                   color: kBlue.withOpacity(0.1),
@@ -70,7 +69,7 @@ class DescriptionScreen extends StatelessWidget {
                               ),
                               Divider(color: kBlue.withOpacity(0.2), height: 0.1,),
                               Container(
-                                width: size.width * 0.7,
+                                width: size.width,
                                 padding: const EdgeInsets.only(left: 12),
                                 color: kBlue.withOpacity(0.1),
                                 child: Column(
@@ -107,21 +106,6 @@ class DescriptionScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 100,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              StatusWidget(
-                                snapshot: snapshot,
-                                index: index,
-                                border: false,
-                                name: snapshot.data?.docs[index].get('status'),),
-                            ],
-                          ),
-                        ),
-                      )
                     ],
                   ),
                   Row(
@@ -158,6 +142,8 @@ class DescriptionScreen extends StatelessWidget {
                   ? _buildPrice(snapshot, data, context, size)
                   : snapshot.data?.docs[index].get('status') == 'inProgress'
                   ? _buildInProgress(snapshot, data, context, size)
+                  : snapshot.data?.docs[index].get('status') == 'done'
+                  ? _buildDone(snapshot, data, context, size)
                   : const Text('notPriceNotProgress')
                 ],
               ),
@@ -166,15 +152,45 @@ class DescriptionScreen extends StatelessWidget {
     );
   }
 
+  _buildDone(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, ParentProvider data, context, Size size) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: data.role == 'parent'
+          ? Column(
+        children: [
+          Text('checkCompletedWork'.tr(), style: kTextStyle,),
+          const SizedBox(height: 8,),
+          Container(
+            width: 200,
+            height: 50,
+            color: kBlue,
+          ),
+          const SizedBox(height: 8,),
+          Text('notForgotToPay'.tr(), style: kTextStyle,),
+          const SizedBox(height: 8,),
+          ChangeButtonWidget(
+            index: index,
+            snapshot: snapshot,
+            onTap: () => data.changeToDone(snapshot, index, context),
+            text: 'rate',
+          )
+        ],
+      )
+          : const Text('Waiting for...'),
+    );
+  }
+
   _buildInProgress(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child:  (snapshot.data?.docs[index].get('priceStatus') == 'set' && data.role == 'child')
+      child: data.role == 'child'
           ? Column(
         children: [
-          IconButton(
-              onPressed: (){},
-              icon: const Icon(Icons.done_all)
+          ChangeButtonWidget(
+            index: index,
+            snapshot: snapshot,
+            onTap: () => data.changeToDone(snapshot, index, context),
+            text: 'imDoneStatus',
           )
         ],
       )
@@ -214,54 +230,75 @@ class DescriptionScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12,),
-                GestureDetector(
-                  onTap: () {
-                    data.changeToInProgress(snapshot, index);
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) =>
-                        data.role == 'parent'
-                            ? const MainParentScreen()
-                            : const MainKidScreen()));
-                  },
-                  child: Container(
-                    width: size.width * 0.6,
-                    height: 50,
-                    margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                        border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
-                        gradient: LinearGradient(
-                            colors: [
-                              kBlue.withOpacity(0.4),
-                              kBlue.withOpacity(0.6)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 4,
-                              spreadRadius: 2,
-                              offset: const Offset(0, 1)
-                          ),
-                          BoxShadow(
-                            color: kGrey.withOpacity(0.2),
-                            blurRadius: 2,
-                            spreadRadius: 2,
-                          ),
-                        ]
-                    ),
-                    child: Center(
-                      child: Text('acceptPriceChangeStatus'.tr(),
-                        style: kTextStyleGrey,
-                        textAlign: TextAlign.center,),
-                    ),
-                  ),
-                ),
+                ChangeButtonWidget(
+                  index: index,
+                  snapshot: snapshot,
+                  onTap: () => data.changeToInProgress(snapshot, index, context),
+                  text: 'acceptPriceChangeStatus',),
               ],
             )
             : const Text('Waiting for...'),
           );
+  }
+}
+
+class ChangeButtonWidget extends StatelessWidget {
+  const ChangeButtonWidget({
+    super.key,
+    required this.index,
+    required this.snapshot,
+    required this.onTap,
+    required this.text,
+  });
+
+  final int index;
+  final AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot;
+  final Function() onTap;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    return Consumer<ParentProvider>(
+        builder: (context, data, _){
+          return GestureDetector(
+            onTap: onTap,
+            child: Container(
+              width: size.width * 0.6,
+              height: 50,
+              margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
+                  gradient: LinearGradient(
+                      colors: [
+                        kBlue.withOpacity(0.4),
+                        kBlue.withOpacity(0.6)
+                      ],
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 4,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 1)
+                    ),
+                    BoxShadow(
+                      color: kGrey.withOpacity(0.2),
+                      blurRadius: 2,
+                      spreadRadius: 2,
+                    ),
+                  ]
+              ),
+              child: Center(
+                child: Text(text.tr(),
+                  style: kTextStyleGrey,
+                  textAlign: TextAlign.center,),
+              ),
+            ),
+          );
+        });
   }
 }

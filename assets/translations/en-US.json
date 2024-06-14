@@ -52,7 +52,11 @@
   "yourParents": "Your parents:",
   "accept": "Accept",
   "changeStatus": "Change status",
-  "acceptPriceChangeStatus": "Accept price and change status"
+  "acceptPriceChangeStatus": "Accept price and change status",
+  "imDoneStatus": "I'm done",
+  "checkCompletedWork": "Check the completed work and give a rating...",
+  "notForgotToPay": "...and don't forget about payment",
+  "rate": "Rate"
 
 
 }

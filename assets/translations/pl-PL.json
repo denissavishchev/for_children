@@ -52,5 +52,9 @@
   "yourParents": "Twoi rodzice:",
   "accept": "Akceptuj",
   "changeStatus": "Zmień status",
-  "acceptPriceChangeStatus": "Zaakceptuj cenę i zmień status"
+  "acceptPriceChangeStatus": "Zaakceptuj cenę i zmień status",
+  "imDoneStatus": "Skończyłem",
+  "checkCompletedWork": "Sprawdź wykonaną pracę i oceń...",
+  "notForgotToPay": "...i nie zapomnij o płatności",
+  "rate": "Oceń"
 }
