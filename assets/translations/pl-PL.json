@@ -56,5 +56,6 @@
   "imDoneStatus": "Skończyłem",
   "checkCompletedWork": "Sprawdź wykonaną pracę i oceń...",
   "notForgotToPay": "...i nie zapomnij o płatności",
-  "rate": "Oceń"
+  "rate": "Oceń",
+  "ifPaid": "Jeśli zadanie zostało opłacone, zakończ je"
 }

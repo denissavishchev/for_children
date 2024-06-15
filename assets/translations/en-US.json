@@ -56,7 +56,8 @@
   "imDoneStatus": "I'm done",
   "checkCompletedWork": "Check the completed work and give a rating...",
   "notForgotToPay": "...and don't forget about payment",
-  "rate": "Rate"
+  "rate": "Rate",
+  "ifPaid": "If the task is paid, complete it"
 
 
 }

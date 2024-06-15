@@ -125,9 +125,12 @@ class BasicContainerWidget extends StatelessWidget {
                     ),
                     child: snapshot.data?.docs[index].get('status') == 'check' ||
                         snapshot.data?.docs[index].get('status') == 'paid'
-                        ? StarsWidget(stars: 1, snapshot: snapshot, index: index,)
+                        ? StarsWidget(
+                            stars: double.parse(snapshot.data?.docs[index].get('stars')).toInt(),
+                            snapshot: snapshot,
+                            index: index,)
                         : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: List.generate(3, (i){
                             return StatusWidget(
                               snapshot: snapshot,

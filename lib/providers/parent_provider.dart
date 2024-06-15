@@ -40,6 +40,8 @@ class ParentProvider with ChangeNotifier {
   String? email = '';
   String? role = '';
 
+  double stars = 0.0;
+
   Future<void> getEmail() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email');
@@ -249,6 +251,29 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
+  Future changeToChecked(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+      'status': 'checked',
+      'stars': stars.toString()
+    });
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        role == 'parent'
+            ? const MainParentScreen()
+            : const MainKidScreen()));
+  }
+
+  Future changeToPaid(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+      'status': 'paid',
+    });
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        role == 'parent'
+            ? const MainParentScreen()
+            : const MainKidScreen()));
+  }
+
   void selectKid(String key, String value){
     selectedKidName = key;
     selectedKidEmail = value;
@@ -298,7 +323,11 @@ class ParentProvider with ChangeNotifier {
     }else{
       sadToast('selectKid');
     }
+  }
 
+  void updateRating(double rating){
+    stars = rating;
+    notifyListeners();
   }
 
   void setTaskTime(DateTime time){

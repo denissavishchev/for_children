@@ -6,6 +6,7 @@ import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import 'kid_screens/main_kid_screen.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class DescriptionScreen extends StatelessWidget {
   const DescriptionScreen({super.key,
@@ -27,13 +28,14 @@ class DescriptionScreen extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 40,),
+                  const SizedBox(height: 60,),
                   Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(snapshot.data?.docs[index].get(data.role == 'parent' ? 'kidName' : 'parentName'),
+                        Text(snapshot.data?.docs[index].get(data.role == 'parent'
+                            ? 'kidName' : 'parentName'),
                           style: kBigTextStyle,),
                         IconButton(
                           onPressed: () => Navigator.pushReplacement(context,
@@ -41,7 +43,7 @@ class DescriptionScreen extends StatelessWidget {
                               data.role == 'parent'
                                  ? const MainParentScreen()
                                  : const MainKidScreen())),
-                          icon: const Icon(Icons.clear), color: kBlue,)
+                          icon: const Icon(Icons.close, size: 40,), color: kBlue,)
                       ],
                     ),
                   ),
@@ -144,11 +146,93 @@ class DescriptionScreen extends StatelessWidget {
                   ? _buildInProgress(snapshot, data, context, size)
                   : snapshot.data?.docs[index].get('status') == 'done'
                   ? _buildDone(snapshot, data, context, size)
-                  : const Text('notPriceNotProgress')
+                  : snapshot.data?.docs[index].get('status') == 'checked'
+                  ? _buildChecked(snapshot, data, context, size)
+                  : _buildComplete(snapshot)
                 ],
               ),
             );
           }),
+    );
+  }
+
+  _buildComplete(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
+    return Padding(
+        padding: const EdgeInsets.all(12),
+      child: Column(
+        children: [
+          const SizedBox(height: 8,),
+          Center(
+            child: RatingBar(
+              initialRating: double.parse(snapshot.data?.docs[index].get('stars')),
+              ignoreGestures: true,
+              allowHalfRating: false,
+              itemCount: 3,
+              itemSize: 60,
+              ratingWidget: RatingWidget(
+                full: const Icon(Icons.star,
+                    color: kGrey,
+                    shadows: [
+                      BoxShadow(
+                          color: kBlue,
+                          blurRadius: 9,
+                          spreadRadius: 6,
+                          offset: Offset(0.5, 0.5)
+                      )
+                    ]),
+                empty: const Icon(Icons.star_border,
+                    color: kGrey,
+                    shadows: [
+                      BoxShadow(
+                          color: kBlue,
+                          blurRadius: 9,
+                          spreadRadius: 6,
+                          offset: Offset(0.5, 0.5)
+                      )
+                    ]), half: const SizedBox.shrink(),
+              ),
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              onRatingUpdate: (r){},
+            ),
+          ),
+          const SizedBox(height: 8,),
+          Container(
+            width: 100,
+            height: 50,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  width: 2,
+                  color: snapshot.data?.docs[index].get('status') == 'paid'
+                      ? kGreen : kRed),
+              borderRadius: const BorderRadius.all(Radius.circular(12))
+            ),
+            child: Center(child: Text(
+              'paid'.tr(),
+              style: snapshot.data?.docs[index].get('status') == 'paid'
+                  ? kGreenTextStyle : kRedTextStyle,)),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildChecked(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, ParentProvider data, context, Size size) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: data.role == 'child'
+          ? Column(
+        children: [
+          Text('ifPaid'.tr(), style: kTextStyle,),
+          const SizedBox(height: 8,),
+          ChangeButtonWidget(
+            index: index,
+            snapshot: snapshot,
+            onTap: () => data.changeToPaid(snapshot, index, context),
+            text: 'paid',
+          )
+        ],
+      )
+          : _buildComplete(snapshot),
     );
   }
 
@@ -160,10 +244,37 @@ class DescriptionScreen extends StatelessWidget {
         children: [
           Text('checkCompletedWork'.tr(), style: kTextStyle,),
           const SizedBox(height: 8,),
-          Container(
-            width: 200,
-            height: 50,
-            color: kBlue,
+          Center(
+            child: RatingBar(
+              initialRating: 0,
+              allowHalfRating: false,
+              itemCount: 3,
+              itemSize: 60,
+              ratingWidget: RatingWidget(
+                full: const Icon(Icons.star,
+                    color: kGrey,
+                    shadows: [
+                      BoxShadow(
+                          color: kBlue,
+                          blurRadius: 9,
+                          spreadRadius: 6,
+                          offset: Offset(0.5, 0.5)
+                      )
+                    ]),
+                empty: const Icon(Icons.star_border,
+                    color: kGrey,
+                    shadows: [
+                      BoxShadow(
+                          color: kBlue,
+                          blurRadius: 9,
+                          spreadRadius: 6,
+                          offset: Offset(0.5, 0.5)
+                      )
+                    ]), half: const SizedBox.shrink(),
+              ),
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              onRatingUpdate: (rating) => data.updateRating(rating),
+            ),
           ),
           const SizedBox(height: 8,),
           Text('notForgotToPay'.tr(), style: kTextStyle,),
@@ -171,7 +282,7 @@ class DescriptionScreen extends StatelessWidget {
           ChangeButtonWidget(
             index: index,
             snapshot: snapshot,
-            onTap: () => data.changeToDone(snapshot, index, context),
+            onTap: () => data.changeToChecked(snapshot, index, context),
             text: 'rate',
           )
         ],
