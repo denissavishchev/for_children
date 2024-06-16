@@ -76,6 +76,21 @@ class OnboardingScreens extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+              Positioned(
+                top: 40,
+                child: SizedBox(
+                  width: size.width,
+                  height: 40,
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                          onPressed: () => data.toLoginScreen(context),
+                          icon: const Icon(Icons.clear, size: 34,))
+                    ],
+                  ),
+                ),
               )
             ],
           );

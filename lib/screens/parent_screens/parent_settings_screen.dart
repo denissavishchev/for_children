@@ -90,7 +90,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                                         itemCount: data.kidsList.length,
                                         itemBuilder: (context, index){
                                           String key = data.kidsList.keys.elementAt(index);
-                                          return data.kidsList[key] !=''
+                                          return data.kidsList[key] != ''
                                               ? Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                             children: [
@@ -144,7 +144,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                           Consumer<LoginProvider>(
                               builder: (context, data, _){
                                 return TextButton(
-                                    onPressed: () => data.signOut(context),
+                                    onPressed: () => data.logOut(context),
                                     child: Text('LogOut',style: kTextStyle,));
                               })
                         ],

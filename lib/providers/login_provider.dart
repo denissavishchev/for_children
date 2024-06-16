@@ -7,6 +7,7 @@ import 'package:for_children/widgets/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../screens/login_screens/auth_screen.dart';
+import '../screens/login_screens/login_screen.dart';
 import '../widgets/language.dart';
 
 class LoginProvider with ChangeNotifier {
@@ -25,8 +26,9 @@ class LoginProvider with ChangeNotifier {
   String role = '';
   bool isPasswordVisible = false;
   String selectedLanguage = 'English - UK';
+  bool isLoading = false;
 
-  Future signIn() async{
+  Future logIn() async{
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim()
@@ -35,18 +37,33 @@ class LoginProvider with ChangeNotifier {
     prefs.setString('email', emailController.text.trim());
   }
 
-  Future signOut(context) async{
+  Future logOut(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
     emailController.clear();
     passwordController.clear();
-    FirebaseAuth.instance.signOut();
+    FirebaseAuth.instance.signOut().then((v) =>
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
-        const AuthScreen()));
+        const AuthScreen()))
+    );
+  }
+
+  void toLoginScreen(context){
+    role = '';
+    emailController.clear();
+    passwordController.clear();
+    nameController.clear();
+    surnameController.clear();
+    resetPasswordController.clear();
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const LoginScreen()));
   }
 
   Future signUp(context) async{
+    isLoading = true;
+    notifyListeners();
     await FirebaseFirestore.instance.collection('users').doc(emailController.text.trim()).set({
       'kid0': '',
       'kid0Accept': false,
@@ -68,7 +85,16 @@ class LoginProvider with ChangeNotifier {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim());
-    signOut(context);
+    role = '';
+    emailController.clear();
+    passwordController.clear();
+    nameController.clear();
+    surnameController.clear();
+    resetPasswordController.clear();
+    logOut(context).then((v) => successSighUp(context));
+    isLoading = false;
+    notifyListeners();
+
   }
 
   Future resetPassword(context) {
@@ -123,6 +149,44 @@ class LoginProvider with ChangeNotifier {
                   ],
                 ),
               ),
+          );
+        });
+  }
+
+  Future<void> successSighUp(context)async {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.2,
+              width: size.width,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Image.asset('assets/images/cat.png'),
+                  ),
+                  Expanded(child: Text('canUseAccount'.tr(), style: kTextStyle)),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                    ),
+                  ),
+                ],
+              )
           );
         });
   }

@@ -57,7 +57,7 @@
   "checkCompletedWork": "Check the completed work and give a rating...",
   "notForgotToPay": "...and don't forget about payment",
   "rate": "Rate",
-  "ifPaid": "If the task is paid, complete it"
-
-
+  "ifPaid": "If the task is paid, complete it",
+  "canUseAccount": "Your account is now ready! You can log in using your email and password. Welcome to the family again!",
+  "notConfirmed": "{} (not confirmed)"
 }

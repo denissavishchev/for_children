@@ -33,169 +33,191 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       body: SafeArea(
         child: Consumer<ParentProvider>(
           builder: (context, data, _){
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 18,),
-                    Row(
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        IconButton(
-                            onPressed: () => Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) =>
-                                const MainParentScreen())),
-                            icon: const Icon(
-                              Icons.backspace_outlined,
-                              color: kBlue,
-                              size: 32,
-                            )),
-                        const Spacer(),
-                      ],
-                    ),
-                    const SizedBox(height: 18,),
-                    Form(
-                        key: data.taskKey,
-                        child: Column(
+                        const SizedBox(height: 18,),
+                        Row(
                           children: [
-                            SizedBox(
-                              width: size.width,
-                              height: 40.0 * (data.kidsList.length / 2).round(),
-                              child: FutureBuilder(
-                                future: data.getKid,
-                                builder: (context, snapshot){
-                                  if(snapshot.connectionState == ConnectionState.waiting){
-                                    return const Center(child: CircularProgressIndicator(),);
-                                  }else{
-                                    return GridView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: data.kidsList.length,
-                                      itemBuilder: (context, index){
-                                        String key = data.kidsList.keys.elementAt(index);
-                                        String value = data.kidsList.values.elementAt(index);
-                                        return GestureDetector(
-                                          onTap: () => data.selectKid(key, value),
-                                          child: Container(
-                                            width: size.width * 0.4,
-                                            margin: const EdgeInsets.all(2),
-                                            decoration: BoxDecoration(
-                                                color: kDarkGrey,
-                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: data.selectedKidName == key
-                                                        ? kBlue : kDarkGrey)
-                                            ),
-                                            child: Center(
-                                                child: Text(key, style: kTextStyle,)),
-                                          ),
-                                        );
-                                      },
-                                      gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          mainAxisExtent: 40),);
-                                  }
-                                },
-                              )
-                            ),
-                            const SizedBox(height: 18,),
-                            TextFormField(
-                              controller: data.addTaskNameController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              cursorColor: kDarkGrey,
-                              decoration: textFieldDecoration.copyWith(
-                                  label: Text('task'.tr(),)),
-                              maxLength: 64,
-                              validator: (value){
-                                if(value == null || value.isEmpty) {
-                                  return 'thisFieldCannotBeEmpty'.tr();
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 18,),
-                            TextFormField(
-                              controller: data.addTaskDescriptionController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,
-                              maxLines: 5,
-                              cursorColor: kDarkGrey,
-                              decoration: textFieldDecoration.copyWith(
-                                  label: Text('description'.tr(),)),
-                              maxLength: 256,
-                            ),
-                            const SizedBox(height: 18,),
-                            TextFormField(
-                              controller: data.addTaskPriceController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.multiline,
-                              cursorColor: kDarkGrey,
-                              decoration: textFieldDecoration.copyWith(
-                                  label: Text('price'.tr(),)),
-                              maxLength: 64,
-                            ),
+                            IconButton(
+                                onPressed: () => Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                    const MainParentScreen())),
+                                icon: const Icon(
+                                  Icons.backspace_outlined,
+                                  color: kBlue,
+                                  size: 32,
+                                )),
+                            const Spacer(),
                           ],
                         ),
-                    ),
-                    const SizedBox(height: 18,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: size.width * 0.7,
-                          height: size.height * 0.1,
-                          child: Opacity(
-                            opacity: data.isDeadline ? 1 : 0.1,
-                            child: AbsorbPointer(
-                              absorbing: !data.isDeadline,
-                              child: CupertinoDatePicker(
-                                backgroundColor: kGrey,
-                                initialDateTime: DateTime.now(),
-                                use24hFormat: true,
-                                mode: CupertinoDatePickerMode.date,
-                                onDateTimeChanged: (DateTime time) => data.setTaskTime(time),
+                        const SizedBox(height: 18,),
+                        Form(
+                          key: data.taskKey,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  width: size.width,
+                                  height: 40.0 * (data.kidsList.length / 2).round(),
+                                  child: FutureBuilder(
+                                    future: data.getKid,
+                                    builder: (context, snapshot){
+                                      if(snapshot.connectionState == ConnectionState.waiting){
+                                        return const Center(child: CircularProgressIndicator(),);
+                                      }else{
+                                        return GridView.builder(
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          itemCount: data.kidsList.length,
+                                          itemBuilder: (context, index){
+                                            String key = data.kidsList.keys.elementAt(index);
+                                            String value = data.kidsList.values.elementAt(index);
+                                            return data.kidsListAccept[index] == true
+                                                ? GestureDetector(
+                                              onTap: () => data.selectKid(key, value),
+                                              child: Container(
+                                                width: size.width * 0.4,
+                                                margin: const EdgeInsets.all(2),
+                                                decoration: BoxDecoration(
+                                                    color: kDarkGrey,
+                                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                    border: Border.all(
+                                                        width: 2,
+                                                        color: data.selectedKidName == key
+                                                            ? kBlue : kDarkGrey)
+                                                ),
+                                                child: Center(
+                                                    child: Text(key, style: kTextStyle,)),
+                                              ),
+                                            )
+                                                : Container(
+                                              width: size.width * 0.4,
+                                              margin: const EdgeInsets.all(2),
+                                              decoration: BoxDecoration(
+                                                color: kDarkGrey.withOpacity(0.3),
+                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                              ),
+                                              child: Center(
+                                                  child: Text('notConfirmed'.tr(args: [key]), style: kTextStyle,)),
+                                            );
+                                          },
+                                          gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              mainAxisExtent: 40),);
+                                      }
+                                    },
+                                  )
                               ),
-                            ),
+                              const SizedBox(height: 18,),
+                              TextFormField(
+                                controller: data.addTaskNameController,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                cursorColor: kDarkGrey,
+                                decoration: textFieldDecoration.copyWith(
+                                    label: Text('task'.tr(),)),
+                                maxLength: 64,
+                                validator: (value){
+                                  if(value == null || value.isEmpty) {
+                                    return 'thisFieldCannotBeEmpty'.tr();
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 18,),
+                              TextFormField(
+                                controller: data.addTaskDescriptionController,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,
+                                maxLines: 5,
+                                cursorColor: kDarkGrey,
+                                decoration: textFieldDecoration.copyWith(
+                                    label: Text('description'.tr(),)),
+                                maxLength: 256,
+                              ),
+                              const SizedBox(height: 18,),
+                              TextFormField(
+                                controller: data.addTaskPriceController,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.multiline,
+                                cursorColor: kDarkGrey,
+                                decoration: textFieldDecoration.copyWith(
+                                    label: Text('price'.tr(),)),
+                                maxLength: 64,
+                              ),
+                            ],
                           ),
                         ),
-                        Column(
+                        const SizedBox(height: 18,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('deadline'.tr(), style: kTextStyle,),
-                            Switch(
-                                value: data.isDeadline,
-                                onChanged: (value) => data.setIsDeadline(value)),
+                            SizedBox(
+                              width: size.width * 0.7,
+                              height: size.height * 0.1,
+                              child: Opacity(
+                                opacity: data.isDeadline ? 1 : 0.1,
+                                child: AbsorbPointer(
+                                  absorbing: !data.isDeadline,
+                                  child: CupertinoDatePicker(
+                                    backgroundColor: kGrey,
+                                    initialDateTime: DateTime.now(),
+                                    use24hFormat: true,
+                                    mode: CupertinoDatePickerMode.date,
+                                    onDateTimeChanged: (DateTime time) => data.setTaskTime(time),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Text('deadline'.tr(), style: kTextStyle,),
+                                Switch(
+                                    value: data.isDeadline,
+                                    onChanged: (value) => data.setIsDeadline(value)),
+                              ],
+                            )
                           ],
-                        )
+                        ),
+                        const SizedBox(height: 30,),
+                        GestureDetector(
+                          onTap: () => data.pickAnImage(),
+                          child: Container(
+                            width: 100,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              color: kBlue.withOpacity(0.3),
+                              borderRadius: const BorderRadius.all(Radius.circular(4)),
+                            ),
+                            child: data.fileName == ''
+                                ? const Icon(Icons.camera_alt)
+                                : Image.file(File(data.file!.path), fit: BoxFit.cover,),
+                          ),
+                        ),
+                        const SizedBox(height: 30,),
+                        ButtonWidget(
+                          onTap: () => data.addTaskToBase(context),
+                          text: 'add',
+                        ),
+                        SizedBox(
+                          height: MediaQuery.viewInsetsOf(context).bottom == 0
+                              ? size.height * 0.05 : size.height * 0.4,),
                       ],
                     ),
-                    const SizedBox(height: 30,),
-                    GestureDetector(
-                      onTap: () => data.pickAnImage(),
-                      child: Container(
-                        width: 100,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          color: kBlue.withOpacity(0.3),
-                          borderRadius: const BorderRadius.all(Radius.circular(4)),
-                        ),
-                        child: data.fileName == ''
-                            ? const Icon(Icons.camera_alt)
-                            : Image.file(File(data.file!.path), fit: BoxFit.cover,),
-                      ),
-                    ),
-                    const SizedBox(height: 30,),
-                    ButtonWidget(
-                      onTap: () => data.addTaskToBase(context),
-                      text: 'add',
-                    ),
-                    SizedBox(
-                      height: MediaQuery.viewInsetsOf(context).bottom == 0
-                          ? size.height * 0.05 : size.height * 0.4,),
-                  ],
+                  ),
                 ),
-              ),
+                data.isLoading
+                    ? Container(
+                  width: size.width,
+                  height: size.height,
+                  color: kGrey.withOpacity(0.5),
+                  child: const Center(child: CircularProgressIndicator(color: kBlue,),),
+                ) : const SizedBox.shrink()
+              ],
             );
           },
         )

@@ -26,6 +26,8 @@ class ParentProvider with ChangeNotifier {
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
 
+  bool isLoading = false;
+
   List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
 
   String imageUrl = '';
@@ -165,14 +167,13 @@ class ParentProvider with ChangeNotifier {
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     for(int k = 0; k < 6; k++){
-      if(doc.data()?['kid${k}Accept'] == true){
+      // if(doc.data()?['kid${k}Accept'] == false){
         DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
         instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
         kidsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
         kidsListAccept.add(doc.data()?['kid${k}Accept']);
         notifyListeners();
-      }
-
+      // }
     }
   }
 
@@ -281,6 +282,8 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future addTaskToBase(context)async{
+    isLoading = true;
+    notifyListeners();
     if(fileName != ''){
       try{
         await imageToUpload.putFile(File(file!.path));
@@ -303,10 +306,10 @@ class ParentProvider with ChangeNotifier {
         'kidEmail': selectedKidEmail,
         'taskName': addTaskNameController.text,
         'description': addTaskDescriptionController.text,
-        'status': 'paid',
+        'status': 'price',
         'price': addTaskPriceController.text,
         'deadline': isDeadline ? taskDeadline.toString() : 'false',
-        'stars' : '2',
+        'stars' : '0',
         'imageUrl' : fileName == '' ? 'false' : imageUrl,
         'time' : DateTime.now().toString()
       });
@@ -317,12 +320,16 @@ class ParentProvider with ChangeNotifier {
       isDeadline = false;
       imageUrl = '';
       fileName = '';
+      selectedKidName = '';
+      selectedKidEmail = '';
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) =>
           const MainParentScreen()));
     }else{
       sadToast('selectKid');
     }
+    isLoading = false;
+    notifyListeners();
   }
 
   void updateRating(double rating){

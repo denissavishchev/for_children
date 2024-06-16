@@ -117,7 +117,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                           Consumer<LoginProvider>(
                               builder: (context, data, _){
                                 return TextButton(
-                                    onPressed: () => data.signOut(context),
+                                    onPressed: () => data.logOut(context),
                                     child: Text('LogOut',style: kTextStyle,));
                               })
                         ],

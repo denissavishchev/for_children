@@ -57,5 +57,7 @@
   "checkCompletedWork": "Sprawdź wykonaną pracę i oceń...",
   "notForgotToPay": "...i nie zapomnij o płatności",
   "rate": "Oceń",
-  "ifPaid": "Jeśli zadanie zostało opłacone, zakończ je"
+  "ifPaid": "Jeśli zadanie zostało opłacone, zakończ je",
+  "canUseAccount": "Twoje konto jest już gotowe! Możesz zalogować się przy użyciu swojego adresu e-mail i hasła. Witamy ponownie w rodzinie!",
+  "notConfirmed": "{} (nie potwierdzone)"
 }

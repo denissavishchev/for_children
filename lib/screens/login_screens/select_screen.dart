@@ -53,18 +53,19 @@ class SelectScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12,),
-                Container(
-                  width: size.width,
-                  height: size.height * 0.14,
-                  margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                      color: kBlue.withOpacity(0.1),
-                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                SingleChildScrollView(
+                  child: Container(
+                    width: size.width,
+                    margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: kBlue.withOpacity(0.1),
+                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                    ),
+                    child: Text('selectDescription'.tr(),
+                        style: kTextStyle,
+                        textAlign: TextAlign.justify),
                   ),
-                  child: Text('selectDescription'.tr(),
-                      style: kTextStyle,
-                      textAlign: TextAlign.justify),
                 ),
                 const Spacer(),
                 ButtonWidget(

@@ -73,14 +73,14 @@ class LoginScreen extends StatelessWidget {
                               controller: data.passwordController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               cursorColor: kDarkGrey,
-                              obscureText: data.isPasswordVisible,
+                              obscureText: !data.isPasswordVisible,
                               decoration: textFieldDecoration.copyWith(
                                   label: Text('password'.tr(),),
                                   suffixIcon: IconButton(
                                     onPressed: () => data.switchPasswordVisibility(),
                                     icon: Icon(data.isPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off))),
+                                        ? Icons.visibility_off
+                                        : Icons.visibility))),
                               maxLength: 64,
                               validator: (value){
                                 if(value == null || value.isEmpty) {
@@ -89,9 +89,9 @@ class LoginScreen extends StatelessWidget {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 120,),
+                            SizedBox(height: size.height * 0.15,),
                             ButtonWidget(
-                                onTap: () => data.signIn(),
+                                onTap: () => data.logIn(),
                                 text: 'login'
                             ),
                             const SizedBox(height: 20,),
