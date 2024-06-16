@@ -33,7 +33,7 @@ class _KidTilesListWidgetState extends State<KidTilesListWidget> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('tasks')
-                // .orderBy('', descending: false)
+                    .orderBy('time', descending: true)
                     .snapshots(),
                 builder: (context, snapshot){
                   if(snapshot.hasData){
