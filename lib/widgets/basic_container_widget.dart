@@ -123,7 +123,7 @@ class BasicContainerWidget extends StatelessWidget {
                           ),
                         ]
                     ),
-                    child: snapshot.data?.docs[index].get('status') == 'check' ||
+                    child: snapshot.data?.docs[index].get('status') == 'checked' ||
                         snapshot.data?.docs[index].get('status') == 'paid'
                         ? StarsWidget(
                             stars: double.parse(snapshot.data?.docs[index].get('stars')).toInt(),

@@ -222,6 +222,40 @@ class DescriptionScreen extends StatelessWidget {
       child: data.role == 'child'
           ? Column(
         children: [
+          Center(
+            child: RatingBar(
+              initialRating: double.parse(snapshot.data?.docs[index].get('stars')),
+              ignoreGestures: true,
+              allowHalfRating: false,
+              itemCount: 3,
+              itemSize: 60,
+              ratingWidget: RatingWidget(
+                full: const Icon(Icons.star,
+                    color: kGrey,
+                    shadows: [
+                      BoxShadow(
+                          color: kBlue,
+                          blurRadius: 9,
+                          spreadRadius: 6,
+                          offset: Offset(0.5, 0.5)
+                      )
+                    ]),
+                empty: const Icon(Icons.star_border,
+                    color: kGrey,
+                    shadows: [
+                      BoxShadow(
+                          color: kBlue,
+                          blurRadius: 9,
+                          spreadRadius: 6,
+                          offset: Offset(0.5, 0.5)
+                      )
+                    ]), half: const SizedBox.shrink(),
+              ),
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              onRatingUpdate: (r){},
+            ),
+          ),
+          const SizedBox(height: 8,),
           Text('ifPaid'.tr(), style: kTextStyle,),
           const SizedBox(height: 8,),
           ChangeButtonWidget(
