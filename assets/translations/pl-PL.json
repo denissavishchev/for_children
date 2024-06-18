@@ -60,5 +60,6 @@
   "ifPaid": "Jeśli zadanie zostało opłacone, zakończ je",
   "canUseAccount": "Twoje konto jest już gotowe! Możesz zalogować się przy użyciu swojego adresu e-mail i hasła. Witamy ponownie w rodzinie!",
   "notConfirmed": "{} (nie potwierdzone)",
-  "wish": "Życzenie"
+  "wish": "Życzenie",
+  "selectParent": "Wybierz co najmniej jednego rodzica"
 }

@@ -283,6 +283,7 @@ class ParentProvider with ChangeNotifier {
   Future addTaskToBase(context)async{
     isLoading = true;
     notifyListeners();
+    if(selectedKidName != ''){
     if(fileName != ''){
       try{
         await imageToUpload.putFile(File(file!.path));
@@ -296,7 +297,6 @@ class ParentProvider with ChangeNotifier {
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     String parentName = doc.data()?['name'];
-    if(selectedKidName != ''){
       await FirebaseFirestore.instance.collection('tasks').add({
         'priceStatus': 'set',
         'parentName': parentName,

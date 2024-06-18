@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
+import '../widgets/toasts.dart';
 
 class KidProvider with ChangeNotifier {
 
@@ -78,6 +79,14 @@ class KidProvider with ChangeNotifier {
   Future addWishToBase(context)async{
     isLoading = true;
     notifyListeners();
+
+      List parents = [];
+      for(var p in selectedParentsEmail.entries) {
+        if (p.value == true) {
+          parents.add(p.key);
+        }
+      }
+    if(parents.isNotEmpty){
     if(fileName != ''){
       try{
         await imageToUpload.putFile(File(file!.path));
@@ -87,33 +96,31 @@ class KidProvider with ChangeNotifier {
       }
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List parents = [];
-    for(var p in selectedParentsEmail.entries) {
-      if (p.value == true) {
-        parents.add(p.key);
-      }
-    }
+
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     String name = doc.data()?['name'];
-      await FirebaseFirestore.instance.collection('wishes').add({
-        'wish': addWishNameController.text,
-        'kidEmail': prefs.getString('email'),
-        'kidName' : name,
-        'parent0Name': parents.isNotEmpty ? parents[0] : '',
-        'parent1Name': parents.length > 1 ? parents[1] : '',
-        'parent2Name': parents.length > 2 ? parents[2] : '',
-        'parent3Name': parents.length > 3 ? parents[3] : '',
-        'parent4Name': parents.length > 4 ? parents[4] : '',
-        'imageUrl' : fileName == '' ? 'false' : imageUrl,
-        'time' : DateTime.now().toString()
-      });
-       addWishNameController.clear();
-       imageUrl = '';
-       fileName = '';
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) =>
-          const MainKidScreen()));
+        await FirebaseFirestore.instance.collection('wishes').add({
+          'wish': addWishNameController.text,
+          'kidEmail': prefs.getString('email'),
+          'kidName' : name,
+          'parent0Name': parents.isNotEmpty ? parents[0] : '',
+          'parent1Name': parents.length > 1 ? parents[1] : '',
+          'parent2Name': parents.length > 2 ? parents[2] : '',
+          'parent3Name': parents.length > 3 ? parents[3] : '',
+          'parent4Name': parents.length > 4 ? parents[4] : '',
+          'imageUrl' : fileName == '' ? 'false' : imageUrl,
+          'time' : DateTime.now().toString()
+        });
+        addWishNameController.clear();
+        imageUrl = '';
+        fileName = '';
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) =>
+            const MainKidScreen()));
+      }else{
+        sadToast('selectParent');
+      }
     isLoading = false;
     notifyListeners();
   }
