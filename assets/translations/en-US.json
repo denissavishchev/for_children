@@ -59,5 +59,6 @@
   "rate": "Rate",
   "ifPaid": "If the task is paid, complete it",
   "canUseAccount": "Your account is now ready! You can log in using your email and password. Welcome to the family again!",
-  "notConfirmed": "{} (not confirmed)"
+  "notConfirmed": "{} (not confirmed)",
+  "wish": "Wish"
 }

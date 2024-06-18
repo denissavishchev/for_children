@@ -1,6 +1,10 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../screens/kid_screens/main_kid_screen.dart';
 
 class KidProvider with ChangeNotifier {
 
@@ -8,6 +12,17 @@ class KidProvider with ChangeNotifier {
   Map<String, String> parentsList = {};
   List<bool> parentsListAccept = [];
   List<String> parentsEmailsList = [];
+  String imageUrl = '';
+  String fileName = '';
+  late Reference imageToUpload;
+  late XFile? file;
+  bool isLoading = false;
+
+  Map<String, bool> selectedParentsEmail = {};
+
+  GlobalKey<FormState> wishKey = GlobalKey<FormState>();
+
+  TextEditingController addWishNameController = TextEditingController();
 
   void getParentsData(){
     getParent = getParents();
@@ -23,9 +38,9 @@ class KidProvider with ChangeNotifier {
     for(int k = 0; k < 6; k++){
       DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
       instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
+      selectedParentsEmail.addAll({'${doc.data()?['kid$k']}': true});
       parentsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
       parentsListAccept.add(doc.data()?['kid${k}Accept']);
-      parentsEmailsList.add(doc.data()?['kid$k']);
       notifyListeners();
     }
   }
@@ -49,6 +64,63 @@ class KidProvider with ChangeNotifier {
       }
     }
     getParentsData();
+  }
+
+  Future pickAnImage()async{
+    ImagePicker image = ImagePicker();
+    file = await image.pickImage(source: ImageSource.camera);
+    if(file == null) return;
+    fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    imageToUpload = FirebaseStorage.instance.ref().child('wishes').child(fileName);
+    notifyListeners();
+  }
+
+  Future addWishToBase(context)async{
+    isLoading = true;
+    notifyListeners();
+    if(fileName != ''){
+      try{
+        await imageToUpload.putFile(File(file!.path));
+        imageUrl = await imageToUpload.getDownloadURL();
+      }catch(e){
+        return;
+      }
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List parents = [];
+    for(var p in selectedParentsEmail.entries) {
+      if (p.value == true) {
+        parents.add(p.key);
+      }
+    }
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+    String name = doc.data()?['name'];
+      await FirebaseFirestore.instance.collection('wishes').add({
+        'wish': addWishNameController.text,
+        'kidEmail': prefs.getString('email'),
+        'kidName' : name,
+        'parent0Name': parents.isNotEmpty ? parents[0] : '',
+        'parent1Name': parents.length > 1 ? parents[1] : '',
+        'parent2Name': parents.length > 2 ? parents[2] : '',
+        'parent3Name': parents.length > 3 ? parents[3] : '',
+        'parent4Name': parents.length > 4 ? parents[4] : '',
+        'imageUrl' : fileName == '' ? 'false' : imageUrl,
+        'time' : DateTime.now().toString()
+      });
+       addWishNameController.clear();
+       imageUrl = '';
+       fileName = '';
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) =>
+          const MainKidScreen()));
+    isLoading = false;
+    notifyListeners();
+  }
+
+  void selectParent(String key, bool value){
+    selectedParentsEmail.update(key,(value) => value = !value);
+    notifyListeners();
   }
 
 }

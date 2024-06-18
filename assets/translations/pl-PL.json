@@ -59,5 +59,6 @@
   "rate": "Oceń",
   "ifPaid": "Jeśli zadanie zostało opłacone, zakończ je",
   "canUseAccount": "Twoje konto jest już gotowe! Możesz zalogować się przy użyciu swojego adresu e-mail i hasła. Witamy ponownie w rodzinie!",
-  "notConfirmed": "{} (nie potwierdzone)"
+  "notConfirmed": "{} (nie potwierdzone)",
+  "wish": "Życzenie"
 }

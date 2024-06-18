@@ -167,7 +167,6 @@ class ParentProvider with ChangeNotifier {
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     for(int k = 0; k < 6; k++){
-      // if(doc.data()?['kid${k}Accept'] == false){
         DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
         instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
         kidsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});

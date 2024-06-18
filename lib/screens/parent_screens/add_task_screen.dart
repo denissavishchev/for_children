@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -202,6 +203,43 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ButtonWidget(
                           onTap: () => data.addTaskToBase(context),
                           text: 'add',
+                        ),
+                        Container(
+                          width: 200,
+                          height: 100,
+                          color: kBlue,
+                          child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('wishes')
+                                .snapshots(),
+                            builder: (context, snapshot){
+                              if(snapshot.hasData){
+                                return ListView.builder(
+                                    itemCount: snapshot.data?.docs.length,
+                                    itemBuilder: (context, index){
+                                      for(int w = 0; w < snapshot.data!.docs.length;){
+                                        if(snapshot.data?.docs[index].get('parent${w}Name').toLowerCase() == data.email){
+                                          return GestureDetector(
+                                            onTap: () => print(snapshot.data?.docs[index].get('wish')),
+                                            child: Row(
+                                              children: [
+                                                Text(snapshot.data?.docs[index].get('wish')),
+                                                const SizedBox(width: 10,),
+                                                Text(snapshot.data?.docs[index].get('kidName')),
+                                              ],
+                                            ),
+                                          );
+                                      }else{
+                                          return const SizedBox.shrink();
+                                        }
+                                      }
+                                      return null;
+                                    });
+                              }else{
+                                return const Center(child: CircularProgressIndicator(),);
+                              }
+                            },
+                          ),
                         ),
                         SizedBox(
                           height: MediaQuery.viewInsetsOf(context).bottom == 0

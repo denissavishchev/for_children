@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/screens/kid_screens/add_wish_screen.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
@@ -40,10 +41,10 @@ class MainKidScreen extends StatelessWidget {
                           Text('${parent.email}', style: kTextStyle,),
                           const Spacer(),
                           IconButton(
-                              onPressed: () {},
-                // Navigator.pushReplacement(context,
-                //                   MaterialPageRoute(builder: (context) =>
-                //                   const AddTaskScreen())),
+                              onPressed: () =>
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) =>
+                                      const AddWishScreen())),
                               icon: const Icon(
                                 Icons.add_circle_outline,
                                 color: kBlue,
