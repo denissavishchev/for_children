@@ -205,7 +205,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           text: 'add',
                         ),
                         Container(
-                          width: 200,
+                          width: 300,
                           height: 100,
                           color: kBlue,
                           child: StreamBuilder(
@@ -221,13 +221,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                         if(snapshot.data?.docs[index].get('parent${w}Name').toLowerCase() == data.email){
                                           return GestureDetector(
                                             onTap: () => print(snapshot.data?.docs[index].get('wish')),
-                                            child: Row(
+                                            child: snapshot.data?.docs[index].get('kidName') == data.selectedKidName
+                                              ? Row(
                                               children: [
                                                 Text(snapshot.data?.docs[index].get('wish')),
                                                 const SizedBox(width: 10,),
                                                 Text(snapshot.data?.docs[index].get('kidName')),
+                                                const SizedBox(width: 10,),
+                                                Text(snapshot.data?.docs[index].get('kidEmail'))
                                               ],
-                                            ),
+                                            ) : const SizedBox.shrink(),
                                           );
                                       }else{
                                           return const SizedBox.shrink();
