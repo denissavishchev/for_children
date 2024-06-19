@@ -79,7 +79,6 @@ class KidProvider with ChangeNotifier {
   Future addWishToBase(context)async{
     isLoading = true;
     notifyListeners();
-
       List parents = [];
       for(var p in selectedParentsEmail.entries) {
         if (p.value == true) {

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -141,14 +140,40 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 maxLength: 256,
                               ),
                               const SizedBox(height: 18,),
-                              TextFormField(
-                                controller: data.addTaskPriceController,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                keyboardType: TextInputType.multiline,
-                                cursorColor: kDarkGrey,
-                                decoration: textFieldDecoration.copyWith(
-                                    label: Text('price'.tr(),)),
-                                maxLength: 64,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: data.addTaskPriceController,
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.multiline,
+                                      cursorColor: kDarkGrey,
+                                      decoration: textFieldDecoration.copyWith(
+                                          label: Text('price'.tr(),)),
+                                      maxLength: 64,
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: data.selectedKidName != '',
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 12.0),
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                          data.showWishList(context, data),
+                                        child: Container(
+                                          width: 55,
+                                          height: 55,
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                                            color: kDarkGrey,
+                                          ),
+                                          child: const Icon(Icons.favorite, color: kBlue,),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
@@ -203,46 +228,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ButtonWidget(
                           onTap: () => data.addTaskToBase(context),
                           text: 'add',
-                        ),
-                        Container(
-                          width: 300,
-                          height: 100,
-                          color: kBlue,
-                          child: StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('wishes')
-                                .snapshots(),
-                            builder: (context, snapshot){
-                              if(snapshot.hasData){
-                                return ListView.builder(
-                                    itemCount: snapshot.data?.docs.length,
-                                    itemBuilder: (context, index){
-                                      for(int w = 0; w < snapshot.data!.docs.length;){
-                                        if(snapshot.data?.docs[index].get('parent${w}Name').toLowerCase() == data.email){
-                                          return GestureDetector(
-                                            onTap: () => print(snapshot.data?.docs[index].get('wish')),
-                                            child: snapshot.data?.docs[index].get('kidName') == data.selectedKidName
-                                              ? Row(
-                                              children: [
-                                                Text(snapshot.data?.docs[index].get('wish')),
-                                                const SizedBox(width: 10,),
-                                                Text(snapshot.data?.docs[index].get('kidName')),
-                                                const SizedBox(width: 10,),
-                                                Text(snapshot.data?.docs[index].get('kidEmail'))
-                                              ],
-                                            ) : const SizedBox.shrink(),
-                                          );
-                                      }else{
-                                          return const SizedBox.shrink();
-                                        }
-                                      }
-                                      return null;
-                                    });
-                              }else{
-                                return const Center(child: CircularProgressIndicator(),);
-                              }
-                            },
-                          ),
                         ),
                         SizedBox(
                           height: MediaQuery.viewInsetsOf(context).bottom == 0

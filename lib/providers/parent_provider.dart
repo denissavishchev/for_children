@@ -213,6 +213,76 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
+  Future showWishList(context, ParentProvider data) {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.6,
+              width: size.width,
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+              ),
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('wishes')
+                    .snapshots(),
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    return ListView.builder(
+                        itemCount: snapshot.data?.docs.length,
+                        itemBuilder: (context, index){
+                          for(int w = 0; w < snapshot.data!.docs.length;){
+                            if(snapshot.data?.docs[index].get('parent${w}Name').toLowerCase() == data.email){
+                              return snapshot.data?.docs[index].get('kidName') == data.selectedKidName
+                                  ? GestureDetector(
+                                    onTap: () => addWishToField(context, snapshot, index),
+                                    child: Container(
+                                      width: size.width,
+                                      height: snapshot.data?.docs[index].get('imageUrl') == 'false'
+                                      ? 50 : 100,
+                                      margin: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: const BoxDecoration(
+                                        color: kDarkGrey,
+                                        borderRadius: BorderRadius.all(Radius.circular(12))
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(snapshot.data?.docs[index].get('wish'), style: kTextStyle,),
+                                            snapshot.data?.docs[index].get('imageUrl') == 'false'
+                                            ? const SizedBox.shrink()
+                                            : Image.network(snapshot.data?.docs[index].get('imageUrl')),
+                                              ],
+                                            ),
+                                    ),
+                                  ) : const SizedBox.shrink();
+                            }else{
+                              return const SizedBox.shrink();
+                            }
+                          }
+                          return null;
+                        });
+                  }else{
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
+                },
+              )
+          );
+        });
+  }
+
+  void addWishToField(context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index){
+    addTaskPriceController.text = snapshot.data?.docs[index].get('wish');
+    notifyListeners();
+    Navigator.of(context).pop();
+  }
+
   Future pickAnImage()async{
     ImagePicker image = ImagePicker();
     file = await image.pickImage(source: ImageSource.camera);
