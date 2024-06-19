@@ -91,10 +91,9 @@ class LoginProvider with ChangeNotifier {
     nameController.clear();
     surnameController.clear();
     resetPasswordController.clear();
-    logOut(context).then((v) => successSighUp(context));
+    logOut(context);
     isLoading = false;
     notifyListeners();
-
   }
 
   Future resetPassword(context) {
@@ -158,35 +157,30 @@ class LoginProvider with ChangeNotifier {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
+        isDismissible: false,
         backgroundColor: Colors.transparent,
         builder: (context) {
-          return Container(
-              height: size.height * 0.2,
-              width: size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              margin: const EdgeInsets.only(bottom: 300),
-              decoration: const BoxDecoration(
-                color: kGrey,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Image.asset('assets/images/cat.png'),
-                  ),
-                  Expanded(child: Text('canUseAccount'.tr(), style: kTextStyle)),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.clear), color: kBlue,),
+          return GestureDetector(
+            onTap: () => signUp(context),
+            child: Container(
+                height: size.height * 0.2,
+                width: size.width,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                margin: const EdgeInsets.only(bottom: 300),
+                decoration: const BoxDecoration(
+                  color: kGrey,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Image.asset('assets/images/cat.png'),
                     ),
-                  ),
-                ],
-              )
+                    Expanded(child: Text('canUseAccount'.tr(), style: kTextStyle)),
+                  ],
+                )
+            ),
           );
         });
   }
