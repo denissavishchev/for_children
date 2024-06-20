@@ -61,5 +61,6 @@
   "canUseAccount": "Twoje konto jest już gotowe! Możesz zalogować się przy użyciu swojego adresu e-mail i hasła. Witamy ponownie w rodzinie!",
   "notConfirmed": "{} (nie potwierdzone)",
   "wish": "Życzenie",
-  "selectParent": "Wybierz co najmniej jednego rodzica"
+  "selectParent": "Wybierz co najmniej jednego rodzica",
+  "kidHasNoWishes": "Dzieciak nie ma żadnych życzeń"
 }

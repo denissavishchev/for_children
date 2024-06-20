@@ -61,5 +61,6 @@
   "canUseAccount": "Your account is now ready! You can log in using your email and password. Welcome to the family again!",
   "notConfirmed": "{} (not confirmed)",
   "wish": "Wish",
-  "selectParent": "Select at least one parent"
+  "selectParent": "Select at least one parent",
+  "kidHasNoWishes": "The kid has no wishes"
 }
