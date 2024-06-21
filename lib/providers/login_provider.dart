@@ -27,6 +27,12 @@ class LoginProvider with ChangeNotifier {
   bool isPasswordVisible = false;
   String selectedLanguage = 'English - UK';
   bool isLoading = false;
+  bool isInfo = false;
+
+  void switchInfo(){
+    isInfo = !isInfo;
+    notifyListeners();
+  }
 
   Future logIn() async{
     await FirebaseAuth.instance.signInWithEmailAndPassword(
