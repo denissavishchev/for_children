@@ -6,21 +6,25 @@ import 'package:provider/provider.dart';
 class InfoWidget extends StatelessWidget {
   const InfoWidget({super.key,
     required this.info,
-    required this.onTap});
+    required this.onTap,
+    required this.text});
 
   final bool info;
   final Function() onTap;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return Consumer<LoginProvider>(
         builder: (context, data, _){
           return GestureDetector(
             onTap: onTap,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
-              width: info ? 300 : 40,
-              height: info ? 300 : 40,
+              width: info ? size.width * 0.9 : 40,
+              height: info ? size.height * 0.4 : 40,
+              padding: EdgeInsets.all(info ? 8 : 0),
               decoration: BoxDecoration(
                 color: kGrey,
                   border: Border.all(width: info ? 1 : 0, color: kBlue.withOpacity(0.1)),
@@ -42,15 +46,12 @@ class InfoWidget extends StatelessWidget {
               child: AnimatedCrossFade(
                 duration: const Duration(milliseconds: 50),
                 reverseDuration: const Duration(microseconds: 10),
-                firstChild: const Center(child: Text('info')),
+                firstChild: Center(child: Text(text, style: kTextStyle,)),
                 secondChild: const Center(child: Icon(Icons.info_outlined, size: 32, color: kBlue,)),
                 crossFadeState: info
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond
               ),
-              // child: data.isInfo
-              //     ? Text('info')
-              //     : Center(child: Icon(Icons.info_outlined, size: 32, color: kBlue,)),
             ),
           );
         }

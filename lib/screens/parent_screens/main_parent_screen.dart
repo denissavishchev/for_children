@@ -60,7 +60,7 @@ class MainParentScreen extends StatelessWidget {
                   Positioned(
                     top: 24,
                       left: 80,
-                      child: InfoWidget(info: data.mainParentInfo, onTap: (){},))
+                      child: InfoWidget(info: data.mainParentInfo, onTap: (){}, text: '',))
                 ],
               ),
             );
