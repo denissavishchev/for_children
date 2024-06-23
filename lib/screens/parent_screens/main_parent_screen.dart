@@ -57,10 +57,10 @@ class MainParentScreen extends StatelessWidget {
                       const ParentTilesListWidget()
                     ],
                   ),
-                  const Positioned(
+                  Positioned(
                     top: 24,
                       left: 80,
-                      child: InfoWidget())
+                      child: InfoWidget(info: data.mainParentInfo, onTap: (){},))
                 ],
               ),
             );

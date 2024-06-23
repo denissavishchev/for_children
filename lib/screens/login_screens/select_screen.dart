@@ -28,11 +28,11 @@ class SelectScreen extends StatelessWidget {
                       onTap: () => data.selectRole('parent'),
                       child: Container(
                         width: size.width * 0.45,
-                        height: size.height * 0.65,
+                        height: size.height * 0.64,
                         margin: const EdgeInsets.fromLTRB(12, 0, 6, 0),
                         decoration: BoxDecoration(
-                            color: kBlue.withOpacity(data.role == 'parent' ? 0.8 : 0.3),
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
+                          color: kBlue.withOpacity(data.role == 'parent' ? 0.8 : 0.3),
+                          borderRadius: const BorderRadius.all(Radius.circular(4)),
                         ),
                         child: Image.asset('assets/images/selectParents.png'),
                       ),
@@ -41,11 +41,11 @@ class SelectScreen extends StatelessWidget {
                       onTap: () => data.selectRole('child'),
                       child: Container(
                         width: size.width * 0.45,
-                        height: size.height * 0.65,
+                        height: size.height * 0.64,
                         margin: const EdgeInsets.fromLTRB(6, 0, 12, 0),
                         decoration: BoxDecoration(
-                            color: kBlue.withOpacity(data.role == 'child' ? 0.8 : 0.3),
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
+                          color: kBlue.withOpacity(data.role == 'child' ? 0.8 : 0.3),
+                          borderRadius: const BorderRadius.all(Radius.circular(4)),
                         ),
                         child: Image.asset('assets/images/selectKids.png'),
                       ),
@@ -59,8 +59,8 @@ class SelectScreen extends StatelessWidget {
                     margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        color: kBlue.withOpacity(0.1),
-                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      color: kBlue.withOpacity(0.1),
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
                     ),
                     child: Text('selectDescription'.tr(),
                         style: kTextStyle,

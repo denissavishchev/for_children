@@ -2,9 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
-import 'package:for_children/screens/login_screens/onboarding_screen_one.dart';
-import 'package:for_children/screens/login_screens/onboarding_screen_three.dart';
-import 'package:for_children/screens/login_screens/onboarding_screen_two.dart';
+import 'package:for_children/screens/login_screens/onboarding_screen.dart';
 import 'package:for_children/screens/login_screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -22,11 +20,13 @@ class OnboardingScreens extends StatelessWidget {
             children: [
               PageView(
                 controller: data.onboardingController,
-                children: const [
-                  OnboardingScreenOne(),
-                  OnboardingScreenTwo(),
-                  OnboardingScreenThree()
-                ],
+                children: List.generate(3, (i){
+                  return OnboardingScreen(
+                    parentText: 'onboardingParent$i',
+                    kidText: 'onboardingKid$i',
+                    parentImg: 'onboardingParent$i',
+                    kidImg: 'onboardingKid$i',);
+                }),
               ),
               Positioned(
                 bottom: 20,

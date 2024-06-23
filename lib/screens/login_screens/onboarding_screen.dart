@@ -4,8 +4,18 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
-class OnboardingScreenOne extends StatelessWidget {
-  const OnboardingScreenOne({super.key});
+class OnboardingScreen extends StatelessWidget {
+  const OnboardingScreen({super.key,
+    required this.parentText,
+    required this.kidText,
+    required this.parentImg,
+    required this.kidImg
+  });
+
+  final String parentText;
+  final String kidText;
+  final String parentImg;
+  final String kidImg;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +27,7 @@ class OnboardingScreenOne extends StatelessWidget {
           return Center(
             child: Container(
               width: size.width,
-              height: size.height * 0.7,
+              height: size.height * 0.8,
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -27,15 +37,15 @@ class OnboardingScreenOne extends StatelessWidget {
               child: Column(
                 children: [
                   Text(data.role == 'parent'
-                      ? 'onboardingParentOne'.tr()
-                      : 'onboardingKidOne'.tr(),
+                      ? parentText.tr()
+                      : kidText.tr(),
                       style: kTextStyle,
                       textAlign: TextAlign.justify),
                   const SizedBox(height: 12,),
                   Expanded(
                     child: Image.asset(data.role == 'parent'
-                        ? 'assets/images/onboardingParentOne.png'
-                        : 'assets/images/onboardingKidOne.png'),
+                        ? 'assets/images/$parentImg.png'
+                        : 'assets/images/$kidImg.png'),
                   )
                 ],
               ),

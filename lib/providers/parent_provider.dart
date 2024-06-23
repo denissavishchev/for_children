@@ -45,6 +45,8 @@ class ParentProvider with ChangeNotifier {
 
   double stars = 0.0;
 
+  bool mainParentInfo = false;
+
   Future<void> getEmail() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email');
