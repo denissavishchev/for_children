@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/button_widget.dart';
+import '../../widgets/info_widget.dart';
 import 'main_kid_screen.dart';
 
 class AddWishScreen extends StatefulWidget {
@@ -144,6 +145,14 @@ class _AddWishScreenState extends State<AddWishScreen> {
                       ),
                     ),
                   ),
+                  Positioned(
+                      top: 24,
+                      right: 20,
+                      child: InfoWidget(
+                        info: data.wishInfo,
+                        onTap: () => data.switchWishInfo(),
+                        text: 'wishInfo',
+                        height: 0.2,)),
                   data.isLoading
                       ? Container(
                     width: size.width,

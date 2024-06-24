@@ -46,6 +46,23 @@ class ParentProvider with ChangeNotifier {
   double stars = 0.0;
 
   bool mainParentInfo = false;
+  bool addTaskInfo = false;
+  bool settingsParentInfo = false;
+
+  void switchParentInfo(){
+    mainParentInfo = !mainParentInfo;
+    notifyListeners();
+  }
+
+  void switchAddTaskInfo(){
+    addTaskInfo = !addTaskInfo;
+    notifyListeners();
+  }
+
+  void switchSettingsParentInfo(){
+    settingsParentInfo = !settingsParentInfo;
+    notifyListeners();
+  }
 
   Future<void> getEmail() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();

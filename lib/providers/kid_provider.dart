@@ -25,6 +25,25 @@ class KidProvider with ChangeNotifier {
 
   TextEditingController addWishNameController = TextEditingController();
 
+  bool mainKidInfo = false;
+  bool wishInfo = false;
+  bool settingsKidInfo = false;
+
+  void switchMainKidInfo(){
+    mainKidInfo = !mainKidInfo;
+    notifyListeners();
+  }
+
+  void switchWishInfo(){
+    wishInfo = !wishInfo;
+    notifyListeners();
+  }
+
+  void switchSettingsKidInfo(){
+    settingsKidInfo = !settingsKidInfo;
+    notifyListeners();
+  }
+
   void getParentsData(){
     getParent = getParents();
   }

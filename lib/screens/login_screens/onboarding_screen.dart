@@ -36,11 +36,15 @@ class OnboardingScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text(data.role == 'parent'
-                      ? parentText.tr()
-                      : kidText.tr(),
-                      style: kTextStyle,
-                      textAlign: TextAlign.justify),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Text(data.role == 'parent'
+                          ? parentText.tr()
+                          : kidText.tr(),
+                          style: kTextStyle,
+                          textAlign: TextAlign.justify),
+                    ),
+                  ),
                   const SizedBox(height: 12,),
                   Expanded(
                     child: Image.asset(data.role == 'parent'

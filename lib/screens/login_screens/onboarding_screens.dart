@@ -20,7 +20,7 @@ class OnboardingScreens extends StatelessWidget {
             children: [
               PageView(
                 controller: data.onboardingController,
-                children: List.generate(3, (i){
+                children: List.generate(selectedOnboard == Onboard.basic ? 3 : 9, (i){
                   return OnboardingScreen(
                     parentText: 'onboardingParent$i',
                     kidText: 'onboardingKid$i',
@@ -37,16 +37,17 @@ class OnboardingScreens extends StatelessWidget {
                     child: Row(
                       children: [
                         TextButton(
-                            onPressed: () => data.onboardingController.jumpToPage(2),
+                            onPressed: () => data.onboardingController.jumpToPage(
+                                selectedOnboard == Onboard.basic ? 2 : 8),
                             child: Text('skip'.tr(), style: kTextStyle,)),
                         const Spacer(),
                         SmoothPageIndicator(
                             controller: data.onboardingController,
-                            count: 3,
+                            count: selectedOnboard == Onboard.basic ? 3 : 9,
                             effect: ExpandingDotsEffect(
-                              dotWidth: 20,
-                              dotHeight: 20,
-                              spacing: 16,
+                              dotWidth: 12,
+                              dotHeight: 12,
+                              spacing: 6,
                               dotColor: kBlue.withOpacity(0.5),
                               activeDotColor: kBlue.withOpacity(0.8)
                             ),
@@ -60,7 +61,8 @@ class OnboardingScreens extends StatelessWidget {
                         const Spacer(),
                         TextButton(
                             onPressed: () {
-                              if(data.onboardingController.page == 2){
+                              if(data.onboardingController.page == 2 && selectedOnboard == Onboard.basic
+                              || data.onboardingController.page == 8 && selectedOnboard == Onboard.advanced){
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>
                                     const RegisterScreen()));

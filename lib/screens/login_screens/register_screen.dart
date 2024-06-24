@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/login_provider.dart';
 import '../../widgets/button_widget.dart';
+import '../../widgets/info_widget.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -112,7 +113,11 @@ class RegisterScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 36,),
                                 ButtonWidget(
-                                    onTap: () => data.successSighUp(context),
+                                    onTap: () {
+                                      if(data.registerKey.currentState!.validate()){
+                                        data.successSighUp(context);
+                                      }
+                                    },
                                     text: 'register'
                                 ),
                                 SizedBox(
@@ -140,6 +145,14 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Positioned(
+                      top: 10,
+                      left: 20,
+                      child: InfoWidget(
+                        info: data.registerInfo,
+                        onTap: () => data.switchRegisterInfo(),
+                        text: 'registerInfo',
+                        height: 0.2,)),
                   data.isLoading
                       ? Container(
                           width: size.width,

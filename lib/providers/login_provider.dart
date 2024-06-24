@@ -37,6 +37,7 @@ class LoginProvider with ChangeNotifier {
   bool isLoading = false;
   bool selectRightInfo = false;
   bool selectLeftInfo = false;
+  bool registerInfo = false;
 
   void switchSelectRightInfo(){
     selectRightInfo = !selectRightInfo;
@@ -45,6 +46,11 @@ class LoginProvider with ChangeNotifier {
 
   void switchSelectLeftInfo(){
     selectLeftInfo = !selectLeftInfo;
+    notifyListeners();
+  }
+
+  void switchRegisterInfo(){
+    registerInfo = !registerInfo;
     notifyListeners();
   }
 

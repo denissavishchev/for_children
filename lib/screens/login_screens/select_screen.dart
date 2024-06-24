@@ -95,7 +95,8 @@ class SelectScreen extends StatelessWidget {
                       child: InfoWidget(
                         info: data.selectLeftInfo,
                         onTap: () => data.switchSelectLeftInfo(),
-                        text: 'selectInfoParent'.tr(),)),
+                        text: 'selectInfoParent',
+                        height: 0.4,)),
                 ),
                 Visibility(
                   visible: data.role == 'child',
@@ -105,7 +106,8 @@ class SelectScreen extends StatelessWidget {
                       child: InfoWidget(
                         info: data.selectRightInfo,
                         onTap: () => data.switchSelectRightInfo(),
-                        text: 'selectInfoKid'.tr(),)),
+                        text: 'selectInfoKid',
+                        height: 0.4,)),
                 ),
               ],
             );
