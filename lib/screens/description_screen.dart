@@ -148,7 +148,22 @@ class DescriptionScreen extends StatelessWidget {
                   ? _buildDone(snapshot, data, context, size)
                   : snapshot.data?.docs[index].get('status') == 'checked'
                   ? _buildChecked(snapshot, data, context, size)
-                  : _buildComplete(snapshot)
+                  : _buildComplete(snapshot),
+                  const SizedBox(height: 20,),
+                  data.role == 'parent' && snapshot.data?.docs[index].get('status') == 'paid'
+                  ? IconButton(
+                      onPressed: () => data.addTaskToHistory(context, snapshot, index,
+                          snapshot.data?.docs[index].get('parentName'),
+                          snapshot.data?.docs[index].get('parentEmail'),
+                          snapshot.data?.docs[index].get('kidName'),
+                          snapshot.data?.docs[index].get('kidEmail'),
+                          snapshot.data?.docs[index].get('taskName'),
+                          snapshot.data?.docs[index].get('description'),
+                          snapshot.data?.docs[index].get('price'),
+                          snapshot.data?.docs[index].get('stars'),
+                          snapshot.data?.docs[index].get('imageUrl'),),
+                      icon: const Icon(Icons.history, size: 32, color: kBlue,)
+                  ) : const SizedBox.shrink()
                 ],
               ),
             );
@@ -263,7 +278,7 @@ class DescriptionScreen extends StatelessWidget {
             snapshot: snapshot,
             onTap: () => data.changeToPaid(snapshot, index, context),
             text: 'paid',
-          )
+          ),
         ],
       )
           : _buildComplete(snapshot),

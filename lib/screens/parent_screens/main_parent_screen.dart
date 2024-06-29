@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/screens/history_screen.dart';
 import 'package:for_children/screens/parent_screens/add_task_screen.dart';
 import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,15 @@ class MainParentScreen extends StatelessWidget {
                             const Spacer(),
                             Text('${data.email}', style: kTextStyle,),
                             const Spacer(),
+                            IconButton(
+                                onPressed: () => Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                    const HistoryScreen())),
+                                icon: const Icon(
+                                  Icons.history,
+                                  color: kBlue,
+                                  size: 32,
+                                )),
                             IconButton(
                                 onPressed: () => Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>

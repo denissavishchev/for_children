@@ -48,7 +48,6 @@ class _KidTilesListWidgetState extends State<KidTilesListWidget> {
                                     MaterialPageRoute(builder: (context) =>
                                         DescriptionScreen(index: index, snapshot: snapshot)));
                               },
-                              onLongPress: () => data.deleteTask(snapshot, index, context),
                               child: BasicContainerWidget(
                                 snapshot: snapshot,
                                 index: index,

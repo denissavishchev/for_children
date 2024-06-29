@@ -115,7 +115,7 @@ class ParentProvider with ChangeNotifier {
                   ),
                   Text('deleteThisTask'.tr(), style: kTextStyle,),
                   ButtonWidget(
-                      onTap: () => FirebaseFirestore.instance.collection('tasks').doc(
+                      onTap: () => FirebaseFirestore.instance.collection('history').doc(
                           snapshot.data?.docs[index].id).delete(),
                       text: 'delete')
                 ],
@@ -405,6 +405,73 @@ class ParentProvider with ChangeNotifier {
     }
     isLoading = false;
     notifyListeners();
+  }
+
+  Future<void>saveTaskToHistory(String parentName, String parentEmail, String kidName, String kidEmail,
+      String taskName, String description, String price, String stars)async {
+    await FirebaseFirestore.instance.collection('history').add({
+      'parentName': parentName,
+      'parentEmail': parentEmail,
+      'kidName': kidName,
+      'kidEmail': kidEmail,
+      'taskName': taskName,
+      'description': description,
+      'price': price,
+      'stars' : stars,
+      'time' : DateTime.now().toString()
+    });
+  }
+
+  Future<void>addTaskToHistory(context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+      int index, String parentName, String parentEmail, String kidName, String kidEmail,
+      String taskName, String description, String price, String stars, String url)async {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.3,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                    ],
+                  ),
+                  Text('addToHistoryQuestion', style: kTextStyle,),
+                  ButtonWidget(
+                      onTap: () {
+                        saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
+                            taskName, description, price, stars).then((v) =>
+                          FirebaseFirestore.instance.collection('tasks').doc(
+                              snapshot.data?.docs[index].id).delete());
+                        if(url != 'false'){
+                          FirebaseStorage.instance.refFromURL(url).delete();
+                        }
+                        Navigator.of(context).pop();
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) =>
+                            role == 'parent'
+                                ? const MainParentScreen()
+                                : const MainKidScreen()));
+                        },
+                      text: 'add')
+                ],
+              )
+          );
+        });
   }
 
   void updateRating(double rating){
