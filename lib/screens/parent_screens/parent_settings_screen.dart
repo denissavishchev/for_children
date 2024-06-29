@@ -53,7 +53,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                                           MaterialPageRoute(builder: (context) =>
                                           const MainParentScreen())),
                                       icon: const Icon(
-                                        Icons.backspace_outlined,
+                                        Icons.arrow_back_ios_new,
                                         color: kBlue,
                                         size: 32,
                                       )),

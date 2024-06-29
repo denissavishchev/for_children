@@ -50,7 +50,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     MaterialPageRoute(builder: (context) =>
                                     const MainParentScreen())),
                                 icon: const Icon(
-                                  Icons.backspace_outlined,
+                                  Icons.arrow_back_ios_new,
                                   color: kBlue,
                                   size: 32,
                                 )),

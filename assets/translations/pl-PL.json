@@ -90,5 +90,10 @@
   "settingsParentInfo": "Zanim przydzielisz zadania, dodaj swoje dziecko do listy dzieci. Następnie poczekaj, aż potwierdzi\n\nChcesz nauczyć się nowego języka? Ucz się ze swoim dzieckiem",
   "mainKidInfo": "Pamiętaj:\n\nBez pracy nie ma kołaczy\n\nNie ma zadania, nie ma rezultatu",
   "wishInfo": "Pamiętaj, aby nie dodawać kosztownych pragnień, które mogą powodować trudne zadania lub wiele zadań. Twoje życzenia powinny być również jasne",
-  "settingsKidInfo": "Spróbuj zainstalować aplikację w innym języku. Pomoże Ci to nauczyć się kilku nowych słów, rozwijając w ten sposób połączenia neuronowe\n\nAby dodać zadania, dodawaj tylko swoich bliskich"
+  "settingsKidInfo": "Spróbuj zainstalować aplikację w innym języku. Pomoże Ci to nauczyć się kilku nowych słów, rozwijając w ten sposób połączenia neuronowe\n\nAby dodać zadania, dodawaj tylko swoich bliskich",
+  "addToHistoryQuestion": "Przenieść to zadanie do historii?",
+  "deleteFromHistory": "Usunąć z historii",
+  "yes": "Tak",
+  "areYouSure": "Jesteś pewny?",
+  "editTaskDescription": "Możesz edytować zadanie, gdy jest ono w trakcie negocjacji ceny i nie zostało potwierdzone przez dziecko"
 }

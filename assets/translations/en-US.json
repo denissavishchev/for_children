@@ -90,6 +90,11 @@
   "settingsParentInfo": "Before assigning tasks, add your child to the list of children. Then wait until he confirms\n\nDo you want to learn a new language? Learn with your child",
   "mainKidInfo": "Remember:\n\nNo pain, no gain\n\nNo task, no result",
   "wishInfo": "Remember not to add expensive desires that may trigger difficult tasks or multiple tasks. Also, your wishes should be clear",
-  "settingsKidInfo": "Try installing the application in a different language. This will help you learn a few new words, thereby developing your neural connections\n\nAdd only your relatives to add tasks"
+  "settingsKidInfo": "Try installing the application in a different language. This will help you learn a few new words, thereby developing your neural connections\n\nAdd only your relatives to add tasks",
+  "addToHistoryQuestion": "Move this task into history?",
+  "deleteFromHistory": "Delete from history",
+  "yes": "Yes",
+  "areYouSure": "Are you sure?",
+  "editTaskDescription": "You can edit a task while it is in the process of price negotiation and has not been confirmed by a child"
 
 }

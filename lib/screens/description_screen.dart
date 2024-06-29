@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/screens/parent_screens/add_task_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
@@ -162,8 +163,28 @@ class DescriptionScreen extends StatelessWidget {
                           snapshot.data?.docs[index].get('price'),
                           snapshot.data?.docs[index].get('stars'),
                           snapshot.data?.docs[index].get('imageUrl'),),
-                      icon: const Icon(Icons.history, size: 32, color: kBlue,)
-                  ) : const SizedBox.shrink()
+                      icon: const Icon(Icons.history, size: 32, color: kBlue,))
+                  : data.role == 'parent'
+                      && snapshot.data?.docs[index].get('status') == 'price'
+                      && snapshot.data?.docs[index].get('priceStatus') == 'set'
+                  ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyle,)),
+                        IconButton(
+                            onPressed: () {
+                              data.searchForEditing(snapshot.data!.docs[index].id.toString());
+                              // Navigator.pushReplacement(context,
+                              // MaterialPageRoute(builder: (context) =>
+                              // const AddTaskScreen()));
+                            },
+
+                            icon: const Icon(Icons.edit, size: 32, color: kBlue,))
+                      ],
+                    ),
+                  )
+                      : const SizedBox.shrink()
                 ],
               ),
             );

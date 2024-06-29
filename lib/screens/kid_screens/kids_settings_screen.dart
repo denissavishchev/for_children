@@ -54,7 +54,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                           MaterialPageRoute(builder: (context) =>
                                           const MainKidScreen())),
                                       icon: const Icon(
-                                        Icons.backspace_outlined,
+                                        Icons.arrow_back_ios_new,
                                         color: kBlue,
                                         size: 32,
                                       )),
