@@ -58,6 +58,9 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                                         size: 32,
                                       )),
                                   const Spacer(),
+                                  Text('${data.email}', style: kTextStyle,),
+                                  const Spacer(),
+                                  const SizedBox(width: 32,)
                                 ],
                               ),
                               const SizedBox(height: 18,),

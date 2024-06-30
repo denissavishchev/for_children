@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/login_provider.dart';
+import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
@@ -32,8 +33,8 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
       resizeToAvoidBottomInset: false,
       backgroundColor: kGrey,
       body: SafeArea(
-          child: Consumer<KidProvider>(
-            builder: (context, data, _){
+          child: Consumer2<KidProvider, ParentProvider>(
+            builder: (context, data, parent, _){
               return Stack(
                 children: [
                   Padding(
@@ -59,6 +60,9 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                         size: 32,
                                       )),
                                   const Spacer(),
+                                  Text('${parent.email}', style: kTextStyle,),
+                                  const Spacer(),
+                                  const SizedBox(width: 32,)
                                 ],
                               ),
                               const SizedBox(height: 18,),

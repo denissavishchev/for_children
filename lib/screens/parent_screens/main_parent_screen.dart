@@ -41,8 +41,6 @@ class MainParentScreen extends StatelessWidget {
                                   size: 32,
                                 )),
                             const Spacer(),
-                            Text('${data.email}', style: kTextStyle,),
-                            const Spacer(),
                             IconButton(
                                 onPressed: () => Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>

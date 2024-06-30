@@ -39,7 +39,7 @@ class BasicContainerWidget extends StatelessWidget {
                     height: height,
                     decoration: BoxDecoration(
                         color: kGrey,
-                        border: Border.all(width: 1, color: kBlue.withOpacity(0.1)),
+                        border: Border.all(width: 1, color: kBlue.withOpacity(0.2)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
@@ -107,7 +107,7 @@ class BasicContainerWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 3),
                     decoration: BoxDecoration(
                         color: kGrey,
-                        border: Border.all(width: 1, color: kBlue.withOpacity(0.1)),
+                        border: Border.all(width: 1, color: kBlue.withOpacity(0.2)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
