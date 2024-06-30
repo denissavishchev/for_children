@@ -33,6 +33,7 @@ class LoginProvider with ChangeNotifier {
 
   String role = '';
   bool isPasswordVisible = false;
+  bool isSignUpPasswordVisible = false;
   String selectedLanguage = 'English - UK';
   bool isLoading = false;
   bool selectRightInfo = false;
@@ -60,10 +61,14 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future logIn() async{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim()
-    );
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim()
+      );
+    }catch (e){
+      sadToast('noUser');
+    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', emailController.text.trim());
   }
@@ -73,6 +78,10 @@ class LoginProvider with ChangeNotifier {
     prefs.remove('email');
     emailController.clear();
     passwordController.clear();
+    role = '';
+    nameController.clear();
+    surnameController.clear();
+    resetPasswordController.clear();
     FirebaseAuth.instance.signOut().then((v) =>
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
@@ -96,34 +105,36 @@ class LoginProvider with ChangeNotifier {
   Future signUp(context) async{
     isLoading = true;
     notifyListeners();
-    await FirebaseFirestore.instance.collection('users').doc(emailController.text.trim()).set({
-      'kid0': '',
-      'kid0Accept': false,
-      'kid1': '',
-      'kid1Accept': false,
-      'kid2': '',
-      'kid2Accept': false,
-      'kid3': '',
-      'kid3Accept': false,
-      'kid4': '',
-      'kid4Accept': false,
-      'kid5': '',
-      'kid5Accept': false,
-      'name': nameController.text.trim(),
-      'surName': surnameController.text.trim(),
-      'role': role,
-      'time' : DateTime.now().toString()
-    });
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
-    role = '';
-    emailController.clear();
-    passwordController.clear();
-    nameController.clear();
-    surnameController.clear();
-    resetPasswordController.clear();
-    logOut(context);
+    try{
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+      await FirebaseFirestore.instance.collection('users').doc(emailController.text.trim()).set({
+        'kid0': '',
+        'kid0Accept': false,
+        'kid1': '',
+        'kid1Accept': false,
+        'kid2': '',
+        'kid2Accept': false,
+        'kid3': '',
+        'kid3Accept': false,
+        'kid4': '',
+        'kid4Accept': false,
+        'kid5': '',
+        'kid5Accept': false,
+        'name': nameController.text.trim(),
+        'surName': surnameController.text.trim(),
+        'role': role,
+        'time' : DateTime.now().toString()
+      });
+      successSighUp(context);
+    }catch(e){
+      if(e.toString().contains('Password should be at least 6 characters')){
+        sadToast('weakPassword');
+      }else if(e.toString().contains('The email address is already in use by another account')){
+        sadToast('alreadyTaken');
+      }
+    }
     isLoading = false;
     notifyListeners();
   }
@@ -193,7 +204,7 @@ class LoginProvider with ChangeNotifier {
         backgroundColor: Colors.transparent,
         builder: (context) {
           return GestureDetector(
-            onTap: () => signUp(context),
+            onTap: () => logOut(context),
             child: Container(
                 height: size.height * 0.2,
                 width: size.width,
@@ -220,6 +231,11 @@ class LoginProvider with ChangeNotifier {
 
   void switchPasswordVisibility(){
     isPasswordVisible = !isPasswordVisible;
+    notifyListeners();
+  }
+
+  void switchSignUpPasswordVisibility(){
+    isSignUpPasswordVisible = !isSignUpPasswordVisible;
     notifyListeners();
   }
 

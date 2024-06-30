@@ -61,6 +61,7 @@ class KidProvider with ChangeNotifier {
       selectedParentsEmail.addAll({'${doc.data()?['kid$k']}': true});
       parentsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
       parentsListAccept.add(doc.data()?['kid${k}Accept']);
+      parentsEmailsList.add(doc.data()?['kid$k']);
       notifyListeners();
     }
   }

@@ -357,7 +357,11 @@ class DescriptionScreen extends StatelessWidget {
           )
         ],
       )
-          : const Text('Waiting for...'),
+          : Text('waitingForPay'.tr(args: [snapshot.data?.docs[index].get(
+          data.role == 'parent'
+              ? 'kidName'
+              : 'parentName'
+      )]), style: kTextStyle,),
     );
   }
 
@@ -375,7 +379,11 @@ class DescriptionScreen extends StatelessWidget {
           )
         ],
       )
-          : const Text('Waiting for...'),
+          : Text('waitingForDone'.tr(args: [snapshot.data?.docs[index].get(
+          data.role == 'parent'
+              ? 'kidName'
+              : 'parentName'
+      )]), style: kTextStyle,),
     );
   }
 
@@ -418,7 +426,11 @@ class DescriptionScreen extends StatelessWidget {
                   text: 'acceptPriceChangeStatus',),
               ],
             )
-            : const Text('Waiting for...'),
+            : Text('waitingForPrice'.tr(args: [snapshot.data?.docs[index].get(
+                 data.role == 'parent'
+                     ? 'kidName'
+                     : 'parentName'
+             )]), style: kTextStyle,),
           );
   }
 }

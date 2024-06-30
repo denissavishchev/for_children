@@ -86,12 +86,20 @@ class RegisterScreen extends StatelessWidget {
                                   controller: data.passwordController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   cursorColor: kDarkGrey,
+                                  obscureText: !data.isSignUpPasswordVisible,
                                   decoration: textFieldDecoration.copyWith(
-                                      label: Text('password'.tr(),)),
+                                      label: Text('password'.tr(),),
+                                      suffixIcon: IconButton(
+                                          onPressed: () => data.switchSignUpPasswordVisibility(),
+                                          icon: Icon(data.isSignUpPasswordVisible
+                                              ? Icons.visibility_off
+                                              : Icons.visibility))),
                                   maxLength: 64,
                                   validator: (value){
                                     if(value == null || value.isEmpty) {
                                       return 'thisFieldCannotBeEmpty'.tr();
+                                    }else if(data.passwordController.text != data.confirmPasswordController.text){
+                                      return 'passwordsMustBeTheSame'.tr();
                                     }
                                     return null;
                                   },
@@ -101,12 +109,20 @@ class RegisterScreen extends StatelessWidget {
                                   controller: data.confirmPasswordController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                   cursorColor: kDarkGrey,
+                                  obscureText: !data.isSignUpPasswordVisible,
                                   decoration: textFieldDecoration.copyWith(
-                                      label: Text('confirmPassword'.tr(),)),
+                                      label: Text('confirmPassword'.tr(),),
+                                      suffixIcon: IconButton(
+                                          onPressed: () => data.switchSignUpPasswordVisibility(),
+                                          icon: Icon(data.isSignUpPasswordVisible
+                                              ? Icons.visibility_off
+                                              : Icons.visibility))),
                                   maxLength: 64,
                                   validator: (value){
                                     if(value == null || value.isEmpty) {
                                       return 'thisFieldCannotBeEmpty'.tr();
+                                    }else if(data.passwordController.text != data.confirmPasswordController.text){
+                                      return 'passwordsMustBeTheSame'.tr();
                                     }
                                     return null;
                                   },
@@ -115,7 +131,7 @@ class RegisterScreen extends StatelessWidget {
                                 ButtonWidget(
                                     onTap: () {
                                       if(data.registerKey.currentState!.validate()){
-                                        data.successSighUp(context);
+                                        data.signUp(context);
                                       }
                                     },
                                     text: 'register'

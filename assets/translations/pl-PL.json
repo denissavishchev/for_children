@@ -96,5 +96,12 @@
   "yes": "Tak",
   "areYouSure": "Jesteś pewny?",
   "editTaskDescription": "Możesz edytować zadanie, gdy jest ono w trakcie negocjacji ceny i nie zostało potwierdzone przez dziecko",
-  "edit": "Edytuj"
+  "edit": "Edytuj",
+  "noUser": "Użytkownik z tym adresem e-mail nie jest zarejestrowany lub hasło jest nieprawidłowe",
+  "weakPassword": "Hasło musi zawierać co najmniej 6 znaków, co najmniej jedną literę i jedną cyfrę",
+  "alreadyTaken": "Ten e-mail jest już zajęty",
+  "passwordsMustBeTheSame": "Hasła muszą być takie same",
+  "waitingForPrice": "Czekamy póki {} zaakceptuje cene",
+  "waitingForDone": "Waiting for {} kończy zadanie",
+  "waitingForPay": "Waiting for {} oceni pracę i zapłaci"
 }

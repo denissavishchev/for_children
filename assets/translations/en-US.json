@@ -96,6 +96,13 @@
   "yes": "Yes",
   "areYouSure": "Are you sure?",
   "editTaskDescription": "You can edit a task while it is in the process of price negotiation and has not been confirmed by a child",
-  "edit": "Edit"
+  "edit": "Edit",
+  "noUser": "User with this Email is not registered or password is incorrect",
+  "weakPassword": "The password must contain at least 6 signs, at least one letter and one digit",
+  "alreadyTaken": "This Email is already taken",
+  "passwordsMustBeTheSame": "Passwords must be the same",
+  "waitingForPrice": "Waiting for {} accept the price",
+  "waitingForDone": "Waiting for {} done the task",
+  "waitingForPay": "Waiting for {} for rate and payment"
 
 }
