@@ -53,9 +53,12 @@ class MainParentScreen extends StatelessWidget {
                                   size: 32,
                                 )),
                             IconButton(
-                                onPressed: () => Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) =>
-                                    const AddTaskScreen())),
+                                onPressed: () {
+                                  data.isEdit = false;
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) =>
+                                      const AddTaskScreen()));
+                                },
                                 icon: const Icon(
                                   Icons.add_circle_outline,
                                   color: kBlue,

@@ -175,9 +175,9 @@ class DescriptionScreen extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               data.searchForEditing(snapshot.data!.docs[index].id.toString());
-                              // Navigator.pushReplacement(context,
-                              // MaterialPageRoute(builder: (context) =>
-                              // const AddTaskScreen()));
+                              Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              const AddTaskScreen()));
                             },
 
                             icon: const Icon(Icons.edit, size: 32, color: kBlue,))

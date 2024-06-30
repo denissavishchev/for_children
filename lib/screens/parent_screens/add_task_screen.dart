@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -213,7 +212,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ),
                         const SizedBox(height: 30,),
                         GestureDetector(
-                          onTap: () => data.pickAnImage(),
+                          onTap: () => data.isEdit ? null : data.pickAnImage(),
                           child: Container(
                             width: 100,
                             clipBehavior: Clip.hardEdge,
@@ -221,15 +220,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               color: kBlue.withOpacity(0.3),
                               borderRadius: const BorderRadius.all(Radius.circular(4)),
                             ),
-                            child: data.fileName == ''
-                                ? const Icon(Icons.camera_alt)
-                                : Image.file(File(data.file!.path), fit: BoxFit.cover,),
+                            child: data.image(),
                           ),
                         ),
                         const SizedBox(height: 30,),
                         ButtonWidget(
-                          onTap: () => data.addTaskToBase(context),
-                          text: 'add',
+                          onTap: () => data.isEdit
+                                  ? data.editTaskInBase(context, data.editDocId)
+                                  : data.addTaskToBase(context),
+                          text: data.isEdit ? 'edit' : 'add',
                         ),
                         SizedBox(
                           height: 10,

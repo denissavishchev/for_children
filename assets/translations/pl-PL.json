@@ -95,5 +95,6 @@
   "deleteFromHistory": "Usunąć z historii",
   "yes": "Tak",
   "areYouSure": "Jesteś pewny?",
-  "editTaskDescription": "Możesz edytować zadanie, gdy jest ono w trakcie negocjacji ceny i nie zostało potwierdzone przez dziecko"
+  "editTaskDescription": "Możesz edytować zadanie, gdy jest ono w trakcie negocjacji ceny i nie zostało potwierdzone przez dziecko",
+  "edit": "Edytuj"
 }

@@ -95,6 +95,7 @@
   "deleteFromHistory": "Delete from history",
   "yes": "Yes",
   "areYouSure": "Are you sure?",
-  "editTaskDescription": "You can edit a task while it is in the process of price negotiation and has not been confirmed by a child"
+  "editTaskDescription": "You can edit a task while it is in the process of price negotiation and has not been confirmed by a child",
+  "edit": "Edit"
 
 }

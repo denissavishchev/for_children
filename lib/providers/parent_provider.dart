@@ -50,6 +50,8 @@ class ParentProvider with ChangeNotifier {
   bool mainParentInfo = false;
   bool addTaskInfo = false;
   bool settingsParentInfo = false;
+  bool isEdit = false;
+  String editDocId = '';
 
   void switchParentInfo(){
     mainParentInfo = !mainParentInfo;
@@ -409,6 +411,30 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void>editTaskInBase(context, String docId)async{
+    await FirebaseFirestore.instance.collection('tasks').doc(docId).update({
+      'kidName': selectedKidName,
+      'kidEmail': selectedKidEmail,
+      'taskName': addTaskNameController.text,
+      'description': addTaskDescriptionController.text,
+      'price': addTaskPriceController.text,
+      'deadline': isDeadline ? taskDeadline.toString() : 'false',
+      'time' : DateTime.now().toString()
+    });
+    addTaskNameController.clear();
+    addTaskDescriptionController.clear();
+    addTaskPriceController.clear();
+    taskDeadline = DateTime.now();
+    isDeadline = false;
+    imageUrl = '';
+    fileName = '';
+    selectedKidName = '';
+    selectedKidEmail = '';
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const MainParentScreen()));
+  }
+
   Future<void>saveTaskToHistory(String parentName, String parentEmail, String kidName, String kidEmail,
       String taskName, String description, String price, String stars)async {
     await FirebaseFirestore.instance.collection('history').add({
@@ -581,14 +607,39 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future searchForEditing(String docId) async{
+    isEdit = true;
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('tasks').doc(docId).get();
     if(doc.exists){
       Map<String, dynamic>? data = doc.data();
-      print('${data?['kidName']}, ${data?['taskName']}');
-    }else{
-      print('noDoc');
+      selectedKidName = data?['kidName'];
+      addTaskNameController.text = data?['taskName'];
+      selectedKidEmail = data?['kidEmail'];
+      addTaskDescriptionController.text = data?['description'];
+      addTaskPriceController.text = data?['price'];
+      taskDeadline = data?['deadline'] == 'false' ? DateTime.now() : DateTime.parse(data?['deadline']);
+      isDeadline = data?['deadline'] == 'false' ? false : true;
+      fileName = data?['imageUrl'];
+      editDocId = docId;
     }
+  }
+
+  Widget image(){
+    if(isEdit){
+      if(fileName == 'false'){
+        return const SizedBox.shrink();
+      }else if(fileName.contains('https://firebasestorage')){
+        return Image.network(fileName);
+      }
+    }else{
+      if(fileName == ''){
+        return const Icon(Icons.camera_alt);
+      }else{
+        return Image.file(File(file!.path), fit: BoxFit.cover,);
+      }
+    }
+    return const Center(child: CircularProgressIndicator());
+
   }
 
   void updateRating(double rating){
