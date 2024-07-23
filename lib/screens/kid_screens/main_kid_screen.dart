@@ -47,7 +47,7 @@ class MainKidScreen extends StatelessWidget {
                                           MaterialPageRoute(builder: (context) =>
                                           const AddWishScreen())),
                                   icon: const Icon(
-                                    Icons.add_circle_outline,
+                                    Icons.favorite,
                                     color: kBlue,
                                     size: 32,
                                   ))

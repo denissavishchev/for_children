@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../constants.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
 
@@ -147,6 +148,29 @@ class KidProvider with ChangeNotifier {
   void selectParent(String key, bool value){
     selectedParentsEmail.update(key,(value) => value = !value);
     notifyListeners();
+  }
+
+  Future showWishDescription(context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index) {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Container(
+              height: size.height,
+              width: size.width,
+              clipBehavior: Clip.hardEdge,
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+              ),
+             child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
+            ),
+          );
+        });
   }
 
 }

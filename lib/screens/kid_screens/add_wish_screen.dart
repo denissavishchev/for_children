@@ -6,6 +6,7 @@ import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/info_widget.dart';
+import '../../widgets/wishes_tiles_list_widget.dart';
 import 'main_kid_screen.dart';
 
 class AddWishScreen extends StatefulWidget {
@@ -139,8 +140,8 @@ class _AddWishScreenState extends State<AddWishScreen> {
                             text: 'add',
                           ),
                           SizedBox(
-                            height: MediaQuery.viewInsetsOf(context).bottom == 0
-                                ? size.height * 0.05 : size.height * 0.4,),
+                            height: size.height * 0.05,),
+                          const WishesTilesListWidget()
                         ],
                       ),
                     ),
