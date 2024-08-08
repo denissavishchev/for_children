@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:for_children/providers/kid_provider.dart';
 import 'package:provider/provider.dart';
-import '../constants.dart';
-import '../providers/parent_provider.dart';
+import '../../constants.dart';
+import '../../providers/parent_provider.dart';
 
 class WishesTilesListWidget extends StatefulWidget {
   const WishesTilesListWidget({
@@ -52,27 +52,35 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                 margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
                                 padding: const EdgeInsets.symmetric(horizontal: 12),
                                 decoration: BoxDecoration(
-                                    color: kGrey,
-                                    border: Border.all(width: 1, color: kBlue.withOpacity(0.2)),
-                                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                    gradient: LinearGradient(
+                                        colors: [
+                                          kLightBlue.withOpacity(0.8),
+                                          kDarkBlue.withOpacity(0.8),
+                                          kPurple.withOpacity(0.8),
+                                        ],
+                                        stops: const [0, 0.5, 1]
+                                    ),
+                                    border: Border.all(width: 1, color: kOrange.withOpacity(0.3)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(18)),
                                     boxShadow: [
                                       BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
+                                          color: kRed.withOpacity(0.6),
                                           blurRadius: 6,
                                           spreadRadius: 2,
-                                          offset: const Offset(0, 6)
+                                          offset: const Offset(-4, 6)
                                       ),
                                       BoxShadow(
-                                        color: kGrey.withOpacity(0.2),
-                                        blurRadius: 2,
-                                        spreadRadius: 2,
+                                          color: Colors.black.withOpacity(0.3),
+                                          blurRadius: 1,
+                                          spreadRadius: 0.5,
+                                          offset: const Offset(-0.5, 0.5)
                                       ),
                                     ]
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(snapshot.data?.docs[index].get('wish'), style: kBigTextStyle,),
+                                    Text(snapshot.data?.docs[index].get('wish'), style: kBigTextStyleWhite,),
                                     snapshot.data?.docs[index].get('imageUrl') == 'false'
                                         ? const SizedBox.shrink()
                                         : Container(

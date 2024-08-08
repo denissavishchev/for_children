@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
-import 'package:for_children/screens/description_screen.dart';
+import 'package:for_children/screens/parent_screens/description_screen.dart';
 import 'package:provider/provider.dart';
 import 'basic_container_widget.dart';
 

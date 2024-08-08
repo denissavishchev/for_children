@@ -4,8 +4,8 @@ import 'package:for_children/screens/kid_screens/add_wish_screen.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
-import '../../widgets/info_widget.dart';
-import '../../widgets/kid_tiles_list_widget.dart';
+import '../../widgets/kids_widgets/kid_info_widget.dart';
+import '../../widgets/kids_widgets/kid_tiles_list_widget.dart';
 import 'kids_settings_screen.dart';
 
 class MainKidScreen extends StatelessWidget {
@@ -16,11 +16,18 @@ class MainKidScreen extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: kGrey,
-      body: SafeArea(
-          child: Consumer2<KidProvider, ParentProvider>(
-            builder: (context, data, parent, _){
-              return SingleChildScrollView(
+      body: Consumer2<KidProvider, ParentProvider>(
+        builder: (context, data, parent, _){
+          return Container(
+            height: size.height,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/bg.png'),
+                  fit: BoxFit.cover
+                )
+            ),
+            child: SafeArea(
+              child: SingleChildScrollView(
                 child: Stack(
                   children: [
                     Column(
@@ -37,7 +44,7 @@ class MainKidScreen extends StatelessWidget {
                                           const KidsSettingsScreen())),
                                   icon: const Icon(
                                     Icons.settings,
-                                    color: kBlue,
+                                    color: kOrange,
                                     size: 32,
                                   )),
                               const Spacer(),
@@ -48,7 +55,7 @@ class MainKidScreen extends StatelessWidget {
                                           const AddWishScreen())),
                                   icon: const Icon(
                                     Icons.favorite,
-                                    color: kBlue,
+                                    color: kOrange,
                                     size: 32,
                                   ))
                             ],
@@ -60,16 +67,17 @@ class MainKidScreen extends StatelessWidget {
                     Positioned(
                         top: 24,
                         left: 60,
-                        child: InfoWidget(
+                        child: KidInfoWidget(
                           info: data.mainKidInfo,
                           onTap: () => data.switchMainKidInfo(),
                           text: 'mainKidInfo',
                           height: 0.2,))
                   ],
                 ),
-              );
-            },
-          )
+              ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/parent_provider.dart';
-import '../screens/description_screen.dart';
-import 'basic_container_widget.dart';
+import '../../providers/parent_provider.dart';
+import '../../screens/kid_screens/kids_description_screen.dart';
+import 'kid_basic_container_widget.dart';
 
 class KidTilesListWidget extends StatefulWidget {
   const KidTilesListWidget({
@@ -46,9 +46,9 @@ class _KidTilesListWidgetState extends State<KidTilesListWidget> {
                                 data.priceController.text = snapshot.data?.docs[index].get('price');
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>
-                                        DescriptionScreen(index: index, snapshot: snapshot)));
+                                        KidsDescriptionScreen(index: index, snapshot: snapshot)));
                               },
-                              child: BasicContainerWidget(
+                              child: KidBasicContainerWidget(
                                 snapshot: snapshot,
                                 index: index,
                                 nameOf: 'parentName',
