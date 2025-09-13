@@ -16,6 +16,17 @@ dependencies:
   provider:
   flutter_screenutil: ^5.9.3
   easy_localization: ^3.0.8
+  country_flags: ^4.0.0
+  shared_preferences: ^2.5.3
+  cloud_firestore: ^6.0.1
+  firebase_core: ^4.1.0
+  intl: ^0.20.2
+  image_picker: ^1.2.0
+  firebase_storage: ^13.0.1
+  smooth_page_indicator: ^1.2.1
+  firebase_auth: ^6.0.2
+  fluttertoast: ^8.2.12
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:

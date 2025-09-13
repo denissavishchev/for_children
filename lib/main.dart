@@ -1,79 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:for_children/providers/kid_provider.dart';
+import 'package:for_children/providers/login_provider.dart';
+import 'package:for_children/screens/login_screens/auth_screen.dart';
+import 'package:for_children/screens/main_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'providers/parent_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyAQB9hcPJENDcNq6taQlMRRMNWoIlKQaGU',
+          appId: '1:403074544562:android:929551b8a32e0cb42faaab',
+          messagingSenderId: 'sendid',
+          projectId: 'forkids-6f5ab',
+          storageBucket: 'forkids-6f5ab.appspot.com',
+          authDomain: 'forkids-6f5ab.firebaseapp.com'
+    ));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+      EasyLocalization(
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('pl', 'PL'),
+          Locale('ru', 'RU'),],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en', 'US'),
+        child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ParentProvider>(create: (_) => ParentProvider()),
+              ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
+              ChangeNotifierProvider<KidProvider>(create: (_) => KidProvider()),
+            ],
+            builder: (context, child) {
+              return ScreenUtilInit(
+                designSize: const Size(720, 1560),
+                builder: (_, child) => MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
+                  home: prefs.getString('email') == null
+                    ? const AuthScreen()
+                    : const MainScreen(),
+                ),
+              );
+            }
+        )));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
