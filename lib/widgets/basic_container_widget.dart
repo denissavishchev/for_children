@@ -39,17 +39,17 @@ class BasicContainerWidget extends StatelessWidget {
                     height: height,
                     decoration: BoxDecoration(
                         color: kGrey,
-                        border: Border.all(width: 1, color: kBlue.withOpacity(0.2)),
+                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(0, 6)
                           ),
                           BoxShadow(
-                            color: kGrey.withOpacity(0.2),
+                            color: kGrey.withValues(alpha: 0.2),
                             blurRadius: 2,
                             spreadRadius: 2,
                           ),
@@ -74,7 +74,7 @@ class BasicContainerWidget extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 6),
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: kBlue.withOpacity(0.1),
+                            color: kBlue.withValues(alpha: 0.1),
                             borderRadius: const BorderRadius.horizontal(
                                 right: Radius.circular(4)
                             ),
@@ -88,7 +88,7 @@ class BasicContainerWidget extends StatelessWidget {
                             children: [
                               Text('taskPrice'.tr(),
                                 style: kTextStyle.copyWith(
-                                    color: kBlue.withOpacity(0.6)),),
+                                    color: kBlue.withValues(alpha: 0.6)),),
                               Text(snapshot.data?.docs[index].get('price'),
                                 style: kTextStyle,),
                             ],
@@ -107,17 +107,17 @@ class BasicContainerWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 3),
                     decoration: BoxDecoration(
                         color: kGrey,
-                        border: Border.all(width: 1, color: kBlue.withOpacity(0.2)),
+                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(0, 6)
                           ),
                           BoxShadow(
-                            color: kGrey.withOpacity(0.2),
+                            color: kGrey.withValues(alpha: 0.2),
                             blurRadius: 2,
                             spreadRadius: 2,
                           ),

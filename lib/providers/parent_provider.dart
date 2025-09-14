@@ -534,7 +534,7 @@ class ParentProvider with ChangeNotifier {
                     width: size.width,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: kBlue.withOpacity(0.1),
+                      color: kBlue.withValues(alpha: 0.1),
                       borderRadius: const BorderRadius.horizontal(
                           right: Radius.circular(4)
                       ),
@@ -548,7 +548,7 @@ class ParentProvider with ChangeNotifier {
                     padding: const EdgeInsets.all(12),
                     margin: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        color: kBlue.withOpacity(0.1),
+                        color: kBlue.withValues(alpha: 0.1),
                         borderRadius: const BorderRadius.all(Radius.circular(4))
                     ),
                     child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyle),

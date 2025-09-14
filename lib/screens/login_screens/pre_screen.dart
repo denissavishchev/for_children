@@ -78,7 +78,7 @@ class OnboardButtonWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      onboard == selectedOnboard ? kGrey.withOpacity(0.7) : kGrey,
+                      onboard == selectedOnboard ? kGrey.withValues(alpha: 0.7) : kGrey,
                       kGrey,
                     ],
                     begin: Alignment.topLeft,
@@ -90,7 +90,7 @@ class OnboardButtonWidget extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(
+                        color: Colors.black.withValues(alpha:
                             onboard == selectedOnboard
                             ? 0.3 : 0.2),
                         blurRadius: onboard == selectedOnboard ? 2 : 6,
@@ -98,7 +98,7 @@ class OnboardButtonWidget extends StatelessWidget {
                         offset: Offset(0, onboard == selectedOnboard ? 2 : 6)
                     ),
                     BoxShadow(
-                      color: kGrey.withOpacity(0.2),
+                      color: kGrey.withValues(alpha: 0.2),
                       blurRadius: 2,
                       spreadRadius: 2,
                     ),
@@ -110,12 +110,12 @@ class OnboardButtonWidget extends StatelessWidget {
                     text.tr(),
                     style: kBigTextStyle.copyWith(color: onboard == selectedOnboard
                         ? kBlue
-                        : kBlue.withOpacity(0.5)),),
+                        : kBlue.withValues(alpha: 0.5)),),
                   Text(
                     description.tr(),
                     style: kTextStyle.copyWith(color: onboard == selectedOnboard
                         ? kBlue
-                        : kBlue.withOpacity(0.5)),),
+                        : kBlue.withValues(alpha: 0.5)),),
                 ],
               ),
             ),

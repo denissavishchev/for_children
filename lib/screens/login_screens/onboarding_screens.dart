@@ -48,8 +48,8 @@ class OnboardingScreens extends StatelessWidget {
                               dotWidth: 12,
                               dotHeight: 12,
                               spacing: 6,
-                              dotColor: kBlue.withOpacity(0.5),
-                              activeDotColor: kBlue.withOpacity(0.8)
+                              dotColor: kBlue.withValues(alpha: 0.5),
+                              activeDotColor: kBlue.withValues(alpha: 0.8)
                             ),
                           onDotClicked: (index){
                               data.onboardingController.animateToPage(

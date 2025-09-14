@@ -72,7 +72,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                                     width: size.width,
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
-                                      color: kOrange.withOpacity(0.7),
+                                      color: kOrange.withValues(alpha: 0.7),
                                       borderRadius: const BorderRadius.horizontal(
                                           right: Radius.circular(4)
                                       ),
@@ -80,18 +80,18 @@ class KidsDescriptionScreen extends StatelessWidget {
                                     child: Text(snapshot.data?.docs[index].get('taskName'),
                                       style: kBigTextStyleWhite,),
                                   ),
-                                  Divider(color: kPurple.withOpacity(0.7), height: 0.1,),
+                                  Divider(color: kPurple.withValues(alpha: 0.7), height: 0.1,),
                                   Container(
                                     width: size.width,
                                     padding: const EdgeInsets.only(left: 12),
-                                    color: kOrange.withOpacity(0.7),
+                                    color: kOrange.withValues(alpha: 0.7),
                                     child: Column(
                                       children: [
                                         Row(
                                           children: [
                                             Text('taskPrice'.tr(),
                                               style: kTextStyle.copyWith(
-                                                  color: kWhite.withOpacity(0.6)),),
+                                                  color: kWhite.withValues(alpha: 0.6)),),
                                             Text(snapshot.data?.docs[index].get('price'),
                                               style: kTextStyleWhite,),
                                           ],
@@ -102,7 +102,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                                                 ? 'taskDeadline'.tr()
                                                 : '',
                                               style: kTextStyle.copyWith(
-                                                  color: kWhite.withOpacity(0.6)),),
+                                                  color: kWhite.withValues(alpha: 0.6)),),
                                             Text(snapshot.data?.docs[index].get('deadline') == 'false'
                                                 ? 'withoutDeadline'.tr()
                                                 : snapshot.data?.docs[index].get('deadline') != null
@@ -130,7 +130,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                               margin: EdgeInsets.fromLTRB(12, 12,
                                   snapshot.data?.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
                               decoration: BoxDecoration(
-                                  color: kOrange.withOpacity(0.7),
+                                  color: kOrange.withValues(alpha: 0.7),
                                   borderRadius: const BorderRadius.all(Radius.circular(4))
                               ),
                               child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyleWhite),
@@ -144,7 +144,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                               clipBehavior: Clip.hardEdge,
                               margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
                               decoration: BoxDecoration(
-                                color: kOrange.withOpacity(0.7),
+                                color: kOrange.withValues(alpha: 0.7),
                                 borderRadius: const BorderRadius.all(Radius.circular(4)),
                               ),
                               child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
@@ -279,7 +279,7 @@ class KidsDescriptionScreen extends StatelessWidget {
               itemSize: 60,
               ratingWidget: RatingWidget(
                 full: Icon(Icons.star,
-                    color: kOrange.withOpacity(0.9),
+                    color: kOrange.withValues(alpha: 0.9),
                     shadows: const [
                       BoxShadow(
                           color: kRed,
@@ -296,7 +296,7 @@ class KidsDescriptionScreen extends StatelessWidget {
 
                     ]),
                 empty: Icon(Icons.star_border,
-                    color: kOrange.withOpacity(0.9),
+                    color: kOrange.withValues(alpha: 0.9),
                     shadows: const [
                       BoxShadow(
                           color: kRed,
@@ -487,24 +487,24 @@ class ChangeButtonWidget extends StatelessWidget {
               margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
+                  border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.8)),
                   gradient: LinearGradient(
                       colors: [
-                        kBlue.withOpacity(0.4),
-                        kBlue.withOpacity(0.6)
+                        kBlue.withValues(alpha: 0.4),
+                        kBlue.withValues(alpha: 0.6)
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter
                   ),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 4,
                         spreadRadius: 2,
                         offset: const Offset(0, 1)
                     ),
                     BoxShadow(
-                      color: kGrey.withOpacity(0.2),
+                      color: kGrey.withValues(alpha: 0.2),
                       blurRadius: 2,
                       spreadRadius: 2,
                     ),

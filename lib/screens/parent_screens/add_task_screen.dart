@@ -98,7 +98,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                               width: size.width * 0.4,
                                               margin: const EdgeInsets.all(2),
                                               decoration: BoxDecoration(
-                                                color: kDarkGrey.withOpacity(0.3),
+                                                color: kDarkGrey.withValues(alpha: 0.3),
                                                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                                               ),
                                               child: Center(
@@ -217,7 +217,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             width: 100,
                             clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(
-                              color: kBlue.withOpacity(0.3),
+                              color: kBlue.withValues(alpha: 0.3),
                               borderRadius: const BorderRadius.all(Radius.circular(4)),
                             ),
                             child: data.image(),
@@ -278,7 +278,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     ? Container(
                   width: size.width,
                   height: size.height,
-                  color: kGrey.withOpacity(0.5),
+                  color: kGrey.withValues(alpha: 0.3),
                   child: const Center(child: CircularProgressIndicator(color: kBlue,),),
                 ) : const SizedBox.shrink()
               ],

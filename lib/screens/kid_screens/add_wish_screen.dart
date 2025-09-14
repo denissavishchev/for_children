@@ -90,7 +90,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                                     width: size.width * 0.4,
                                                     margin: const EdgeInsets.all(2),
                                                     decoration: BoxDecoration(
-                                                        color: kOrange.withOpacity(0.8),
+                                                        color: kOrange.withValues(alpha: 0.8),
                                                         borderRadius: const BorderRadius.all(Radius.circular(12)),
                                                         border: Border.all(
                                                             width: 2,
@@ -113,7 +113,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color: kOrange.withOpacity(0.2),
+                                          color: kOrange.withValues(alpha: 0.2),
                                           blurRadius: 10,
                                           offset: const Offset(0, -10)
                                         )
@@ -144,7 +144,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                 width: 100,
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
-                                  color: kOrange.withOpacity(0.8),
+                                  color: kOrange.withValues(alpha: 0.8),
                                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                                 ),
                                 child: data.fileName == ''
@@ -176,7 +176,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                         ? Container(
                       width: size.width,
                       height: size.height,
-                      color: kGrey.withOpacity(0.5),
+                      color: kGrey.withValues(alpha: 0.5),
                       child: const Center(child: CircularProgressIndicator(color: kBlue,),),
                     ) : const SizedBox.shrink()
                   ],

@@ -31,7 +31,7 @@ class OnboardingScreen extends StatelessWidget {
               margin: const EdgeInsets.all(12),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: kBlue.withOpacity(0.1),
+                color: kBlue.withValues(alpha: 0.1),
                 borderRadius: const BorderRadius.all(Radius.circular(4)),
               ),
               child: Column(

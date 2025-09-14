@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/screens/kid_screens/main_kid_screen.dart';
-import 'package:for_children/screens/login_screens/login_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/parent_provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -38,7 +36,10 @@ class _MainScreenState extends State<MainScreen> {
               }else if(data.role == 'child'){
                 return const MainKidScreen();
               }else{
-                return const LoginScreen();
+                return SizedBox(
+                    height: MediaQuery.sizeOf(context).height,
+                    width: MediaQuery.sizeOf(context).width,
+                    child: Image.asset('assets/images/bg.png', fit: BoxFit.cover,));
               }
             },
           );

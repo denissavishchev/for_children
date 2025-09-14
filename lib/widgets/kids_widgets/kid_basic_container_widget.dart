@@ -40,23 +40,23 @@ class KidBasicContainerWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            kLightBlue.withOpacity(0.8),
-                            kDarkBlue.withOpacity(0.8),
-                            kPurple.withOpacity(0.8),
+                            kLightBlue.withValues(alpha: 0.8),
+                            kDarkBlue.withValues(alpha: 0.8),
+                            kPurple.withValues(alpha: 0.8),
                           ],
                           stops: const [0, 0.5, 1]
                         ),
-                        border: Border.all(width: 1, color: kOrange.withOpacity(0.3)),
+                        border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(18)),
                         boxShadow: [
                           BoxShadow(
-                              color: kRed.withOpacity(0.6),
+                              color: kRed.withValues(alpha: 0.6),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(-6, 6)
                           ),
                           BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withValues(alpha: 0.3),
                               blurRadius: 1,
                               spreadRadius: 0.5,
                               offset: const Offset(-0.5, 0.5)
@@ -82,14 +82,14 @@ class KidBasicContainerWidget extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 6),
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: kOrange.withOpacity(0.8),
+                            color: kOrange.withValues(alpha: 0.8),
                             borderRadius: const BorderRadius.horizontal(
                                 right: Radius.circular(18)
                             ),
                             border: Border.all(width: 1, color: kDarkBlue),
                             boxShadow: [
                               BoxShadow(
-                                color: kWhite.withOpacity(0.3),
+                                color: kWhite.withValues(alpha: 0.3),
                                 spreadRadius: 2,
                                 blurRadius: 2
                               )
@@ -104,7 +104,7 @@ class KidBasicContainerWidget extends StatelessWidget {
                             children: [
                               Text('taskPrice'.tr(),
                                 style: kTextStyle.copyWith(
-                                    color: kWhite.withOpacity(0.6)),),
+                                    color: kWhite.withValues(alpha: 0.6)),),
                               Text(snapshot.data?.docs[index].get('price'),
                                 style: kTextStyleWhite,),
                             ],
@@ -124,23 +124,23 @@ class KidBasicContainerWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                             colors: [
-                              kPurple.withOpacity(0.8),
-                              kDarkBlue.withOpacity(0.8),
-                              kBlue.withOpacity(0.8),
+                              kPurple.withValues(alpha: 0.8),
+                              kDarkBlue.withValues(alpha: 0.8),
+                              kBlue.withValues(alpha: 0.8),
                             ],
                             stops: const [0.1, 1, 0.1]
                         ),
-                        border: Border.all(width: 1, color: kOrange.withOpacity(0.3)),
+                        border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(18)),
                         boxShadow: [
                           BoxShadow(
-                              color: kRed.withOpacity(0.6),
+                              color: kRed.withValues(alpha: 0.6),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(-4, 6)
                           ),
                           BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withValues(alpha: 0.3),
                               blurRadius: 1,
                               spreadRadius: 0.5,
                               offset: const Offset(-0.5, 0.5)

@@ -54,23 +54,23 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                         colors: [
-                                          kLightBlue.withOpacity(0.8),
-                                          kDarkBlue.withOpacity(0.8),
-                                          kPurple.withOpacity(0.8),
+                                          kLightBlue.withValues(alpha: 0.8),
+                                          kDarkBlue.withValues(alpha: 0.8),
+                                          kPurple.withValues(alpha: 0.8),
                                         ],
                                         stops: const [0, 0.5, 1]
                                     ),
-                                    border: Border.all(width: 1, color: kOrange.withOpacity(0.3)),
+                                    border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
                                     borderRadius: const BorderRadius.all(Radius.circular(18)),
                                     boxShadow: [
                                       BoxShadow(
-                                          color: kRed.withOpacity(0.6),
+                                          color: kRed.withValues(alpha: 0.6),
                                           blurRadius: 6,
                                           spreadRadius: 2,
                                           offset: const Offset(-4, 6)
                                       ),
                                       BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
+                                          color: Colors.black.withValues(alpha: 0.3),
                                           blurRadius: 1,
                                           spreadRadius: 0.5,
                                           offset: const Offset(-0.5, 0.5)
@@ -88,7 +88,7 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                           clipBehavior: Clip.hardEdge,
                                           margin: const EdgeInsets.all(3),
                                           decoration: BoxDecoration(
-                                            color: kBlue.withOpacity(0.3),
+                                            color: kBlue.withValues(alpha: 0.3),
                                             borderRadius: const BorderRadius.all(Radius.circular(4)),
                                           ),
                                           child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),

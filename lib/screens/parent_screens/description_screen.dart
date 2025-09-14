@@ -62,7 +62,7 @@ class DescriptionScreen extends StatelessWidget {
                                 width: size.width,
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: kBlue.withOpacity(0.1),
+                                  color: kBlue.withValues(alpha: 0.1),
                                   borderRadius: const BorderRadius.horizontal(
                                       right: Radius.circular(4)
                                   ),
@@ -70,18 +70,18 @@ class DescriptionScreen extends StatelessWidget {
                                 child: Text(snapshot.data?.docs[index].get('taskName'),
                                   style: kBigTextStyle,),
                               ),
-                              Divider(color: kBlue.withOpacity(0.2), height: 0.1,),
+                              Divider(color: kBlue.withValues(alpha: 0.2), height: 0.1,),
                               Container(
                                 width: size.width,
                                 padding: const EdgeInsets.only(left: 12),
-                                color: kBlue.withOpacity(0.1),
+                                color: kBlue.withValues(alpha: 0.1),
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
                                         Text('taskPrice'.tr(),
                                           style: kTextStyle.copyWith(
-                                              color: kBlue.withOpacity(0.6)),),
+                                              color: kBlue.withValues(alpha: 0.6)),),
                                         Text(snapshot.data?.docs[index].get('price'),
                                           style: kTextStyle,),
                                       ],
@@ -92,7 +92,7 @@ class DescriptionScreen extends StatelessWidget {
                                             ? 'taskDeadline'.tr()
                                             : '',
                                           style: kTextStyle.copyWith(
-                                              color: kBlue.withOpacity(0.6)),),
+                                              color: kBlue.withValues(alpha: 0.6)),),
                                         Text(snapshot.data?.docs[index].get('deadline') == 'false'
                                             ? 'withoutDeadline'.tr()
                                             : snapshot.data?.docs[index].get('deadline') != null
@@ -120,7 +120,7 @@ class DescriptionScreen extends StatelessWidget {
                           margin: EdgeInsets.fromLTRB(12, 12,
                               snapshot.data?.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
                           decoration: BoxDecoration(
-                              color: kBlue.withOpacity(0.1),
+                              color: kBlue.withValues(alpha: 0.1),
                               borderRadius: const BorderRadius.all(Radius.circular(4))
                           ),
                           child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyle),
@@ -134,7 +134,7 @@ class DescriptionScreen extends StatelessWidget {
                           clipBehavior: Clip.hardEdge,
                           margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
                           decoration: BoxDecoration(
-                            color: kBlue.withOpacity(0.3),
+                            color: kBlue.withValues(alpha: 0.3),
                             borderRadius: const BorderRadius.all(Radius.circular(4)),
                           ),
                           child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
@@ -462,24 +462,24 @@ class ChangeButtonWidget extends StatelessWidget {
               margin: const EdgeInsets.fromLTRB(12, 0, 0, 4),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
+                  border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.8)),
                   gradient: LinearGradient(
                       colors: [
-                        kBlue.withOpacity(0.4),
-                        kBlue.withOpacity(0.6)
+                        kBlue.withValues(alpha: 0.4),
+                        kBlue.withValues(alpha: 0.6)
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter
                   ),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 4,
                         spreadRadius: 2,
                         offset: const Offset(0, 1)
                     ),
                     BoxShadow(
-                      color: kGrey.withOpacity(0.2),
+                      color: kGrey.withValues(alpha: 0.2),
                       blurRadius: 2,
                       spreadRadius: 2,
                     ),

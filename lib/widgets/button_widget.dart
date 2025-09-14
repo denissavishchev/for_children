@@ -25,24 +25,24 @@ class ButtonWidget extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  border: Border.all(width: 1, color: kBlue.withOpacity(0.8)),
+                  border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.8)),
                   gradient: LinearGradient(
                       colors: [
-                        kBlue.withOpacity(0.4),
-                        kBlue.withOpacity(0.6)
+                        kBlue.withValues(alpha: 0.4),
+                        kBlue.withValues(alpha: 0.6)
                       ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter
                   ),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 6,
                         spreadRadius: 2,
                         offset: const Offset(0, 6)
                     ),
                     BoxShadow(
-                      color: kGrey.withOpacity(0.2),
+                      color: kGrey.withValues(alpha: 0.2),
                       blurRadius: 2,
                       spreadRadius: 2,
                     ),

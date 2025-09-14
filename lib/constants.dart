@@ -20,7 +20,7 @@ final kTextStyle = TextStyle(
 );
 
 final kTextStyleWhite = TextStyle(
-    color: kWhite.withOpacity(0.8),
+    color: kWhite.withValues(alpha: 0.8),
     fontWeight: FontWeight.bold,
     fontSize: 24.sp,
     // fontFamily: 'Roboto'
@@ -55,7 +55,7 @@ final kBigTextStyle = TextStyle(
 );
 
 final kBigTextStyleWhite = TextStyle(
-    color: kWhite.withOpacity(0.8),
+    color: kWhite.withValues(alpha: 0.8),
     fontWeight: FontWeight.bold,
     fontSize: 32.sp,
     // fontFamily: 'Roboto'
