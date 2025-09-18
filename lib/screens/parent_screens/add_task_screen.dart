@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/info_widget.dart';
+import '../../widgets/parents_widget/exp_scroll_widget.dart';
+import '../../widgets/parents_widget/select_task_type_widget.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -40,8 +42,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SingleChildScrollView(
                     child: Column(
+                      spacing: 18,
                       children: [
-                        const SizedBox(height: 18,),
                         Row(
                           children: [
                             IconButton(
@@ -56,10 +58,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             const Spacer(),
                           ],
                         ),
-                        const SizedBox(height: 18,),
                         Form(
                           key: data.taskKey,
                           child: Column(
+                            spacing: 18,
                             children: [
                               SizedBox(
                                   width: size.width,
@@ -113,7 +115,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     },
                                   )
                               ),
-                              const SizedBox(height: 18,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  SelectTaskTypeWidget(),
+                                  ExpScrollWidget()
+                                ],
+                              ),
                               TextFormField(
                                 controller: data.addTaskNameController,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -128,7 +136,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   return null;
                                 },
                               ),
-                              const SizedBox(height: 18,),
                               TextFormField(
                                 controller: data.addTaskDescriptionController,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -140,7 +147,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     label: Text('description'.tr(),)),
                                 maxLength: 256,
                               ),
-                              const SizedBox(height: 18,),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -179,7 +185,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 18,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -210,7 +215,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 30,),
                         GestureDetector(
                           onTap: () => data.isEdit ? null : data.pickAnImage(),
                           child: Container(
@@ -223,7 +227,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             child: data.image(),
                           ),
                         ),
-                        const SizedBox(height: 30,),
                         ButtonWidget(
                           onTap: () => data.isEdit
                                   ? data.editTaskInBase(context, data.editDocId)
@@ -249,9 +252,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                           }else{
                                             return const SizedBox.shrink();
                                           }
-                                }
+                                        }
                                         return null;
-                                }
+                                    }
                                   );
                                 }else{
                                   return const CircularProgressIndicator();
@@ -289,6 +292,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     );
   }
 }
+
+
 
 
 

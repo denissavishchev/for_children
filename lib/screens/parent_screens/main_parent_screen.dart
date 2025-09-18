@@ -6,7 +6,7 @@ import 'package:for_children/screens/parent_screens/add_task_screen.dart';
 import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
 import 'parent_settings_screen.dart';
-import '../../widgets/parent_tiles_list_widget.dart';
+import '../../widgets/parents_widget/parent_tiles_list_widget.dart';
 
 class MainParentScreen extends StatelessWidget {
   const MainParentScreen({super.key});

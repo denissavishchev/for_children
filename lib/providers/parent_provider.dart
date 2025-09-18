@@ -31,6 +31,9 @@ class ParentProvider with ChangeNotifier {
   bool isLoading = false;
 
   List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
+  List<String> taskTypes = ['home', 'study', 'sport', 'family', 'art', 'health', 'ecology', 'hobby'];
+  String selectedTypeStatus = 'home';
+  String expQty = '1';
 
   String imageUrl = '';
   String fileName = '';
@@ -390,7 +393,9 @@ class ParentProvider with ChangeNotifier {
         'deadline': isDeadline ? taskDeadline.toString() : 'false',
         'stars' : '0',
         'imageUrl' : fileName == '' ? 'false' : imageUrl,
-        'time' : DateTime.now().toString()
+        'time' : DateTime.now().toString(),
+        'type' : selectedTypeStatus,
+        'expQty' : expQty,
       });
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
@@ -419,7 +424,9 @@ class ParentProvider with ChangeNotifier {
       'description': addTaskDescriptionController.text,
       'price': addTaskPriceController.text,
       'deadline': isDeadline ? taskDeadline.toString() : 'false',
-      'time' : DateTime.now().toString()
+      'time' : DateTime.now().toString(),
+      'type' : selectedTypeStatus,
+      'expQty' : expQty,
     });
     addTaskNameController.clear();
     addTaskDescriptionController.clear();
@@ -430,6 +437,8 @@ class ParentProvider with ChangeNotifier {
     fileName = '';
     selectedKidName = '';
     selectedKidEmail = '';
+    selectedTypeStatus = 'home';
+    expQty = '1';
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         const MainParentScreen()));
@@ -621,6 +630,8 @@ class ParentProvider with ChangeNotifier {
       isDeadline = data?['deadline'] == 'false' ? false : true;
       fileName = data?['imageUrl'];
       editDocId = docId;
+      selectedTypeStatus = data?['type'] ?? 'home';
+      expQty = data?['expQty'] ?? '1';
     }
   }
 
@@ -659,6 +670,11 @@ class ParentProvider with ChangeNotifier {
 
   void setLanguage(context, Locale locale){
     context.setLocale(locale);
+    notifyListeners();
+  }
+
+  void setExp(int value){
+    expQty = value.toString();
     notifyListeners();
   }
 

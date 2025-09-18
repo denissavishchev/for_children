@@ -84,7 +84,6 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                     snapshot.data?.docs[index].get('imageUrl') == 'false'
                                         ? const SizedBox.shrink()
                                         : Container(
-
                                           clipBehavior: Clip.hardEdge,
                                           margin: const EdgeInsets.all(3),
                                           decoration: BoxDecoration(

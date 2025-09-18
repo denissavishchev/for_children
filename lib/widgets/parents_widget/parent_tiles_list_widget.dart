@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/description_screen.dart';
 import 'package:provider/provider.dart';
-import 'basic_container_widget.dart';
+import '../basic_container_widget.dart';
 
 class ParentTilesListWidget extends StatefulWidget {
   const ParentTilesListWidget({
