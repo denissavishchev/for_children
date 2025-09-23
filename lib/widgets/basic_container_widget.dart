@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/stars_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
-
 
 class BasicContainerWidget extends StatelessWidget {
   const BasicContainerWidget({
@@ -59,12 +59,16 @@ class BasicContainerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(snapshot.data?.docs[index].get(nameOf),
                                 style: kBigTextStyle,),
+                              Text((snapshot.data!.docs[index].data().containsKey('type')
+                                  ? snapshot.data?.docs[index].get('type')
+                                  : ''),
+                                style: kTextStyle,),
                             ],
                           ),
                         ),
@@ -83,7 +87,7 @@ class BasicContainerWidget extends StatelessWidget {
                             style: kBigTextStyle,),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             children: [
                               Text('taskPrice'.tr(),
@@ -91,6 +95,19 @@ class BasicContainerWidget extends StatelessWidget {
                                     color: kBlue.withValues(alpha: 0.6)),),
                               Text(snapshot.data?.docs[index].get('price'),
                                 style: kTextStyle,),
+                              Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: List.generate(3, ((i){
+                                  return SvgPicture.asset('assets/icons/pepper.svg',
+                                    width: 12,
+                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.data!.docs[index].data().containsKey('expQty')
+                                        ? int.parse(snapshot.data?.docs[index].get('expQty'))
+                                        : 1)
+                                        ? kRed : kGrey, BlendMode.srcIn),
+                                  );
+                                })),
+                              )
                             ],
                           ),
                         )

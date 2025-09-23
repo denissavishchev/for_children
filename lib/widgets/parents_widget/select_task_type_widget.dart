@@ -21,7 +21,7 @@ class SelectTaskTypeWidget extends StatelessWidget {
                 color: kDarkGrey,
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
-              child: Text('add'),
+              child: Center(child: Text(data.selectedTypeStatus)),
             ),
           );
         }
@@ -36,37 +36,52 @@ class SelectTaskTypeWidget extends StatelessWidget {
         isDismissible: false,
         backgroundColor: Colors.transparent,
         builder: (context) {
-          return GestureDetector(
-            onTap: () {},
-            child: Container(
-                height: size.height * 0.2,
-                width: size.width,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                margin: const EdgeInsets.only(bottom: 300),
-                decoration: const BoxDecoration(
-                  color: kGrey,
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                ),
-                child: Column(
-                  children: [
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: List.generate(data.taskTypes.length, (index){
-                        return Container(
-                          width: 40,
-                          height: 40,
-                          color: kRed,
-                        );
-                      }),
+          return StatefulBuilder(
+              builder: (context, setState){
+                return Container(
+                    height: size.height * 0.6,
+                    width: size.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    margin: EdgeInsets.fromLTRB(12, 0, 12, size.height * 0.2) ,
+                    decoration: const BoxDecoration(
+                      color: kGrey,
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
                     ),
-                    Text(data.selectedTypeStatus, style: kTextStyle,),
-                    IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.close))
-                  ],
-                )
-            ),
+                    child: Column(
+                      spacing: 12,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(Icons.close, color: kBlue, size: 32,)),
+                        ),
+                        Column(
+                          spacing: 12,
+                          children: List.generate(data.taskTypes.length, (index){
+                            return GestureDetector(
+                              onTap: () => setState(() => data.changeTypeStatus(data.taskTypes[index])),
+                              child: Container(
+                                width: 200,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: kDarkGrey,
+                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                    border: Border.all(
+                                        width: 2,
+                                        color: data.selectedTypeStatus == data.taskTypes[index]
+                                            ? kBlue : kDarkGrey)
+                                ),
+                                child: Center(child: Text(data.taskTypes[index])),
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
+                    )
+                );
+              }
           );
         });
   }

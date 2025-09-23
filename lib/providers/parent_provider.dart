@@ -33,12 +33,12 @@ class ParentProvider with ChangeNotifier {
   List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
   List<String> taskTypes = ['home', 'study', 'sport', 'family', 'art', 'health', 'ecology', 'hobby'];
   String selectedTypeStatus = 'home';
-  String expQty = '1';
+  int selectedExp = 1;
 
   String imageUrl = '';
   String fileName = '';
   late Reference imageToUpload;
-  late XFile? file;
+  XFile? file = XFile('');
   late Future<void> getKid;
   late Future<void> getEmailVoid;
   Map<String, String> kidsList = {};
@@ -395,7 +395,7 @@ class ParentProvider with ChangeNotifier {
         'imageUrl' : fileName == '' ? 'false' : imageUrl,
         'time' : DateTime.now().toString(),
         'type' : selectedTypeStatus,
-        'expQty' : expQty,
+        'expQty' : selectedExp.toString(),
       });
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
@@ -426,7 +426,7 @@ class ParentProvider with ChangeNotifier {
       'deadline': isDeadline ? taskDeadline.toString() : 'false',
       'time' : DateTime.now().toString(),
       'type' : selectedTypeStatus,
-      'expQty' : expQty,
+      'expQty' : selectedExp.toString(),
     });
     addTaskNameController.clear();
     addTaskDescriptionController.clear();
@@ -438,7 +438,7 @@ class ParentProvider with ChangeNotifier {
     selectedKidName = '';
     selectedKidEmail = '';
     selectedTypeStatus = 'home';
-    expQty = '1';
+    selectedExp = 1;
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         const MainParentScreen()));
@@ -631,7 +631,7 @@ class ParentProvider with ChangeNotifier {
       fileName = data?['imageUrl'];
       editDocId = docId;
       selectedTypeStatus = data?['type'] ?? 'home';
-      expQty = data?['expQty'] ?? '1';
+      selectedExp = int.tryParse(data?['expQty']) ?? 1;
     }
   }
 
@@ -643,7 +643,7 @@ class ParentProvider with ChangeNotifier {
         return Image.network(fileName);
       }
     }else{
-      if(fileName == ''){
+      if(fileName == '' || file!.path == ''){
         return const Icon(Icons.camera_alt);
       }else{
         return Image.file(File(file!.path), fit: BoxFit.cover,);
@@ -674,8 +674,13 @@ class ParentProvider with ChangeNotifier {
   }
 
   void setExp(int value){
-    expQty = value.toString();
+    selectedExp = value;
     notifyListeners();
   }
+
+  void changeTypeStatus(String type){
+    selectedTypeStatus = type;
+    notifyListeners();
+    }
 
 }

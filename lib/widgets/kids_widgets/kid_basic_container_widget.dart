@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -67,12 +68,16 @@ class KidBasicContainerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(snapshot.data?.docs[index].get(nameOf),
                                 style: kBigTextStyleWhite,),
+                              Text((snapshot.data!.docs[index].data().containsKey('type')
+                                  ? snapshot.data?.docs[index].get('type')
+                                  : ''),
+                                style: kTextStyleWhite,),
                             ],
                           ),
                         ),
@@ -99,7 +104,7 @@ class KidBasicContainerWidget extends StatelessWidget {
                             style: kBigTextStyleWhite,),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             children: [
                               Text('taskPrice'.tr(),
@@ -107,6 +112,19 @@ class KidBasicContainerWidget extends StatelessWidget {
                                     color: kWhite.withValues(alpha: 0.6)),),
                               Text(snapshot.data?.docs[index].get('price'),
                                 style: kTextStyleWhite,),
+                              Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: List.generate(3, ((i){
+                                  return SvgPicture.asset('assets/icons/pepper.svg',
+                                    width: 14,
+                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.data!.docs[index].data().containsKey('expQty')
+                                        ? int.parse(snapshot.data?.docs[index].get('expQty'))
+                                        : 1)
+                                        ? kRed : Colors.transparent, BlendMode.srcIn),
+                                  );
+                                })),
+                              )
                             ],
                           ),
                         )

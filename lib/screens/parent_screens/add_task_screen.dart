@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/info_widget.dart';
-import '../../widgets/parents_widget/exp_scroll_widget.dart';
+import '../../widgets/parents_widget/exp_widget.dart';
 import '../../widgets/parents_widget/select_task_type_widget.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -119,7 +119,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   SelectTaskTypeWidget(),
-                                  ExpScrollWidget()
+                                  ExpWidget()
                                 ],
                               ),
                               TextFormField(

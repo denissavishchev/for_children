@@ -27,6 +27,7 @@ dependencies:
   firebase_auth: ^6.0.2
   fluttertoast: ^8.2.12
   flutter_rating_bar: ^4.0.1
+  flutter_svg: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -41,10 +42,6 @@ flutter:
   assets:
     - assets/translations/
     - assets/images/
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+    - assets/icons/
 
 
