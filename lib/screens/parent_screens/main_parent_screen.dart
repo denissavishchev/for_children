@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/history_screen.dart';
-import 'package:for_children/screens/parent_screens/add_task_screen.dart';
+import 'package:for_children/screens/parent_screens/select_add_task_screen.dart';
 import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
 import 'parent_settings_screen.dart';
@@ -51,12 +51,10 @@ class MainParentScreen extends StatelessWidget {
                                   size: 32,
                                 )),
                             IconButton(
-                                onPressed: () {
-                                  data.isEdit = false;
+                                onPressed: () =>
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
-                                      const AddTaskScreen()));
-                                },
+                                      const SelectAddTaskScreen())),
                                 icon: const Icon(
                                   Icons.add_circle_outline,
                                   color: kBlue,
