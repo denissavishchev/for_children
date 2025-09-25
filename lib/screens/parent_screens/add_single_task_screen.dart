@@ -11,14 +11,14 @@ import '../../widgets/info_widget.dart';
 import '../../widgets/parents_widget/exp_widget.dart';
 import '../../widgets/parents_widget/select_task_type_widget.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+class AddSingleTaskScreen extends StatefulWidget {
+  const AddSingleTaskScreen({super.key});
 
   @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
+  State<AddSingleTaskScreen> createState() => _AddSingleTaskScreenState();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
+class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
 
   @override
   void initState() {
@@ -119,7 +119,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   SelectTaskTypeWidget(),
-                                  ExpWidget()
+                                  ExpWidget(count: 3,)
                                 ],
                               ),
                               TextFormField(
@@ -229,8 +229,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ),
                         ButtonWidget(
                           onTap: () => data.isEdit
-                                  ? data.editTaskInBase(context, data.editDocId)
-                                  : data.addTaskToBase(context),
+                                  ? data.editSingleTaskInBase(context, data.editDocId)
+                                  : data.addSingleTaskToBase(context),
                           text: data.isEdit ? 'edit' : 'add',
                         ),
                         SizedBox(

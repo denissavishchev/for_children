@@ -3,7 +3,8 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
-import 'add_task_screen.dart';
+import 'add_multi_task_screen.dart';
+import 'add_single_task_screen.dart';
 import 'main_parent_screen.dart';
 
 class SelectAddTaskScreen extends StatelessWidget {
@@ -34,7 +35,12 @@ class SelectAddTaskScreen extends StatelessWidget {
                       ],
                     ),
                     ButtonWidget(
-                        onTap: (){},
+                        onTap: (){
+                          data.isEdit = false;
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              const AddMultiTaskScreen()));
+                        },
                         text: 'multitask'
                     ),
                     ButtonWidget(
@@ -42,7 +48,7 @@ class SelectAddTaskScreen extends StatelessWidget {
                           data.isEdit = false;
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
-                              const AddTaskScreen()));
+                              const AddSingleTaskScreen()));
                         },
                         text: 'single task'
                     ),

@@ -24,6 +24,7 @@ class ParentProvider with ChangeNotifier {
   TextEditingController descriptionController = TextEditingController();
   String selectedKidName = '';
   String selectedKidEmail = '';
+  double daySlider = 10;
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -34,6 +35,8 @@ class ParentProvider with ChangeNotifier {
   List<String> taskTypes = ['home', 'study', 'sport', 'family', 'art', 'health', 'ecology', 'hobby'];
   String selectedTypeStatus = 'home';
   int selectedExp = 1;
+  List<String> days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  List<int> daysNumbers = List.filled(7, 1);
 
   String imageUrl = '';
   String fileName = '';
@@ -363,7 +366,7 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future addTaskToBase(context)async{
+  Future addSingleTaskToBase(context)async{
     isLoading = true;
     notifyListeners();
     if(selectedKidName != ''){
@@ -416,7 +419,7 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void>editTaskInBase(context, String docId)async{
+  Future<void>editSingleTaskInBase(context, String docId)async{
     await FirebaseFirestore.instance.collection('tasks').doc(docId).update({
       'kidName': selectedKidName,
       'kidEmail': selectedKidEmail,
@@ -682,5 +685,19 @@ class ParentProvider with ChangeNotifier {
     selectedTypeStatus = type;
     notifyListeners();
     }
+
+  void changeDaySlider(double v){
+    daySlider = v;
+    notifyListeners();
+  }
+
+  void switchDayStatus(int i){
+    if(daysNumbers[i] == 1){
+      daysNumbers[i] = 0;
+    }else{
+      daysNumbers[i] = 1;
+    }
+    notifyListeners();
+  }
 
 }

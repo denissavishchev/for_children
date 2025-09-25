@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
-import 'package:for_children/screens/parent_screens/add_task_screen.dart';
+import 'package:for_children/screens/parent_screens/add_single_task_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -187,7 +187,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                                   data.searchForEditing(snapshot.data!.docs[index].id.toString());
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
-                                      const AddTaskScreen()));
+                                      const AddSingleTaskScreen()));
                                 },
 
                                 icon: const Icon(Icons.edit, size: 32, color: kBlue,))

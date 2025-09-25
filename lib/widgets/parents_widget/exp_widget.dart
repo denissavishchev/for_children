@@ -5,15 +5,16 @@ import '../../providers/parent_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ExpWidget extends StatelessWidget {
-  const ExpWidget({super.key});
+  const ExpWidget({super.key, required this.count});
+
+  final double count;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ParentProvider>(
         builder: (context, data, _){
-          // data.setExp(index)
           return Container(
-            width: 140,
+            width: 40 * count,
             height: 50,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
@@ -22,7 +23,7 @@ class ExpWidget extends StatelessWidget {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(3, ((i){
+              children: List.generate(count.toInt(), ((i){
                 return GestureDetector(
                   onTap: () => data.setExp(i + 1),
                   child: SvgPicture.asset('assets/icons/pepper.svg',
