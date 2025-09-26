@@ -419,6 +419,61 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future addMultiTaskToBase(context)async{
+    isLoading = true;
+    notifyListeners();
+    if(selectedKidName != ''){
+      if(fileName != ''){
+        try{
+          await imageToUpload.putFile(File(file!.path));
+          imageUrl = await imageToUpload.getDownloadURL();
+        }catch(e){
+          return;
+        }
+      }
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.getString('email');
+      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+      instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+      String parentName = doc.data()?['name'];
+      await FirebaseFirestore.instance.collection('multiTasks').add({
+        'priceStatus': 'set',
+        'parentName': parentName,
+        'parentEmail': prefs.getString('email'),
+        'kidName': selectedKidName,
+        'kidEmail': selectedKidEmail,
+        'taskName': addTaskNameController.text,
+        'description': addTaskDescriptionController.text,
+        'status': 'price',
+        'price': addTaskPriceController.text,
+        'stars' : '0',
+        'imageUrl' : fileName == '' ? 'false' : imageUrl,
+        'time' : DateTime.now().toString(),
+        'type' : selectedTypeStatus,
+        'expQty' : selectedExp.toString(),
+        'daysNumber' : daySlider,
+        'weekDays' : daysNumbers,
+      });
+      addTaskNameController.clear();
+      addTaskDescriptionController.clear();
+      addTaskPriceController.clear();
+      isDeadline = false;
+      imageUrl = '';
+      fileName = '';
+      selectedKidName = '';
+      selectedKidEmail = '';
+      daySlider = 10;
+      daysNumbers = List.filled(7, 1);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) =>
+          const MainParentScreen()));
+    }else{
+      sadToast('selectKid');
+    }
+    isLoading = false;
+    notifyListeners();
+  }
+
   Future<void>editSingleTaskInBase(context, String docId)async{
     await FirebaseFirestore.instance.collection('tasks').doc(docId).update({
       'kidName': selectedKidName,
