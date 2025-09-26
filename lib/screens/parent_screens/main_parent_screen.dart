@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
@@ -6,7 +7,9 @@ import 'package:for_children/screens/parent_screens/select_add_task_screen.dart'
 import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
 import 'parent_settings_screen.dart';
-import '../../widgets/parents_widget/parent_tiles_list_widget.dart';
+import '../../widgets/parents_widget/parent_single_task_list_widget.dart';
+import '../../widgets/parents_widget/parent_multi_task_list_widget.dart';
+import 'package:rxdart/rxdart.dart';
 
 class MainParentScreen extends StatelessWidget {
   const MainParentScreen({super.key});
@@ -63,7 +66,33 @@ class MainParentScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const ParentTilesListWidget()
+                      StreamBuilder(
+                          stream: CombineLatestStream.list([
+                            FirebaseFirestore.instance
+                                .collection('tasks')
+                                .orderBy('time', descending: true)
+                                .snapshots(),
+                            FirebaseFirestore.instance
+                                .collection('multiTasks')
+                                .orderBy('time', descending: true)
+                                .snapshots(),
+                          ]),
+                          builder: (context, snapshot){
+                            if (!snapshot.hasData) return CircularProgressIndicator();
+                            return SizedBox(
+                              height: size.height * 0.8,
+                              child: PageView.builder(
+                                  controller: data.taskPageController,
+                                  itemCount: 2,
+                                  itemBuilder: (context, index){
+                                    return index == 0
+                                      ? ParentSingleTaskListWidget(snapshot: snapshot.data![0])
+                                      : ParentMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                  }
+                              ),
+                            );
+                          }
+                      ),
                     ],
                   ),
                   Positioned(
@@ -73,7 +102,31 @@ class MainParentScreen extends StatelessWidget {
                         info: data.mainParentInfo,
                         onTap: () => data.switchParentInfo(),
                         text: 'mainParentInfo',
-                        height: 0.2,))
+                        height: 0.2,)),
+                  Positioned(
+                    bottom: 10,
+                      child: Container(
+                        width: size.width,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          color: kGrey,
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => data.switchTaskScreen(0),
+                              child: Text('Single task'),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => data.switchTaskScreen(1),
+                              child: Text('Multitask'),
+                            ),
+                          ],
+                        ),
+                      )
+                  )
                 ],
               ),
             );

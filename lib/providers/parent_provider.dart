@@ -22,6 +22,7 @@ class ParentProvider with ChangeNotifier {
   TextEditingController kidSearchController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  PageController taskPageController = PageController();
   String selectedKidName = '';
   String selectedKidEmail = '';
   double daySlider = 10;
@@ -307,15 +308,15 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future changePriceStatus(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, String? role)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+  Future changePriceStatus(QuerySnapshot<Map<String, dynamic>> snapshot, int index, String? role)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
       'price': priceController.text.trim(),
       'priceStatus': role == 'parent' ? 'set' : 'changed'
     });
   }
 
-  Future changeToInProgress(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+  Future changeToInProgress(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
       'status': 'inProgress'
     });
     Navigator.pushReplacement(context,
@@ -325,8 +326,8 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToDone(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+  Future changeToDone(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
       'status': 'done'
     });
     Navigator.pushReplacement(context,
@@ -336,8 +337,8 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToChecked(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+  Future changeToChecked(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
       'status': 'checked',
       'stars': stars.toString()
     });
@@ -348,8 +349,8 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToPaid(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.data?.docs[index].id).update({
+  Future changeToPaid(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
+    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
       'status': 'paid',
     });
     Navigator.pushReplacement(context,
@@ -517,7 +518,7 @@ class ParentProvider with ChangeNotifier {
     });
   }
 
-  Future<void>addTaskToHistory(context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+  Future<void>addTaskToHistory(context, QuerySnapshot<Map<String, dynamic>> snapshot,
       int index, String parentName, String parentEmail, String kidName, String kidEmail,
       String taskName, String description, String price, String stars, String url)async {
     Size size = MediaQuery.sizeOf(context);
@@ -551,7 +552,7 @@ class ParentProvider with ChangeNotifier {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
                             taskName, description, price, stars).then((v) =>
                           FirebaseFirestore.instance.collection('tasks').doc(
-                              snapshot.data?.docs[index].id).delete());
+                              snapshot.docs[index].id).delete());
                         if(url != 'false'){
                           FirebaseStorage.instance.refFromURL(url).delete();
                         }
@@ -752,6 +753,13 @@ class ParentProvider with ChangeNotifier {
     }else{
       daysNumbers[i] = 1;
     }
+    notifyListeners();
+  }
+
+  void switchTaskScreen(int index){
+    taskPageController.animateToPage(
+        index, duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut);
     notifyListeners();
   }
 

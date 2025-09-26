@@ -13,7 +13,7 @@ class StatusWidget extends StatelessWidget {
     this.border = true,
   });
 
-  final AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot;
+  final QuerySnapshot<Map<String, dynamic>> snapshot;
   final int index;
   final String name;
   final bool border;
@@ -26,15 +26,15 @@ class StatusWidget extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(4)),
         border: border ? Border.all(
           width: 0.5,
-          color: snapshot.data?.docs[index].get('status') == name
+          color: snapshot.docs[index].get('status') == name
             ? kBlue : Colors.transparent,) : null
       ),
       child: Text(name.tr(),
-        style: snapshot.data?.docs[index].get('status') == name &&
-            snapshot.data?.docs[index].get('priceStatus') == 'changed'
+        style: snapshot.docs[index].get('status') == name &&
+            snapshot.docs[index].get('priceStatus') == 'changed'
             ? kRedTextStyle
-            : snapshot.data?.docs[index].get('status') == name &&
-            snapshot.data?.docs[index].get('priceStatus') == 'set'
+            : snapshot.docs[index].get('status') == name &&
+            snapshot.docs[index].get('priceStatus') == 'set'
             ? kGreenTextStyle
             : kSmallTextStyle,),
     );

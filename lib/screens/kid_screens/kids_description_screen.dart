@@ -17,7 +17,7 @@ class KidsDescriptionScreen extends StatelessWidget {
   });
 
   final int index;
-  final AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot;
+  final QuerySnapshot<Map<String, dynamic>> snapshot;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(snapshot.data?.docs[index].get(data.role == 'parent'
+                            Text(snapshot.docs[index].get(data.role == 'parent'
                                 ? 'kidName' : 'parentName'),
                               style: kBigTextStyleWhite,),
                             IconButton(
@@ -77,7 +77,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                                           right: Radius.circular(4)
                                       ),
                                     ),
-                                    child: Text(snapshot.data?.docs[index].get('taskName'),
+                                    child: Text(snapshot.docs[index].get('taskName'),
                                       style: kBigTextStyleWhite,),
                                   ),
                                   Divider(color: kPurple.withValues(alpha: 0.7), height: 0.1,),
@@ -92,23 +92,23 @@ class KidsDescriptionScreen extends StatelessWidget {
                                             Text('taskPrice'.tr(),
                                               style: kTextStyle.copyWith(
                                                   color: kWhite.withValues(alpha: 0.6)),),
-                                            Text(snapshot.data?.docs[index].get('price'),
+                                            Text(snapshot.docs[index].get('price'),
                                               style: kTextStyleWhite,),
                                           ],
                                         ),
                                         Row(
                                           children: [
-                                            Text(snapshot.data?.docs[index].get('deadline') != 'false'
+                                            Text(snapshot.docs[index].get('deadline') != 'false'
                                                 ? 'taskDeadline'.tr()
                                                 : '',
                                               style: kTextStyle.copyWith(
                                                   color: kWhite.withValues(alpha: 0.6)),),
-                                            Text(snapshot.data?.docs[index].get('deadline') == 'false'
+                                            Text(snapshot.docs[index].get('deadline') == 'false'
                                                 ? 'withoutDeadline'.tr()
-                                                : snapshot.data?.docs[index].get('deadline') != null
+                                                : snapshot.docs[index].get('deadline') != null
                                                 ? DateFormat('dd-MM-yyyy').format(
-                                                DateTime.parse(snapshot.data!.docs[index].get('deadline')))
-                                                : snapshot.data?.docs[index].get('deadline'),
+                                                DateTime.parse(snapshot.docs[index].get('deadline')))
+                                                : snapshot.docs[index].get('deadline'),
                                               style: kTextStyleWhite,),
                                           ],
                                         ),
@@ -128,15 +128,15 @@ class KidsDescriptionScreen extends StatelessWidget {
                               height: 300,
                               padding: const EdgeInsets.all(12),
                               margin: EdgeInsets.fromLTRB(12, 12,
-                                  snapshot.data?.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
+                                  snapshot.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
                               decoration: BoxDecoration(
                                   color: kOrange.withValues(alpha: 0.7),
                                   borderRadius: const BorderRadius.all(Radius.circular(4))
                               ),
-                              child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyleWhite),
+                              child: Text(snapshot.docs[index].get('description'), style: kTextStyleWhite),
                             ),
                           ),
-                          snapshot.data?.docs[index].get('imageUrl') == 'false'
+                          snapshot.docs[index].get('imageUrl') == 'false'
                               ? const SizedBox.shrink()
                               : Expanded(
                             child: Container(
@@ -147,36 +147,36 @@ class KidsDescriptionScreen extends StatelessWidget {
                                 color: kOrange.withValues(alpha: 0.7),
                                 borderRadius: const BorderRadius.all(Radius.circular(4)),
                               ),
-                              child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
+                              child: Image.network(snapshot.docs[index].get('imageUrl'), fit: BoxFit.cover),
                             ),)
                         ],
                       ),
-                      snapshot.data?.docs[index].get('status') == 'price'
+                      snapshot.docs[index].get('status') == 'price'
                           ? _buildPrice(snapshot, data, context, size)
-                          : snapshot.data?.docs[index].get('status') == 'inProgress'
+                          : snapshot.docs[index].get('status') == 'inProgress'
                           ? _buildInProgress(snapshot, data, context, size)
-                          : snapshot.data?.docs[index].get('status') == 'done'
+                          : snapshot.docs[index].get('status') == 'done'
                           ? _buildDone(snapshot, data, context, size)
-                          : snapshot.data?.docs[index].get('status') == 'checked'
+                          : snapshot.docs[index].get('status') == 'checked'
                           ? _buildChecked(snapshot, data, context, size)
                           : _buildComplete(snapshot),
                       const SizedBox(height: 20,),
-                      data.role == 'parent' && snapshot.data?.docs[index].get('status') == 'paid'
+                      data.role == 'parent' && snapshot.docs[index].get('status') == 'paid'
                           ? IconButton(
                           onPressed: () => data.addTaskToHistory(context, snapshot, index,
-                            snapshot.data?.docs[index].get('parentName'),
-                            snapshot.data?.docs[index].get('parentEmail'),
-                            snapshot.data?.docs[index].get('kidName'),
-                            snapshot.data?.docs[index].get('kidEmail'),
-                            snapshot.data?.docs[index].get('taskName'),
-                            snapshot.data?.docs[index].get('description'),
-                            snapshot.data?.docs[index].get('price'),
-                            snapshot.data?.docs[index].get('stars'),
-                            snapshot.data?.docs[index].get('imageUrl'),),
+                            snapshot.docs[index].get('parentName'),
+                            snapshot.docs[index].get('parentEmail'),
+                            snapshot.docs[index].get('kidName'),
+                            snapshot.docs[index].get('kidEmail'),
+                            snapshot.docs[index].get('taskName'),
+                            snapshot.docs[index].get('description'),
+                            snapshot.docs[index].get('price'),
+                            snapshot.docs[index].get('stars'),
+                            snapshot.docs[index].get('imageUrl'),),
                           icon: const Icon(Icons.history, size: 32, color: kOrange,))
                           : data.role == 'parent'
-                          && snapshot.data?.docs[index].get('status') == 'price'
-                          && snapshot.data?.docs[index].get('priceStatus') == 'set'
+                          && snapshot.docs[index].get('status') == 'price'
+                          && snapshot.docs[index].get('priceStatus') == 'set'
                           ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 18),
                         child: Row(
@@ -184,7 +184,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                             Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyleWhite,)),
                             IconButton(
                                 onPressed: () {
-                                  data.searchForEditing(snapshot.data!.docs[index].id.toString());
+                                  data.searchForEditing(snapshot.docs[index].id.toString());
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
                                       const AddSingleTaskScreen()));
@@ -204,7 +204,7 @@ class KidsDescriptionScreen extends StatelessWidget {
     );
   }
 
-  _buildComplete(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
+  _buildComplete(QuerySnapshot<Map<String, dynamic>> snapshot){
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -212,7 +212,7 @@ class KidsDescriptionScreen extends StatelessWidget {
           const SizedBox(height: 8,),
           Center(
             child: RatingBar(
-              initialRating: double.parse(snapshot.data?.docs[index].get('stars')),
+              initialRating: double.parse(snapshot.docs[index].get('stars')),
               ignoreGestures: true,
               allowHalfRating: false,
               itemCount: 3,
@@ -250,13 +250,13 @@ class KidsDescriptionScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(
                     width: 2,
-                    color: snapshot.data?.docs[index].get('status') == 'paid'
+                    color: snapshot.docs[index].get('status') == 'paid'
                         ? kGreen : kRed),
                 borderRadius: const BorderRadius.all(Radius.circular(12))
             ),
             child: Center(child: Text(
               'paid'.tr(),
-              style: snapshot.data?.docs[index].get('status') == 'paid'
+              style: snapshot.docs[index].get('status') == 'paid'
                   ? kGreenTextStyle : kRedTextStyle,)),
           )
         ],
@@ -264,7 +264,7 @@ class KidsDescriptionScreen extends StatelessWidget {
     );
   }
 
-  _buildChecked(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, ParentProvider data, context, Size size) {
+  _buildChecked(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: data.role == 'child'
@@ -272,7 +272,7 @@ class KidsDescriptionScreen extends StatelessWidget {
         children: [
           Center(
             child: RatingBar(
-              initialRating: double.parse(snapshot.data?.docs[index].get('stars')),
+              initialRating: double.parse(snapshot.docs[index].get('stars')),
               ignoreGestures: true,
               allowHalfRating: false,
               itemCount: 3,
@@ -331,7 +331,7 @@ class KidsDescriptionScreen extends StatelessWidget {
     );
   }
 
-  _buildDone(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, ParentProvider data, context, Size size) {
+  _buildDone(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: data.role == 'parent'
@@ -382,7 +382,7 @@ class KidsDescriptionScreen extends StatelessWidget {
           )
         ],
       )
-          : Text('waitingForPay'.tr(args: [snapshot.data?.docs[index].get(
+          : Text('waitingForPay'.tr(args: [snapshot.docs[index].get(
           data.role == 'parent'
               ? 'kidName'
               : 'parentName'
@@ -390,7 +390,7 @@ class KidsDescriptionScreen extends StatelessWidget {
     );
   }
 
-  _buildInProgress(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, ParentProvider data, context, Size size) {
+  _buildInProgress(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: data.role == 'child'
@@ -404,7 +404,7 @@ class KidsDescriptionScreen extends StatelessWidget {
           )
         ],
       )
-          : Text('waitingForDone'.tr(args: [snapshot.data?.docs[index].get(
+          : Text('waitingForDone'.tr(args: [snapshot.docs[index].get(
           data.role == 'parent'
               ? 'kidName'
               : 'parentName'
@@ -412,11 +412,11 @@ class KidsDescriptionScreen extends StatelessWidget {
     );
   }
 
-  _buildPrice(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, ParentProvider data, context, Size size) {
+  _buildPrice(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child:  (snapshot.data?.docs[index].get('priceStatus') == 'set' && data.role == 'child') ||
-          (snapshot.data?.docs[index].get('priceStatus') == 'changed' && data.role == 'parent')
+      child:  (snapshot.docs[index].get('priceStatus') == 'set' && data.role == 'child') ||
+          (snapshot.docs[index].get('priceStatus') == 'changed' && data.role == 'parent')
           ? Column(
         children: [
           const SizedBox(height: 18,),
@@ -451,7 +451,7 @@ class KidsDescriptionScreen extends StatelessWidget {
             text: 'acceptPriceChangeStatus',),
         ],
       )
-          : Text('waitingForPrice'.tr(args: [snapshot.data?.docs[index].get(
+          : Text('waitingForPrice'.tr(args: [snapshot.docs[index].get(
           data.role == 'parent'
               ? 'kidName'
               : 'parentName'
@@ -470,7 +470,7 @@ class ChangeButtonWidget extends StatelessWidget {
   });
 
   final int index;
-  final AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot;
+  final QuerySnapshot<Map<String, dynamic>> snapshot;
   final Function() onTap;
   final String text;
 

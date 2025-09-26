@@ -46,7 +46,7 @@ class _KidTilesListWidgetState extends State<KidTilesListWidget> {
                                 data.priceController.text = snapshot.data?.docs[index].get('price');
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>
-                                        KidsDescriptionScreen(index: index, snapshot: snapshot)));
+                                        KidsDescriptionScreen(index: index, snapshot: snapshot.data!)));
                               },
                               child: KidBasicContainerWidget(
                                 snapshot: snapshot,
