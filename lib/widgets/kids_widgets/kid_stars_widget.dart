@@ -11,7 +11,7 @@ class KidStarsWidget extends StatelessWidget {
   });
 
   final int stars;
-  final AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot;
+  final QuerySnapshot<Map<String, dynamic>> snapshot;
   final int index;
 
   final shadow = [
@@ -64,7 +64,7 @@ class KidStarsWidget extends StatelessWidget {
           Align(
               alignment: Alignment.bottomCenter,
               child: Text('paid'.tr(),
-                style: snapshot.data?.docs[index].get('status') == 'paid'
+                style: snapshot.docs[index].get('status') == 'paid'
                     ? kTextStyleWhite : kRedTextStyle,)),
         ],
       ),

@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/kid_screens/add_wish_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/kid_info_widget.dart';
-import '../../widgets/kids_widgets/kid_tiles_list_widget.dart';
+import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
 import 'kids_settings_screen.dart';
 
 class MainKidScreen extends StatelessWidget {
@@ -61,7 +63,35 @@ class MainKidScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const KidTilesListWidget()
+                        StreamBuilder(
+                            stream: CombineLatestStream.list([
+                              FirebaseFirestore.instance
+                                  .collection('tasks')
+                                  .orderBy('time', descending: true)
+                                  .snapshots(),
+                              FirebaseFirestore.instance
+                                  .collection('multiTasks')
+                                  .orderBy('time', descending: true)
+                                  .snapshots(),
+                            ]),
+                            builder: (context, snapshot){
+                              if (!snapshot.hasData) return CircularProgressIndicator();
+                              return SizedBox(
+                                height: size.height * 0.8,
+                                child: PageView.builder(
+                                    controller: parent.taskPageController,
+                                    itemCount: 2,
+                                    itemBuilder: (context, index){
+                                      return index == 0
+                                          ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
+                                          : Center(child: Text('second'));
+                                          // : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                    }
+                                ),
+                              );
+                            }
+                        ),
+                        // const KidSingleTaskListWidget()
                       ],
                     ),
                     Positioned(
@@ -71,7 +101,31 @@ class MainKidScreen extends StatelessWidget {
                           info: data.mainKidInfo,
                           onTap: () => data.switchMainKidInfo(),
                           text: 'mainKidInfo',
-                          height: 0.2,))
+                          height: 0.2,)),
+                    Positioned(
+                        bottom: 10,
+                        child: Container(
+                          width: size.width,
+                          height: 50,
+                          decoration: const BoxDecoration(
+                            color: kGrey,
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => parent.switchTaskScreen(0),
+                                child: Text('Single task'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () => parent.switchTaskScreen(1),
+                                child: Text('Multitask'),
+                              ),
+                            ],
+                          ),
+                        )
+                    )
                   ],
                 ),
               ),

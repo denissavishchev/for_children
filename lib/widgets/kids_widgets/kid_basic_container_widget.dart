@@ -19,7 +19,7 @@ class KidBasicContainerWidget extends StatelessWidget {
   });
 
   final double height;
-  final AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot;
+  final QuerySnapshot<Map<String, dynamic>> snapshot;
   final int index;
   final String nameOf;
 
@@ -72,10 +72,10 @@ class KidBasicContainerWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(snapshot.data?.docs[index].get(nameOf),
+                              Text(snapshot.docs[index].get(nameOf),
                                 style: kBigTextStyleWhite,),
-                              Text((snapshot.data!.docs[index].data().containsKey('type')
-                                  ? snapshot.data?.docs[index].get('type')
+                              Text((snapshot.docs[index].data().containsKey('type')
+                                  ? snapshot.docs[index].get('type')
                                   : ''),
                                 style: kTextStyleWhite,),
                             ],
@@ -100,7 +100,7 @@ class KidBasicContainerWidget extends StatelessWidget {
                               )
                             ]
                           ),
-                          child: Text(snapshot.data?.docs[index].get('taskName'),
+                          child: Text(snapshot.docs[index].get('taskName'),
                             style: kBigTextStyleWhite,),
                         ),
                         Padding(
@@ -110,7 +110,7 @@ class KidBasicContainerWidget extends StatelessWidget {
                               Text('taskPrice'.tr(),
                                 style: kTextStyle.copyWith(
                                     color: kWhite.withValues(alpha: 0.6)),),
-                              Text(snapshot.data?.docs[index].get('price'),
+                              Text(snapshot.docs[index].get('price'),
                                 style: kTextStyleWhite,),
                               Spacer(),
                               Row(
@@ -118,8 +118,8 @@ class KidBasicContainerWidget extends StatelessWidget {
                                 children: List.generate(3, ((i){
                                   return SvgPicture.asset('assets/icons/pepper.svg',
                                     width: 14,
-                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.data!.docs[index].data().containsKey('expQty')
-                                        ? int.parse(snapshot.data?.docs[index].get('expQty'))
+                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                                        ? int.parse(snapshot.docs[index].get('expQty'))
                                         : 1)
                                         ? kRed : Colors.transparent, BlendMode.srcIn),
                                   );
@@ -165,19 +165,19 @@ class KidBasicContainerWidget extends StatelessWidget {
                           ),
                         ]
                     ),
-                    child: snapshot.data?.docs[index].get('status') == 'checked' ||
-                        snapshot.data?.docs[index].get('status') == 'paid'
+                    child: snapshot.docs[index].get('status') == 'checked' ||
+                        snapshot.docs[index].get('status') == 'paid'
                         ? KidStarsWidget(
-                      stars: double.parse(snapshot.data?.docs[index].get('stars')).toInt(),
-                      snapshot: snapshot,
-                      index: index,)
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(3, (i){
-                        return KidStatusWidget(
-                          snapshot: snapshot,
-                          index: index,
-                          name: data.status[i],);
+                            stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
+                            snapshot: snapshot,
+                            index: index,)
+                              : Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: List.generate(3, (i){
+                              return KidStatusWidget(
+                                snapshot: snapshot,
+                                index: index,
+                                name: data.status[i],);
                       }),
                     ),
                   ),
