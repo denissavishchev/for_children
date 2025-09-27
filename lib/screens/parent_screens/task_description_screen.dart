@@ -9,8 +9,10 @@ import '../../constants.dart';
 import '../kid_screens/main_kid_screen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class SingleTaskDescriptionScreen extends StatelessWidget {
-  const SingleTaskDescriptionScreen({super.key,
+import 'add_multi_task_screen.dart';
+
+class TaskDescriptionScreen extends StatelessWidget {
+  const TaskDescriptionScreen({super.key,
     required this.index,
     required this.snapshot
   });
@@ -86,7 +88,8 @@ class SingleTaskDescriptionScreen extends StatelessWidget {
                                           style: kTextStyle,),
                                       ],
                                     ),
-                                    Row(
+                                    snapshot.docs[index].data().containsKey('deadline')
+                                      ? Row(
                                       children: [
                                         Text(snapshot.docs[index].get('deadline') != 'false'
                                             ? 'taskDeadline'.tr()
@@ -101,7 +104,8 @@ class SingleTaskDescriptionScreen extends StatelessWidget {
                                             : snapshot.docs[index].get('deadline'),
                                           style: kTextStyle,),
                                       ],
-                                    ),
+                                    )
+                                    : SizedBox.shrink(),
                                   ],
                                 ),
                               )
@@ -174,12 +178,17 @@ class SingleTaskDescriptionScreen extends StatelessWidget {
                         Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyle,)),
                         IconButton(
                             onPressed: () {
-                              data.searchForEditing(snapshot.docs[index].id.toString());
+                              if(data.pageIndex == 0){
+                              data.searchSingleTaskForEditing(snapshot.docs[index].id.toString());
                               Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
                               const AddSingleTaskScreen()));
-                            },
-
+                            }else{
+                                data.searchMultiTaskForEditing(snapshot.docs[index].id.toString());
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                    const AddMultiTaskScreen()));
+                            }},
                             icon: const Icon(Icons.edit, size: 32, color: kBlue,))
                       ],
                     ),

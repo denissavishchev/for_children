@@ -26,6 +26,7 @@ class ParentProvider with ChangeNotifier {
   String selectedKidName = '';
   String selectedKidEmail = '';
   double daySlider = 5;
+  int pageIndex = 0;
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -499,6 +500,34 @@ class ParentProvider with ChangeNotifier {
         const MainParentScreen()));
   }
 
+  Future<void>editMultiTaskInBase(context, String docId)async{
+    await FirebaseFirestore.instance.collection('multiTasks').doc(docId).update({
+      'kidName': selectedKidName,
+      'kidEmail': selectedKidEmail,
+      'taskName': addTaskNameController.text,
+      'description': addTaskDescriptionController.text,
+      'price': addTaskPriceController.text,
+      'time' : DateTime.now().toString(),
+      'type' : selectedTypeStatus,
+      'expQty' : selectedExp.toString(),
+      'daysNumber' : List.filled(daySlider.toInt(), 0)
+    });
+    addTaskNameController.clear();
+    addTaskDescriptionController.clear();
+    addTaskPriceController.clear();
+    taskDeadline = DateTime.now();
+    imageUrl = '';
+    fileName = '';
+    selectedKidName = '';
+    selectedKidEmail = '';
+    selectedTypeStatus = 'home';
+    selectedExp = 1;
+    daySlider = 5;
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const MainParentScreen()));
+  }
+
   Future<void>saveTaskToHistory(String parentName, String parentEmail, String kidName, String kidEmail,
       String taskName, String description, String price, String stars)async {
     await FirebaseFirestore.instance.collection('history').add({
@@ -670,7 +699,7 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
-  Future searchForEditing(String docId) async{
+  Future searchSingleTaskForEditing(String docId) async{
     isEdit = true;
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('tasks').doc(docId).get();
@@ -687,6 +716,25 @@ class ParentProvider with ChangeNotifier {
       editDocId = docId;
       selectedTypeStatus = data?['type'] ?? 'home';
       selectedExp = int.tryParse(data?['expQty']) ?? 1;
+    }
+  }
+
+  Future searchMultiTaskForEditing(String docId) async{
+    isEdit = true;
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    instance.collection('multiTasks').doc(docId).get();
+    if(doc.exists){
+      Map<String, dynamic>? data = doc.data();
+      selectedKidName = data?['kidName'];
+      addTaskNameController.text = data?['taskName'];
+      selectedKidEmail = data?['kidEmail'];
+      addTaskDescriptionController.text = data?['description'];
+      addTaskPriceController.text = data?['price'];
+      fileName = data?['imageUrl'];
+      editDocId = docId;
+      selectedTypeStatus = data?['type'] ?? 'home';
+      selectedExp = int.tryParse(data?['expQty']) ?? 1;
+      daySlider = double.parse(data!['daysNumber'].length.toString());
     }
   }
 
@@ -747,6 +795,7 @@ class ParentProvider with ChangeNotifier {
     taskPageController.animateToPage(
         index, duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOut);
+    pageIndex = index;
     notifyListeners();
   }
 

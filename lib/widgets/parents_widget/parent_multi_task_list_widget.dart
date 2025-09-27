@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
+import '../../screens/parent_screens/task_description_screen.dart';
 import '../basic_multi_container_widget.dart';
 
 class ParentMultiTaskListWidget extends StatefulWidget {
@@ -37,10 +38,10 @@ class _ParentMultiTaskListWidgetState extends State<ParentMultiTaskListWidget> {
                     if(widget.snapshot.docs[index].get('parentEmail').toLowerCase() == data.email){
                       return GestureDetector(
                         onTap: () {
-                          // data.priceController.text = widget.snapshot.docs[index].get('price');
-                          // Navigator.pushReplacement(context,
-                          //     MaterialPageRoute(builder: (context) =>
-                          //         DescriptionScreen(index: index, snapshot: widget.snapshot)));
+                          data.priceController.text = widget.snapshot.docs[index].get('price');
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                                  TaskDescriptionScreen(index: index, snapshot: widget.snapshot)));
                         },
                         child: BasicMultiContainerWidget(
                           snapshot: widget.snapshot,

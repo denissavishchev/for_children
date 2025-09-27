@@ -215,8 +215,7 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                           ),
                           ButtonWidget(
                             onTap: () => data.isEdit
-                                // ? data.editMultitaskTaskInBase(context, data.editDocId)
-                                ? null
+                                ? data.editMultiTaskInBase(context, data.editDocId)
                                 : data.addMultiTaskToBase(context),
                             text: data.isEdit ? 'edit' : 'add',
                           ),

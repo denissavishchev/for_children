@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
-import 'package:for_children/screens/parent_screens/single_task_description_screen.dart';
+import 'package:for_children/screens/parent_screens/task_description_screen.dart';
 import 'package:provider/provider.dart';
 import '../basic_single_container_widget.dart';
 
@@ -41,7 +41,7 @@ class _ParentSingleTaskListWidgetState extends State<ParentSingleTaskListWidget>
                           data.priceController.text = widget.snapshot.docs[index].get('price');
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
-                                  SingleTaskDescriptionScreen(index: index, snapshot: widget.snapshot)));
+                                  TaskDescriptionScreen(index: index, snapshot: widget.snapshot)));
                         },
                         child: BasicSingleContainerWidget(
                           snapshot: widget.snapshot,

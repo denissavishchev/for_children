@@ -184,7 +184,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                             Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyleWhite,)),
                             IconButton(
                                 onPressed: () {
-                                  data.searchForEditing(snapshot.docs[index].id.toString());
+                                  data.searchSingleTaskForEditing(snapshot.docs[index].id.toString());
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
                                       const AddSingleTaskScreen()));
