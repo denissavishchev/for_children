@@ -103,6 +103,7 @@
   "passwordsMustBeTheSame": "Passwords must be the same",
   "waitingForPrice": "Waiting for {} accept the price",
   "waitingForDone": "Waiting for {} done the task",
-  "waitingForPay": "Waiting for {} for rate and payment"
+  "waitingForPay": "Waiting for {} for rate and payment",
+  "taskType": "Task type: "
 
 }

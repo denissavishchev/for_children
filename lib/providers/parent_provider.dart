@@ -25,7 +25,7 @@ class ParentProvider with ChangeNotifier {
   PageController taskPageController = PageController();
   String selectedKidName = '';
   String selectedKidEmail = '';
-  double daySlider = 2;
+  double daySlider = 5;
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -36,8 +36,6 @@ class ParentProvider with ChangeNotifier {
   List<String> taskTypes = ['home', 'study', 'sport', 'family', 'art', 'health', 'ecology', 'hobby'];
   String selectedTypeStatus = 'home';
   int selectedExp = 1;
-  List<String> days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-  List<int> daysNumbers = List.filled(7, 1);
 
   String imageUrl = '';
   String fileName = '';
@@ -452,8 +450,7 @@ class ParentProvider with ChangeNotifier {
         'time' : DateTime.now().toString(),
         'type' : selectedTypeStatus,
         'expQty' : selectedExp.toString(),
-        'daysNumber' : daySlider,
-        'weekDays' : daysNumbers,
+        'daysNumber' : List.filled(daySlider.toInt(), 0),
       });
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
@@ -463,8 +460,7 @@ class ParentProvider with ChangeNotifier {
       fileName = '';
       selectedKidName = '';
       selectedKidEmail = '';
-      daySlider = 10;
-      daysNumbers = List.filled(7, 1);
+      daySlider = 5;
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) =>
           const MainParentScreen()));
@@ -744,15 +740,6 @@ class ParentProvider with ChangeNotifier {
 
   void changeDaySlider(double v){
     daySlider = v;
-    notifyListeners();
-  }
-
-  void switchDayStatus(int i){
-    if(daysNumbers[i] == 1){
-      daysNumbers[i] = 0;
-    }else{
-      daysNumbers[i] = 1;
-    }
     notifyListeners();
   }
 

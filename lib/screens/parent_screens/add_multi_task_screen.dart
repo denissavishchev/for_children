@@ -188,43 +188,18 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                             children: [
                               Expanded(
                                 child: Slider(
-                                  divisions: 29,
+                                  divisions: 5,
                                   activeColor: kBlue,
                                   inactiveColor: kWhite,
                                   thumbColor: kBlue,
                                   value: data.daySlider,
                                   onChanged: (v) => data.changeDaySlider(v),
-                                  min: 2,
+                                  min: 5,
                                   max: 30,
                                 ),
                               ),
                               Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,)
                             ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 8,
-                            children: List.generate(data.days.length, ((i){
-                              return GestureDetector(
-                                onTap: () => data.switchDayStatus(i),
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      color: data.daysNumbers[i] == 1 ? kBlue : kGrey,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: 2,
-                                          color:  kBlue)
-                                  ),
-                                  child: Center(
-                                    child: Text(data.days[i],
-                                        style: data.daysNumbers[i] == 1
-                                            ? kTextStyleWhite : kTextStyle),
-                                  ),
-                                ),
-                              );
-                            })),
                           ),
                           GestureDetector(
                             onTap: () => data.isEdit ? null : data.pickAnImage(),

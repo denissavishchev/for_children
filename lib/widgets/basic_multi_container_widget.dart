@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/stars_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
+import 'package:for_children/widgets/task_square_widget.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 
@@ -25,6 +26,10 @@ class BasicMultiContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    List<int> counts = [0, 0, 0, 0];
+    for (var n in snapshot.docs[index].get('daysNumber')) {
+      counts[n] += 1;
+    }
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Padding(
@@ -63,11 +68,9 @@ class BasicMultiContainerWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(snapshot.docs[index].get(nameOf),
+                              Text(snapshot.docs[index].get('taskName'),
                                 style: kBigTextStyle,),
-                              Text((snapshot.docs[index].data().containsKey('type')
-                                  ? snapshot.docs[index].get('type')
-                                  : ''),
+                              Text(snapshot.docs[index].get(nameOf),
                                 style: kTextStyle,),
                             ],
                           ),
@@ -76,15 +79,74 @@ class BasicMultiContainerWidget extends StatelessWidget {
                           height: 65,
                           width: double.infinity,
                           margin: const EdgeInsets.only(right: 6),
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(4),
                           decoration: BoxDecoration(
                             color: kBlue.withValues(alpha: 0.1),
-                            borderRadius: const BorderRadius.horizontal(
-                                right: Radius.circular(4)
-                            ),
+                            borderRadius: const BorderRadius.horizontal(right: Radius.circular(4)),
                           ),
-                          child: Text(snapshot.docs[index].get('taskName'),
-                            style: kBigTextStyle,),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 196,
+                                child: Wrap(
+                                  spacing: 4,
+                                  runSpacing: 4,
+                                  children: List.generate(
+                                    snapshot.docs[index].get('daysNumber').length, (i) {
+                                      int number = snapshot.docs[index].get('daysNumber')[i];
+                                      return TaskSquareWidget(number: number);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                spacing: 4,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 0),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[0].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 1),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[1].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 2),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[2].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 3),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[3].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -96,12 +158,18 @@ class BasicMultiContainerWidget extends StatelessWidget {
                               Text(snapshot.docs[index].get('price'),
                                 style: kTextStyle,),
                               Spacer(),
+                              Text('taskType'.tr(),
+                                style: kTextStyle.copyWith(
+                                    color: kBlue.withValues(alpha: 0.6)),),
+                              Text(snapshot.docs[index].get('type'),
+                                style: kTextStyle,),
+                              Spacer(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: List.generate(3, ((i){
+                                children: List.generate(5, ((i){
                                   return SvgPicture.asset('assets/icons/pepper.svg',
                                     width: 12,
-                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                                    colorFilter: ColorFilter.mode((4 - i) < (snapshot.docs[index].data().containsKey('expQty')
                                         ? int.parse(snapshot.docs[index].get('expQty'))
                                         : 1)
                                         ? kRed : kGrey, BlendMode.srcIn),

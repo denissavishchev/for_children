@@ -103,5 +103,6 @@
   "passwordsMustBeTheSame": "Hasła muszą być takie same",
   "waitingForPrice": "Czekamy póki {} zaakceptuje cene",
   "waitingForDone": "Waiting for {} kończy zadanie",
-  "waitingForPay": "Waiting for {} oceni pracę i zapłaci"
+  "waitingForPay": "Waiting for {} oceni pracę i zapłaci",
+  "taskType": "Typ zadania: "
 }
