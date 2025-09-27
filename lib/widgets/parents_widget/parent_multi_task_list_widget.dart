@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
-import '../basic_single_container_widget.dart';
+import '../basic_multi_container_widget.dart';
 
 class ParentMultiTaskListWidget extends StatefulWidget {
   const ParentMultiTaskListWidget({
@@ -42,7 +42,7 @@ class _ParentMultiTaskListWidgetState extends State<ParentMultiTaskListWidget> {
                           //     MaterialPageRoute(builder: (context) =>
                           //         DescriptionScreen(index: index, snapshot: widget.snapshot)));
                         },
-                        child: BasicSingleContainerWidget(
+                        child: BasicMultiContainerWidget(
                           snapshot: widget.snapshot,
                           index: index,
                           nameOf: 'kidName',

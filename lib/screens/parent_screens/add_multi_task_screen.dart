@@ -188,14 +188,14 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                             children: [
                               Expanded(
                                 child: Slider(
-                                  divisions: 17,
+                                  divisions: 29,
                                   activeColor: kBlue,
                                   inactiveColor: kWhite,
                                   thumbColor: kBlue,
                                   value: data.daySlider,
                                   onChanged: (v) => data.changeDaySlider(v),
-                                  min: 10,
-                                  max: 180,
+                                  min: 2,
+                                  max: 30,
                                 ),
                               ),
                               Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,)

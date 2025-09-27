@@ -25,7 +25,7 @@ class ParentProvider with ChangeNotifier {
   PageController taskPageController = PageController();
   String selectedKidName = '';
   String selectedKidEmail = '';
-  double daySlider = 10;
+  double daySlider = 2;
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
