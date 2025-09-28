@@ -104,6 +104,7 @@
   "waitingForPrice": "Waiting for {} accept the price",
   "waitingForDone": "Waiting for {} done the task",
   "waitingForPay": "Waiting for {} for rate and payment",
-  "taskType": "Task type: "
+  "taskType": "Task type: ",
+  "daysLeft": "Only days left {}"
 
 }

@@ -3,14 +3,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/widgets/kids_widgets/task_switch_button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
+import '../task_square_widget.dart';
 import 'kid_stars_widget.dart';
 import 'kid_status_widget.dart';
 
 
-class KidBasicContainerWidget extends StatelessWidget {
-  const KidBasicContainerWidget({
+class KidsMultiBasicContainerWidget extends StatelessWidget {
+  const KidsMultiBasicContainerWidget({
     super.key,
     this.height = 120,
     required this.snapshot,
@@ -26,6 +28,10 @@ class KidBasicContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    List<int> counts = [0, 0, 0, 0];
+    for (var n in snapshot.docs[index].get('daysNumber')) {
+      counts[n] += 1;
+    }
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Padding(
@@ -40,12 +46,12 @@ class KidBasicContainerWidget extends StatelessWidget {
                     height: height,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [
-                            kLightBlue.withValues(alpha: 0.8),
-                            kDarkBlue.withValues(alpha: 0.8),
-                            kPurple.withValues(alpha: 0.8),
-                          ],
-                          stops: const [0, 0.5, 1]
+                            colors: [
+                              kLightBlue.withValues(alpha: 0.8),
+                              kDarkBlue.withValues(alpha: 0.8),
+                              kPurple.withValues(alpha: 0.8),
+                            ],
+                            stops: const [0, 0.5, 1]
                         ),
                         border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -72,11 +78,9 @@ class KidBasicContainerWidget extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(snapshot.docs[index].get(nameOf),
+                              Text(snapshot.docs[index].get('taskName'),
                                 style: kBigTextStyleWhite,),
-                              Text((snapshot.docs[index].data().containsKey('type')
-                                  ? snapshot.docs[index].get('type')
-                                  : ''),
+                              Text(snapshot.docs[index].get(nameOf),
                                 style: kTextStyleWhite,),
                             ],
                           ),
@@ -87,21 +91,82 @@ class KidBasicContainerWidget extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 6),
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: kOrange.withValues(alpha: 0.8),
-                            borderRadius: const BorderRadius.horizontal(
-                                right: Radius.circular(18)
-                            ),
-                            border: Border.all(width: 1, color: kDarkBlue),
-                            boxShadow: [
-                              BoxShadow(
-                                color: kWhite.withValues(alpha: 0.3),
-                                spreadRadius: 2,
-                                blurRadius: 2
-                              )
-                            ]
+                              color: kOrange.withValues(alpha: 0.8),
+                              borderRadius: const BorderRadius.horizontal(
+                                  right: Radius.circular(18)
+                              ),
+                              border: Border.all(width: 1, color: kDarkBlue),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: kWhite.withValues(alpha: 0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 2
+                                )
+                              ]
                           ),
-                          child: Text(snapshot.docs[index].get('taskName'),
-                            style: kBigTextStyleWhite,),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 196,
+                                child: Wrap(
+                                  spacing: 4,
+                                  runSpacing: 4,
+                                  children: List.generate(
+                                    snapshot.docs[index].get('daysNumber').length, (i) {
+                                    int number = snapshot.docs[index].get('daysNumber')[i];
+                                    return TaskSquareWidget(number: number);
+                                  },
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                spacing: 4,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 0),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[0].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 1),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[1].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 2),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[2].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 3),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[3].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -113,12 +178,18 @@ class KidBasicContainerWidget extends StatelessWidget {
                               Text(snapshot.docs[index].get('price'),
                                 style: kTextStyleWhite,),
                               Spacer(),
+                              Text('taskType'.tr(),
+                                style: kTextStyle.copyWith(
+                                    color: kWhite.withValues(alpha: 0.6)),),
+                              Text(snapshot.docs[index].get('type'),
+                                style: kTextStyleWhite,),
+                              Spacer(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: List.generate(3, ((i){
+                                children: List.generate(5, ((i){
                                   return SvgPicture.asset('assets/icons/pepper.svg',
                                     width: 14,
-                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                                    colorFilter: ColorFilter.mode((4 - i) < (snapshot.docs[index].data().containsKey('expQty')
                                         ? int.parse(snapshot.docs[index].get('expQty'))
                                         : 1)
                                         ? kRed : Colors.transparent, BlendMode.srcIn),
@@ -167,11 +238,21 @@ class KidBasicContainerWidget extends StatelessWidget {
                     ),
                     child: snapshot.docs[index].get('status') == 'checked' ||
                         snapshot.docs[index].get('status') == 'paid'
-                        ? KidStarsWidget(
+                          ? KidStarsWidget(
                             stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
                             snapshot: snapshot,
                             index: index,)
-                              : Column(
+                          : snapshot.docs[index].get('status') == 'inProgress'
+                          ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('inProgress'.tr(), style: kTextStyleWhite),
+                              TaskSwitchButtonWidget(
+                                onTap: () => data.switchTodayTask(data.whatDayIs(snapshot.docs[index].get('time')), snapshot.docs[index].id.toString()),
+                                checked: snapshot.docs[index].get('daysNumber')[data.whatDayIs(snapshot.docs[index].get('time'))] == 1,)
+                            ],
+                          )
+                          : Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: List.generate(3, (i){
                               return KidStatusWidget(

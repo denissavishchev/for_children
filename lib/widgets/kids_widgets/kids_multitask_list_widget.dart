@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/parent_provider.dart';
 import '../../screens/kid_screens/kids_description_screen.dart';
-import 'kid_single_basic_container_widget.dart';
+import 'kids_multi_basic_container_widget.dart';
 
-class KidSingleTaskListWidget extends StatefulWidget {
-  const KidSingleTaskListWidget({
+class KidsMultiTaskListWidget extends StatefulWidget {
+  const KidsMultiTaskListWidget({
     super.key, required this.snapshot,
   });
 
   final QuerySnapshot<Map<String, dynamic>> snapshot;
 
   @override
-  State<KidSingleTaskListWidget> createState() => _KidSingleTaskListWidgetState();
+  State<KidsMultiTaskListWidget> createState() => _KidsMultiTaskListWidgetState();
 }
 
-class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
+class _KidsMultiTaskListWidgetState extends State<KidsMultiTaskListWidget> {
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
                               MaterialPageRoute(builder: (context) =>
                                   KidsDescriptionScreen(index: index, snapshot: widget.snapshot)));
                         },
-                        child: KidSingleBasicContainerWidget(
+                        child: KidsMultiBasicContainerWidget(
                           snapshot: widget.snapshot,
                           index: index,
                           nameOf: 'parentName',

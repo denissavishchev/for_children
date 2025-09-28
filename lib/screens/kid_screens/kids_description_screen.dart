@@ -96,7 +96,8 @@ class KidsDescriptionScreen extends StatelessWidget {
                                               style: kTextStyleWhite,),
                                           ],
                                         ),
-                                        Row(
+                                        snapshot.docs[index].data().containsKey('deadline')
+                                        ? Row(
                                           children: [
                                             Text(snapshot.docs[index].get('deadline') != 'false'
                                                 ? 'taskDeadline'.tr()
@@ -111,7 +112,8 @@ class KidsDescriptionScreen extends StatelessWidget {
                                                 : snapshot.docs[index].get('deadline'),
                                               style: kTextStyleWhite,),
                                           ],
-                                        ),
+                                        )
+                                          : SizedBox.shrink(),
                                       ],
                                     ),
                                   )
@@ -322,7 +324,7 @@ class KidsDescriptionScreen extends StatelessWidget {
           ChangeButtonWidget(
             index: index,
             snapshot: snapshot,
-            onTap: () => data.changeToPaid(snapshot, index, context),
+            onTap: () => data.changeToPaid(snapshot, index, context, data.pageIndex == 0),
             text: 'paid',
           ),
         ],
@@ -377,7 +379,7 @@ class KidsDescriptionScreen extends StatelessWidget {
           ChangeButtonWidget(
             index: index,
             snapshot: snapshot,
-            onTap: () => data.changeToChecked(snapshot, index, context),
+            onTap: () => data.changeToChecked(snapshot, index, context, data.pageIndex == 0),
             text: 'rate',
           )
         ],
@@ -396,12 +398,25 @@ class KidsDescriptionScreen extends StatelessWidget {
       child: data.role == 'child'
           ? Column(
         children: [
-          ChangeButtonWidget(
-            index: index,
-            snapshot: snapshot,
-            onTap: () => data.changeToDone(snapshot, index, context),
-            text: 'imDoneStatus',
-          )
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 4,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 1)
+                  ),
+                  BoxShadow(
+                    color: kGrey.withValues(alpha: 0.2),
+                    blurRadius: 2,
+                    spreadRadius: 2,
+                  ),
+                ]
+            ),
+              child: Text('daysLeft'.tr(args: [(snapshot.docs[index].get('daysNumber').length - data.whatDayIs(snapshot.docs[index].get('time')) - 1).toString()]),
+                style: kBigTextStyleWhite,)),
         ],
       )
           : Text('waitingForDone'.tr(args: [snapshot.docs[index].get(
@@ -426,13 +441,14 @@ class KidsDescriptionScreen extends StatelessWidget {
                 child: TextField(
                   controller: data.priceController,
                   cursorColor: kDarkGrey,
+                  style: kTextStyleWhite,
                   decoration: textFieldDecoration.copyWith(
-                      label: Text('price'.tr(),)),
+                      label: Text('price'.tr(), style: kTextStyleWhite,),),
                 ),
               ),
               IconButton(
                   onPressed: () {
-                    data.changePriceStatus(snapshot, index, data.role);
+                    data.changePriceStatus(snapshot, index, data.role, data.pageIndex == 0);
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) =>
                         data.role == 'parent'
@@ -447,7 +463,7 @@ class KidsDescriptionScreen extends StatelessWidget {
           ChangeButtonWidget(
             index: index,
             snapshot: snapshot,
-            onTap: () => data.changeToInProgress(snapshot, index, context),
+            onTap: () => data.changeToInProgress(snapshot, index, context, data.pageIndex == 0),
             text: 'acceptPriceChangeStatus',),
         ],
       )

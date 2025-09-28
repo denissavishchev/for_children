@@ -8,6 +8,7 @@ import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/kid_info_widget.dart';
 import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
+import '../../widgets/kids_widgets/kids_multitask_list_widget.dart';
 import 'kids_settings_screen.dart';
 
 class MainKidScreen extends StatelessWidget {
@@ -84,8 +85,7 @@ class MainKidScreen extends StatelessWidget {
                                     itemBuilder: (context, index){
                                       return index == 0
                                           ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
-                                          : Center(child: Text('second'));
-                                          // : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                          : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
                                     }
                                 ),
                               );

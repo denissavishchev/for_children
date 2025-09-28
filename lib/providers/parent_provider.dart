@@ -307,15 +307,24 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future changePriceStatus(QuerySnapshot<Map<String, dynamic>> snapshot, int index, String? role)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+  Future changePriceStatus(QuerySnapshot<Map<String, dynamic>> snapshot, int index, String? role, bool isSingle)async{
+    isSingle
+    ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+      'price': priceController.text.trim(),
+      'priceStatus': role == 'parent' ? 'set' : 'changed'
+    })
+    : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
       'price': priceController.text.trim(),
       'priceStatus': role == 'parent' ? 'set' : 'changed'
     });
   }
 
-  Future changeToInProgress(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+  Future changeToInProgress(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+    isSingle
+    ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+      'status': 'inProgress'
+    })
+    : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
       'status': 'inProgress'
     });
     Navigator.pushReplacement(context,
@@ -325,8 +334,12 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToDone(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+  Future changeToDone(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+    isSingle
+        ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+      'status': 'done'
+    })
+        : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
       'status': 'done'
     });
     Navigator.pushReplacement(context,
@@ -336,8 +349,13 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToChecked(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+  Future changeToChecked(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+    isSingle
+        ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+      'status': 'checked',
+      'stars': stars.toString()
+    })
+        : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
       'status': 'checked',
       'stars': stars.toString()
     });
@@ -348,8 +366,12 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToPaid(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context)async{
-    FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+  Future changeToPaid(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+    isSingle
+        ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
+      'status': 'paid',
+    })
+        : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
       'status': 'paid',
     });
     Navigator.pushReplacement(context,
@@ -797,6 +819,19 @@ class ParentProvider with ChangeNotifier {
         curve: Curves.easeInOut);
     pageIndex = index;
     notifyListeners();
+  }
+
+  Future<void> switchTodayTask(int index, String docId) async {
+    final docRef = FirebaseFirestore.instance.collection('multiTasks').doc(docId);
+    final snapshot = await docRef.get();
+    List<dynamic> days = List.from(snapshot['daysNumber']);
+    days[index] = days[index] == 0 ? 1 : 0;
+    await docRef.update({'daysNumber': days});
+  }
+
+  int whatDayIs(String date){
+    DateTime dt = DateTime.parse(date);
+    return DateTime.now().difference(dt).inDays;
   }
 
 }

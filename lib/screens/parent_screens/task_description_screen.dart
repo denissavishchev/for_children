@@ -306,7 +306,7 @@ class TaskDescriptionScreen extends StatelessWidget {
           ChangeButtonWidget(
             index: index,
             snapshot: snapshot,
-            onTap: () => data.changeToPaid(snapshot, index, context),
+            onTap: () => data.changeToPaid(snapshot, index, context, data.pageIndex == 0),
             text: 'paid',
           ),
         ],
@@ -361,7 +361,7 @@ class TaskDescriptionScreen extends StatelessWidget {
           ChangeButtonWidget(
             index: index,
             snapshot: snapshot,
-            onTap: () => data.changeToChecked(snapshot, index, context),
+            onTap: () => data.changeToChecked(snapshot, index, context, data.pageIndex == 0),
             text: 'rate',
           )
         ],
@@ -383,7 +383,7 @@ class TaskDescriptionScreen extends StatelessWidget {
           ChangeButtonWidget(
             index: index,
             snapshot: snapshot,
-            onTap: () => data.changeToDone(snapshot, index, context),
+            onTap: () => data.changeToDone(snapshot, index, context, data.pageIndex == 0),
             text: 'imDoneStatus',
           )
         ],
@@ -416,7 +416,7 @@ class TaskDescriptionScreen extends StatelessWidget {
                     ),
                     IconButton(
                         onPressed: () {
-                          data.changePriceStatus(snapshot, index, data.role);
+                          data.changePriceStatus(snapshot, index, data.role, data.pageIndex == 0);
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
                               data.role == 'parent'
@@ -431,7 +431,7 @@ class TaskDescriptionScreen extends StatelessWidget {
                 ChangeButtonWidget(
                   index: index,
                   snapshot: snapshot,
-                  onTap: () => data.changeToInProgress(snapshot, index, context),
+                  onTap: () => data.changeToInProgress(snapshot, index, context, data.pageIndex == 0),
                   text: 'acceptPriceChangeStatus',),
               ],
             )
