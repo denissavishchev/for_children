@@ -105,5 +105,9 @@
   "waitingForDone": "Waiting for {} kończy zadanie",
   "waitingForPay": "Waiting for {} oceni pracę i zapłaci",
   "taskType": "Typ zadania: ",
-  "daysLeft": "Pozostało tylko {} dni"
+  "daysLeft": "Pozostało tylko {} dni",
+  "multiTask": "Wielierazowe zadanie",
+  "multiTaskDescription": "Pozwala tworzyć zadania powtarzane codziennie (np. mycie zębów, sprzątanie, lekcje).\nDzięki temu dziecko widzi, że zadanie wraca każdego dnia, a rodzic może łatwo sprawdzić, czy zostało wykonane",
+  "singleTask": "Pojedyncze zadanie",
+  "singleTaskDescription": "Pozwala tworzyć zadania jednorazowe (np. kupno prezentu, pomoc w ogrodzie, dodatkowe ćwiczenie).\nDzięki temu dziecko widzi jasno określone zadanie do wykonania, a rodzic może szybko sprawdzić, czy zostało zrealizowane."
 }
