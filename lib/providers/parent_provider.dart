@@ -829,9 +829,12 @@ class ParentProvider with ChangeNotifier {
     await docRef.update({'daysNumber': days});
   }
 
-  int whatDayIs(String date){
+  int whatDayIs(String date) {
     DateTime dt = DateTime.parse(date);
-    return DateTime.now().difference(dt).inDays;
+    DateTime now = DateTime.now();
+    DateTime newDay = DateTime(dt.year, dt.month, dt.day);
+    DateTime today = DateTime(now.year, now.month, now.day);
+    return today.difference(newDay).inDays;
   }
 
 }
