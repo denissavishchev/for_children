@@ -37,6 +37,7 @@ class ParentProvider with ChangeNotifier {
   List<String> taskTypes = ['home', 'study', 'sport', 'family', 'art', 'health', 'ecology', 'hobby'];
   String selectedTypeStatus = 'home';
   int selectedExp = 1;
+  bool isSelectButtonOpen = false;
 
   String imageUrl = '';
   String fileName = '';
@@ -835,6 +836,11 @@ class ParentProvider with ChangeNotifier {
     DateTime newDay = DateTime(dt.year, dt.month, dt.day);
     DateTime today = DateTime(now.year, now.month, now.day);
     return today.difference(newDay).inDays;
+  }
+
+  void openSelectButton(){
+    isSelectButtonOpen = !isSelectButtonOpen;
+    notifyListeners();
   }
 
 }

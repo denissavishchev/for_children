@@ -88,15 +88,15 @@ class BasicMultiContainerWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: 196,
+                              width: size.width * 0.44,
                                 child: Wrap(
                                   spacing: 4,
                                   runSpacing: 4,
                                   children: List.generate(
                                     snapshot.docs[index].get('daysNumber').length, (i) {
-                                      int number = snapshot.docs[index].get('daysNumber')[i];
-                                      return TaskSquareWidget(number: number);
-                                    },
+                                    int number = snapshot.docs[index].get('daysNumber')[i];
+                                    return TaskSquareWidget(number: number);
+                                  },
                                   ),
                                 ),
                               ),

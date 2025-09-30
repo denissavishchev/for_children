@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/task_description_screen.dart';
 import 'package:provider/provider.dart';
@@ -30,28 +31,48 @@ class _ParentSingleTaskListWidgetState extends State<ParentSingleTaskListWidget>
     Size size = MediaQuery.sizeOf(context);
     return Consumer<ParentProvider>(
         builder: (context, data, _){
-          return SizedBox(
-              height: size.height * 0.8,
-              child: ListView.builder(
-                  itemCount: widget.snapshot.docs.length,
-                  itemBuilder: (context, index){
-                    if(widget.snapshot.docs[index].get('parentEmail').toLowerCase() == data.email){
-                      return GestureDetector(
-                        onTap: () {
-                          data.priceController.text = widget.snapshot.docs[index].get('price');
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) =>
-                                  TaskDescriptionScreen(index: index, snapshot: widget.snapshot)));
-                        },
-                        child: BasicSingleContainerWidget(
-                          snapshot: widget.snapshot,
-                          index: index,
-                          nameOf: 'kidName',
-                        ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  })
+          return Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              SizedBox(
+                  height: size.height * 0.8,
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(bottom: 50),
+                      itemCount: widget.snapshot.docs.length,
+                      itemBuilder: (context, index){
+                        if(widget.snapshot.docs[index].get('parentEmail').toLowerCase() == data.email){
+                          return GestureDetector(
+                            onTap: () {
+                              data.priceController.text = widget.snapshot.docs[index].get('price');
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      TaskDescriptionScreen(index: index, snapshot: widget.snapshot)));
+                            },
+                            child: BasicSingleContainerWidget(
+                              snapshot: widget.snapshot,
+                              index: index,
+                              nameOf: 'kidName',
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      })
+              ),
+              GestureDetector(
+                onTap: () => data.switchTaskScreen(1),
+                child: Container(
+                  width: 80,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: kBlue,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8)),
+                  ),
+                  child: Icon(Icons.arrow_forward_ios, color: kWhite, size: 32,),
+                ),
+              )
+            ],
           );
         });
   }

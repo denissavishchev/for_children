@@ -108,7 +108,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
-                                width: 196,
+                                width: size.width * 0.44,
                                 child: Wrap(
                                   spacing: 4,
                                   runSpacing: 4,

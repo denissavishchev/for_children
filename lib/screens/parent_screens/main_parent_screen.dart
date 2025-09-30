@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/history_screen.dart';
-import 'package:for_children/screens/parent_screens/select_add_task_screen.dart';
 import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
+import 'add_multi_task_screen.dart';
+import 'add_single_task_screen.dart';
 import 'parent_settings_screen.dart';
 import '../../widgets/parents_widget/parent_single_task_list_widget.dart';
 import '../../widgets/parents_widget/parent_multi_task_list_widget.dart';
@@ -28,41 +29,35 @@ class MainParentScreen extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 12),
+                      SizedBox(
                         height: size.height * 0.1,
-                        child: Row(
+                        child: Stack(
+                          alignment: Alignment.centerRight,
                           children: [
-                            IconButton(
-                                onPressed: () =>
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) =>
-                                      const ParentSettingsScreen())),
-                                icon: const Icon(
-                                  Icons.settings,
-                                  color: kBlue,
-                                  size: 32,
-                                )),
-                            const Spacer(),
-                            IconButton(
-                                onPressed: () => Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) =>
-                                    const HistoryScreen())),
-                                icon: const Icon(
-                                  Icons.history,
-                                  color: kBlue,
-                                  size: 32,
-                                )),
-                            IconButton(
-                                onPressed: () =>
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) =>
-                                      const SelectAddTaskScreen())),
-                                icon: const Icon(
-                                  Icons.add_circle_outline,
-                                  color: kBlue,
-                                  size: 32,
-                                ))
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () =>
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (context) =>
+                                          const ParentSettingsScreen())),
+                                    icon: const Icon(
+                                      Icons.settings,
+                                      color: kBlue,
+                                      size: 32,
+                                    )),
+                                IconButton(
+                                    onPressed: () => Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) =>
+                                        const HistoryScreen())),
+                                    icon: const Icon(
+                                      Icons.history,
+                                      color: kBlue,
+                                      size: 32,
+                                    )),
+                              ],
+                            ),
+                            SelectTaskButtonWidget()
                           ],
                         ),
                       ),
@@ -96,43 +91,94 @@ class MainParentScreen extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                    top: 24,
-                      left: 60,
+                    top: 30,
+                      left: 150,
                       child: InfoWidget(
                         info: data.mainParentInfo,
                         onTap: () => data.switchParentInfo(),
                         text: 'mainParentInfo',
                         height: 0.2,)),
-                  Positioned(
-                    bottom: 10,
-                      child: Container(
-                        width: size.width,
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          color: kGrey,
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => data.switchTaskScreen(0),
-                              child: Text('Single task'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () => data.switchTaskScreen(1),
-                              child: Text('Multitask'),
-                            ),
-                          ],
-                        ),
-                      )
-                  )
                 ],
               ),
             );
           },
         )
       ),
+    );
+  }
+}
+
+class SelectTaskButtonWidget extends StatelessWidget {
+  const SelectTaskButtonWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    return Consumer<ParentProvider>(
+      builder: (context, data, _){
+        return AnimatedContainer(
+          width: data.isSelectButtonOpen ? 180 : 120,
+          height: size.height * 0.06,
+          decoration: BoxDecoration(
+            color: data.isSelectButtonOpen ? kBlue : kGrey,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                bottomLeft: Radius.circular(8)),
+          ),
+          duration: Duration(milliseconds: 300),
+          child: Row(
+            mainAxisAlignment: data.isSelectButtonOpen
+                ? MainAxisAlignment.spaceAround
+                : MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () => data.openSelectButton(),
+                child: Icon(
+                      data.isSelectButtonOpen ? Icons.close : Icons.add_circle_outline,
+                      color: data.isSelectButtonOpen ? kRed : kBlue,
+                      size: 32,
+                    ),
+              ),
+              Visibility(
+                visible: data.isSelectButtonOpen,
+                child: Row(
+                  spacing: 20,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        data.isSelectButtonOpen = false;
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) =>
+                            const AddSingleTaskScreen()));
+                      },
+                      child: Icon(
+                        Icons.task_alt_outlined,
+                        color: kWhite,
+                        size: 32,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        data.isSelectButtonOpen = false;
+                        Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) =>
+                          const AddMultiTaskScreen()));
+                        },
+                      child: Icon(
+                        Icons.calendar_month_outlined,
+                        color: kWhite,
+                        size: 32,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
