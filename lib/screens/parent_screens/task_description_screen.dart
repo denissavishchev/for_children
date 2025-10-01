@@ -166,7 +166,10 @@ class TaskDescriptionScreen extends StatelessWidget {
                           snapshot.docs[index].get('description'),
                           snapshot.docs[index].get('price'),
                           snapshot.docs[index].get('stars'),
-                          snapshot.docs[index].get('imageUrl'),),
+                          snapshot.docs[index].get('imageUrl'),
+                          snapshot.docs[index].data().containsKey('type') ? snapshot.docs[index].get('type') : 'home',
+                          snapshot.docs[index].data().containsKey('expQty') ? snapshot.docs[index].get('expQty') : '1',
+                      ),
                       icon: const Icon(Icons.history, size: 32, color: kBlue,))
                   : data.role == 'parent'
                       && snapshot.docs[index].get('status') == 'price'

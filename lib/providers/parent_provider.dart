@@ -552,7 +552,7 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void>saveTaskToHistory(String parentName, String parentEmail, String kidName, String kidEmail,
-      String taskName, String description, String price, String stars)async {
+      String taskName, String description, String price, String stars, String type, String expQty)async {
     await FirebaseFirestore.instance.collection('history').add({
       'parentName': parentName,
       'parentEmail': parentEmail,
@@ -562,13 +562,15 @@ class ParentProvider with ChangeNotifier {
       'description': description,
       'price': price,
       'stars' : stars,
-      'time' : DateTime.now().toString()
+      'time' : DateTime.now().toString(),
+      'expQty' : expQty,
+      'type' : type,
     });
   }
 
   Future<void>addTaskToHistory(context, QuerySnapshot<Map<String, dynamic>> snapshot,
       int index, String parentName, String parentEmail, String kidName, String kidEmail,
-      String taskName, String description, String price, String stars, String url)async {
+      String taskName, String description, String price, String stars, String url, String type, String expQty)async {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -598,7 +600,7 @@ class ParentProvider with ChangeNotifier {
                   ButtonWidget(
                       onTap: () {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
-                            taskName, description, price, stars).then((v) =>
+                            taskName, description, price, stars, type, expQty).then((v) =>
                           FirebaseFirestore.instance.collection('tasks').doc(
                               snapshot.docs[index].id).delete());
                         if(url != 'false'){

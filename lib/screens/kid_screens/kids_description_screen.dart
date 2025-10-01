@@ -174,7 +174,10 @@ class KidsDescriptionScreen extends StatelessWidget {
                             snapshot.docs[index].get('description'),
                             snapshot.docs[index].get('price'),
                             snapshot.docs[index].get('stars'),
-                            snapshot.docs[index].get('imageUrl'),),
+                            snapshot.docs[index].get('imageUrl'),
+                            snapshot.docs[index].data().containsKey('type') ? snapshot.docs[index].get('type') : 'home',
+                            snapshot.docs[index].data().containsKey('expQty') ? snapshot.docs[index].get('expQty') : '1',
+                          ),
                           icon: const Icon(Icons.history, size: 32, color: kOrange,))
                           : data.role == 'parent'
                           && snapshot.docs[index].get('status') == 'price'
@@ -396,29 +399,36 @@ class KidsDescriptionScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: data.role == 'child'
+          ? snapshot.docs[index].data().containsKey('daysNumber')
           ? Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 4,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 1)
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 4,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 1)
+                        ),
+                        BoxShadow(
+                          color: kGrey.withValues(alpha: 0.2),
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                        ),
+                      ]
                   ),
-                  BoxShadow(
-                    color: kGrey.withValues(alpha: 0.2),
-                    blurRadius: 2,
-                    spreadRadius: 2,
-                  ),
-                ]
-            ),
-              child: Text('daysLeft'.tr(args: [(snapshot.docs[index].get('daysNumber').length - data.whatDayIs(snapshot.docs[index].get('time')) - 1).toString()]),
-                style: kBigTextStyleWhite,)),
-        ],
-      )
+                    child: Text('daysLeft'.tr(args: [(snapshot.docs[index].get('daysNumber').length - data.whatDayIs(snapshot.docs[index].get('time')) - 1).toString()]),
+                      style: kBigTextStyleWhite,)),
+              ],
+            )
+          : ChangeButtonWidget(
+              index: index,
+              snapshot: snapshot,
+              onTap: () => data.changeToDone(snapshot, index, context, data.pageIndex == 0),
+              text: 'imDoneStatus',
+            )
           : Text('waitingForDone'.tr(args: [snapshot.docs[index].get(
           data.role == 'parent'
               ? 'kidName'

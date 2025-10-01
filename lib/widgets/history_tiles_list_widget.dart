@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../providers/parent_provider.dart';
@@ -60,6 +61,18 @@ class HistoryTilesListWidget extends StatelessWidget {
                                         ? snapshot.data?.docs[index].get('kidName')
                                         : snapshot.data?.docs[index].get('parentName'), style: kTextStyle,),
                                     Text(snapshot.data?.docs[index].get('taskName'), style: kTextStyle,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: List.generate(5, ((i){
+                                        return SvgPicture.asset('assets/icons/pepper.svg',
+                                          width: 12,
+                                          colorFilter: ColorFilter.mode((4 - i) < (snapshot.data!.docs[index].data().containsKey('expQty')
+                                              ? int.parse(snapshot.data?.docs[index].get('expQty'))
+                                              : 1)
+                                              ? kRed : kGrey, BlendMode.srcIn),
+                                        );
+                                      })),
+                                    ),
                                     SizedBox(
                                       width: 85,
                                       child: Stack(
