@@ -102,30 +102,6 @@ class MainKidScreen extends StatelessWidget {
                           onTap: () => data.switchMainKidInfo(),
                           text: 'mainKidInfo',
                           height: 0.2,)),
-                    Positioned(
-                        bottom: 10,
-                        child: Container(
-                          width: size.width,
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            color: kGrey,
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () => parent.switchTaskScreen(0),
-                                child: Text('Single task'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () => parent.switchTaskScreen(1),
-                                child: Text('Multitask'),
-                              ),
-                            ],
-                          ),
-                        )
-                    )
                   ],
                 ),
               ),
