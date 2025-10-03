@@ -323,10 +323,12 @@ class ParentProvider with ChangeNotifier {
   Future changeToInProgress(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
     isSingle
     ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
-      'status': 'inProgress'
+      'status': 'inProgress',
+      'time' : DateTime.now().toString(),
     })
     : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
-      'status': 'inProgress'
+      'status': 'inProgress',
+      'time' : DateTime.now().toString(),
     });
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
