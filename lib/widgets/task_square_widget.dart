@@ -18,11 +18,7 @@ class TaskSquareWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: number == 0
             ? kBlue.withValues(alpha: 0.1)
-            : number == 1
-            ? kBlue
-            : number == 2
-            ? kGreen.withValues(alpha: 0.8)
-            : kRed.withValues(alpha: 0.7),
+            : kBlue,
         borderRadius: BorderRadius.circular(4),
         boxShadow: [
           BoxShadow(

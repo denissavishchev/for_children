@@ -77,17 +77,24 @@ class MainKidScreen extends StatelessWidget {
                             ]),
                             builder: (context, snapshot){
                               if (!snapshot.hasData) return CircularProgressIndicator();
-                              return SizedBox(
-                                height: size.height * 0.8,
-                                child: PageView.builder(
-                                    controller: parent.taskPageController,
-                                    itemCount: 2,
-                                    itemBuilder: (context, index){
-                                      return index == 0
-                                          ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
-                                          : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
-                                    }
-                                ),
+                              return Consumer<ParentProvider>(
+                                  builder: (context, data, _){
+                                    return SizedBox(
+                                      height: size.height * 0.8,
+                                      child: PageView.builder(
+                                          controller: parent.taskPageController,
+                                          itemCount: 2,
+                                          itemBuilder: (context, index){
+                                            if(snapshot.data![1].docs[index].get('daysNumber').length <= data.whatDayIs(snapshot.data![1].docs[index].get('time'))){
+                                              data.changeToDone(snapshot.data![1], index, context, data.pageIndex == 0);
+                                            }
+                                            return index == 0
+                                                ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
+                                                : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                          }
+                                      ),
+                                    );
+                                  }
                               );
                             }
                         ),

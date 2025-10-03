@@ -10,7 +10,6 @@ import '../task_square_widget.dart';
 import 'kid_stars_widget.dart';
 import 'kid_status_widget.dart';
 
-
 class KidsMultiBasicContainerWidget extends StatelessWidget {
   const KidsMultiBasicContainerWidget({
     super.key,
@@ -143,26 +142,6 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          TaskSquareWidget(number: 2),
-                                          Text('-', style: kTextStyle,),
-                                          Text(counts[2].toString(), style: kTextStyle,),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          TaskSquareWidget(number: 3),
-                                          Text('-', style: kTextStyle,),
-                                          Text(counts[3].toString(), style: kTextStyle,),
-                                        ],
-                                      ),
-                                    ],
-                                  )
                                 ],
                               ),
                             ],
