@@ -35,7 +35,15 @@ class ParentProvider with ChangeNotifier {
   bool isLoading = false;
 
   List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
-  List<String> taskTypes = ['home', 'study', 'sport', 'family', 'art', 'health', 'ecology', 'hobby'];
+  Map<String, Color> taskTypes = {
+    'home': kRed,
+    'study': kGreen,
+    'sport': kBlue,
+    'family': Colors.yellow,
+    'art': kOrange,
+    'health': kPurple,
+    'ecology': Colors.pink,
+    'hobby': kLightBlue};
   String selectedTypeStatus = 'home';
   int selectedExp = 1;
   bool isSelectButtonOpen = false;
@@ -199,12 +207,12 @@ class ParentProvider with ChangeNotifier {
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     for(int k = 0; k < 6; k++){
+      if (doc.data()?['kid$k'] == null || doc.data()?['kid$k'].isEmpty) continue;
         DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
         instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
         kidsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
         kidsListAccept.add(doc.data()?['kid${k}Accept']);
         notifyListeners();
-      // }
     }
   }
 
@@ -848,14 +856,24 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int historyBoxSizes(QuerySnapshot<Map<String, dynamic>> snapshot, int i){
-    snapshot.docs[i].data().containsKey('expQty')
-    ? log(snapshot.docs[i].get('expQty'))
-    : log('1');
-    snapshot.docs[i].data().containsKey('type')
-        ? log(snapshot.docs[i].get('type'))
-        : log('home1');
-    return 1;
+  int historyBoxSums(QuerySnapshot<Map<String, dynamic>> snapshot, int index, String kidName) {
+    Map<String, int> sums = {
+      for (var t in taskTypes.keys.toList()) t: 0,
+    };
+    for (var doc in snapshot.docs) {
+      final data = doc.data();
+      if (data['parentEmail'].toLowerCase() == email && data['kidName'] == kidName){
+        String type = doc.data()['type'];
+        int qty = int.parse(doc.data()['expQty']);
+        if (sums.containsKey(type)) {
+          sums[type] = sums[type]! + qty;
+        }
+      }
+    }
+    String typeKey = taskTypes.keys.toList()[index];
+    log('Type: $typeKey, sum: ${sums[typeKey]}');
+    return sums[typeKey] ?? 0;
   }
+
 
 }

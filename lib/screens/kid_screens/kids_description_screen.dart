@@ -175,8 +175,8 @@ class KidsDescriptionScreen extends StatelessWidget {
                             snapshot.docs[index].get('price'),
                             snapshot.docs[index].get('stars'),
                             snapshot.docs[index].get('imageUrl'),
-                            snapshot.docs[index].data().containsKey('type') ? snapshot.docs[index].get('type') : 'home',
-                            snapshot.docs[index].data().containsKey('expQty') ? snapshot.docs[index].get('expQty') : '1',
+                            snapshot.docs[index].get('type'),
+                            snapshot.docs[index].get('expQty'),
                           ),
                           icon: const Icon(Icons.history, size: 32, color: kOrange,))
                           : data.role == 'parent'

@@ -8,8 +8,21 @@ import '../widgets/history_bar_widget.dart';
 import '../widgets/history_tiles_list_widget.dart';
 import 'kid_screens/main_kid_screen.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+
+  @override
+  void initState() {
+    final data = Provider.of<ParentProvider>(context, listen: false);
+    data.getKidsData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +65,24 @@ class HistoryScreen extends StatelessWidget {
                               ),
                             ),
                             HistoryTilesListWidget(snapshot: snapshot.data!,),
-                            HistoryBarWidget(snapshot: snapshot.data!,)
+                            FutureBuilder(
+                                future: data.getKid,
+                                builder: (context, snapShot){
+                                  if(snapShot.connectionState == ConnectionState.waiting){
+                                    return const Center(child: CircularProgressIndicator(),);
+                                  }else{
+                                    return SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: List.generate(data.kidsList.length, ((i){
+                                          return HistoryBarWidget(
+                                              snapshot: snapshot.data!,
+                                              kidName: data.kidsList.keys.elementAt(i));
+                                        })),
+                                      ),
+                                    );
+                                  }}),
                           ],
                         );
                       }else{

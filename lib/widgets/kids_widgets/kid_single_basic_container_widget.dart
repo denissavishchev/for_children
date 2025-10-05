@@ -72,9 +72,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                             children: [
                               Text(snapshot.docs[index].get(nameOf),
                                 style: kBigTextStyle,),
-                              Text((snapshot.docs[index].data().containsKey('type')
-                                  ? snapshot.docs[index].get('type')
-                                  : ''),
+                              Text((snapshot.docs[index].get('type')),
                                 style: kTextStyle,),
                             ],
                           ),
@@ -113,9 +111,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                 children: List.generate(3, ((i){
                                   return SvgPicture.asset('assets/icons/pepper.svg',
                                     width: 22,
-                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.docs[index].data().containsKey('expQty')
-                                        ? int.parse(snapshot.docs[index].get('expQty'))
-                                        : 1)
+                                    colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot.docs[index].get('expQty'))
                                         ? kRed : Colors.transparent, BlendMode.srcIn),
                                   );
                                 })),

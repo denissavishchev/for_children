@@ -6,50 +6,62 @@ import '../providers/parent_provider.dart';
 
 class HistoryBarWidget extends StatelessWidget {
   const HistoryBarWidget({
-    super.key, required this.snapshot,
+    super.key,
+    required this.snapshot,
+    required this.kidName,
   });
 
   final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final String kidName;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    List<Color> colors = [Colors.red, Colors.green, Colors.blue, Colors.yellow, Colors.orange, Colors.purple, Colors.pink, Colors.brown];
     return Consumer<ParentProvider>(builder: (context, data, _){
-      return SizedBox(
-        height: size.height * 0.4,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            spacing: 12,
-            children: [
-              Container(
-                width: 80,
-                clipBehavior: Clip.hardEdge,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 6,
-                          spreadRadius: 2,
-                          offset: const Offset(3, 3)
-                      )
-                    ]
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(8, 8, 18, 8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 12,
+          children: [
+            Column(
+              spacing: 12,
+              children: [
+                Container(
+                  width: 80,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(40)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 6,
+                            spreadRadius: 2,
+                            offset: const Offset(3, 3)
+                        )
+                      ]
+                  ),
+                  child: SizedBox(
+                    height: size.height * 0.35,
+                    child: Column(
+                      children: List.generate(data.taskTypes.length, ((i){
+                        return Flexible(
+                          flex: data.historyBoxSums(snapshot, i, kidName),
+                          child: Container(
+                            width: 80,
+                            color: data.taskTypes.values.elementAt(i),
+                          ),
+                        );
+                      })),
+                    ),
+                  ),
                 ),
-                child: Column(
-                  children: List.generate(8, ((i){
-                    return Flexible(
-                      flex: data.historyBoxSizes(snapshot, i),
-                      child: Container(
-                        width: 80,
-                        color: colors[i],
-                      ),
-                    );
-                  })),
-                ),
-              ),
-              Column(
+                Text(kidName, style: kTextStyle)
+              ],
+            ),
+            SizedBox(
+              height: size.height * 0.35,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(8, ((i){
@@ -62,16 +74,24 @@ class HistoryBarWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(color: kBlue, width: 1),
-                          color: colors[i],
+                          color: data.taskTypes.values.elementAt(i),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.2),
+                                  blurRadius: 6,
+                                  spreadRadius: 2,
+                                  offset: const Offset(3, 3)
+                              )
+                            ]
                         ),
                       ),
-                      Text(data.taskTypes[i], style: kTextStyle)
+                      Text(data.taskTypes.keys.elementAt(i), style: kTextStyle)
                     ],
                   );
                 })),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       );
     });

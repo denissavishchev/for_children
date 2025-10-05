@@ -61,16 +61,13 @@ class HistoryTilesListWidget extends StatelessWidget {
                                   children: List.generate(5, ((i){
                                     return SvgPicture.asset('assets/icons/pepper.svg',
                                       width: 12,
-                                      colorFilter: ColorFilter.mode((4 - i) < (snapshot.docs[index].data().containsKey('expQty')
-                                          ? int.parse(snapshot.docs[index].get('expQty'))
-                                          : 1)
+                                      colorFilter: ColorFilter.mode((4 - i) < int.parse(snapshot.docs[index].get('expQty'))
                                           ? kRed : kGrey, BlendMode.srcIn),
                                     );
                                   })),
                                 ),
-                                Text(snapshot.docs[index].data().containsKey('type')
-                                    ? snapshot.docs[index].get('type')
-                                    : 'home', style: kTextStyle,),
+                                Text(snapshot.docs[index].get('type'),
+                                  style: kTextStyle.copyWith(color: data.taskTypes[snapshot.docs[index].get('type')]),),
                                 Text(snapshot.docs[index].data().containsKey('daysNumber')
                                     ? 'M'
                                     : 'S', style: kTextStyle,),

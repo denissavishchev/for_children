@@ -61,7 +61,7 @@ class SelectTaskTypeWidget extends StatelessWidget {
                           spacing: 12,
                           children: List.generate(data.taskTypes.length, (index){
                             return GestureDetector(
-                              onTap: () => setState(() => data.changeTypeStatus(data.taskTypes[index])),
+                              onTap: () => setState(() => data.changeTypeStatus(data.taskTypes.keys.elementAt(index))),
                               child: Container(
                                 width: 200,
                                 height: 40,
@@ -70,10 +70,10 @@ class SelectTaskTypeWidget extends StatelessWidget {
                                     borderRadius: const BorderRadius.all(Radius.circular(12)),
                                     border: Border.all(
                                         width: 2,
-                                        color: data.selectedTypeStatus == data.taskTypes[index]
+                                        color: data.selectedTypeStatus == data.taskTypes.keys.elementAt(index)
                                             ? kBlue : kDarkGrey)
                                 ),
-                                child: Center(child: Text(data.taskTypes[index])),
+                                child: Center(child: Text(data.taskTypes.keys.elementAt(index))),
                               ),
                             );
                           }),
