@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -623,7 +624,7 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void>historyDescription(context, String price, String description,
-      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index,) async{
+  QuerySnapshot<Map<String, dynamic>> snapshot, int index,) async{
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -659,7 +660,7 @@ class ParentProvider with ChangeNotifier {
                           right: Radius.circular(4)
                       ),
                     ),
-                    child: Text(snapshot.data?.docs[index].get('taskName'),
+                    child: Text(snapshot.docs[index].get('taskName'),
                       style: kBigTextStyle,),
                   ),
                   Container(
@@ -671,7 +672,7 @@ class ParentProvider with ChangeNotifier {
                         color: kBlue.withValues(alpha: 0.1),
                         borderRadius: const BorderRadius.all(Radius.circular(4))
                     ),
-                    child: Text(snapshot.data?.docs[index].get('description'), style: kTextStyle),
+                    child: Text(snapshot.docs[index].get('description'), style: kTextStyle),
                   ),
                   ButtonWidget(
                       onTap: () => deleteFromHistory(context, snapshot, index),
@@ -682,7 +683,7 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
-  Future<void>deleteFromHistory(context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index)async {
+  Future<void>deleteFromHistory(context, QuerySnapshot<Map<String, dynamic>> snapshot, int index)async {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -713,7 +714,7 @@ class ParentProvider with ChangeNotifier {
                   TextButton(
                       onPressed: () {
                         FirebaseFirestore.instance.collection('history').doc(
-                            snapshot.data?.docs[index].id).delete();
+                            snapshot.docs[index].id).delete();
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) =>
                             const HistoryScreen()));
@@ -845,6 +846,16 @@ class ParentProvider with ChangeNotifier {
   void openSelectButton(){
     isSelectButtonOpen = !isSelectButtonOpen;
     notifyListeners();
+  }
+
+  int historyBoxSizes(QuerySnapshot<Map<String, dynamic>> snapshot, int i){
+    snapshot.docs[i].data().containsKey('expQty')
+    ? log(snapshot.docs[i].get('expQty'))
+    : log('1');
+    snapshot.docs[i].data().containsKey('type')
+        ? log(snapshot.docs[i].get('type'))
+        : log('home1');
+    return 1;
   }
 
 }

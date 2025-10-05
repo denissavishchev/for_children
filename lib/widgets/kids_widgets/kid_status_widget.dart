@@ -27,7 +27,7 @@ class KidStatusWidget extends StatelessWidget {
           border: border ? Border.all(
             width: 0.5,
             color: snapshot.docs[index].get('status') == name
-                ? kWhite : Colors.transparent,) : null
+                ? kBlue : Colors.transparent,) : null
       ),
       child: Text(name.tr(),
         style: snapshot.docs[index].get('status') == name &&
@@ -35,8 +35,8 @@ class KidStatusWidget extends StatelessWidget {
             ? kOrangeTextStyle
             : snapshot.docs[index].get('status') == name &&
             snapshot.docs[index].get('priceStatus') == 'set'
-            ? kTextStyleWhite
-            : kSmallTextStyleWhite,),
+            ? kTextStyle
+            : kSmallTextStyle,),
     );
   }
 }

@@ -90,7 +90,12 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 6),
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: kOrange.withValues(alpha: 0.8),
+                              gradient: LinearGradient(
+                                colors: [
+                                  kOrange.withValues(alpha: 0.7),
+                                  kOrange.withValues(alpha: 0.4),
+                                ],
+                              ),
                               borderRadius: const BorderRadius.horizontal(
                                   right: Radius.circular(18)
                               ),

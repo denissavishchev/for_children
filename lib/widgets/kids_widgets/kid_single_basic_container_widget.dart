@@ -41,20 +41,18 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            kLightBlue.withValues(alpha: 0.8),
-                            kDarkBlue.withValues(alpha: 0.8),
-                            kPurple.withValues(alpha: 0.8),
+                            kWhite,
+                            kGrey,
                           ],
-                          stops: const [0, 0.5, 1]
                         ),
                         border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(18)),
                         boxShadow: [
                           BoxShadow(
-                              color: kRed.withValues(alpha: 0.6),
-                              blurRadius: 6,
-                              spreadRadius: 2,
-                              offset: const Offset(-6, 6)
+                              color: kDarkGrey,
+                              blurRadius: 3,
+                              spreadRadius: 1,
+                              offset: const Offset(-3, 3)
                           ),
                           BoxShadow(
                               color: Colors.black.withValues(alpha: 0.3),
@@ -73,11 +71,11 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(snapshot.docs[index].get(nameOf),
-                                style: kBigTextStyleWhite,),
+                                style: kBigTextStyle,),
                               Text((snapshot.docs[index].data().containsKey('type')
                                   ? snapshot.docs[index].get('type')
                                   : ''),
-                                style: kTextStyleWhite,),
+                                style: kTextStyle,),
                             ],
                           ),
                         ),
@@ -87,37 +85,34 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 6),
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: kOrange.withValues(alpha: 0.8),
+                              gradient: LinearGradient(
+                                  colors: [
+                                    kWhite,
+                                    kGrey,
+                                  ],
+                              ),
                             borderRadius: const BorderRadius.horizontal(
                                 right: Radius.circular(18)
                             ),
                             border: Border.all(width: 1, color: kDarkBlue),
-                            boxShadow: [
-                              BoxShadow(
-                                color: kWhite.withValues(alpha: 0.3),
-                                spreadRadius: 2,
-                                blurRadius: 2
-                              )
-                            ]
                           ),
                           child: Text(snapshot.docs[index].get('taskName'),
-                            style: kBigTextStyleWhite,),
+                            style: kBigTextStyle,),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             children: [
                               Text('taskPrice'.tr(),
-                                style: kTextStyle.copyWith(
-                                    color: kWhite.withValues(alpha: 0.6)),),
+                                style: kTextStyle,),
                               Text(snapshot.docs[index].get('price'),
-                                style: kTextStyleWhite,),
+                                style: kTextStyle,),
                               Spacer(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: List.generate(3, ((i){
                                   return SvgPicture.asset('assets/icons/pepper.svg',
-                                    width: 14,
+                                    width: 22,
                                     colorFilter: ColorFilter.mode((2 - i) < (snapshot.docs[index].data().containsKey('expQty')
                                         ? int.parse(snapshot.docs[index].get('expQty'))
                                         : 1)
@@ -142,20 +137,18 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                             colors: [
-                              kPurple.withValues(alpha: 0.8),
-                              kDarkBlue.withValues(alpha: 0.8),
-                              kBlue.withValues(alpha: 0.8),
+                              kGrey,
+                              kWhite
                             ],
-                            stops: const [0.1, 1, 0.1]
                         ),
                         border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(18)),
                         boxShadow: [
                           BoxShadow(
-                              color: kRed.withValues(alpha: 0.6),
-                              blurRadius: 6,
-                              spreadRadius: 2,
-                              offset: const Offset(-4, 6)
+                              color: kGrey.withValues(alpha: 0.6),
+                              blurRadius: 3,
+                              spreadRadius: 1,
+                              offset: const Offset(-3, 3)
                           ),
                           BoxShadow(
                               color: Colors.black.withValues(alpha: 0.3),

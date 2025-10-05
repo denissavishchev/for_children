@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../providers/parent_provider.dart';
+import '../widgets/history_bar_widget.dart';
 import '../widgets/history_tiles_list_widget.dart';
 import 'kid_screens/main_kid_screen.dart';
 
@@ -19,32 +21,45 @@ class HistoryScreen extends StatelessWidget {
           child: Consumer<ParentProvider>(
             builder: (context, data, _){
               return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 12),
-                      height: size.height * 0.1,
-                      child: Row(
-                        children: [
-                          IconButton(
-                              onPressed: () =>
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) =>
-                                      data.role == 'parent'
-                                          ? const MainParentScreen()
-                                          : const MainKidScreen())),
-                              icon: const Icon(
-                                Icons.arrow_back_ios_new,
-                                color: kBlue,
-                                size: 32,
-                              )),
-                          const Spacer(),
-                        ],
-                      ),
-                    ),
-                    const HistoryTilesListWidget()
-                  ],
-                ),
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('history')
+                        .orderBy('time', descending: true)
+                        .snapshots(),
+                    builder: (context, snapshot){
+                      if(snapshot.hasData){
+                        return Column(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 12),
+                              height: size.height * 0.1,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () =>
+                                          Navigator.pushReplacement(context,
+                                              MaterialPageRoute(builder: (context) =>
+                                              data.role == 'parent'
+                                                  ? const MainParentScreen()
+                                                  : const MainKidScreen())),
+                                      icon: const Icon(
+                                        Icons.arrow_back_ios_new,
+                                        color: kBlue,
+                                        size: 32,
+                                      )),
+                                  const Spacer(),
+                                ],
+                              ),
+                            ),
+                            HistoryTilesListWidget(snapshot: snapshot.data!,),
+                            HistoryBarWidget(snapshot: snapshot.data!,)
+                          ],
+                        );
+                      }else{
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    }
+                )
               );
             },
           )
@@ -52,3 +67,5 @@ class HistoryScreen extends StatelessWidget {
     );
   }
 }
+
+

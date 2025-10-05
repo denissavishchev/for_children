@@ -16,7 +16,7 @@ class KidStarsWidget extends StatelessWidget {
 
   final shadow = [
     const BoxShadow(
-        color: kWhite,
+        color: kBlue,
         blurRadius: 9,
         spreadRadius: 6,
         offset: Offset(0.5, 0.5)
@@ -65,7 +65,7 @@ class KidStarsWidget extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Text('paid'.tr(),
                 style: snapshot.docs[index].get('status') == 'paid'
-                    ? kTextStyleWhite : kRedTextStyle,)),
+                    ? kTextStyle : kRedTextStyle,)),
         ],
       ),
     );
