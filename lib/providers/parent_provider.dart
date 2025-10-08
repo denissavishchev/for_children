@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -346,7 +345,7 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToDone(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+  Future changeToDone(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle, bool changeScreen)async{
     isSingle
         ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
       'status': 'done'
@@ -354,11 +353,13 @@ class ParentProvider with ChangeNotifier {
         : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
       'status': 'done'
     });
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) =>
-        role == 'parent'
-            ? const MainParentScreen()
-            : const MainKidScreen()));
+    if(changeScreen){
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) =>
+          role == 'parent'
+              ? const MainParentScreen()
+              : const MainKidScreen()));
+    }
   }
 
   Future changeToChecked(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
@@ -871,7 +872,6 @@ class ParentProvider with ChangeNotifier {
       }
     }
     String typeKey = taskTypes.keys.toList()[index];
-    log('Type: $typeKey, sum: ${sums[typeKey]}');
     return sums[typeKey] ?? 0;
   }
 

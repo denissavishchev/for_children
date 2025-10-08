@@ -426,7 +426,7 @@ class KidsDescriptionScreen extends StatelessWidget {
           : ChangeButtonWidget(
               index: index,
               snapshot: snapshot,
-              onTap: () => data.changeToDone(snapshot, index, context, data.pageIndex == 0),
+              onTap: () => data.changeToDone(snapshot, index, context, data.pageIndex == 0, true),
               text: 'imDoneStatus',
             )
           : Text('waitingForDone'.tr(args: [snapshot.docs[index].get(

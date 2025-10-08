@@ -232,7 +232,13 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                             children: [
                               Text('inProgress'.tr(), style: kTextStyleWhite),
                               TaskSwitchButtonWidget(
-                                onTap: () => data.switchTodayTask(data.whatDayIs(snapshot.docs[index].get('time')), snapshot.docs[index].id.toString()),
+                                onTap: () {
+                                  data.switchTodayTask(data.whatDayIs(snapshot.docs[index].get('time')), snapshot.docs[index].id.toString());
+                                  if(snapshot.docs[index].get('status') == 'inProgress'
+                                      && snapshot.docs[index].get('daysNumber').length <= data.whatDayIs(snapshot.docs[index].get('time')) + 1){
+                                    data.changeToDone(snapshot, index, context, false, false);
+                                  }
+                                },
                                 checked: snapshot.docs[index].get('daysNumber')[data.whatDayIs(snapshot.docs[index].get('time'))] == 1,)
                             ],
                           )

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,12 +39,6 @@ class _KidsMultiTaskListWidgetState extends State<KidsMultiTaskListWidget> {
                   child: ListView.builder(
                       itemCount: widget.snapshot.docs.length,
                       itemBuilder: (context, index){
-                        log('daysLeft ${widget.snapshot.docs[index].get('taskName')}');
-                        log('daysLeft ${data.whatDayIs(widget.snapshot.docs[index].get('time'))}');
-                        if(widget.snapshot.docs[index].get('status') == 'inProgress'
-                            && widget.snapshot.docs[index].get('daysNumber').length < data.whatDayIs(widget.snapshot.docs[index].get('time'))){
-                          data.changeToDone(widget.snapshot, index, context, false);
-                        }
                         if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){
                           return GestureDetector(
                             onTap: () {
