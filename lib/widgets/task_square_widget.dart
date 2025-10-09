@@ -4,10 +4,11 @@ import '../constants.dart';
 class TaskSquareWidget extends StatelessWidget {
   const TaskSquareWidget({
     super.key,
-    required this.number,
+    required this.number, this.color = kBlue,
   });
 
   final int number;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class TaskSquareWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: number == 0
             ? kBlue.withValues(alpha: 0.1)
-            : kBlue,
+            : color,
         borderRadius: BorderRadius.circular(4),
         boxShadow: [
           BoxShadow(

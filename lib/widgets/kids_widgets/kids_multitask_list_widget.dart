@@ -37,6 +37,7 @@ class _KidsMultiTaskListWidgetState extends State<KidsMultiTaskListWidget> {
               SizedBox(
                   height: size.height * 0.8,
                   child: ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 40),
                       itemCount: widget.snapshot.docs.length,
                       itemBuilder: (context, index){
                         if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){

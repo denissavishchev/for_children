@@ -95,7 +95,6 @@ class MainKidScreen extends StatelessWidget {
                               );
                             }
                         ),
-                        // const KidSingleTaskListWidget()
                       ],
                     ),
                     Positioned(
