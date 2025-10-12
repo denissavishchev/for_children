@@ -39,8 +39,21 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
             width: size.width,
             height: height,
             decoration: BoxDecoration(
-                color: kWhite.withValues(alpha: 0.5),
-                border: Border.all(width: 2, color: kDarkBlue),
+              gradient: LinearGradient(
+                  colors: [
+                    kBlue.withValues(alpha: 0.75),
+                    kBlue.withValues(alpha: 0.35),
+                    kBlue.withValues(alpha: 0.55)
+                  ],
+                stops: [0, 0.4, 1],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight
+              ),
+                border: Border.all(width: 2,
+                    color: snapshot.docs[index].get('status') == 'inProgress'
+                    ? kOrange.withValues(alpha: 0.8)
+                    : snapshot.docs[index].get('status') == 'price'
+                    ? kWhite.withValues(alpha: 0.5) : kDarkBlue),
                 borderRadius: const BorderRadius.all(Radius.circular(18)),
             ),
             child: Row(
@@ -56,9 +69,9 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(snapshot.docs[index].get('taskName'),
-                              style: kBigTextStyle,),
+                              style: kBigTextKidStyle,),
                             Text(snapshot.docs[index].get(nameOf),
-                              style: kTextStyle,),
+                              style: kTextKidStyle,),
                           ],
                         ),
                       ),
@@ -88,15 +101,15 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                   Row(
                                     children: [
                                       TaskSquareWidget(number: 0),
-                                      Text('-', style: kTextStyle,),
-                                      Text(counts[0].toString(), style: kTextStyle,),
+                                      Text('-', style: kTextStyleWhite,),
+                                      Text(counts[0].toString(), style: kTextStyleWhite,),
                                     ],
                                   ),
                                   Row(
                                     children: [
-                                      TaskSquareWidget(number: 1),
-                                      Text('-', style: kTextStyle,),
-                                      Text(counts[1].toString(), style: kTextStyle,),
+                                      TaskSquareWidget(number: 1, color: kOrange,),
+                                      Text('-', style: kTextStyleWhite,),
+                                      Text(counts[1].toString(), style: kTextStyleWhite,),
                                     ],
                                   ),
                                 ],
@@ -110,26 +123,41 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                         child: Row(
                           children: [
                             Text('taskPrice'.tr(),
-                              style: kTextStyle.copyWith(
-                                  color: kBlue.withValues(alpha: 0.6)),),
+                              style: kTextKidStyle.copyWith(
+                                  color: kWhite.withValues(alpha: 0.6)),),
                             Text(snapshot.docs[index].get('price'),
-                              style: kTextStyle,),
+                              style: kTextKidStyle,),
                             Spacer(),
                             Text('taskType'.tr(),
-                              style: kTextStyle.copyWith(
-                                  color: kBlue.withValues(alpha: 0.6)),),
+                              style: kTextKidStyle.copyWith(
+                                  color: kWhite.withValues(alpha: 0.6)),),
                             Text(snapshot.docs[index].get('type'),
-                              style: kTextStyle,),
+                              style: kTextKidStyle,),
                             Spacer(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: List.generate(5, ((i){
-                                return SvgPicture.asset('assets/icons/pepper.svg',
-                                  width: 14,
-                                  colorFilter: ColorFilter.mode((4 - i) < (snapshot.docs[index].data().containsKey('expQty')
-                                      ? int.parse(snapshot.docs[index].get('expQty'))
-                                      : 1)
-                                      ? kRed : Colors.transparent, BlendMode.srcIn),
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: (4 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                                                ? int.parse(snapshot.docs[index].get('expQty'))
+                                                : 1)
+                                                ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
+                                            blurRadius: 2,
+                                            spreadRadius: 2
+                                        )
+                                      ]
+                                  ),
+                                  child: SvgPicture.asset('assets/icons/pepper.svg',
+                                    width: 14,
+                                    colorFilter: ColorFilter.mode((4 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                                        ? int.parse(snapshot.docs[index].get('expQty'))
+                                        : 1)
+                                        ? kRed : Colors.transparent, BlendMode.srcIn),
+                                  ),
                                 );
                               })),
                             )
@@ -151,7 +179,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                         ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('inProgress'.tr(), style: kTextStyle),
+                        Text('inProgress'.tr(), style: kTextKidStyle),
                         TaskSwitchButtonWidget(
                           onTap: () {
                             data.switchTodayTask(data.whatDayIs(snapshot.docs[index].get('time')), snapshot.docs[index].id.toString());

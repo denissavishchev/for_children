@@ -25,9 +25,9 @@ class KidStatusWidget extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(4)),
           border: border ? Border.all(
-            width: 0.5,
+            width: 1,
             color: snapshot.docs[index].get('status') == name
-                ? kBlue : Colors.transparent,) : null
+                ? kWhite : Colors.transparent,) : null
       ),
       child: Text(name.tr(),
         style: snapshot.docs[index].get('status') == name &&
@@ -35,8 +35,8 @@ class KidStatusWidget extends StatelessWidget {
             ? kOrangeTextStyle
             : snapshot.docs[index].get('status') == name &&
             snapshot.docs[index].get('priceStatus') == 'set'
-            ? kTextStyle
-            : kSmallTextStyle,),
+            ? kTextStyleWhite
+            : kSmallTextStyleWhite,),
     );
   }
 }
