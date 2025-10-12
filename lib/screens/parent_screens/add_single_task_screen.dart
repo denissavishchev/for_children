@@ -76,11 +76,9 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                           physics: const NeverScrollableScrollPhysics(),
                                           itemCount: data.kidsList.length,
                                           itemBuilder: (context, index){
-                                            String key = data.kidsList.keys.elementAt(index);
-                                            String value = data.kidsList.values.elementAt(index);
-                                            return data.kidsListAccept[index] == true
+                                            return data.kidsList[index].accept == true
                                                 ? GestureDetector(
-                                              onTap: () => data.selectKid(key, value),
+                                              onTap: () => data.selectKid(data.kidsList[index].name, data.kidsList[index].email),
                                               child: Container(
                                                 width: size.width * 0.4,
                                                 margin: const EdgeInsets.all(2),
@@ -89,11 +87,11 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                                     borderRadius: const BorderRadius.all(Radius.circular(12)),
                                                     border: Border.all(
                                                         width: 2,
-                                                        color: data.selectedKidName == key
+                                                        color: data.selectedKidName == data.kidsList[index].name
                                                             ? kBlue : kDarkGrey)
                                                 ),
                                                 child: Center(
-                                                    child: Text(key, style: kTextStyle,)),
+                                                    child: Text(data.kidsList[index].name, style: kTextStyle,)),
                                               ),
                                             )
                                                 : Container(
@@ -104,7 +102,7 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                                               ),
                                               child: Center(
-                                                  child: Text('notConfirmed'.tr(args: [key]), style: kTextStyle,)),
+                                                  child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyle,)),
                                             );
                                           },
                                           gridDelegate:

@@ -82,10 +82,9 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                               const SizedBox(height: 50,),
                                Column(
                             children: [
-                              Text(
-                                'yourKids'.tr(), style: kTextStyle,),
+                              Text('yourKids'.tr(), style: kTextStyle,),
                               SizedBox(
-                                  height: 24.0 * data.kidsList.length,
+                                  height: 32.0 * data.kidsList.length,
                                   child: FutureBuilder(
                                     future: data.getKid,
                                     builder: (context, snapshot){
@@ -95,17 +94,28 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                                         return ListView.builder(
                                             itemCount: data.kidsList.length,
                                             itemBuilder: (context, index){
-                                              String key = data.kidsList.keys.elementAt(index);
-                                              return data.kidsList[key] != ''
-                                                  ? Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                children: [
-                                                  Text(key, style: kTextStyle,),
-                                                  Icon(Icons.check,
-                                                    color: data.kidsListAccept[index]
-                                                        ? kGreen : kDarkGrey,),
-                                                ],
-                                              )
+                                              return data.kidsList[index].name != ''
+                                                  ? Padding(
+                                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                      children: [
+                                                        Text(data.kidsList[index].name, style: kTextStyle,),
+                                                        Icon(Icons.check,
+                                                          color: data.kidsList[index].accept
+                                                              ? kGreen : kDarkGrey,),
+                                                        GestureDetector(
+                                                          onTap: () => data.changeDayDuration(
+                                                            context,
+                                                            data.kidsList[index].name,
+                                                            data.kidsList[index].startDay,
+                                                            data.kidsList[index].endDay,
+                                                            data.kidsList[index].email),
+                                                            child: Text('${data.kidsList[index].startDay} - ${data.kidsList[index].endDay}',
+                                                              style: kBigTextStyle,))
+                                                      ],
+                                                    ),
+                                                  )
                                                   : const SizedBox.shrink();
                                             }
                                         );

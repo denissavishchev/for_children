@@ -78,7 +78,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         children: List.generate(data.kidsList.length, ((i){
                                           return HistoryBarWidget(
                                               snapshot: snapshot.data!,
-                                              kidName: data.kidsList.keys.elementAt(i));
+                                              kidName:  data.kidsList[i].name);
                                         })),
                                       ),
                                     );

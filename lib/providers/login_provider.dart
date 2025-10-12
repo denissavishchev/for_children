@@ -125,7 +125,9 @@ class LoginProvider with ChangeNotifier {
         'name': nameController.text.trim(),
         'surName': surnameController.text.trim(),
         'role': role,
-        'time' : DateTime.now().toString()
+        'time' : DateTime.now().toString(),
+        'dayStart' : '06:00',
+        'dayEnd' : '22:00'
       });
       successSighUp(context);
     }catch(e){

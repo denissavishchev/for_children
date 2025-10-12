@@ -109,7 +109,7 @@
   "multiTask": "Recurring task",
   "multiTaskDescription": "Allows you to create tasks repeated daily (e.g. brushing teeth, cleaning, homework).\nThis way the child sees that the task returns every day, and the parent can easily check if it has been completed.",
   "singleTask": "Single task",
-  "singleTaskDescription": "Allows you to create one-time tasks (e.g. buying a gift, helping in the garden, extra exercise).\nThis way the child sees a clearly defined task to complete, and the parent can quickly check if it has been done."
-
-
+  "singleTaskDescription": "Allows you to create one-time tasks (e.g. buying a gift, helping in the garden, extra exercise).\nThis way the child sees a clearly defined task to complete, and the parent can quickly check if it has been done.",
+  "setDayDurationFor" : "Set day duration for {}",
+  "ok" : "OK"
 }

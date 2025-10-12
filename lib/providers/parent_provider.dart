@@ -7,8 +7,10 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/screens/history_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
+import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
 
@@ -27,6 +29,16 @@ class ParentProvider with ChangeNotifier {
   String selectedKidEmail = '';
   double daySlider = 5;
   int pageIndex = 0;
+
+  int startHour = 0;
+  int startMinute = 0;
+  int endHour = 0;
+  int endMinute = 0;
+
+  FixedExtentScrollController _startMinController = FixedExtentScrollController();
+  FixedExtentScrollController _startHourController = FixedExtentScrollController();
+  FixedExtentScrollController _endMinController = FixedExtentScrollController();
+  FixedExtentScrollController _endHourController = FixedExtentScrollController();
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -53,8 +65,7 @@ class ParentProvider with ChangeNotifier {
   XFile? file = XFile('');
   late Future<void> getKid;
   late Future<void> getEmailVoid;
-  Map<String, String> kidsList = {};
-  List<bool> kidsListAccept = [];
+  List<KidModel> kidsList = [];
   Map<String, String> wishList = {};
 
   String? email = '';
@@ -200,7 +211,6 @@ class ParentProvider with ChangeNotifier {
 
   Future<void> getKids() async{
     kidsList.clear();
-    kidsListAccept.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getString('email');
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
@@ -209,8 +219,15 @@ class ParentProvider with ChangeNotifier {
       if (doc.data()?['kid$k'] == null || doc.data()?['kid$k'].isEmpty) continue;
         DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
         instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
-        kidsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
-        kidsListAccept.add(doc.data()?['kid${k}Accept']);
+      final kidData = docEmail.data();
+      if (kidData == null) continue;
+        final kid = KidModel(
+            name: kidData['name'] ?? '',
+            email: doc.data()?['kid$k']?.toLowerCase() ?? '',
+            accept: kidData['kid${k}Accept'] ?? false,
+            startDay: kidData['dayStart'] ?? '',
+            endDay: kidData['dayEnd'] ?? '');
+        kidsList.add(kid);
         notifyListeners();
     }
   }
@@ -875,5 +892,96 @@ class ParentProvider with ChangeNotifier {
     return sums[typeKey] ?? 0;
   }
 
+
+  Future changeDayDuration(context, String name, String start, String end, String email) async{
+    Size size = MediaQuery.sizeOf(context);
+    startHour = int.parse(start.split(':')[0]);
+    startMinute = int.parse(start.split(':')[1]);
+    endHour = int.parse(end.split(':')[0]);
+    endMinute = int.parse(end.split(':')[1]);
+    _startHourController = FixedExtentScrollController(initialItem: startHour - 4);
+    _startMinController = FixedExtentScrollController(initialItem: startMinute);
+    _endHourController = FixedExtentScrollController(initialItem: endHour - 18);
+    _endMinController = FixedExtentScrollController(initialItem: endMinute);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.35,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                    ],
+                  ),
+                  Center(child: Text('setDayDurationFor'.tr(args: [name]), style: kTextStyle,)),
+                  SizedBox(
+                    height: size.height * 0.2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DayDurationScrollWidget(controller: _startHourController, timeValue: 'sh', from: 4, to: 10,),
+                        Text(':', style: kTextStyle),
+                        DayDurationScrollWidget(controller: _startMinController, timeValue: 'sm', from: 0, to: 59,),
+                        Text('-', style: kTextStyle),
+                        DayDurationScrollWidget(controller: _endHourController, timeValue: 'eh', from: 18, to: 23,),
+                        Text(':', style: kTextStyle),
+                        DayDurationScrollWidget(controller: _endMinController, timeValue: 'em', from: 0, to: 59,)
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        updateDayDuration(email);
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('ok'.tr(), style: kTextStyle,)
+                  )
+                ],
+              )
+          );
+        });
+  }
+
+  void changeTimeValue(int value, String time){
+  switch(time){
+    case 'sh':
+      startHour = value;
+      break;
+    case 'sm':
+      startMinute = value;
+      break;
+    case 'eh':
+      endHour = value;
+      break;
+    case 'em':
+      endMinute = value;
+      break;
+  }
+    notifyListeners();
+  }
+
+  Future<void> updateDayDuration(String email) async {
+    final docRef = FirebaseFirestore.instance.collection('users').doc(email);
+    await docRef.update({
+      'dayStart': '${startHour.toString().padLeft(2, '0')}:${startMinute.toString().padLeft(2, '0')}',
+      'dayEnd': '${endHour.toString().padLeft(2, '0')}:${endMinute.toString().padLeft(2, '0')}',
+    });
+    getKids();
+  }
 
 }

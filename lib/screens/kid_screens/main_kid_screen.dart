@@ -6,13 +6,27 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
+import '../../widgets/kids_widgets/day_duration_widget.dart';
 import '../../widgets/kids_widgets/kid_info_widget.dart';
 import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
 import '../../widgets/kids_widgets/kids_multitask_list_widget.dart';
 import 'kids_settings_screen.dart';
 
-class MainKidScreen extends StatelessWidget {
+class MainKidScreen extends StatefulWidget {
   const MainKidScreen({super.key});
+
+  @override
+  State<MainKidScreen> createState() => _MainKidScreenState();
+}
+
+class _MainKidScreenState extends State<MainKidScreen> {
+
+  @override
+  void initState() {
+    final data = Provider.of<ParentProvider>(context, listen: false);
+    data.getEmail();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +64,10 @@ class MainKidScreen extends StatelessWidget {
                                     color: kOrange,
                                     size: 32,
                                   )),
+                              const Spacer(),
+                              parent.email == ''
+                                ? CircularProgressIndicator()
+                                : DayDurationWidget(email: parent.email ?? '',),
                               const Spacer(),
                               IconButton(
                                   onPressed: () =>
@@ -115,3 +133,5 @@ class MainKidScreen extends StatelessWidget {
     );
   }
 }
+
+
