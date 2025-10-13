@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:for_children/widgets/kids_widgets/time_progress_widget.dart';
 import 'package:provider/provider.dart';
-import '../../constants.dart';
 import '../../providers/parent_provider.dart';
 
 class DayDurationWidget extends StatelessWidget {
@@ -13,6 +13,7 @@ class DayDurationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('users')
@@ -23,8 +24,15 @@ class DayDurationWidget extends StatelessWidget {
           final docs = snapshot.data!.data();
           return Consumer<ParentProvider>(
               builder: (context, data, _){
-                return Text('${docs?['dayStart']} - ${docs?['dayEnd']}',
-                  style: kBigTextStyleWhite,);
+                return TimeProgressContainer(
+                  startTime: TimeOfDay(
+                      hour: int.parse(docs?['dayStart'].split(':')[0]),
+                      minute: int.parse(docs?['dayStart'].split(':')[1])),
+                  endTime: TimeOfDay(
+                      hour: int.parse(docs?['dayEnd'].split(':')[0]),
+                      minute: int.parse(docs?['dayEnd'].split(':')[1])),
+                  containerWidth: size.width * 0.5,
+                );
               }
           );
         }
