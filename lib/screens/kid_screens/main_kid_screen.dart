@@ -23,7 +23,9 @@ class _MainKidScreenState extends State<MainKidScreen> {
   @override
   void initState() {
     final data = Provider.of<ParentProvider>(context, listen: false);
+    final kidsData = Provider.of<KidProvider>(context, listen: false);
     data.getEmail();
+    kidsData.initTimes();
     super.initState();
   }
 
@@ -64,18 +66,12 @@ class _MainKidScreenState extends State<MainKidScreen> {
                                     size: 32,
                                   )),
                               const Spacer(),
-                              Row(
-                                spacing: 18,
-                                children: [
-                                  parent.email == ''
-                                    ? CircularProgressIndicator()
-                                    : DayDurationWidget(email: parent.email ?? '',),
-                                  Switch(
-                                      value: data.isDay,
-                                      onChanged: (value) => data.switchDay()
-                                  )
-                                ],
-                              ),
+                              parent.email == ''
+                                ? CircularProgressIndicator()
+                                : DayDurationWidget(
+                                    email: parent.email ?? '',
+                                    userStartTime: data.startDayTime,
+                                    userEndTime: data.endDateTime,),
                               const Spacer(),
                               IconButton(
                                   onPressed: () =>

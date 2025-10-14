@@ -39,7 +39,10 @@ class TimeProgressContainer extends StatelessWidget {
     final int overallDurationM = overallEndM - overallStartM;
 
     if (overallDurationM <= 0) {
-      return Container(width: containerWidth, height: containerHeight, color: kGrey.withValues(alpha: 0.2));
+      return Container(
+          width: containerWidth,
+          height: containerHeight,
+          color: kGrey.withValues(alpha: 0.8));
     }
 
     // --- 2. Obliczenia dla zielonego paska postępu (Wymagane do umiejscowienia) ---
@@ -56,45 +59,57 @@ class TimeProgressContainer extends StatelessWidget {
     // Ogranicz do zakresu 0.0 - 1.0
     userProgressRatio = max(0.0, min(1.0, userProgressRatio));
 
-    // Szerokość zielonego paska (w pikselach) W RAMACH OKNA UŻYTKOWNIKA
-    final double userWindowWidth = containerWidth * (userDurationM / overallDurationM);
-    final double filledWidth = userWindowWidth * userProgressRatio;
+    // Upewniamy się, że zielony pasek NIE przykrywa czerwonego segmentu
+    final int visibleUserStartM = max(userStartM, startM);
+    final int visibleUserEndM = userEndM;
 
-    // Offset (lewa pozycja) dla zielonego paska
-    final double startOffsetWidth = containerWidth * ((userStartM - overallStartM) / overallDurationM);
+// Offset (lewa pozycja) dla zielonego paska
+    final double startOffsetWidth =
+        containerWidth * ((visibleUserStartM - overallStartM) / overallDurationM);
 
-    // --- 3. Budowanie Segmentów Tła (naprawia Overflow) ---
-
+    // --- 3. Budowanie Segmentów Tła ---
     final List<Widget> backgroundSegments = [];
 
-    final int beforeUserStartM = userStartM - overallStartM;
-    final int afterUserEndM = overallEndM - userEndM;
-
-    // Segment 1: Przed startem użytkownika (Transparent)
-    if (beforeUserStartM > 0) {
+// 🔴 1. Jeśli użytkownik zaczyna wcześniej niż oficjalny start — czerwony segment
+    if (userStartM < startM) {
       backgroundSegments.add(
         Flexible(
-          flex: beforeUserStartM,
-          child: Container(color: Colors.transparent),
+          flex: startM - userStartM,
+          child: Container(
+              decoration: BoxDecoration(
+                color: kRed,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(4),
+                    bottomLeft: Radius.circular(4)),
+              ),
+          ),
         ),
       );
     }
 
-    // Segment 2: Okno czasowe użytkownika (Aktywne tło)
-    if (userDurationM > 0) {
+// 🔹 2. Okno oficjalnego dnia (np. jasnoszare tło)
+    final int officialDurationM = endM - startM;
+    if (officialDurationM > 0) {
       backgroundSegments.add(
         Flexible(
-          flex: userDurationM,
-          child: Container(color: kLightBlue.withValues(alpha: 0.8)),
+          flex: officialDurationM,
+          child: Container(
+            decoration: BoxDecoration(
+              color: kLightBlue,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  bottomLeft: Radius.circular(4)),
+            ),
+          ),
         ),
       );
     }
 
-    // Segment 3: Po końcu użytkownika (Transparent)
-    if (afterUserEndM > 0) {
+// ⚪️ 3. Jeśli użytkownik kończy po końcu dnia — przezroczysty fragment
+    if (userEndM > endM) {
       backgroundSegments.add(
         Flexible(
-          flex: afterUserEndM,
+          flex: userEndM - endM,
           child: Container(color: Colors.transparent),
         ),
       );
@@ -117,13 +132,14 @@ class TimeProgressContainer extends StatelessWidget {
 
           // 2. PROGRESS LAYER (Green Fill)
           Positioned(
-            left: startOffsetWidth, // Start zielonego paska od userStartTime
+            left: startOffsetWidth,
             child: Container(
-              width: filledWidth,
+              width: containerWidth *
+                  ((visibleUserEndM - visibleUserStartM) / overallDurationM) *
+                  userProgressRatio,
               height: containerHeight,
               decoration: BoxDecoration(
-                color: kGreen.withValues(alpha: 0.6),
-                borderRadius: BorderRadius.circular(4),
+                color: kGreen,
               ),
             ),
           ),

@@ -6,7 +6,6 @@ import 'package:for_children/screens/parent_screens/add_single_task_screen.dart'
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../constants.dart';
 import 'main_kid_screen.dart';
 

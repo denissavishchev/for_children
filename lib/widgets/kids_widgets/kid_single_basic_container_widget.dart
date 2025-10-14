@@ -28,147 +28,111 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Consumer<ParentProvider>(
         builder: (context, data, _){
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
+          return Container(
+            margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            width: size.width,
+            height: height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    kBlue.withValues(alpha: 0.75),
+                    kBlue.withValues(alpha: 0.35),
+                    kBlue.withValues(alpha: 0.55)
+                  ],
+                  stops: [0, 0.4, 1],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight
+              ),
+              border: Border.all(width: 2,
+                  color: snapshot.docs[index].get('status') == 'inProgress'
+                      ? kOrange.withValues(alpha: 0.8)
+                      : snapshot.docs[index].get('status') == 'price'
+                      ? kWhite.withValues(alpha: 0.5) : kDarkBlue),
+              borderRadius: const BorderRadius.all(Radius.circular(18)),
+            ),
             child: Row(
               children: [
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(12, 3, 3, 12),
-                    width: size.width,
-                    height: height,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            kWhite,
-                            kGrey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(snapshot.docs[index].get(nameOf),
+                              style: kBigTextStyleWhite,),
+                            Text((snapshot.docs[index].get('type')),
+                              style: kTextStyleWhite,),
                           ],
                         ),
-                        border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
-                        borderRadius: const BorderRadius.all(Radius.circular(18)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: kDarkGrey,
-                              blurRadius: 3,
-                              spreadRadius: 1,
-                              offset: const Offset(-3, 3)
-                          ),
-                          BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
-                              blurRadius: 1,
-                              spreadRadius: 0.5,
-                              offset: const Offset(-0.5, 0.5)
-                          ),
-                        ]
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(snapshot.docs[index].get(nameOf),
-                                style: kBigTextStyle,),
-                              Text((snapshot.docs[index].get('type')),
-                                style: kTextStyle,),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 65,
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(right: 6),
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    kWhite,
-                                    kGrey,
-                                  ],
-                              ),
-                            borderRadius: const BorderRadius.horizontal(
-                                right: Radius.circular(18)
-                            ),
-                            border: Border.all(width: 1, color: kDarkBlue),
-                          ),
-                          child: Text(snapshot.docs[index].get('taskName'),
-                            style: kBigTextStyle,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Text('taskPrice'.tr(),
-                                style: kTextStyle,),
-                              Text(snapshot.docs[index].get('price'),
-                                style: kTextStyle,),
-                              Spacer(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: List.generate(3, ((i){
-                                  return SvgPicture.asset('assets/icons/pepper.svg',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(snapshot.docs[index].get('taskName'),
+                          style: kBigTextStyleWhite,),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          children: [
+                            Text('taskPrice'.tr(),
+                              style: kTextStyleWhite.copyWith(
+                                  color: kWhite.withValues(alpha: 0.6)),),
+                            Text(snapshot.docs[index].get('price'),
+                              style: kTextStyleWhite,),
+                            Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: List.generate(3, ((i){
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: (2 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                                                ? int.parse(snapshot.docs[index].get('expQty'))
+                                                : 1)
+                                                ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
+                                            blurRadius: 2,
+                                            spreadRadius: 2
+                                        )
+                                      ]
+                                  ),
+                                  child: SvgPicture.asset('assets/icons/pepper.svg',
                                     width: 22,
                                     colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot.docs[index].get('expQty'))
                                         ? kRed : Colors.transparent, BlendMode.srcIn),
-                                  );
-                                })),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                                  ),
+                                );
+                              })),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Expanded(
                   flex: 1,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(3, 0, 12, 12),
-                    width: size.width,
-                    height: height,
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [
-                              kGrey,
-                              kWhite
-                            ],
-                        ),
-                        border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
-                        borderRadius: const BorderRadius.all(Radius.circular(18)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: kGrey.withValues(alpha: 0.6),
-                              blurRadius: 3,
-                              spreadRadius: 1,
-                              offset: const Offset(-3, 3)
-                          ),
-                          BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
-                              blurRadius: 1,
-                              spreadRadius: 0.5,
-                              offset: const Offset(-0.5, 0.5)
-                          ),
-                        ]
-                    ),
-                    child: snapshot.docs[index].get('status') == 'checked' ||
-                        snapshot.docs[index].get('status') == 'paid'
-                        ? KidStarsWidget(
-                            stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
-                            snapshot: snapshot,
-                            index: index,)
-                              : Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: List.generate(3, (i){
-                              return KidStatusWidget(
-                                snapshot: snapshot,
-                                index: index,
-                                name: data.status[i],);
-                      }),
-                    ),
+                  child: snapshot.docs[index].get('status') == 'checked' ||
+                      snapshot.docs[index].get('status') == 'paid'
+                      ? KidStarsWidget(
+                          stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
+                          snapshot: snapshot,
+                          index: index,)
+                            : Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List.generate(3, (i){
+                            return KidStatusWidget(
+                              snapshot: snapshot,
+                              index: index,
+                              name: data.status[i],);
+                    }),
                   ),
                 )
               ],

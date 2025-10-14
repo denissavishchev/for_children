@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
+import 'package:intl/intl.dart';
 
 class KidProvider with ChangeNotifier {
 
@@ -20,6 +22,8 @@ class KidProvider with ChangeNotifier {
   late XFile? file;
   bool isLoading = false;
   bool isDay = false;
+  String startDayTime = '';
+  String endDateTime = '';
 
   Map<String, bool> selectedParentsEmail = {};
 
@@ -174,8 +178,28 @@ class KidProvider with ChangeNotifier {
         });
   }
 
-  void switchDay(){
+  void switchDay(String endTime) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     isDay = !isDay;
+    if(!isDay){
+      startDayTime = DateFormat('HH:mm').format(
+          DateTime.parse(DateTime.now().toString()));
+      prefs.setString('startDayTime', startDayTime);
+      prefs.setString(endDateTime, endTime);
+    }else{
+      endDateTime = DateFormat('HH:mm').format(
+          DateTime.parse(DateTime.now().toString()));
+      prefs.setString('endDateTime', endDateTime);
+    }
+    notifyListeners();
+  }
+
+  void initTimes() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    startDayTime = prefs.getString('startDayTime') ?? '06:00';
+    endDateTime = prefs.getString('endDateTime') ?? '22:00';
+    log(startDayTime);
+    log(endDateTime);
     notifyListeners();
   }
 
