@@ -857,7 +857,9 @@ class ParentProvider with ChangeNotifier {
     final docRef = FirebaseFirestore.instance.collection('multiTasks').doc(docId);
     final snapshot = await docRef.get();
     List<dynamic> days = List.from(snapshot['daysNumber']);
-    days[index] = days[index] == 0 ? 1 : 0;
+    if (index >= 0 && index < days.length) {
+      days[index] = days[index] == 0 ? 1 : 0;
+    }
     await docRef.update({'daysNumber': days});
   }
 

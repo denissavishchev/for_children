@@ -7,7 +7,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/day_duration_widget.dart';
-import '../../widgets/kids_widgets/kid_info_widget.dart';
 import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
 import '../../widgets/kids_widgets/kids_multitask_list_widget.dart';
 import 'kids_settings_screen.dart';
@@ -65,9 +64,18 @@ class _MainKidScreenState extends State<MainKidScreen> {
                                     size: 32,
                                   )),
                               const Spacer(),
-                              parent.email == ''
-                                ? CircularProgressIndicator()
-                                : DayDurationWidget(email: parent.email ?? '',),
+                              Row(
+                                spacing: 18,
+                                children: [
+                                  parent.email == ''
+                                    ? CircularProgressIndicator()
+                                    : DayDurationWidget(email: parent.email ?? '',),
+                                  Switch(
+                                      value: data.isDay,
+                                      onChanged: (value) => data.switchDay()
+                                  )
+                                ],
+                              ),
                               const Spacer(),
                               IconButton(
                                   onPressed: () =>
@@ -115,14 +123,14 @@ class _MainKidScreenState extends State<MainKidScreen> {
                         ),
                       ],
                     ),
-                    Positioned(
-                        top: 24,
-                        left: 60,
-                        child: KidInfoWidget(
-                          info: data.mainKidInfo,
-                          onTap: () => data.switchMainKidInfo(),
-                          text: 'mainKidInfo',
-                          height: 0.2,)),
+                    // Positioned(
+                    //     top: 24,
+                    //     left: 55,
+                    //     child: KidInfoWidget(
+                    //       info: data.mainKidInfo,
+                    //       onTap: () => data.switchMainKidInfo(),
+                    //       text: 'mainKidInfo',
+                    //       height: 0.2,)),
                   ],
                 ),
               ),

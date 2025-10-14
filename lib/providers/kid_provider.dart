@@ -19,6 +19,7 @@ class KidProvider with ChangeNotifier {
   late Reference imageToUpload;
   late XFile? file;
   bool isLoading = false;
+  bool isDay = false;
 
   Map<String, bool> selectedParentsEmail = {};
 
@@ -171,6 +172,11 @@ class KidProvider with ChangeNotifier {
             ),
           );
         });
+  }
+
+  void switchDay(){
+    isDay = !isDay;
+    notifyListeners();
   }
 
 }

@@ -188,7 +188,10 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                               data.changeToDone(snapshot, index, context, false, false);
                             }
                           },
-                          checked: snapshot.docs[index].get('daysNumber')[data.whatDayIs(snapshot.docs[index].get('time'))] == 1,)
+                          checked: snapshot.docs[index].get('status') == 'inProgress'
+                              && snapshot.docs[index].get('daysNumber').length <= data.whatDayIs(snapshot.docs[index].get('time')) + 1
+                            ? false
+                            : snapshot.docs[index].get('daysNumber')[data.whatDayIs(snapshot.docs[index].get('time'))] == 1,)
                       ],
                     )
                         : Column(
