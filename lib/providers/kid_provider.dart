@@ -185,6 +185,7 @@ class KidProvider with ChangeNotifier {
           DateTime.parse(DateTime.now().toString()));
       prefs.setString('startDayTime', startDayTime);
       prefs.setString('endDateTime', endTime);
+      endDateTime = endTime;
       prefs.setBool('isDay', isDay);
     }else{
       endDateTime = DateFormat('HH:mm').format(
