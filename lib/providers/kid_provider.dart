@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -181,11 +180,12 @@ class KidProvider with ChangeNotifier {
   void switchDay(String endTime) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isDay = !isDay;
-    if(!isDay){
+    if(isDay){
       startDayTime = DateFormat('HH:mm').format(
           DateTime.parse(DateTime.now().toString()));
       prefs.setString('startDayTime', startDayTime);
-      prefs.setString(endDateTime, endTime);
+      prefs.setString('endDateTime', endTime);
+      prefs.setBool('isDay', isDay);
     }else{
       endDateTime = DateFormat('HH:mm').format(
           DateTime.parse(DateTime.now().toString()));
@@ -196,10 +196,9 @@ class KidProvider with ChangeNotifier {
 
   void initTimes() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    isDay = prefs.getBool('isDay') ?? false;
     startDayTime = prefs.getString('startDayTime') ?? '06:00';
     endDateTime = prefs.getString('endDateTime') ?? '22:00';
-    log(startDayTime);
-    log(endDateTime);
     notifyListeners();
   }
 
