@@ -52,7 +52,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                       children: [
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 12),
-                          height: size.height * 0.1,
+                          height: size.height * 0.05,
                           child: Row(
                             children: [
                               IconButton(
@@ -65,13 +65,6 @@ class _MainKidScreenState extends State<MainKidScreen> {
                                     color: kOrange,
                                     size: 32,
                                   )),
-                              const Spacer(),
-                              parent.email == ''
-                                ? CircularProgressIndicator()
-                                : DayDurationWidget(
-                                    email: parent.email ?? '',
-                                    userStartTime: data.startDayTime,
-                                    userEndTime: data.endDateTime,),
                               const Spacer(),
                               IconButton(
                                   onPressed: () =>
@@ -86,6 +79,13 @@ class _MainKidScreenState extends State<MainKidScreen> {
                             ],
                           ),
                         ),
+                        parent.email == ''
+                            ? CircularProgressIndicator()
+                            : DayDurationWidget(
+                          email: parent.email ?? '',
+                          userStartTime: data.startDayTime,
+                          userEndTime: data.endDateTime,),
+                        const SizedBox(height: 4,),
                         StreamBuilder(
                             stream: CombineLatestStream.list([
                               FirebaseFirestore.instance
@@ -102,7 +102,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                               return Consumer<ParentProvider>(
                                   builder: (context, data, _){
                                     return SizedBox(
-                                      height: size.height * 0.8,
+                                      height: size.height * 0.75,
                                       child: PageView.builder(
                                           controller: parent.taskPageController,
                                           itemCount: 2,

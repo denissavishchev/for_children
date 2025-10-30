@@ -31,35 +31,30 @@ class DayDurationWidget extends StatelessWidget {
           final docs = snapshot.data!.data();
           return Consumer2<ParentProvider, KidProvider>(
               builder: (context, data, kidsData, _){
-                return Row(
-                  spacing: 18,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('P ${docs?['dayStart']} - ${docs?['dayEnd']}', style: kBigTextKidStyle,),
-                        TimeProgressContainer(
-                          startTime: TimeOfDay(
-                              hour: int.parse(docs?['dayStart'].split(':')[0]),
-                              minute: int.parse(docs?['dayStart'].split(':')[1])),
-                          endTime: TimeOfDay(
-                              hour: int.parse(docs?['dayEnd'].split(':')[0]),
-                              minute: int.parse(docs?['dayEnd'].split(':')[1])),
-                          userStartTime: TimeOfDay(
-                            hour: int.parse(userStartTime.split(':')[0]),
-                            minute: int.parse(userStartTime.split(':')[1])),
-                          userEndTime: TimeOfDay(hour: int.parse(userEndTime.split(':')[0]),
-                              minute: int.parse(userEndTime.split(':')[1])),
-                          containerWidth: size.width * 0.45,
-                        ),
-                        Text('K $userStartTime - $userEndTime', style: kBigTextKidStyle,),
-                      ],
-                    ),
-                    Switch(
-                        value: kidsData.isDay,
-                        onChanged: (value) => kidsData.switchDay(docs?['dayEnd'])
-                    )
-                  ],
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('P ${docs?['dayStart']} - ${docs?['dayEnd']}', style: kTextKidStyle,),
+                      TimeProgressContainer(
+                        startTime: TimeOfDay(
+                            hour: int.parse(docs?['dayStart'].split(':')[0]),
+                            minute: int.parse(docs?['dayStart'].split(':')[1])),
+                        endTime: TimeOfDay(
+                            hour: int.parse(docs?['dayEnd'].split(':')[0]),
+                            minute: int.parse(docs?['dayEnd'].split(':')[1])),
+                        userStartTime: TimeOfDay(
+                          hour: int.parse(userStartTime.split(':')[0]),
+                          minute: int.parse(userStartTime.split(':')[1])),
+                        userEndTime: TimeOfDay(hour: int.parse(userEndTime.split(':')[0]),
+                            minute: int.parse(userEndTime.split(':')[1])),
+                        containerWidth: size.width - 60 * (kidsData.isDay ? 1.5 : 1),
+                        docs: docs,
+                      ),
+                      Text('K $userStartTime - $userEndTime', style: kTextKidStyle,),
+                    ],
+                  ),
                 );
               }
           );

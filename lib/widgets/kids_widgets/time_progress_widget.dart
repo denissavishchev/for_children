@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:for_children/constants.dart';
+import 'package:for_children/providers/kid_provider.dart';
+import 'package:provider/provider.dart';
 
 class TimeProgressContainer extends StatelessWidget {
   final TimeOfDay startTime;
@@ -9,7 +11,8 @@ class TimeProgressContainer extends StatelessWidget {
   final TimeOfDay userStartTime;
   final TimeOfDay userEndTime;
   final double containerWidth;
-  final double containerHeight = 20;
+  final double containerHeight = 60;
+  final Map<String, dynamic>? docs;
 
   const TimeProgressContainer({
     super.key,
@@ -17,7 +20,8 @@ class TimeProgressContainer extends StatelessWidget {
     required this.endTime,
     required this.userStartTime,
     required this.userEndTime,
-    this.containerWidth = 300,
+    required this.containerWidth,
+    required this.docs,
   });
 
   int _toMinutesOfDay(TimeOfDay time) {
@@ -115,54 +119,91 @@ class TimeProgressContainer extends StatelessWidget {
       );
     }
 
-    return Container(
-      width: containerWidth,
-      height: containerHeight,
-      decoration: BoxDecoration(
-        border: Border.all(color: kGrey, width: 1),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Stack(
-        children: [
-          // 1. BACKGROUND LAYER (Używa Flexible, aby idealnie wypełnić containerWidth)
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch, // Wypełnij wysokość Stack
-            children: backgroundSegments,
-          ),
+    return Consumer<KidProvider>(
+        builder: (context, kidsData, _){
+          return SizedBox(
+            width: containerWidth * 2,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                AnimatedAlign(
+                  duration: Duration(milliseconds: 500),
+                  alignment: kidsData.isDay ? Alignment.centerLeft : Alignment.centerRight,
+                  child: Container(
+                    width: containerWidth,
+                    height: containerHeight,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: kGrey, width: 1),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Stack(
+                      children: [
+                        // 1. BACKGROUND LAYER (Używa Flexible, aby idealnie wypełnić containerWidth)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch, // Wypełnij wysokość Stack
+                          children: backgroundSegments,
+                        ),
 
-          // 2. PROGRESS LAYER (Green Fill)
-          Positioned(
-            left: startOffsetWidth,
-            child: Container(
-              width: containerWidth *
-                  ((visibleUserEndM - visibleUserStartM) / overallDurationM) *
-                  userProgressRatio,
-              height: containerHeight,
-              decoration: BoxDecoration(
-                color: kGreen,
-              ),
-            ),
-          ),
+                        // 2. PROGRESS LAYER (Green Fill)
+                        Positioned(
+                          left: startOffsetWidth,
+                          child: Container(
+                            width: containerWidth *
+                                ((visibleUserEndM - visibleUserStartM) / overallDurationM) *
+                                userProgressRatio,
+                            height: containerHeight,
+                            decoration: BoxDecoration(
+                              color: kGreen,
+                            ),
+                          ),
+                        ),
 
-          // 3. RED DOT MARKER (Jeśli czas użytkownika przekracza Standard End)
-          if (userEndM > endM)
-            Positioned(
-              // Pozycja Czerwonej Kropki (Standard End Time)
-              left: containerWidth * ((endM - overallStartM) / overallDurationM) - 5,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: 10,
-                height: 10,
-                margin: EdgeInsets.symmetric(vertical: (containerHeight - 10) / 2),
-                decoration: const BoxDecoration(
-                  color: kRed,
-                  shape: BoxShape.circle,
+                        // 3. RED DOT MARKER (Jeśli czas użytkownika przekracza Standard End)
+                        if (userEndM > endM)
+                          Positioned(
+                            // Pozycja Czerwonej Kropki (Standard End Time)
+                            left: containerWidth * ((endM - overallStartM) / overallDurationM) - 5,
+                            top: 0,
+                            bottom: 0,
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              margin: EdgeInsets.symmetric(vertical: (containerHeight - 10) / 2),
+                              decoration: const BoxDecoration(
+                                color: kRed,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                AnimatedAlign(
+                  duration: Duration(milliseconds: 500),
+                  alignment: !kidsData.isDay ? Alignment.centerLeft : Alignment.centerRight,
+                  child: GestureDetector(
+                    onLongPress: () => kidsData.switchDay(docs?['dayEnd']),
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 500),
+                      width: kidsData.isDay ? containerHeight : containerHeight / 2,
+                      height: containerHeight - 2,
+                      decoration: BoxDecoration(
+                          borderRadius: kidsData.isDay
+                              ? BorderRadius.all(Radius.circular(containerHeight / 2))
+                              : BorderRadius.only(
+                            topLeft: Radius.circular(containerHeight / 2),
+                            bottomLeft: Radius.circular(containerHeight / 2),
+                          ),
+                          color: kidsData.isDay ? kOrange : kBlue
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
-        ],
-      ),
+          );
+    }
     );
   }
 }
