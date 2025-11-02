@@ -43,11 +43,12 @@ class _MainKidScreenState extends State<MainKidScreen> {
                 )
             ),
             child: SafeArea(
-              child: SingleChildScrollView(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Column(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: size.height,
+                    child: Column(
                       children: [
                         parent.email == ''
                             ? CircularProgressIndicator()
@@ -71,8 +72,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                               if (!snapshot.hasData) return CircularProgressIndicator();
                               return Consumer<ParentProvider>(
                                   builder: (context, data, _){
-                                    return SizedBox(
-                                      height: size.height * 0.8,
+                                    return Expanded(
                                       child: PageView.builder(
                                           controller: parent.taskPageController,
                                           itemCount: 2,
@@ -89,17 +89,17 @@ class _MainKidScreenState extends State<MainKidScreen> {
                         ),
                       ],
                     ),
-                    KidBottomNavigationBarWidget()
-                    // Positioned(
-                    //     top: 24,
-                    //     left: 55,
-                    //     child: KidInfoWidget(
-                    //       info: data.mainKidInfo,
-                    //       onTap: () => data.switchMainKidInfo(),
-                    //       text: 'mainKidInfo',
-                    //       height: 0.2,)),
-                  ],
-                ),
+                  ),
+                  KidBottomNavigationBarWidget()
+                  // Positioned(
+                  //     top: 24,
+                  //     left: 55,
+                  //     child: KidInfoWidget(
+                  //       info: data.mainKidInfo,
+                  //       onTap: () => data.switchMainKidInfo(),
+                  //       text: 'mainKidInfo',
+                  //       height: 0.2,)),
+                ],
               ),
             ),
           );

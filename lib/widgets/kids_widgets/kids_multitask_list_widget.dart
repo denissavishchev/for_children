@@ -28,36 +28,32 @@ class _KidsMultiTaskListWidgetState extends State<KidsMultiTaskListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.sizeOf(context);
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Stack(
             alignment: Alignment.bottomLeft,
             children: [
-              SizedBox(
-                  height: size.height * 0.8,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 120),
-                      itemCount: widget.snapshot.docs.length,
-                      itemBuilder: (context, index){
-                        if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){
-                          return GestureDetector(
-                            onTap: () {
-                              data.priceController.text = widget.snapshot.docs[index].get('price');
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) =>
-                                      KidsDescriptionScreen(index: index, snapshot: widget.snapshot)));
-                            },
-                            child: KidsMultiBasicContainerWidget(
-                              snapshot: widget.snapshot,
-                              index: index,
-                              nameOf: 'parentName',
-                            ),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      })
-              ),
+              ListView.builder(
+                padding: const EdgeInsets.only(bottom: 124),
+                  itemCount: widget.snapshot.docs.length,
+                  itemBuilder: (context, index){
+                    if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){
+                      return GestureDetector(
+                        onTap: () {
+                          data.priceController.text = widget.snapshot.docs[index].get('price');
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                                  KidsDescriptionScreen(index: index, snapshot: widget.snapshot)));
+                        },
+                        child: KidsMultiBasicContainerWidget(
+                          snapshot: widget.snapshot,
+                          index: index,
+                          nameOf: 'parentName',
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
               Positioned(
                 bottom: 72,
                 child: GestureDetector(
