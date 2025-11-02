@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
-import 'package:for_children/screens/kid_screens/add_wish_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/day_duration_widget.dart';
+import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
 import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
 import '../../widgets/kids_widgets/kids_multitask_list_widget.dart';
-import 'kids_settings_screen.dart';
 
 class MainKidScreen extends StatefulWidget {
   const MainKidScreen({super.key});
@@ -47,38 +45,10 @@ class _MainKidScreenState extends State<MainKidScreen> {
             child: SafeArea(
               child: SingleChildScrollView(
                 child: Stack(
+                  alignment: Alignment.center,
                   children: [
                     Column(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12),
-                          height: size.height * 0.05,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () =>
-                                      Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) =>
-                                          const KidsSettingsScreen())),
-                                  icon: const Icon(
-                                    Icons.settings,
-                                    color: kOrange,
-                                    size: 32,
-                                  )),
-                              const Spacer(),
-                              IconButton(
-                                  onPressed: () =>
-                                      Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) =>
-                                          const AddWishScreen())),
-                                  icon: const Icon(
-                                    Icons.favorite,
-                                    color: kOrange,
-                                    size: 32,
-                                  ))
-                            ],
-                          ),
-                        ),
                         parent.email == ''
                             ? CircularProgressIndicator()
                             : DayDurationWidget(
@@ -102,7 +72,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                               return Consumer<ParentProvider>(
                                   builder: (context, data, _){
                                     return SizedBox(
-                                      height: size.height * 0.75,
+                                      height: size.height * 0.8,
                                       child: PageView.builder(
                                           controller: parent.taskPageController,
                                           itemCount: 2,
@@ -119,6 +89,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                         ),
                       ],
                     ),
+                    KidBottomNavigationBarWidget()
                     // Positioned(
                     //     top: 24,
                     //     left: 55,
@@ -137,5 +108,6 @@ class _MainKidScreenState extends State<MainKidScreen> {
     );
   }
 }
+
 
 

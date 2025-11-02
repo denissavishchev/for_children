@@ -29,6 +29,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_svg: ^2.2.1
   rxdart: ^0.28.0
+  percent_indicator: ^4.2.5
 
 dev_dependencies:
   flutter_test:

@@ -23,6 +23,7 @@ class KidProvider with ChangeNotifier {
   bool isDay = false;
   String startDayTime = '';
   String endDateTime = '';
+  double saveProgress = 60;
 
   Map<String, bool> selectedParentsEmail = {};
 

@@ -37,7 +37,7 @@ class _KidsMultiTaskListWidgetState extends State<KidsMultiTaskListWidget> {
               SizedBox(
                   height: size.height * 0.8,
                   child: ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 40),
+                    padding: const EdgeInsets.only(bottom: 120),
                       itemCount: widget.snapshot.docs.length,
                       itemBuilder: (context, index){
                         if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){
@@ -58,18 +58,21 @@ class _KidsMultiTaskListWidgetState extends State<KidsMultiTaskListWidget> {
                         return const SizedBox.shrink();
                       })
               ),
-              GestureDetector(
-                onTap: () => data.switchTaskScreen(0),
-                child: Container(
-                  width: 80,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: kOrange,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8)),
+              Positioned(
+                bottom: 72,
+                child: GestureDetector(
+                  onTap: () => data.switchTaskScreen(0),
+                  child: Container(
+                    width: 80,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: kOrange,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(8),
+                          bottomRight: Radius.circular(8)),
+                    ),
+                    child: Icon(Icons.arrow_back_ios, color: kWhite, size: 32,),
                   ),
-                  child: Icon(Icons.arrow_back_ios, color: kWhite, size: 32,),
                 ),
               )
             ],

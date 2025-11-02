@@ -37,7 +37,7 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
               SizedBox(
                   height: size.height * 0.8,
                   child: ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 40),
+                      padding: const EdgeInsets.only(bottom: 120),
                       itemCount: widget.snapshot.docs.length,
                       itemBuilder: (context, index){
                         if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){
@@ -58,18 +58,21 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
                         return const SizedBox.shrink();
                       })
               ),
-              GestureDetector(
-                onTap: () => data.switchTaskScreen(1),
-                child: Container(
-                  width: 80,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: kOrange,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        bottomLeft: Radius.circular(8)),
+              Positioned(
+                bottom: 72,
+                child: GestureDetector(
+                  onTap: () => data.switchTaskScreen(1),
+                  child: Container(
+                    width: 80,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: kOrange,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          bottomLeft: Radius.circular(8)),
+                    ),
+                    child: Icon(Icons.arrow_forward_ios, color: kWhite, size: 32,),
                   ),
-                  child: Icon(Icons.arrow_forward_ios, color: kWhite, size: 32,),
                 ),
               )
             ],
