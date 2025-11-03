@@ -2,13 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/flag_widget.dart';
 import '../../widgets/info_widget.dart';
-import 'main_kid_screen.dart';
-
 
 class KidsSettingsScreen extends StatefulWidget {
   const KidsSettingsScreen({super.key});
@@ -36,6 +35,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
           child: Consumer2<KidProvider, ParentProvider>(
             builder: (context, data, parent, _){
               return Stack(
+                alignment: Alignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -50,15 +50,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                               const SizedBox(height: 18,),
                               Row(
                                 children: [
-                                  IconButton(
-                                      onPressed: () => Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) =>
-                                          const MainKidScreen())),
-                                      icon: const Icon(
-                                        Icons.arrow_back_ios_new,
-                                        color: kBlue,
-                                        size: 32,
-                                      )),
+                                  SizedBox(height: 40, width: 40,),
                                   const Spacer(),
                                   Text('${parent.email}', style: kTextStyle,),
                                   const Spacer(),
@@ -141,6 +133,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                         onTap: () => data.switchSettingsKidInfo(),
                         text: 'settingsKidInfo',
                         height: 0.2,)),
+                  KidBottomNavigationBarWidget()
                 ],
               );
             },

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
@@ -28,8 +29,12 @@ class KidProvider with ChangeNotifier {
   Map<String, bool> selectedParentsEmail = {};
 
   GlobalKey<FormState> wishKey = GlobalKey<FormState>();
+  GlobalKey<FormState> saveMoneyKey = GlobalKey<FormState>();
 
   TextEditingController addWishNameController = TextEditingController();
+  TextEditingController whatDoYoWantController = TextEditingController();
+  TextEditingController whatDoYoWantPriceController = TextEditingController();
+  TextEditingController whyYouNeedThisController = TextEditingController();
 
   bool mainKidInfo = false;
   bool wishInfo = false;
@@ -201,6 +206,38 @@ class KidProvider with ChangeNotifier {
     isDay = prefs.getBool('isDay') ?? false;
     startDayTime = prefs.getString('startDayTime') ?? '06:00';
     endDateTime = prefs.getString('endDateTime') ?? '22:00';
+    notifyListeners();
+  }
+
+  Future<void>saveSaveMoneyItem(context)async {
+    isLoading = true;
+    notifyListeners();
+    if (fileName != '') {
+      try {
+        await imageToUpload.putFile(File(file!.path));
+        imageUrl = await imageToUpload.getDownloadURL();
+      } catch (e) {
+        return;
+      }
+    }
+    await FirebaseFirestore.instance.collection('saveMoney').add({
+      'whatIsIt': whatDoYoWantController.text,
+      'price': whatDoYoWantPriceController.text,
+      'whyNeed': whyYouNeedThisController.text,
+      'currency': 'pln',
+      'parentMoney': 0,
+      'imageUrl': fileName == '' ? 'false' : imageUrl,
+      'time': DateTime.now().toString(),
+    });
+    whatDoYoWantController.clear();
+    whatDoYoWantPriceController.clear();
+    whyYouNeedThisController.clear();
+    imageUrl = '';
+    fileName = '';
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const SaveMoneyScreen()));
+    isLoading = false;
     notifyListeners();
   }
 

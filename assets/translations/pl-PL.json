@@ -111,5 +111,7 @@
   "singleTask": "Pojedyncze zadanie",
   "singleTaskDescription": "Pozwala tworzyć zadania jednorazowe (np. kupno prezentu, pomoc w ogrodzie, dodatkowe ćwiczenie).\nDzięki temu dziecko widzi jasno określone zadanie do wykonania, a rodzic może szybko sprawdzić, czy zostało zrealizowane.",
   "setDayDurationFor" : "Ustaw czas trwania dnia dla {}",
-  "ok" : "OK"
+  "ok" : "OK",
+  "whatDoYouWant": "Czego chcesz?",
+  "whyYouNeedThis": "Dlaczego tego potrzebujesz?"
 }
