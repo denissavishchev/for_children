@@ -42,7 +42,7 @@ class SelectTaskTypeWidget extends StatelessWidget {
                     height: size.height * 0.6,
                     width: size.width,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    margin: EdgeInsets.fromLTRB(12, 0, 12, size.height * 0.2) ,
+                    margin: EdgeInsets.fromLTRB(12, 0, 12, size.height * 0.2),
                     decoration: const BoxDecoration(
                       color: kGrey,
                       borderRadius: BorderRadius.all(Radius.circular(8)),

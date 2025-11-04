@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
+import 'package:for_children/screens/kid_screens/single_save_money_screen.dart';
 import 'package:provider/provider.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/button_widget.dart';
@@ -55,7 +56,9 @@ class SaveMoneyScreen extends StatelessWidget {
                                       itemBuilder: (context, index){
                                           return GestureDetector(
                                             onTap: () {
-
+                                              Navigator.pushReplacement(context,
+                                                  MaterialPageRoute(builder: (context) =>
+                                                  SingleSaveMoneyScreen(snapshot: snapshot.data!.docs, index: index)));
                                             },
                                             child: Container(
                                               height: 60,

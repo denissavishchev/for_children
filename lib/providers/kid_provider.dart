@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/screens/kid_screens/save_money_screen.dart';
@@ -8,7 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
-import 'package:intl/intl.dart';
 
 class KidProvider with ChangeNotifier {
 
@@ -35,6 +35,7 @@ class KidProvider with ChangeNotifier {
   TextEditingController whatDoYoWantController = TextEditingController();
   TextEditingController whatDoYoWantPriceController = TextEditingController();
   TextEditingController whyYouNeedThisController = TextEditingController();
+  TextEditingController addMoneyController = TextEditingController();
 
   bool mainKidInfo = false;
   bool wishInfo = false;
@@ -227,6 +228,7 @@ class KidProvider with ChangeNotifier {
       'currency': 'pln',
       'parentMoney': 0,
       'imageUrl': fileName == '' ? 'false' : imageUrl,
+      'money': <int>[],
       'time': DateTime.now().toString(),
     });
     whatDoYoWantController.clear();
@@ -239,6 +241,66 @@ class KidProvider with ChangeNotifier {
         const SaveMoneyScreen()));
     isLoading = false;
     notifyListeners();
+  }
+
+  Future showToAddMoney(context, String id) {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+            height: size.height * 0.2,
+            width: size.width,
+            margin: const EdgeInsets.only(bottom: 300),
+            decoration: const BoxDecoration(
+              color: kGrey,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: size.width * 0.7,
+                  child: TextFormField(
+                    controller: addMoneyController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    cursorColor: kDarkGrey,
+                    decoration: textFieldDecoration.copyWith(
+                        label: Text('add'.tr(),)),
+                    maxLength: 64,
+                    validator: (value){
+                      if(value == null || value.isEmpty) {
+                        return 'thisFieldCannotBeEmpty'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => updateMoney(context, id),
+                    child: Icon(
+                      Icons.add_circle_rounded,
+                      color: kBlue,
+                      size: 60,
+                    ))
+              ],
+            )
+          );
+        });
+  }
+
+  Future<void> updateMoney(context, String id)async{
+    final docRef = FirebaseFirestore.instance.collection('saveMoney').doc(id);
+    final doc = await docRef.get();
+    List<dynamic> moneyList = List.from(doc['money']);
+    moneyList.add('${addMoneyController.text}/${DateTime.now().toString()}');
+    await docRef.update({'money': moneyList});
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const SaveMoneyScreen()));
   }
 
 }
