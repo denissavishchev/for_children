@@ -82,7 +82,7 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                                       CircularPercentIndicator(
                                         radius: size.width * 0.3,
                                         lineWidth: 25.0,
-                                        percent: percent > 1 ? 1 : percent / 100,
+                                        percent: percent > 100 ? 1 : percent / 100,
                                         progressColor: kBlue,
                                         backgroundWidth: 30,
                                         backgroundColor: kGrey.withValues(alpha: 0.3),
