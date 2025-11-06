@@ -58,7 +58,7 @@ class SaveMoneyScreen extends StatelessWidget {
                                             onTap: () {
                                               Navigator.pushReplacement(context,
                                                   MaterialPageRoute(builder: (context) =>
-                                                  SingleSaveMoneyScreen(snapshot: snapshot.data!.docs, index: index)));
+                                                  SingleSaveMoneyScreen(documentId: snapshot.data!.docs.elementAt(index).id,)));
                                             },
                                             child: Container(
                                               height: 60,

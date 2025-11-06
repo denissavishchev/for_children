@@ -24,7 +24,6 @@ class KidProvider with ChangeNotifier {
   bool isDay = false;
   String startDayTime = '';
   String endDateTime = '';
-  double saveProgress = 60;
 
   Map<String, bool> selectedParentsEmail = {};
 
@@ -298,9 +297,8 @@ class KidProvider with ChangeNotifier {
     List<dynamic> moneyList = List.from(doc['money']);
     moneyList.add('${addMoneyController.text}/${DateTime.now().toString()}');
     await docRef.update({'money': moneyList});
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) =>
-        const SaveMoneyScreen()));
+    addMoneyController.clear();
+    Navigator.of(context).pop();
   }
 
 }
