@@ -47,6 +47,9 @@ class SaveMoneyScreen extends StatelessWidget {
                                     padding: const EdgeInsets.only(bottom: 124),
                                     itemCount: snapshot.data?.docs.length,
                                     itemBuilder: (context, index){
+                                      final total = List.from(snapshot.data?.docs[index].get('money') ?? [])
+                                          .fold<int>(0, (s, m) => s + (int.tryParse(m.split('/')[0]) ?? 0));
+                                      final percent = (total / (int.tryParse(snapshot.data!.docs[index].get('price').toString()) ?? 0)) * 100;
                                         return GestureDetector(
                                           onTap: () {
                                             Navigator.pushReplacement(context,
@@ -82,7 +85,7 @@ class SaveMoneyScreen extends StatelessWidget {
                                                             LayoutBuilder(
                                                                 builder: (context, constraints){
                                                                   return Container(
-                                                                    width: constraints.maxWidth * 0.5,
+                                                                    width: constraints.maxWidth * percent / 100,
                                                                     decoration: BoxDecoration(
                                                                       gradient: LinearGradient(
                                                                           colors: [
@@ -111,9 +114,10 @@ class SaveMoneyScreen extends StatelessWidget {
                                                       child: Row(
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
-                                                          Text('1200 / ${snapshot.data?.docs[index].get('price')} ${snapshot.data?.docs[index].get('currency')}',
+                                                          Text('$total'
+                                                              '/ ${snapshot.data?.docs[index].get('price')} ${snapshot.data?.docs[index].get('currency')}',
                                                             style: kBigTextStyleWhite,),
-                                                          Text('33 %',
+                                                          Text('${percent.toStringAsFixed(0)}%',
                                                             style: kBigTextStyleWhite,),
                                                         ],
                                                       ),
@@ -134,8 +138,8 @@ class SaveMoneyScreen extends StatelessWidget {
                                                     boxShadow: [
                                                       BoxShadow(
                                                         color: kDarkBlue.withValues(alpha: 0.9),
-                                                        blurRadius: 2,
-                                                        spreadRadius: 2,
+                                                        blurRadius: 1,
+                                                        spreadRadius: 1,
                                                         offset: Offset(-2, 2)
                                                       )
                                                     ]
