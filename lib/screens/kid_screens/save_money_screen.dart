@@ -34,85 +34,123 @@ class SaveMoneyScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Column(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          width: size.width,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                              color: kWhite.withValues(alpha: 0.3)
-                          ),
-                          child: StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection('saveMoney')
-                                  .orderBy('time', descending: true)
-                                  .snapshots(),
-                              builder: (context, snapshot){
-                                if (!snapshot.hasData) return CircularProgressIndicator();
-                                return SizedBox(
-                                  height: size.height * 0.6,
-                                  child: ListView.builder(
-                                      padding: const EdgeInsets.only(bottom: 124),
-                                      itemCount: snapshot.data?.docs.length,
-                                      itemBuilder: (context, index){
-                                          return GestureDetector(
-                                            onTap: () {
-                                              Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(builder: (context) =>
-                                                  SingleSaveMoneyScreen(documentId: snapshot.data!.docs.elementAt(index).id,)));
-                                            },
-                                            child: Container(
-                                              height: 60,
-                                              margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
-                                              padding: const EdgeInsets.symmetric(horizontal: 12),
-                                              decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      colors: [
-                                                        kLightBlue.withValues(alpha: 0.8),
-                                                        kDarkBlue.withValues(alpha: 0.8),
-                                                        kPurple.withValues(alpha: 0.8),
-                                                      ],
-                                                      stops: const [0, 0.5, 1]
-                                                  ),
-                                                  border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
-                                                  borderRadius: const BorderRadius.all(Radius.circular(18)),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        color: kRed.withValues(alpha: 0.6),
-                                                        blurRadius: 6,
-                                                        spreadRadius: 2,
-                                                        offset: const Offset(-4, 6)
-                                                    ),
-                                                    BoxShadow(
-                                                        color: Colors.black.withValues(alpha: 0.3),
-                                                        blurRadius: 1,
-                                                        spreadRadius: 0.5,
-                                                        offset: const Offset(-0.5, 0.5)
-                                                    ),
-                                                  ]
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(snapshot.data?.docs[index].get('whatIsIt'), style: kBigTextStyleWhite,),
-                                                  snapshot.data?.docs[index].get('imageUrl') == 'false'
-                                                      ? const SizedBox.shrink()
-                                                      : Container(
-                                                    clipBehavior: Clip.hardEdge,
-                                                    margin: const EdgeInsets.all(3),
-                                                    decoration: BoxDecoration(
-                                                      color: kBlue.withValues(alpha: 0.3),
-                                                      borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                                    ),
-                                                    child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
-                                                  )
-                                                ],
-                                              ),
+                        StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('saveMoney')
+                                .orderBy('time', descending: true)
+                                .snapshots(),
+                            builder: (context, snapshot){
+                              if (!snapshot.hasData) return CircularProgressIndicator();
+                              return SizedBox(
+                                height: size.height * 0.6,
+                                child: ListView.builder(
+                                    padding: const EdgeInsets.only(bottom: 124),
+                                    itemCount: snapshot.data?.docs.length,
+                                    itemBuilder: (context, index){
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushReplacement(context,
+                                                MaterialPageRoute(builder: (context) =>
+                                                SingleSaveMoneyScreen(documentId: snapshot.data!.docs.elementAt(index).id,)));
+                                          },
+                                          child: Container(
+                                            height: 120,
+                                            margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
+                                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                                            decoration: BoxDecoration(
+                                                color: kWhite.withValues(alpha: 0.2),
+                                                border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.5)),
+                                                borderRadius: const BorderRadius.all(Radius.circular(8)),
                                             ),
-                                          );
-                                      }),
-                                );
-                              }
-                          ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                        width: size.width * 0.6,
+                                                        height: 60,
+                                                        margin: const EdgeInsets.symmetric(vertical: 8),
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.5)),
+                                                          borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                                        ),
+                                                        child: Stack(
+                                                          children: [
+                                                            LayoutBuilder(
+                                                                builder: (context, constraints){
+                                                                  return Container(
+                                                                    width: constraints.maxWidth * 0.5,
+                                                                    decoration: BoxDecoration(
+                                                                      gradient: LinearGradient(
+                                                                          colors: [
+                                                                            kOrange.withValues(alpha: 0.5),
+                                                                            Colors.transparent
+                                                                          ],
+                                                                        begin: Alignment.bottomCenter,
+                                                                        end: Alignment.topCenter
+                                                                      ),
+                                                                      borderRadius: const BorderRadius.horizontal(
+                                                                          left: Radius.circular(8),
+                                                                        right: Radius.circular(0)
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                            ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.all(8.0),
+                                                              child: Text(snapshot.data?.docs[index].get('whatIsIt'), style: kBigTextStyleWhite,),
+                                                            ),
+                                                          ],
+                                                        )),
+                                                    SizedBox(
+                                                      width: size.width * 0.6,
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text('1200 / ${snapshot.data?.docs[index].get('price')} ${snapshot.data?.docs[index].get('currency')}',
+                                                            style: kBigTextStyleWhite,),
+                                                          Text('33 %',
+                                                            style: kBigTextStyleWhite,),
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                  ],
+                                                ),
+                                                Container(
+                                                  height: 120,
+                                                  constraints: BoxConstraints(
+                                                    maxWidth: size.width * 0.2
+                                                  ),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  margin: const EdgeInsets.all(3),
+                                                  decoration: BoxDecoration(
+                                                    color: kBlue.withValues(alpha: 0.3),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: kDarkBlue.withValues(alpha: 0.9),
+                                                        blurRadius: 2,
+                                                        spreadRadius: 2,
+                                                        offset: Offset(-2, 2)
+                                                      )
+                                                    ]
+                                                  ),
+                                                  child: snapshot.data?.docs[index].get('imageUrl') == 'false'
+                                                      ? Image.asset('assets/images/cat.png', fit: BoxFit.contain)
+                                                      : Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.contain),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                    }),
+                              );
+                            }
                         ),
                         const Spacer(),
                         ButtonWidget(
