@@ -46,7 +46,7 @@ class DayDurationWidget extends StatelessWidget {
                       minute: int.parse(userStartTime.split(':')[1])),
                   userEndTime: TimeOfDay(hour: int.parse(userEndTime.split(':')[0]),
                       minute: int.parse(userEndTime.split(':')[1])),
-                  containerWidth: size.width,
+                  containerWidth: size.width - 48,
                 ),
               ],
             ),

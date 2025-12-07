@@ -63,7 +63,7 @@ class TimeProgressContainer extends StatelessWidget {
 
     // Upewniamy się, że zielony pasek NIE przykrywa czerwonego segmentu
     final int visibleUserStartM = max(userStartM, startM);
-    final int visibleUserEndM = userEndM;
+    final int visibleUserEndM   = min(userEndM, endM);
 
 // Offset (lewa pozycja) dla zielonego paska
     final double startOffsetWidth =
