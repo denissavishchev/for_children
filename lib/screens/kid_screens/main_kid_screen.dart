@@ -4,7 +4,7 @@ import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../providers/kid_provider.dart';
-import '../../widgets/kids_widgets/day_duration_widget.dart';
+import '../../widgets/kids_widgets/day_night_widget.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
 import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
 import '../../widgets/kids_widgets/kids_multitask_list_widget.dart';
@@ -32,8 +32,8 @@ class _MainKidScreenState extends State<MainKidScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: Consumer2<KidProvider, ParentProvider>(
-        builder: (context, data, parent, _){
+      body: Consumer<ParentProvider>(
+        builder: (context, parent, _){
           return Container(
             height: size.height,
             decoration: const BoxDecoration(
@@ -52,10 +52,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                       children: [
                         parent.email == ''
                             ? CircularProgressIndicator()
-                            : DayDurationWidget(
-                          email: parent.email ?? '',
-                          userStartTime: data.startDayTime,
-                          userEndTime: data.endDateTime,),
+                            : DayNightWidget(email: parent.email ?? '',),
                         const SizedBox(height: 4,),
                         StreamBuilder(
                             stream: CombineLatestStream.list([
@@ -108,6 +105,3 @@ class _MainKidScreenState extends State<MainKidScreen> {
     );
   }
 }
-
-
-

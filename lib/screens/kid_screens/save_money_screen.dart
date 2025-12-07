@@ -122,7 +122,6 @@ class SaveMoneyScreen extends StatelessWidget {
                                                         ],
                                                       ),
                                                     ),
-
                                                   ],
                                                 ),
                                                 Container(

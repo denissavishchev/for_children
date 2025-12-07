@@ -11,8 +11,7 @@ class TimeProgressContainer extends StatelessWidget {
   final TimeOfDay userStartTime;
   final TimeOfDay userEndTime;
   final double containerWidth;
-  final double containerHeight = 60;
-  final Map<String, dynamic>? docs;
+  final double containerHeight = 24;
 
   const TimeProgressContainer({
     super.key,
@@ -21,7 +20,6 @@ class TimeProgressContainer extends StatelessWidget {
     required this.userStartTime,
     required this.userEndTime,
     required this.containerWidth,
-    required this.docs,
   });
 
   int _toMinutesOfDay(TimeOfDay time) {
@@ -122,7 +120,7 @@ class TimeProgressContainer extends StatelessWidget {
     return Consumer<KidProvider>(
         builder: (context, kidsData, _){
           return SizedBox(
-            width: containerWidth * 2,
+            width: double.infinity,
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -179,27 +177,6 @@ class TimeProgressContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                AnimatedAlign(
-                  duration: Duration(milliseconds: 500),
-                  alignment: !kidsData.isDay ? Alignment.centerLeft : Alignment.centerRight,
-                  child: GestureDetector(
-                    onLongPress: () => kidsData.switchDay(docs?['dayEnd']),
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 500),
-                      width: kidsData.isDay ? containerHeight : containerHeight / 2,
-                      height: containerHeight - 2,
-                      decoration: BoxDecoration(
-                          borderRadius: kidsData.isDay
-                              ? BorderRadius.all(Radius.circular(containerHeight / 2))
-                              : BorderRadius.only(
-                            topLeft: Radius.circular(containerHeight / 2),
-                            bottomLeft: Radius.circular(containerHeight / 2),
-                          ),
-                          color: kidsData.isDay ? kOrange : kBlue
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           );
