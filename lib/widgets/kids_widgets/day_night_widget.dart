@@ -88,13 +88,19 @@ class DayNightWidget extends StatelessWidget {
                         width: 90,
                         child: GestureDetector(
                           onLongPress: () => data.switchDay(docs?['dayEnd']),
-                          child: AnimatedCrossFade(
-                            firstChild: Image.asset('assets/images/sun.png'),
-                            secondChild: Image.asset('assets/images/moon.png'),
-                            crossFadeState: data.isDay
-                                ? CrossFadeState.showFirst
-                                : CrossFadeState.showSecond,
-                            duration: const Duration(seconds: 1),
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 1000),
+                            transitionBuilder: (child, anim) {
+                              return FadeTransition(
+                                opacity: anim,
+                                child: child,
+                              );
+                            },
+                            child: Image.asset(
+                              'assets/images/${data.isDay ? 'sun' : 'moon'}.png',
+                              key: ValueKey(data.isDay),
+                              width: 100,
+                            ),
                           ),
                         ),
                       ),
