@@ -49,7 +49,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                       ? kOrange.withValues(alpha: 0.8)
                       : snapshot.docs[index].get('status') == 'price'
                       ? kWhite.withValues(alpha: 0.5) : kDarkBlue),
-              borderRadius: const BorderRadius.all(Radius.circular(18)),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
             ),
             child: Row(
               children: [
@@ -64,10 +64,25 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(snapshot.docs[index].get(nameOf),
-                              style: kBigTextStyleWhite,),
-                            Text((snapshot.docs[index].get('type')),
-                              style: kTextStyleWhite,),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              spacing: 4,
+                              children: [
+                                Text('taskFrom'.tr(),
+                                  style: kTextStyleWhite,),
+                                Text(snapshot.docs[index].get(nameOf),
+                                  style: kBigTextStyleWhite,),
+                              ],
+                            ),
+                            Row(
+                              spacing: 4,
+                              children: [
+                                Text(('type'.tr()),
+                                  style: kTextStyleWhite,),
+                                Text((snapshot.docs[index].get('type')),
+                                  style: kTextStyleWhite,),
+                              ],
+                            ),
                           ],
                         ),
                       ),

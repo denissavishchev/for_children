@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
@@ -32,72 +33,65 @@ class _MainKidScreenState extends State<MainKidScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: kWhite,
       body: Consumer<ParentProvider>(
         builder: (context, parent, _){
-          return Container(
-            height: size.height,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/bg.png'),
-                  fit: BoxFit.cover
-                )
-            ),
-            child: SafeArea(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  SizedBox(
-                    height: size.height,
-                    child: Column(
-                      children: [
-                        parent.email == ''
-                            ? CircularProgressIndicator()
-                            : DayNightWidget(email: parent.email ?? '',),
-                        const SizedBox(height: 4,),
-                        StreamBuilder(
-                            stream: CombineLatestStream.list([
-                              FirebaseFirestore.instance
-                                  .collection('tasks')
-                                  .orderBy('time', descending: true)
-                                  .snapshots(),
-                              FirebaseFirestore.instance
-                                  .collection('multiTasks')
-                                  .orderBy('time', descending: true)
-                                  .snapshots(),
-                            ]),
-                            builder: (context, snapshot){
-                              if (!snapshot.hasData) return CircularProgressIndicator();
-                              return Consumer<ParentProvider>(
-                                  builder: (context, data, _){
-                                    return Expanded(
-                                      child: PageView.builder(
-                                          controller: parent.taskPageController,
-                                          itemCount: 2,
-                                          itemBuilder: (context, index){
-                                            return index == 0
-                                                ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
-                                                : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
-                                          }
-                                      ),
-                                    );
-                                  }
-                              );
-                            }
-                        ),
-                      ],
-                    ),
+          return SafeArea(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  height: size.height,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8,),
+                      parent.email == ''
+                          ? CircularProgressIndicator()
+                          : DayNightWidget(email: parent.email ?? '',),
+                      const SizedBox(height: 4,),
+                      StreamBuilder(
+                          stream: CombineLatestStream.list([
+                            FirebaseFirestore.instance
+                                .collection('tasks')
+                                .orderBy('time', descending: true)
+                                .snapshots(),
+                            FirebaseFirestore.instance
+                                .collection('multiTasks')
+                                .orderBy('time', descending: true)
+                                .snapshots(),
+                          ]),
+                          builder: (context, snapshot){
+                            if (!snapshot.hasData) return CircularProgressIndicator();
+                            return Consumer<ParentProvider>(
+                                builder: (context, data, _){
+                                  return Expanded(
+                                    child: PageView.builder(
+                                        controller: parent.taskPageController,
+                                        itemCount: 2,
+                                        itemBuilder: (context, index){
+                                          return index == 0
+                                              ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
+                                              : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                        }
+                                    ),
+                                  );
+                                }
+                            );
+                          }
+                      ),
+                    ],
                   ),
-                  KidBottomNavigationBarWidget()
-                  // Positioned(
-                  //     top: 24,
-                  //     left: 55,
-                  //     child: KidInfoWidget(
-                  //       info: data.mainKidInfo,
-                  //       onTap: () => data.switchMainKidInfo(),
-                  //       text: 'mainKidInfo',
-                  //       height: 0.2,)),
-                ],
-              ),
+                ),
+                KidBottomNavigationBarWidget()
+                // Positioned(
+                //     top: 24,
+                //     left: 55,
+                //     child: KidInfoWidget(
+                //       info: data.mainKidInfo,
+                //       onTap: () => data.switchMainKidInfo(),
+                //       text: 'mainKidInfo',
+                //       height: 0.2,)),
+              ],
             ),
           );
         },

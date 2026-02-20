@@ -22,185 +22,176 @@ class KidsDescriptionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       resizeToAvoidBottomInset: true,
       body: Consumer<ParentProvider>(
           builder: (context, data, _){
-            return Container(
-              height: size.height,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/bg_description.png'),
-                      fit: BoxFit.cover
-                  )
-              ),
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20,),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(snapshot.docs[index].get(data.role == 'parent'
-                                ? 'kidName' : 'parentName'),
-                              style: kBigTextStyleWhite,),
-                            IconButton(
-                              onPressed: () => Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) =>
-                                  data.role == 'parent'
-                                      ? const MainParentScreen()
-                                      : const MainKidScreen())),
-                              icon: const Icon(Icons.close, size: 40,), color: kWhite,)
-                          ],
-                        ),
-                      ),
-                      Row(
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            height: 104,
-                            child: IntrinsicWidth(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 60,
-                                    width: size.width,
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: kOrange.withValues(alpha: 0.7),
-                                      borderRadius: const BorderRadius.horizontal(
-                                          right: Radius.circular(4)
-                                      ),
-                                    ),
-                                    child: Text(snapshot.docs[index].get('taskName'),
-                                      style: kBigTextStyleWhite,),
-                                  ),
-                                  Divider(color: kPurple.withValues(alpha: 0.7), height: 0.1,),
-                                  Container(
-                                    width: size.width,
-                                    padding: const EdgeInsets.only(left: 12),
+                          Text(snapshot.docs[index].get(data.role == 'parent'
+                              ? 'kidName' : 'parentName'),
+                            style: kBigTextStyleWhite,),
+                          IconButton(
+                            onPressed: () => Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) =>
+                                data.role == 'parent'
+                                    ? const MainParentScreen()
+                                    : const MainKidScreen())),
+                            icon: const Icon(Icons.close, size: 40,), color: kGreen,)
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 104,
+                          child: IntrinsicWidth(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: size.width,
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
                                     color: kOrange.withValues(alpha: 0.7),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text('taskPrice'.tr(),
-                                              style: kTextStyle.copyWith(
-                                                  color: kWhite.withValues(alpha: 0.6)),),
-                                            Text(snapshot.docs[index].get('price'),
-                                              style: kTextStyleWhite,),
-                                          ],
-                                        ),
-                                        snapshot.docs[index].data().containsKey('deadline')
-                                        ? Row(
-                                          children: [
-                                            Text(snapshot.docs[index].get('deadline') != 'false'
-                                                ? 'taskDeadline'.tr()
-                                                : '',
-                                              style: kTextStyle.copyWith(
-                                                  color: kWhite.withValues(alpha: 0.6)),),
-                                            Text(snapshot.docs[index].get('deadline') == 'false'
-                                                ? 'withoutDeadline'.tr()
-                                                : snapshot.docs[index].get('deadline') != null
-                                                ? DateFormat('dd-MM-yyyy').format(
-                                                DateTime.parse(snapshot.docs[index].get('deadline')))
-                                                : snapshot.docs[index].get('deadline'),
-                                              style: kTextStyleWhite,),
-                                          ],
-                                        )
-                                          : SizedBox.shrink(),
-                                      ],
+                                    borderRadius: const BorderRadius.horizontal(
+                                        right: Radius.circular(4)
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 300,
-                              padding: const EdgeInsets.all(12),
-                              margin: EdgeInsets.fromLTRB(12, 12,
-                                  snapshot.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
-                              decoration: BoxDecoration(
+                                  ),
+                                  child: Text(snapshot.docs[index].get('taskName'),
+                                    style: kBigTextStyleWhite,),
+                                ),
+                                Divider(color: kPurple.withValues(alpha: 0.7), height: 0.1,),
+                                Container(
+                                  width: size.width,
+                                  padding: const EdgeInsets.only(left: 12),
                                   color: kOrange.withValues(alpha: 0.7),
-                                  borderRadius: const BorderRadius.all(Radius.circular(4))
-                              ),
-                              child: Text(snapshot.docs[index].get('description'), style: kTextStyleWhite),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text('taskPrice'.tr(),
+                                            style: kTextStyle.copyWith(
+                                                color: kWhite.withValues(alpha: 0.6)),),
+                                          Text(snapshot.docs[index].get('price'),
+                                            style: kTextStyleWhite,),
+                                        ],
+                                      ),
+                                      snapshot.docs[index].data().containsKey('deadline')
+                                      ? Row(
+                                        children: [
+                                          Text(snapshot.docs[index].get('deadline') != 'false'
+                                              ? 'taskDeadline'.tr()
+                                              : '',
+                                            style: kTextStyle.copyWith(
+                                                color: kWhite.withValues(alpha: 0.6)),),
+                                          Text(snapshot.docs[index].get('deadline') == 'false'
+                                              ? 'withoutDeadline'.tr()
+                                              : snapshot.docs[index].get('deadline') != null
+                                              ? DateFormat('dd-MM-yyyy').format(
+                                              DateTime.parse(snapshot.docs[index].get('deadline')))
+                                              : snapshot.docs[index].get('deadline'),
+                                            style: kTextStyleWhite,),
+                                        ],
+                                      )
+                                        : SizedBox.shrink(),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          snapshot.docs[index].get('imageUrl') == 'false'
-                              ? const SizedBox.shrink()
-                              : Expanded(
-                            child: Container(
-                              height: 300,
-                              clipBehavior: Clip.hardEdge,
-                              margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
-                              decoration: BoxDecoration(
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 300,
+                            padding: const EdgeInsets.all(12),
+                            margin: EdgeInsets.fromLTRB(12, 12,
+                                snapshot.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
+                            decoration: BoxDecoration(
                                 color: kOrange.withValues(alpha: 0.7),
-                                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                              ),
-                              child: Image.network(snapshot.docs[index].get('imageUrl'), fit: BoxFit.cover),
-                            ),)
+                                borderRadius: const BorderRadius.all(Radius.circular(4))
+                            ),
+                            child: Text(snapshot.docs[index].get('description'), style: kTextStyleWhite),
+                          ),
+                        ),
+                        snapshot.docs[index].get('imageUrl') == 'false'
+                            ? const SizedBox.shrink()
+                            : Expanded(
+                          child: Container(
+                            height: 300,
+                            clipBehavior: Clip.hardEdge,
+                            margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
+                            decoration: BoxDecoration(
+                              color: kOrange.withValues(alpha: 0.7),
+                              borderRadius: const BorderRadius.all(Radius.circular(4)),
+                            ),
+                            child: Image.network(snapshot.docs[index].get('imageUrl'), fit: BoxFit.cover),
+                          ),)
+                      ],
+                    ),
+                    snapshot.docs[index].get('status') == 'price'
+                        ? _buildPrice(snapshot, data, context, size)
+                        : snapshot.docs[index].get('status') == 'inProgress'
+                        ? _buildInProgress(snapshot, data, context, size)
+                        : snapshot.docs[index].get('status') == 'done'
+                        ? _buildDone(snapshot, data, context, size)
+                        : snapshot.docs[index].get('status') == 'checked'
+                        ? _buildChecked(snapshot, data, context, size)
+                        : _buildComplete(snapshot),
+                    const SizedBox(height: 20,),
+                    data.role == 'parent' && snapshot.docs[index].get('status') == 'paid'
+                        ? IconButton(
+                        onPressed: () => data.addTaskToHistory(context, snapshot, index,
+                          snapshot.docs[index].get('parentName'),
+                          snapshot.docs[index].get('parentEmail'),
+                          snapshot.docs[index].get('kidName'),
+                          snapshot.docs[index].get('kidEmail'),
+                          snapshot.docs[index].get('taskName'),
+                          snapshot.docs[index].get('description'),
+                          snapshot.docs[index].get('price'),
+                          snapshot.docs[index].get('stars'),
+                          snapshot.docs[index].get('imageUrl'),
+                          snapshot.docs[index].get('type'),
+                          snapshot.docs[index].get('expQty'),
+                        ),
+                        icon: const Icon(Icons.history, size: 32, color: kOrange,))
+                        : data.role == 'parent'
+                        && snapshot.docs[index].get('status') == 'price'
+                        && snapshot.docs[index].get('priceStatus') == 'set'
+                        ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Row(
+                        children: [
+                          Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyleWhite,)),
+                          IconButton(
+                              onPressed: () {
+                                data.searchSingleTaskForEditing(snapshot.docs[index].id.toString());
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                    const AddSingleTaskScreen()));
+                              },
+
+                              icon: const Icon(Icons.edit, size: 32, color: kBlue,))
                         ],
                       ),
-                      snapshot.docs[index].get('status') == 'price'
-                          ? _buildPrice(snapshot, data, context, size)
-                          : snapshot.docs[index].get('status') == 'inProgress'
-                          ? _buildInProgress(snapshot, data, context, size)
-                          : snapshot.docs[index].get('status') == 'done'
-                          ? _buildDone(snapshot, data, context, size)
-                          : snapshot.docs[index].get('status') == 'checked'
-                          ? _buildChecked(snapshot, data, context, size)
-                          : _buildComplete(snapshot),
-                      const SizedBox(height: 20,),
-                      data.role == 'parent' && snapshot.docs[index].get('status') == 'paid'
-                          ? IconButton(
-                          onPressed: () => data.addTaskToHistory(context, snapshot, index,
-                            snapshot.docs[index].get('parentName'),
-                            snapshot.docs[index].get('parentEmail'),
-                            snapshot.docs[index].get('kidName'),
-                            snapshot.docs[index].get('kidEmail'),
-                            snapshot.docs[index].get('taskName'),
-                            snapshot.docs[index].get('description'),
-                            snapshot.docs[index].get('price'),
-                            snapshot.docs[index].get('stars'),
-                            snapshot.docs[index].get('imageUrl'),
-                            snapshot.docs[index].get('type'),
-                            snapshot.docs[index].get('expQty'),
-                          ),
-                          icon: const Icon(Icons.history, size: 32, color: kOrange,))
-                          : data.role == 'parent'
-                          && snapshot.docs[index].get('status') == 'price'
-                          && snapshot.docs[index].get('priceStatus') == 'set'
-                          ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18),
-                        child: Row(
-                          children: [
-                            Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyleWhite,)),
-                            IconButton(
-                                onPressed: () {
-                                  data.searchSingleTaskForEditing(snapshot.docs[index].id.toString());
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) =>
-                                      const AddSingleTaskScreen()));
-                                },
-
-                                icon: const Icon(Icons.edit, size: 32, color: kBlue,))
-                          ],
-                        ),
-                      )
-                          : const SizedBox.shrink()
-                    ],
-                  ),
+                    )
+                        : const SizedBox.shrink()
+                  ],
                 ),
               ),
             );

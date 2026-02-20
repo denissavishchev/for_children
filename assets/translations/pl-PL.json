@@ -113,5 +113,7 @@
   "setDayDurationFor" : "Ustaw czas trwania dnia dla {}",
   "ok" : "OK",
   "whatDoYouWant": "Czego chcesz?",
-  "whyYouNeedThis": "Dlaczego tego potrzebujesz?"
+  "whyYouNeedThis": "Dlaczego tego potrzebujesz?",
+  "taskFrom": "Zadanie od:",
+  "type": "Typ:"
 }

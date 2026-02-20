@@ -113,5 +113,7 @@
   "setDayDurationFor" : "Установить продолжительность дня для {}",
   "ok" : "OK",
   "whatDoYouWant": "Что ты хочешь?",
-  "whyYouNeedThis": "Зачем тебе это нужно?"
+  "whyYouNeedThis": "Зачем тебе это нужно?",
+  "taskFrom": "Задание от:",
+  "type": "Тип:"
 }

@@ -30,14 +30,8 @@ class _AddWishScreenState extends State<AddWishScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
+      body: SizedBox(
         height: size.height,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/bg_wish.png'),
-                fit: BoxFit.cover
-            )
-        ),
         child: SafeArea(
             child: Consumer<KidProvider>(
               builder: (context, data, _){

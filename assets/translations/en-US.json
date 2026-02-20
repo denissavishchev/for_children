@@ -113,6 +113,8 @@
   "setDayDurationFor" : "Set day duration for {}",
   "ok" : "OK",
   "whatDoYouWant" : "What do you want?",
-  "whyYouNeedThis" : "Why you need this?"
+  "whyYouNeedThis" : "Why you need this?",
+  "taskFrom" : "Task from:",
+  "type" : "type:"
 
 }
