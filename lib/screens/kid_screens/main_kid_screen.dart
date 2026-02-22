@@ -83,6 +83,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                                         ),
                                         child: PageView.builder(
                                             controller: parent.taskPageController,
+                                            onPageChanged: (index) => parent.switchTaskScreen(index),
                                             itemCount: 2,
                                             itemBuilder: (context, index){
                                               return index == 0

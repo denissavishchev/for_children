@@ -180,6 +180,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+                VerticalDivider(color: kWhite.withValues(alpha: 0.5),),
                 Expanded(
                   flex: 1,
                     child: snapshot.docs[index].get('status') == 'checked' ||
