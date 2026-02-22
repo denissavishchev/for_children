@@ -35,7 +35,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
         builder: (context, data, _){
           return Container(
             margin: const EdgeInsets.fromLTRB(0, 3, 0, 12),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
             width: size.width,
             height: height,
             decoration: BoxDecoration(
@@ -78,8 +78,9 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            width: size.width * 0.46,
+                          Container(
+                            width: size.width * 0.48,
+                            padding: const EdgeInsets.only(left: 8),
                             child: Wrap(
                               spacing: 4,
                               runSpacing: 4,
@@ -122,17 +123,29 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
-                            Text('taskPrice'.tr(),
-                              style: kTextKidStyle.copyWith(
-                                  color: kWhite.withValues(alpha: 0.6)),),
-                            Text(snapshot.docs[index].get('price'),
-                              style: kTextKidStyle,),
-                            Spacer(),
-                            Text('taskType'.tr(),
-                              style: kTextKidStyle.copyWith(
-                                  color: kWhite.withValues(alpha: 0.6)),),
-                            Text(snapshot.docs[index].get('type'),
-                              style: kTextKidStyle,),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('taskPrice'.tr(),
+                                      style: kTextKidStyle.copyWith(
+                                          color: kWhite.withValues(alpha: 0.6)),),
+                                    Text(snapshot.docs[index].get('price'),
+                                      style: kTextKidStyle,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text('taskType'.tr(),
+                                      style: kTextKidStyle.copyWith(
+                                          color: kWhite.withValues(alpha: 0.6)),),
+                                    Text(snapshot.docs[index].get('type'),
+                                      style: kTextKidStyle,),
+                                  ],
+                                )
+                              ],
+                            ),
                             Spacer(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
