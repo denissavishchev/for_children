@@ -115,5 +115,7 @@
   "whatDoYouWant": "Czego chcesz?",
   "whyYouNeedThis": "Dlaczego tego potrzebujesz?",
   "taskFrom": "Zadanie od:",
-  "type": "Typ:"
+  "type": "Typ:",
+  "oneTime" : "Jednorazowe",
+  "fewDays" : "Kilka dni"
 }

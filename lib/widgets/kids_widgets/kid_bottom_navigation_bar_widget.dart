@@ -20,7 +20,7 @@ class KidBottomNavigationBarWidget extends StatelessWidget {
           height: 54,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(12)),
-              color: kBlue.withValues(alpha: 0.6)
+              color: kBlue.withValues(alpha: 0.95)
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

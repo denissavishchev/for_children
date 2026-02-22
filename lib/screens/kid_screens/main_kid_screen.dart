@@ -9,6 +9,7 @@ import '../../widgets/kids_widgets/day_night_widget.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
 import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
 import '../../widgets/kids_widgets/kids_multitask_list_widget.dart';
+import '../../widgets/kids_widgets/switch_task_tab_widget.dart';
 
 class MainKidScreen extends StatefulWidget {
   const MainKidScreen({super.key});
@@ -40,46 +41,63 @@ class _MainKidScreenState extends State<MainKidScreen> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(
-                  height: size.height,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 8,),
-                      parent.email == ''
-                          ? CircularProgressIndicator()
-                          : DayNightWidget(email: parent.email ?? '',),
-                      const SizedBox(height: 4,),
-                      StreamBuilder(
-                          stream: CombineLatestStream.list([
-                            FirebaseFirestore.instance
-                                .collection('tasks')
-                                .orderBy('time', descending: true)
-                                .snapshots(),
-                            FirebaseFirestore.instance
-                                .collection('multiTasks')
-                                .orderBy('time', descending: true)
-                                .snapshots(),
-                          ]),
-                          builder: (context, snapshot){
-                            if (!snapshot.hasData) return CircularProgressIndicator();
-                            return Consumer<ParentProvider>(
-                                builder: (context, data, _){
-                                  return Expanded(
-                                    child: PageView.builder(
-                                        controller: parent.taskPageController,
-                                        itemCount: 2,
-                                        itemBuilder: (context, index){
-                                          return index == 0
-                                              ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
-                                              : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
-                                        }
-                                    ),
-                                  );
-                                }
-                            );
-                          }
-                      ),
-                    ],
+                Positioned(
+                  top: 0,
+                  child: parent.email == ''
+                      ? CircularProgressIndicator()
+                      : DayNightWidget(email: parent.email ?? '',),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                    decoration: BoxDecoration(
+                      color: kWhite,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18))
+                    ),
+                    height: size.height * 0.82 - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+                    child: Column(
+                      spacing: 12,
+                      children: [
+                        SwitchTaskTabWidget(),
+                        Expanded(
+                          child: StreamBuilder(
+                              stream: CombineLatestStream.list([
+                                FirebaseFirestore.instance
+                                    .collection('tasks')
+                                    .orderBy('time', descending: true)
+                                    .snapshots(),
+                                FirebaseFirestore.instance
+                                    .collection('multiTasks')
+                                    .orderBy('time', descending: true)
+                                    .snapshots(),
+                              ]),
+                              builder: (context, snapshot){
+                                if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+                                return Consumer<ParentProvider>(
+                                    builder: (context, data, _){
+                                      return Container(
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(topRight: Radius.circular(18), topLeft: Radius.circular(18))
+                                        ),
+                                        child: PageView.builder(
+                                            controller: parent.taskPageController,
+                                            itemCount: 2,
+                                            itemBuilder: (context, index){
+                                              return index == 0
+                                                  ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
+                                                  : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                            }
+                                        ),
+                                      );
+                                    }
+                                );
+                              }
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 KidBottomNavigationBarWidget()
@@ -99,3 +117,4 @@ class _MainKidScreenState extends State<MainKidScreen> {
     );
   }
 }
+

@@ -38,9 +38,9 @@ class DayNightWidget extends StatelessWidget {
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
                   ),
                   child: Stack(
+                    alignment: Alignment.center,
                     children: [
                       _layer(
                         asset: 'assets/images/d1.png',
@@ -105,7 +105,7 @@ class DayNightWidget extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        bottom: 0,
+                        bottom: size.height * 0.03,
                         child: Container(
                           width: size.width - 24,
                           decoration: BoxDecoration(

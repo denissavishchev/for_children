@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../constants.dart';
 import '../../providers/parent_provider.dart';
 import '../../screens/kid_screens/kids_description_screen.dart';
 import 'kid_single_basic_container_widget.dart';
@@ -54,23 +53,6 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
                     }
                     return const SizedBox.shrink();
                   }),
-              Positioned(
-                bottom: 72,
-                child: GestureDetector(
-                  onTap: () => data.switchTaskScreen(1),
-                  child: Container(
-                    width: 80,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: kOrange,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          bottomLeft: Radius.circular(8)),
-                    ),
-                    child: Icon(Icons.arrow_forward_ios, color: kWhite, size: 32,),
-                  ),
-                ),
-              )
             ],
           );
         });

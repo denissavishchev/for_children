@@ -29,7 +29,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Container(
-            margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
+            margin: const EdgeInsets.fromLTRB(0, 3, 0, 12),
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             width: size.width,
             height: height,
