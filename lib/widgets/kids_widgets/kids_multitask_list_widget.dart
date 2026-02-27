@@ -33,7 +33,7 @@ class _KidsMultiTaskListWidgetState extends State<KidsMultiTaskListWidget> {
             alignment: Alignment.bottomLeft,
             children: [
               ListView.builder(
-                padding: const EdgeInsets.only(bottom: 124),
+                padding: const EdgeInsets.only(bottom: 80, top: 2),
                   itemCount: widget.snapshot.docs.length,
                   itemBuilder: (context, index){
                     if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){

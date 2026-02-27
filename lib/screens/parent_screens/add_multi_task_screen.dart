@@ -31,7 +31,7 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       body: SafeArea(
           child: Consumer<ParentProvider>(
             builder: (context, data, _){
@@ -75,7 +75,7 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                                             physics: const NeverScrollableScrollPhysics(),
                                             itemCount: data.kidsList.length,
                                             itemBuilder: (context, index){
-                                              return data.kidsList[index].accept == true
+                                              return data.kidsList[index].accept
                                                   ? GestureDetector(
                                                 onTap: () => data.selectKid(data.kidsList[index].name, data.kidsList[index].email),
                                                 child: Container(

@@ -40,11 +40,14 @@ class KidsDescriptionScreen extends StatelessWidget {
                               ? 'kidName' : 'parentName'),
                             style: kBigTextStyleWhite,),
                           IconButton(
-                            onPressed: () => Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) =>
-                                data.role == 'parent'
-                                    ? const MainParentScreen()
-                                    : const MainKidScreen())),
+                            onPressed: () {
+                              data.pageIndex = 0;
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                  data.role == 'parent'
+                                      ? const MainParentScreen()
+                                      : const MainKidScreen()));
+                            },
                             icon: const Icon(Icons.close, size: 40,), color: kGreen,)
                         ],
                       ),

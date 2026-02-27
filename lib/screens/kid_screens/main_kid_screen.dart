@@ -50,7 +50,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                    padding: const EdgeInsets.only(top: 12),
                     decoration: BoxDecoration(
                       color: kWhite,
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18))
@@ -76,21 +76,15 @@ class _MainKidScreenState extends State<MainKidScreen> {
                                 if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
                                 return Consumer<ParentProvider>(
                                     builder: (context, data, _){
-                                      return Container(
-                                        clipBehavior: Clip.hardEdge,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(topRight: Radius.circular(18), topLeft: Radius.circular(18))
-                                        ),
-                                        child: PageView.builder(
-                                            controller: parent.taskPageController,
-                                            onPageChanged: (index) => parent.switchTaskScreen(index),
-                                            itemCount: 2,
-                                            itemBuilder: (context, index){
-                                              return index == 0
-                                                  ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
-                                                  : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
-                                            }
-                                        ),
+                                      return PageView.builder(
+                                          controller: parent.taskPageController,
+                                          onPageChanged: (index) => parent.switchTaskScreen(index),
+                                          itemCount: 2,
+                                          itemBuilder: (context, index){
+                                            return index == 0
+                                                ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
+                                                : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                          }
                                       );
                                     }
                                 );

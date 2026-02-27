@@ -33,7 +33,7 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
             alignment: Alignment.bottomRight,
             children: [
               ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 124),
+                  padding: const EdgeInsets.only(bottom: 80, top: 2),
                   itemCount: widget.snapshot.docs.length,
                   itemBuilder: (context, index){
                     if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){

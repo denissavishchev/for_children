@@ -209,27 +209,51 @@ class ParentProvider with ChangeNotifier {
       }
   }
 
-  Future<void> getKids() async{
+  Future<void> getKids() async {
     kidsList.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getString('email');
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    for(int k = 0; k < 6; k++){
-      if (doc.data()?['kid$k'] == null || doc.data()?['kid$k'].isEmpty) continue;
-        DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
-        instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
+    String? parentEmail = prefs.getString('email')?.toLowerCase();
+
+    if (parentEmail == null) return;
+
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(parentEmail)
+        .get();
+
+    final parentData = doc.data();
+    if (parentData == null) return;
+
+    for (int k = 0; k < 6; k++) {
+      String? kidEmail = parentData['kid$k']?.toLowerCase();
+      if (kidEmail == null || kidEmail.isEmpty) continue;
+      DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(kidEmail)
+          .get();
+
       final kidData = docEmail.data();
       if (kidData == null) continue;
+      bool isAcceptedByChild = false;
+      for (int i = 0; i < 6; i++) {
+        if (kidData['kid$i']?.toLowerCase() == parentEmail) {
+          if (kidData['kid${i}Accept'] == true) {
+            isAcceptedByChild = true;
+          }
+          break;
+        }
+      }
+      if (isAcceptedByChild) {
         final kid = KidModel(
             name: kidData['name'] ?? '',
-            email: doc.data()?['kid$k']?.toLowerCase() ?? '',
-            accept: kidData['kid${k}Accept'] ?? false,
+            email: kidEmail,
+            accept: isAcceptedByChild,
             startDay: kidData['dayStart'] ?? '',
             endDay: kidData['dayEnd'] ?? '');
         kidsList.add(kid);
-        notifyListeners();
+      }
     }
+    notifyListeners();
   }
 
   Future showKidSearchInfo(context, String name, String surname, String email) {

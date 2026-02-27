@@ -18,20 +18,36 @@ class TaskSwitchButtonWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: size.width * 0.13,
-        height: size.width * 0.18,
+        height: size.width * 0.26,
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 2),
         decoration: BoxDecoration(
-          border: Border.all(color: kWhite.withValues(alpha: 0.7), width: 1),
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          gradient: LinearGradient(
+              colors: [
+                Colors.transparent,
+                kWhite.withValues(alpha: 0.05),
+                Colors.transparent,
+              ],
+              stops: [0, 0.4, 1],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter
+          ),
+          border: Border.all(color: kWhite, width: 1.5),
+          borderRadius: BorderRadius.all(Radius.circular(size.width * 0.13)),
           boxShadow: [
             BoxShadow(
-              color: kWhite.withValues(alpha: 0.3),
+              color: kGrey.withValues(alpha: 0.55),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(-1, 1)
+            ),
+            BoxShadow(
+              color: kDarkWhite.withValues(alpha: 0.15),
             ),
             const BoxShadow(
               color: kWhite,
-              spreadRadius: -4.0,
-              blurRadius: 4.0,
+              spreadRadius: -12.0,
+              blurRadius: 20,
             ),
           ],
         ),
@@ -40,17 +56,18 @@ class TaskSwitchButtonWidget extends StatelessWidget {
           alignment: checked ? Alignment.topCenter : Alignment.bottomCenter,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            width: size.width * 0.12,
-            height: size.width * 0.08,
+            width: size.width * 0.13,
+            height: size.width * 0.13,
             decoration: BoxDecoration(
+              shape: BoxShape.circle,
                 border: Border.all(
                     color: checked
-                        ? kOrange.withValues(alpha: 0.8)
+                        ? kGrey.withValues(alpha: 0.7)
                         : kWhite.withValues(alpha: 0.8),
                     width: 1),
                 boxShadow: [
                   BoxShadow(
-                      color: kWhite.withValues(alpha: 0.1),
+                      color: kWhite.withValues(alpha: 0.3),
                       spreadRadius: 2,
                       blurRadius: 2,
                       offset: const Offset(0, 2)
@@ -58,18 +75,17 @@ class TaskSwitchButtonWidget extends StatelessWidget {
                 ],
                 gradient: LinearGradient(
                     colors: [
+                      checked ? kOrange : kGrey,
                       kWhite,
-                      kGrey
                     ],
                     begin: Alignment.bottomRight,
                     end: Alignment.topLeft
                 ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))
             ),
             child: Center(
               child: AnimatedCrossFade(
                 firstChild: ColorLine(color: kOrange,),
-                secondChild: ColorLine(color: kWhite),
+                secondChild: ColorLine(color: kGrey),
                 crossFadeState: checked ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: const Duration(milliseconds: 100),
               ),
@@ -92,12 +108,18 @@ class ColorLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 30,
-      height: 6,
+      width: 16,
+      height: 16,
       decoration: BoxDecoration(
-        color: color,
+        gradient: LinearGradient(
+            colors: [
+              kWhite,
+              color,
+            ],
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft
+        ),
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        border: Border.all(color: kWhite, width: 1),
       ),
     );
   }

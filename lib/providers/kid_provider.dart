@@ -7,6 +7,8 @@ import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
+import '../screens/kid_screens/add_wish_screen.dart';
+import '../screens/kid_screens/kids_settings_screen.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
 
@@ -24,6 +26,15 @@ class KidProvider with ChangeNotifier {
   bool isDay = false;
   String startDayTime = '';
   String endDateTime = '';
+
+  final Map<IconData, Widget> routes = {
+    Icons.home: MainKidScreen(),
+    Icons.monetization_on_sharp: SaveMoneyScreen(),
+    Icons.settings: KidsSettingsScreen(),
+    Icons.favorite: AddWishScreen(),
+  };
+
+  IconData selectedRoute = Icons.home;
 
   Map<String, bool> selectedParentsEmail = {};
 

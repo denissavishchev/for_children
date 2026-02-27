@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:for_children/providers/kid_provider.dart';
+import 'package:provider/provider.dart';
 import '../../constants.dart';
-import '../../screens/kid_screens/add_wish_screen.dart';
-import '../../screens/kid_screens/kids_settings_screen.dart';
-import '../../screens/kid_screens/main_kid_screen.dart';
-import '../../screens/kid_screens/save_money_screen.dart';
+
 
 class KidBottomNavigationBarWidget extends StatelessWidget {
   const KidBottomNavigationBarWidget({
@@ -19,54 +18,46 @@ class KidBottomNavigationBarWidget extends StatelessWidget {
           width: size.width - 24,
           height: 54,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              color: kBlue.withValues(alpha: 0.95)
+            borderRadius: BorderRadius.all(Radius.circular(152)),
+            border: Border.all(color: kWhite, width: 1),
+            color: kGrey.withValues(alpha: 0.2),
+            boxShadow: [
+              BoxShadow(
+                color: kGrey.withValues(alpha: 0.2),
+                spreadRadius: 4,
+                blurRadius: 4,
+                offset: Offset(0, 3)
+              ),
+              const BoxShadow(
+                color: kDarkWhite,
+                spreadRadius: -12.0,
+                blurRadius: 20,
+              ),
+            ]
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              IconButton(
-                  onPressed: () =>
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) =>
-                          const MainKidScreen())),
-                  icon: const Icon(
-                    Icons.home,
-                    color: kOrange,
-                    size: 32,
-                  )),
-              IconButton(
-                  onPressed: () =>
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) =>
-                          const SaveMoneyScreen())),
-                  icon: const Icon(
-                    Icons.monetization_on_sharp,
-                    color: kOrange,
-                    size: 32,
-                  )),
-              IconButton(
-                  onPressed: () =>
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) =>
-                          const KidsSettingsScreen())),
-                  icon: const Icon(
-                    Icons.settings,
-                    color: kOrange,
-                    size: 32,
-                  )),
-              IconButton(
-                  onPressed: () =>
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) =>
-                          const AddWishScreen())),
-                  icon: const Icon(
-                    Icons.favorite,
-                    color: kOrange,
-                    size: 32,
-                  ))
-            ],
-          ),
+          child: Consumer<KidProvider>(
+              builder: (context, data, _){
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(data.routes.length, ((i){
+                    return GestureDetector(
+                      onTap: () {
+                        data.selectedRoute = data.routes.keys.elementAt(i);
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) =>
+                                data.routes.values.elementAt(i)));
+                      },
+                      child: Icon(
+                        data.routes.keys.elementAt(i),
+                        color: data.selectedRoute == data.routes.keys.elementAt(i)
+                            ? kOrange.withValues(alpha: 0.8)
+                            : kDarkGrey.withValues(alpha: 0.5),
+                        size: 32,),
+                    );
+                  })),
+                );
+              }
+          )
         )
     );
   }

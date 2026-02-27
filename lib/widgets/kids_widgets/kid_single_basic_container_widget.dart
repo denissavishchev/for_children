@@ -29,126 +29,178 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Container(
-            margin: const EdgeInsets.fromLTRB(0, 3, 0, 12),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            width: size.width,
-            height: height,
+            margin: const EdgeInsets.fromLTRB(12, 0,12, 12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    kBlue.withValues(alpha: 0.75),
-                    kBlue.withValues(alpha: 0.35),
-                    kBlue.withValues(alpha: 0.55)
+                    kLightGrey.withValues(alpha: 0.35),
+                    kLightGrey
                   ],
-                  stops: [0, 0.4, 1],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter
               ),
-              border: Border.all(width: 2,
-                  color: snapshot.docs[index].get('status') == 'inProgress'
-                      ? kOrange.withValues(alpha: 0.8)
-                      : snapshot.docs[index].get('status') == 'price'
-                      ? kWhite.withValues(alpha: 0.5) : kDarkBlue),
+              boxShadow: [
+                BoxShadow(
+                  color: kGrey.withValues(alpha: 0.1),
+                  blurRadius: 2,
+                  spreadRadius: 2,
+                  offset: Offset(2, 2)
+                )
+              ],
               borderRadius: const BorderRadius.all(Radius.circular(12)),
             ),
             child: Row(
               children: [
                 Expanded(
                   flex: 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              spacing: 4,
-                              children: [
-                                Text('taskFrom'.tr(),
-                                  style: kTextStyleWhite,),
-                                Text(snapshot.docs[index].get(nameOf),
-                                  style: kBigTextStyleWhite,),
-                              ],
-                            ),
-                            Row(
-                              spacing: 4,
-                              children: [
-                                Text(('type'.tr()),
-                                  style: kTextStyleWhite,),
-                                Text((snapshot.docs[index].get('type')),
-                                  style: kTextStyleWhite,),
-                              ],
-                            ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    width: size.width,
+                    height: height,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            kWhite.withValues(alpha: 0.75),
+                            kWhite.withValues(alpha: 0.35),
+                            kWhite.withValues(alpha: 0.55)
                           ],
-                        ),
+                          stops: [0, 0.4, 1],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Text(snapshot.docs[index].get('taskName'),
-                          style: kBigTextStyleWhite,),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: [
-                            Text('taskPrice'.tr(),
-                              style: kTextStyleWhite.copyWith(
-                                  color: kWhite.withValues(alpha: 0.6)),),
-                            Text(snapshot.docs[index].get('price'),
-                              style: kTextStyleWhite,),
-                            Spacer(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: List.generate(3, ((i){
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: (2 - i) < (snapshot.docs[index].data().containsKey('expQty')
-                                                ? int.parse(snapshot.docs[index].get('expQty'))
-                                                : 1)
-                                                ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
-                                            blurRadius: 2,
-                                            spreadRadius: 2
-                                        )
-                                      ]
-                                  ),
-                                  child: SvgPicture.asset('assets/icons/pepper.svg',
-                                    width: 22,
-                                    colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot.docs[index].get('expQty'))
-                                        ? kRed : Colors.transparent, BlendMode.srcIn),
-                                  ),
-                                );
-                              })),
-                            )
-                          ],
+                      boxShadow: [
+                        BoxShadow(
+                            color: kGrey.withValues(alpha: 0.1),
+                            blurRadius: 1,
+                            spreadRadius: 1,
+                            offset: Offset(2, 0)
+                        )
+                      ],
+                      border: Border.all(width: 2,
+                          color: kDarkWhite),
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                spacing: 4,
+                                children: [
+                                  Text('taskFrom'.tr(),
+                                    style: kTextStyle,),
+                                  Text(snapshot.docs[index].get(nameOf),
+                                    style: kBigTextStyle,),
+                                ],
+                              ),
+                              Row(
+                                spacing: 4,
+                                children: [
+                                  Text(('type'.tr()),
+                                    style: kTextStyle,),
+                                  Text((snapshot.docs[index].get('type')),
+                                    style: kTextStyle,),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(snapshot.docs[index].get('taskName'),
+                            style: kBigTextStyle,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              Text('taskPrice'.tr(),
+                                style: kTextStyle.copyWith(
+                                    color: kBlue.withValues(alpha: 0.6)),),
+                              Text(snapshot.docs[index].get('price'),
+                                style: kTextStyle,),
+                              Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: List.generate(3, ((i){
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: (2 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                                                  ? int.parse(snapshot.docs[index].get('expQty'))
+                                                  : 1)
+                                                  ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
+                                              blurRadius: 2,
+                                              spreadRadius: 2
+                                          )
+                                        ]
+                                    ),
+                                    child: SvgPicture.asset('assets/icons/pepper.svg',
+                                      width: 22,
+                                      colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot.docs[index].get('expQty'))
+                                          ? kRed : Colors.transparent, BlendMode.srcIn),
+                                    ),
+                                  );
+                                })),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                VerticalDivider(color: kWhite.withValues(alpha: 0.5),),
+                const SizedBox(width: 4),
                 Expanded(
                   flex: 1,
-                  child: snapshot.docs[index].get('status') == 'checked' ||
-                      snapshot.docs[index].get('status') == 'paid'
-                      ? KidStarsWidget(
-                          stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
-                          snapshot: snapshot,
-                          index: index,)
-                            : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(3, (i){
-                            return KidStatusWidget(
-                              snapshot: snapshot,
-                              index: index,
-                              name: data.status[i],);
-                    }),
+                  child: Container(
+                    width: size.width,
+                    height: height,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            kWhite.withValues(alpha: 0.75),
+                            kLightGrey.withValues(alpha: 0.35),
+                            kWhite.withValues(alpha: 0.55)
+                          ],
+                          stops: [0, 0.4, 1],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: kGrey.withValues(alpha: 0.1),
+                            blurRadius: 1,
+                            spreadRadius: 1,
+                            offset: Offset(-2, 0)
+                        )
+                      ],
+                      border: Border.all(width: 2,
+                          color: kDarkWhite),
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: snapshot.docs[index].get('status') == 'checked' ||
+                        snapshot.docs[index].get('status') == 'paid'
+                        ? KidStarsWidget(
+                            stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
+                            snapshot: snapshot,
+                            index: index,)
+                              : Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: List.generate(3, (i){
+                              return KidStatusWidget(
+                                snapshot: snapshot,
+                                index: index,
+                                name: data.status[i],);
+                      }),
+                    ),
                   ),
                 )
               ],

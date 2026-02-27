@@ -32,7 +32,7 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       body: SafeArea(
         child: Consumer<ParentProvider>(
           builder: (context, data, _){
