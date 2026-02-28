@@ -82,12 +82,12 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                                                   width: size.width * 0.4,
                                                   margin: const EdgeInsets.all(2),
                                                   decoration: BoxDecoration(
-                                                      color: kDarkGrey,
+                                                      color: kDarkWhite,
                                                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                                                       border: Border.all(
                                                           width: 2,
                                                           color: data.selectedKidName == data.kidsList[index].name
-                                                              ? kBlue : kDarkGrey)
+                                                              ? kOrange : kDarkGrey)
                                                   ),
                                                   child: Center(
                                                       child: Text(data.kidsList[index].name, style: kTextStyle,)),

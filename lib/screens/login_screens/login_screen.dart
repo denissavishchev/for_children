@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       body: SafeArea(
           child: Consumer<LoginProvider>(
             builder: (context, data, _){

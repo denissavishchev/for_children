@@ -29,7 +29,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       body: SafeArea(
           child: Consumer<ParentProvider>(
             builder: (context, data, _){

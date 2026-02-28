@@ -43,7 +43,7 @@ class BasicMultiContainerWidget extends StatelessWidget {
                     width: size.width,
                     height: height,
                     decoration: BoxDecoration(
-                        color: kGrey,
+                        color: kWhite,
                         border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
@@ -191,7 +191,7 @@ class BasicMultiContainerWidget extends StatelessWidget {
                     height: height,
                     padding: const EdgeInsets.symmetric(vertical: 3),
                     decoration: BoxDecoration(
-                        color: kGrey,
+                        color: kWhite,
                         border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [

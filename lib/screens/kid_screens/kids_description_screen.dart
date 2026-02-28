@@ -531,7 +531,7 @@ class ChangeButtonWidget extends StatelessWidget {
               ),
               child: Center(
                 child: Text(text.tr(),
-                  style: kTextStyleGrey,
+                  style: kTextStyle,
                   textAlign: TextAlign.center,),
               ),
             ),

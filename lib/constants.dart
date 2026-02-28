@@ -44,13 +44,6 @@ final kTextStyleOrange = TextStyle(
     // fontFamily: 'Roboto'
 );
 
-final kBigTextStyleGrey = TextStyle(
-    color: kGrey,
-    fontWeight: FontWeight.bold,
-    fontSize: 36.sp,
-    // fontFamily: 'Roboto'
-);
-
 final kTextStyleGrey = TextStyle(
     color: kGrey,
     fontWeight: FontWeight.bold,

@@ -43,8 +43,7 @@ class SwitchTaskButtonWidget extends StatelessWidget {
               width: size.width * 0.45,
               height: 40,
               decoration: BoxDecoration(
-                  gradient: isIndex
-                  ? LinearGradient(
+                  gradient: LinearGradient(
                       colors: [
                         kWhite,
                         kWhite.withValues(alpha: 0.01),
@@ -52,30 +51,33 @@ class SwitchTaskButtonWidget extends StatelessWidget {
                       begin: Alignment.bottomRight,
                       end: Alignment.topLeft,
                       stops: [0.1, 1]
-                  )
-                  : LinearGradient(
-                      colors: [
-                          kWhite,
-                          kLightGrey.withValues(alpha: 0.4),
-                          kGrey.withValues(alpha: 0.7),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter
-                    ),
-                  border: Border.all(color: isIndex ? kWhite : kDarkWhite.withValues(alpha: 0.6), width: 1),
+                  ),
+                  border: Border.all(color: kWhite, width: 1),
                   borderRadius: BorderRadius.all(Radius.circular(size.width * 0.45,)),
                   boxShadow: [
                     BoxShadow(
-                      color: kGrey.withValues(alpha: !isIndex ? 0.5 : 0.3),
-                      blurRadius: 5,
-                      spreadRadius: 1.5,
+                      color: kGrey.withValues(alpha: 0.3),
+                      blurRadius: isIndex ? 3 : 5,
+                      spreadRadius: isIndex ? 0.5 : 1.5,
                       offset: Offset(0, 2)
                     ),
                   ]
               ),
               child: Center(
                 child: Text(index == 0 ? 'oneTime'.tr() : 'fewDays'.tr(),
-                  style: isIndex ? kBigTextKidStyle : kBigTextStyle,),
+                  style: kBigTextStyle.copyWith(
+                    color: isIndex ? kOrange.withValues(alpha: 0.8) : kBlue,
+                    shadows: [
+                      Shadow(
+                        color: isIndex ? kOrange.withValues(alpha: 0.4) : Colors.transparent,
+                        blurRadius: 10,
+                      ),
+                      Shadow(
+                        color: isIndex ? kOrange.withValues(alpha: 0.2) : Colors.transparent,
+                        blurRadius: 20,
+                      ),
+                    ],
+                  ),),
               ),
             ),
           );

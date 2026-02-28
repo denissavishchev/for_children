@@ -16,85 +16,87 @@ class OnboardingScreens extends StatelessWidget {
     return Scaffold(
       body: Consumer<LoginProvider>(
         builder: (context, data, _){
-          return Stack(
-            children: [
-              PageView(
-                controller: data.onboardingController,
-                children: List.generate(selectedOnboard == Onboard.basic ? 3 : 9, (i){
-                  return OnboardingScreen(
-                    parentText: 'onboardingParent$i',
-                    kidText: 'onboardingKid$i',
-                    parentImg: 'onboardingParent$i',
-                    kidImg: 'onboardingKid$i',);
-                }),
-              ),
-              Positioned(
-                bottom: 20,
-                child: SizedBox(
-                  width: size.width,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Row(
-                      children: [
-                        TextButton(
-                            onPressed: () => data.onboardingController.jumpToPage(
-                                selectedOnboard == Onboard.basic ? 2 : 8),
-                            child: Text('skip'.tr(), style: kTextStyle,)),
-                        const Spacer(),
-                        SmoothPageIndicator(
-                            controller: data.onboardingController,
-                            count: selectedOnboard == Onboard.basic ? 3 : 9,
-                            effect: ExpandingDotsEffect(
-                              dotWidth: 12,
-                              dotHeight: 12,
-                              spacing: 6,
-                              dotColor: kBlue.withValues(alpha: 0.5),
-                              activeDotColor: kBlue.withValues(alpha: 0.8)
-                            ),
-                          onDotClicked: (index){
-                              data.onboardingController.animateToPage(
-                                  index,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut);
-                          },
-                        ),
-                        const Spacer(),
-                        TextButton(
-                            onPressed: () {
-                              if(data.onboardingController.page == 2 && selectedOnboard == Onboard.basic
-                              || data.onboardingController.page == 8 && selectedOnboard == Onboard.advanced){
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) =>
-                                    const RegisterScreen()));
-                              }else{
-                                data.onboardingController.nextPage(
+          return SafeArea(
+            child: Stack(
+              children: [
+                PageView(
+                  controller: data.onboardingController,
+                  children: List.generate(selectedOnboard == Onboard.basic ? 3 : 9, (i){
+                    return OnboardingScreen(
+                      parentText: 'onboardingParent$i',
+                      kidText: 'onboardingKid$i',
+                      parentImg: 'onboardingParent$i',
+                      kidImg: 'onboardingKid$i',);
+                  }),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: SizedBox(
+                    width: size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Row(
+                        children: [
+                          TextButton(
+                              onPressed: () => data.onboardingController.jumpToPage(
+                                  selectedOnboard == Onboard.basic ? 2 : 8),
+                              child: Text('skip'.tr(), style: kTextStyle,)),
+                          const Spacer(),
+                          SmoothPageIndicator(
+                              controller: data.onboardingController,
+                              count: selectedOnboard == Onboard.basic ? 3 : 9,
+                              effect: ExpandingDotsEffect(
+                                dotWidth: 12,
+                                dotHeight: 12,
+                                spacing: 6,
+                                dotColor: kBlue.withValues(alpha: 0.5),
+                                activeDotColor: kBlue.withValues(alpha: 0.8)
+                              ),
+                            onDotClicked: (index){
+                                data.onboardingController.animateToPage(
+                                    index,
                                     duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeInOut
-                                );
-                              }
+                                    curve: Curves.easeInOut);
                             },
-                            child: Text('next'.tr(), style: kTextStyle,)),
-                      ],
+                          ),
+                          const Spacer(),
+                          TextButton(
+                              onPressed: () {
+                                if(data.onboardingController.page == 2 && selectedOnboard == Onboard.basic
+                                || data.onboardingController.page == 8 && selectedOnboard == Onboard.advanced){
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) =>
+                                      const RegisterScreen()));
+                                }else{
+                                  data.onboardingController.nextPage(
+                                      duration: const Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut
+                                  );
+                                }
+                              },
+                              child: Text('next'.tr(), style: kTextStyle,)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 40,
-                child: SizedBox(
-                  width: size.width,
-                  height: 40,
-                  child: Row(
-                    children: [
-                      const Spacer(),
-                      IconButton(
-                          onPressed: () => data.toLoginScreen(context),
-                          icon: const Icon(Icons.clear, size: 34,))
-                    ],
+                Positioned(
+                  top: 0,
+                  child: SizedBox(
+                    width: size.width,
+                    height: 40,
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        IconButton(
+                            onPressed: () => data.toLoginScreen(context),
+                            icon: const Icon(Icons.clear, size: 34,))
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           );
         },
       ),

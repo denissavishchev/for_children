@@ -22,6 +22,7 @@ class SingleSaveMoneyScreen extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: kWhite,
       body: Consumer<KidProvider>(
         builder: (context, data, _) {
           return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(

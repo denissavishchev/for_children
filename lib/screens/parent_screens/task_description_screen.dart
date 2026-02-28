@@ -24,7 +24,7 @@ class TaskDescriptionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       resizeToAvoidBottomInset: true,
       body: Consumer<ParentProvider>(
           builder: (context, data, _){

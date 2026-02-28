@@ -15,6 +15,7 @@ class SaveMoneyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: kWhite,
       resizeToAvoidBottomInset: true,
       body: Consumer<KidProvider>(
         builder: (context, data, _){

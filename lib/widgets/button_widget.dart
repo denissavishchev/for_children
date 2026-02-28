@@ -48,7 +48,7 @@ class ButtonWidget extends StatelessWidget {
                     ),
                   ]
               ),
-              child: Center(child: Text(text.tr(), style: kBigTextStyleGrey,)),
+              child: Center(child: Text(text.tr(), style: kBigTextStyle,)),
             ),
           );
         }

@@ -13,7 +13,7 @@ class PreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       body: Consumer<LoginProvider>(
         builder: (context, data, _){
           return Padding(
@@ -78,15 +78,15 @@ class OnboardButtonWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      onboard == selectedOnboard ? kGrey.withValues(alpha: 0.7) : kGrey,
-                      kGrey,
+                      onboard == selectedOnboard ? kWhite.withValues(alpha: 0.7) : kWhite,
+                      kWhite,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   border: Border.all(
                       width: 3,
-                      color: kGrey),
+                      color: kDarkWhite),
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   boxShadow: [
                     BoxShadow(

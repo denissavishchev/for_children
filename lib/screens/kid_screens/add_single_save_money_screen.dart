@@ -15,6 +15,7 @@ class AddSingleSaveMoneyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: kWhite,
       resizeToAvoidBottomInset: true,
       body: Consumer<KidProvider>(
         builder: (context, data, _){
@@ -33,7 +34,7 @@ class AddSingleSaveMoneyScreen extends StatelessWidget {
                                   const SaveMoneyScreen())),
                               icon: const Icon(
                                 Icons.arrow_back_ios_new,
-                                color: kWhite,
+                                color: kGrey,
                                 size: 32,
                               )),
                           const Spacer(),
@@ -47,7 +48,7 @@ class AddSingleSaveMoneyScreen extends StatelessWidget {
                           height: size.height * 0.4,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(12)),
-                              color: kWhite.withValues(alpha: 0.3)
+                              color: kGrey.withValues(alpha: 0.9)
                           ),
                           child: data.fileName == ''
                               ? const Icon(Icons.camera_alt, size: 80, color: kWhite,)
@@ -120,6 +121,7 @@ class AddSingleSaveMoneyScreen extends StatelessWidget {
                         onTap: () => data.saveSaveMoneyItem(context),
                         text: 'add',
                       ),
+                      const SizedBox(height: 12,)
                     ],
                   ),
                 ),

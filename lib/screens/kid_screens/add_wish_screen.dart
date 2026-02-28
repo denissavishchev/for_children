@@ -30,6 +30,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: kWhite,
       body: SizedBox(
         height: size.height,
         child: SafeArea(

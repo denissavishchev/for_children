@@ -30,7 +30,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       body: SafeArea(
           child: Consumer2<KidProvider, ParentProvider>(
             builder: (context, data, parent, _){

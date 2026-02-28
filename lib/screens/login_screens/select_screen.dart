@@ -15,7 +15,7 @@ class SelectScreen extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kGrey,
+      backgroundColor: kWhite,
       body: SafeArea(
         child: Consumer<LoginProvider>(
           builder: (context, data, _){
@@ -23,7 +23,6 @@ class SelectScreen extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: size.height * 0.02,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

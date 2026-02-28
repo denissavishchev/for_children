@@ -32,7 +32,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                             height: 60,
                             padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
                             decoration: BoxDecoration(
-                                color: kGrey,
+                                color: kWhite,
                                 border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
                                 borderRadius: const BorderRadius.all(Radius.circular(4)),
                                 boxShadow: [
@@ -62,7 +62,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                                     return SvgPicture.asset('assets/icons/pepper.svg',
                                       width: 12,
                                       colorFilter: ColorFilter.mode((4 - i) < int.parse(snapshot.docs[index].get('expQty'))
-                                          ? kRed : kGrey, BlendMode.srcIn),
+                                          ? kRed : kWhite, BlendMode.srcIn),
                                     );
                                   })),
                                 ),
@@ -82,7 +82,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                                             double.parse(snapshot.docs[index].get('stars')).toInt() >= 1
                                                 ? Icons.star
                                                 : Icons.star_border,
-                                            color: kGrey,
+                                            color: kWhite,
                                             size: 40,
                                             shadows: const [
                                               BoxShadow(
@@ -99,7 +99,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                                             double.parse(snapshot.docs[index].get('stars')).toInt() >= 2
                                                 ? Icons.star
                                                 : Icons.star_border,
-                                            color: kGrey,
+                                            color: kWhite,
                                             size: 45,
                                             shadows: const [
                                               BoxShadow(
@@ -117,7 +117,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                                             double.parse(snapshot.docs[index].get('stars')).toInt() >= 3
                                                 ? Icons.star
                                                 : Icons.star_border,
-                                            color: kGrey,
+                                            color: kWhite,
                                             size: 40,
                                             shadows: const [
                                               BoxShadow(

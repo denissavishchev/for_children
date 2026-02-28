@@ -3,7 +3,6 @@ import 'package:for_children/providers/kid_provider.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 
-
 class KidBottomNavigationBarWidget extends StatelessWidget {
   const KidBottomNavigationBarWidget({
     super.key,
