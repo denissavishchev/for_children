@@ -53,7 +53,15 @@ class _MainKidScreenState extends State<MainKidScreen> {
                     padding: const EdgeInsets.only(top: 12),
                     decoration: BoxDecoration(
                       color: kWhite,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18))
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: kGrey.withValues(alpha: 0.5),
+                            blurRadius: 2,
+                            spreadRadius: 2,
+                            offset: const Offset(0, -3)
+                        ),
+                      ],
                     ),
                     height: size.height * 0.82 - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
                     child: Column(

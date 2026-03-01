@@ -109,9 +109,13 @@ class DayNightWidget extends StatelessWidget {
                         child: Container(
                           width: size.width - 24,
                           decoration: BoxDecoration(
+                              color: kWhite,
                               boxShadow: [
                                 BoxShadow(
-                                    color: kGrey.withValues(alpha: 0.3)
+                                    color: kGrey.withValues(alpha: 0.5),
+                                    blurRadius: 3,
+                                    spreadRadius: 3,
+                                    offset: const Offset(1, 3)
                                 ),
                               ],
                               borderRadius: BorderRadius.all(Radius.circular(8))
