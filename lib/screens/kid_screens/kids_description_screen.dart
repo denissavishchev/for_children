@@ -7,6 +7,7 @@ import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../constants.dart';
+import '../../widgets/kids_widgets/square_button_widget.dart';
 import 'main_kid_screen.dart';
 
 class KidsDescriptionScreen extends StatelessWidget {
@@ -30,17 +31,17 @@ class KidsDescriptionScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 20,),
                     Padding(
-                      padding: const EdgeInsets.only(left: 12),
+                      padding: const EdgeInsets.all(12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(snapshot.docs[index].get(data.role == 'parent'
                               ? 'kidName' : 'parentName'),
-                            style: kBigTextStyleWhite,),
-                          IconButton(
-                            onPressed: () {
+                            style: kBigTextStyle,),
+                          SquareButtonWidget(
+                            icon: Icons.close,
+                            onTap: () {
                               data.pageIndex = 0;
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) =>
@@ -48,74 +49,83 @@ class KidsDescriptionScreen extends StatelessWidget {
                                       ? const MainParentScreen()
                                       : const MainKidScreen()));
                             },
-                            icon: const Icon(Icons.close, size: 40,), color: kGreen,)
+                          ),
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 104,
-                          child: IntrinsicWidth(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 60,
-                                  width: size.width,
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: kOrange.withValues(alpha: 0.7),
-                                    borderRadius: const BorderRadius.horizontal(
-                                        right: Radius.circular(4)
-                                    ),
-                                  ),
-                                  child: Text(snapshot.docs[index].get('taskName'),
-                                    style: kBigTextStyleWhite,),
-                                ),
-                                Divider(color: kPurple.withValues(alpha: 0.7), height: 0.1,),
-                                Container(
-                                  width: size.width,
-                                  padding: const EdgeInsets.only(left: 12),
-                                  color: kOrange.withValues(alpha: 0.7),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text('taskPrice'.tr(),
-                                            style: kTextStyle.copyWith(
-                                                color: kWhite.withValues(alpha: 0.6)),),
-                                          Text(snapshot.docs[index].get('price'),
-                                            style: kTextStyleWhite,),
-                                        ],
-                                      ),
-                                      snapshot.docs[index].data().containsKey('deadline')
-                                      ? Row(
-                                        children: [
-                                          Text(snapshot.docs[index].get('deadline') != 'false'
-                                              ? 'taskDeadline'.tr()
-                                              : '',
-                                            style: kTextStyle.copyWith(
-                                                color: kWhite.withValues(alpha: 0.6)),),
-                                          Text(snapshot.docs[index].get('deadline') == 'false'
-                                              ? 'withoutDeadline'.tr()
-                                              : snapshot.docs[index].get('deadline') != null
-                                              ? DateFormat('dd-MM-yyyy').format(
-                                              DateTime.parse(snapshot.docs[index].get('deadline')))
-                                              : snapshot.docs[index].get('deadline'),
-                                            style: kTextStyleWhite,),
-                                        ],
-                                      )
-                                        : SizedBox.shrink(),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                    Container(
+                      height: 60,
+                      width: size.width,
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: kOrange.withValues(alpha: 0.7),
+                        border: Border.all(color: kWhite, width: 1),
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(18)
                         ),
-                      ],
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.15),
+                                blurRadius: 4,
+                                spreadRadius: 1,
+                                offset: const Offset(2, 2)
+                            )
+                          ]
+                      ),
+                      child: Text(snapshot.docs[index].get('taskName'),
+                        style: kBigTextStyleWhite,),
+                    ),
+                    Container(
+                      width: size.width,
+                      padding: const EdgeInsets.only(left: 12),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: kOrange.withValues(alpha: 0.7),
+                        border: Border.all(color: kWhite, width: 1),
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(18)
+                        ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.15),
+                                blurRadius: 4,
+                                spreadRadius: 1,
+                                offset: const Offset(2, 2)
+                            )
+                          ]
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text('taskPrice'.tr(),
+                                style: kTextStyle.copyWith(
+                                    color: kWhite.withValues(alpha: 0.6)),),
+                              Text(snapshot.docs[index].get('price'),
+                                style: kTextStyleWhite,),
+                            ],
+                          ),
+                          snapshot.docs[index].data().containsKey('deadline')
+                              ? Row(
+                            children: [
+                              Text(snapshot.docs[index].get('deadline') != 'false'
+                                  ? 'taskDeadline'.tr()
+                                  : '',
+                                style: kTextStyle.copyWith(
+                                    color: kWhite.withValues(alpha: 0.6)),),
+                              Text(snapshot.docs[index].get('deadline') == 'false'
+                                  ? 'withoutDeadline'.tr()
+                                  : snapshot.docs[index].get('deadline') != null
+                                  ? DateFormat('dd-MM-yyyy').format(
+                                  DateTime.parse(snapshot.docs[index].get('deadline')))
+                                  : snapshot.docs[index].get('deadline'),
+                                style: kTextStyleWhite,),
+                            ],
+                          )
+                              : SizedBox.shrink(),
+                        ],
+                      ),
                     ),
                     Row(
                       children: [
@@ -127,7 +137,15 @@ class KidsDescriptionScreen extends StatelessWidget {
                                 snapshot.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
                             decoration: BoxDecoration(
                                 color: kOrange.withValues(alpha: 0.7),
-                                borderRadius: const BorderRadius.all(Radius.circular(4))
+                                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.15),
+                                      blurRadius: 4,
+                                      spreadRadius: 1,
+                                      offset: const Offset(2, 2)
+                                  )
+                                ]
                             ),
                             child: Text(snapshot.docs[index].get('description'), style: kTextStyleWhite),
                           ),
@@ -142,6 +160,14 @@ class KidsDescriptionScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: kOrange.withValues(alpha: 0.7),
                               borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.15),
+                                      blurRadius: 4,
+                                      spreadRadius: 1,
+                                      offset: const Offset(2, 2)
+                                  )
+                                ]
                             ),
                             child: Image.network(snapshot.docs[index].get('imageUrl'), fit: BoxFit.cover),
                           ),)
@@ -188,7 +214,6 @@ class KidsDescriptionScreen extends StatelessWidget {
                                     MaterialPageRoute(builder: (context) =>
                                     const AddSingleTaskScreen()));
                               },
-
                               icon: const Icon(Icons.edit, size: 32, color: kBlue,))
                         ],
                       ),
