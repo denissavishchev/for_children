@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/kid_screens/single_save_money_screen.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/button_widget.dart';
@@ -48,96 +49,118 @@ class SaveMoneyScreen extends StatelessWidget {
                                             SingleSaveMoneyScreen(documentId: snapshot.data!.docs.elementAt(index).id,)));
                                       },
                                       child: Container(
-                                        height: 120,
+                                        height: 200,
                                         margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
-                                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                                        padding: const EdgeInsets.only(right: 12),
                                         decoration: BoxDecoration(
-                                            color: kBlue.withValues(alpha: 0.8),
-                                            border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.5)),
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  kGrey,
+                                                  kWhite,
+                                                ]
+                                            ),
+                                            border: Border.all(width: 1, color: kDarkWhite),
                                             borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: kDarkGrey.withValues(alpha: 0.3),
+                                                blurRadius: 4,
+                                                spreadRadius: 2,
+                                                offset: Offset(4, 4)
+                                              )
+                                            ]
                                         ),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                    width: size.width * 0.6,
-                                                    height: 60,
-                                                    margin: const EdgeInsets.symmetric(vertical: 8),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.5)),
-                                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                                    ),
-                                                    child: Stack(
-                                                      children: [
-                                                        LayoutBuilder(
-                                                            builder: (context, constraints){
-                                                              return Container(
-                                                                width: constraints.maxWidth * percent / 100,
-                                                                decoration: BoxDecoration(
-                                                                  gradient: LinearGradient(
-                                                                      colors: [
-                                                                        kOrange.withValues(alpha: 0.5),
-                                                                        Colors.transparent
-                                                                      ],
-                                                                    begin: Alignment.bottomCenter,
-                                                                    end: Alignment.topCenter
-                                                                  ),
-                                                                  borderRadius: const BorderRadius.horizontal(
-                                                                      left: Radius.circular(8),
-                                                                    right: Radius.circular(0)
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }
-                                                        ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: Text(snapshot.data?.docs[index].get('whatIsIt'), style: kBigTextStyleWhite,),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                SizedBox(
-                                                  width: size.width * 0.6,
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Text('$total'
-                                                          '/ ${snapshot.data?.docs[index].get('price')} ${snapshot.data?.docs[index].get('currency')}',
-                                                        style: kBigTextStyleWhite,),
-                                                      Text('${percent.toStringAsFixed(0)}%',
-                                                        style: kBigTextStyleWhite,),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
                                             Container(
-                                              height: 120,
-                                              constraints: BoxConstraints(
-                                                maxWidth: size.width * 0.2
-                                              ),
                                               clipBehavior: Clip.hardEdge,
-                                              margin: const EdgeInsets.all(3),
                                               decoration: BoxDecoration(
-                                                color: kBlue.withValues(alpha: 0.3),
-                                                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: kDarkBlue.withValues(alpha: 0.9),
-                                                    blurRadius: 1,
-                                                    spreadRadius: 1,
-                                                    offset: Offset(-2, 2)
-                                                  )
-                                                ]
+                                                  color: kBlue.withValues(alpha: 0.3),
+                                                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: kGrey.withValues(alpha: 0.3),
+                                                        blurRadius: 4,
+                                                        spreadRadius: 2,
+                                                        offset: Offset(2, 0)
+                                                    )
+                                                  ]
                                               ),
                                               child: snapshot.data?.docs[index].get('imageUrl') == 'false'
                                                   ? Image.asset('assets/images/cat.png', fit: BoxFit.contain)
                                                   : Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.contain),
-                                            )
+                                            ),
+                                            Column(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Text(snapshot.data?.docs[index].get('whatIsIt'),
+                                                  style: kBigTextStyle,
+                                                ),
+                                                SizedBox(
+                                                  width: size.width * 0.4,
+                                                  height: size.width * 0.4,
+                                                  child: Stack(
+                                                    children: [
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                          color: kBlue.withValues(alpha: 0.3),
+                                                          borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                          border: Border.all(color: kDarkWhite),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              color: kWhite,
+                                                              spreadRadius: -4,
+                                                              blurRadius: 4
+                                                            ),
+                                                            BoxShadow(
+                                                                color: kWhite.withValues(alpha: 0.2),
+                                                                spreadRadius: 4,
+                                                                blurRadius: 4,
+                                                                offset: Offset(-2, 2)
+                                                            )
+                                                          ]
+                                                        ),
+                                                      ),
+                                                      RotatedBox(
+                                                        quarterTurns: 3,
+                                                        child: LinearPercentIndicator(
+                                                          padding: EdgeInsets.zero,
+                                                          animation: true,
+                                                          lineHeight: size.width * 0.4,
+                                                          percent: percent / 100,
+                                                          backgroundColor: Colors.transparent,
+                                                          barRadius: Radius.circular(12),
+                                                          linearGradient: LinearGradient(
+                                                              colors: [
+                                                                kGrey,
+                                                                kWhite
+                                                              ]
+                                                          ),
+                                                          center: Align(
+                                                            alignment: Alignment.centerLeft,
+                                                              child: RotatedBox(
+                                                                  quarterTurns: -3,
+                                                                  child: Text('${percent.toStringAsFixed(0)}%',
+                                                                    style: kBigTextStyle.copyWith(fontSize: 40,)))),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Row(
+                                                  spacing: 12,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text('$total'
+                                                        '/ ${snapshot.data?.docs[index].get('price')} '
+                                                        '${snapshot.data?.docs[index].get('currency')}',
+                                                      style: kBigTextStyle,),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ),
