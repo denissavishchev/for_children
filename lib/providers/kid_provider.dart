@@ -265,7 +265,7 @@ class KidProvider with ChangeNotifier {
             width: size.width,
             margin: const EdgeInsets.only(bottom: 300),
             decoration: const BoxDecoration(
-              color: kGrey,
+              color: kWhite,
               borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
             ),
             child: Row(

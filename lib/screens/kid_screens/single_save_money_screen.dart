@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
-import 'package:intl/intl.dart';
+import 'package:for_children/screens/kid_screens/save_money_screen.dart';
+import 'package:for_children/widgets/kids_widgets/square_button_widget.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import '../../providers/kid_provider.dart';
-import '../../widgets/button_widget.dart';
-import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
 
 class SingleSaveMoneyScreen extends StatelessWidget {
   const SingleSaveMoneyScreen({
@@ -40,30 +40,49 @@ class SingleSaveMoneyScreen extends StatelessWidget {
               total = moneyList.fold<int>(0, (s, m) => s + (int.tryParse(m.split('/')[0]) ?? 0));
               final percent = (total / (int.tryParse(doc['price'].toString()) ?? 0)) * 100;
               return SafeArea(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Column(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    spacing: 12,
+                    children: [
+                      Stack(
+                        alignment: Alignment.bottomCenter,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            width: size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(12)),
-                              color: kWhite.withValues(alpha: 0.3),
-                            ),
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                  child: doc['imageUrl'] == 'false'
-                                      ? Image.asset('assets/images/cat.png', fit: BoxFit.cover)
-                                      : Image.network(doc['imageUrl'], fit: BoxFit.cover),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SquareButtonWidget(
+                                icon: Icons.close,
+                                onTap: () => Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) => const SaveMoneyScreen())),
+                              ),
+                              Container(
+                                width: size.width * 0.65,
+                                height: size.height * 0.45,
+                                margin: const EdgeInsets.only(bottom: 24),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(120)),
+                                  color: kWhite.withValues(alpha: 0.3),
+                                  border: Border.all(color: kWhite),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kDarkGrey.withValues(alpha: 0.2),
+                                        blurRadius: 10,
+                                        spreadRadius: 5,
+                                        offset: const Offset(0, 10)
+                                    ),
+                                  ]
                                 ),
-                                Column(
+                                child: Stack(
+                                  fit: StackFit.expand,
                                   children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(120)),
+                                      child: doc['imageUrl'] == 'false'
+                                          ? Image.asset('assets/images/cat.png', fit: BoxFit.cover)
+                                          : Image.network(doc['imageUrl'], fit: BoxFit.cover),
+                                    ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -71,77 +90,79 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                                         Text('${doc['price']} ${doc['currency']}', style: kBigTextKidStyle),
                                       ],
                                     ),
-                                    const SizedBox(height: 50),
-                                    CircularPercentIndicator(
-                                      radius: size.width * 0.3,
-                                      lineWidth: 25.0,
-                                      percent: percent > 100 ? 1 : percent / 100,
-                                      progressColor: kBlue,
-                                      backgroundWidth: 30,
-                                      backgroundColor: kGrey.withValues(alpha: 0.3),
-                                      animation: true,
-                                      footer: Padding(
-                                        padding: const EdgeInsets.all(30),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Text(
-                                              '$total ${doc['currency']}',
-                                              style: kBigTextKidStyle,
-                                            ),
-                                            Text(
-                                              '${percent.toStringAsFixed(0)}% saved',
-                                              style: kBigTextKidStyle,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      circularStrokeCap: CircularStrokeCap.round,
-                                    ),
-                                    ButtonWidget(
-                                      onTap: () => data.showToAddMoney(context, doc.id),
-                                      text: 'add',
-                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              AddButtonWidget(doc: doc, data: data),
+                            ],
                           ),
-                          Expanded(
-                            child: ListView.builder(
-                              padding: const EdgeInsets.only(top: 12, bottom: 72),
-                              itemCount: moneyList.length,
-                              itemBuilder: (context, i) {
-                                final item = moneyList[i];
-                                final parts = item.split('/');
-                                return Container(
-                                  width: size.width,
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  margin: const EdgeInsets.only(bottom: 8),
-                                  decoration: BoxDecoration(
-                                    color: kLightBlue,
-                                    border: Border.all(color: kWhite, width: 1),
-                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(parts[0], style: kTextKidStyle),
-                                      Text(
-                                        DateFormat('dd-MM-yyyy').format(DateTime.parse(parts[1])),
-                                        style: kTextKidStyle,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                          RotatedBox(
+                            quarterTurns: 2,
+                            child: CircularPercentIndicator(
+                              radius: size.width * 0.38,
+                              lineWidth: 15.0,
+                              arcType: ArcType.HALF,
+                              percent: percent > 100 ? 1 : percent / 100,
+                              linearGradient: LinearGradient(
+                                  colors: [
+                                    kBlue,
+                                    kBlue.withValues(alpha: 0.6),
+                                  ]
+                              ),
+                              backgroundWidth: 30,
+                              arcBackgroundColor: kGrey.withValues(alpha: 0.2),
+                              animation: true,
+                              reverse: true,
+                              circularStrokeCap: CircularStrokeCap.round,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    const KidBottomNavigationBarWidget(),
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            '$total ${doc['currency']}',
+                            style: kBigTextKidStyle,
+                          ),
+                          Text(
+                            '${percent.toStringAsFixed(0)}% saved',
+                            style: kBigTextKidStyle,
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 12, bottom: 72),
+                          itemCount: moneyList.length,
+                          itemBuilder: (context, i) {
+                            final item = moneyList[i];
+                            final parts = item.split('/');
+                            return Container(
+                              width: size.width,
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              margin: const EdgeInsets.only(bottom: 8),
+                              decoration: BoxDecoration(
+                                color: kLightBlue,
+                                border: Border.all(color: kWhite, width: 1),
+                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(parts[0], style: kTextKidStyle),
+                                  Text(
+                                    DateFormat('dd-MM-yyyy').format(DateTime.parse(parts[1])),
+                                    style: kTextKidStyle,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -151,4 +172,55 @@ class SingleSaveMoneyScreen extends StatelessWidget {
     );
   }
 
+}
+
+class AddButtonWidget extends StatelessWidget {
+  const AddButtonWidget({
+    super.key,
+    required this.doc,
+    required this.data,
+  });
+
+  final DocumentSnapshot<Map<String, dynamic>> doc;
+  final KidProvider data;
+
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    return GestureDetector(
+      onTap: () => data.showToAddMoney(context, doc.id),
+      child: Container(
+        width: 38,
+        height: size.height * 0.2,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  kWhite,
+                  kWhite.withValues(alpha: 0.01),
+                ],
+                begin: Alignment.bottomRight,
+                end: Alignment.topLeft,
+                stops: [0.1, 1]
+            ),
+            border: Border.all(color: kWhite, width: 1),
+            borderRadius: BorderRadius.all(Radius.circular(size.width * 0.45,)),
+            boxShadow: [
+              BoxShadow(
+                  color: kGrey.withValues(alpha: 0.3),
+                  blurRadius: 3,
+                  spreadRadius: 1.5,
+                  offset: Offset(0, 2)
+              ),
+            ]
+        ),
+        child: Center(
+          child: Text('add'.tr(),
+            style: kBigTextStyle.copyWith(
+              color: kBlue,
+            ),),
+        ),
+      ),
+    );
+  }
 }
