@@ -103,7 +103,14 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text('${doc['whatIsIt']}', style: kBigTextKidStyle.copyWith(fontSize: 44.sp)),
-                                            Text('${doc['price']} ${doc['currency']}', style: kBigTextKidStyle),
+                                            Text('${percent.toStringAsFixed(0)}% saved', style: kBigTextKidStyle,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text('$total/', style: kTextKidStyle),
+                                                Text('${doc['price']} ${doc['currency']}', style: kTextKidStyle,),
+                                              ],
+                                            )
                                           ],
                                         ),
                                       ),
@@ -136,17 +143,10 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text('$total ${doc['currency']}', style: kBigTextKidStyle,),
-                          Text('${percent.toStringAsFixed(0)}% saved', style: kBigTextKidStyle,
-                          ),
-                        ],
-                      ),
                       Expanded(
                         child: ListView.builder(
-                          padding: const EdgeInsets.only(top: 12, bottom: 72),
+                          reverse: true,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           itemCount: moneyList.length,
                           itemBuilder: (context, i) {
                             final item = moneyList[i];
