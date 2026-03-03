@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:for_children/widgets/kids_widgets/square_button_widget.dart';
@@ -74,23 +75,40 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                                     ),
                                   ]
                                 ),
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(120)),
-                                      child: doc['imageUrl'] == 'false'
-                                          ? Image.asset('assets/images/cat.png', fit: BoxFit.cover)
-                                          : Image.network(doc['imageUrl'], fit: BoxFit.cover),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('${doc['whatIsIt']}', style: kBigTextKidStyle),
-                                        Text('${doc['price']} ${doc['currency']}', style: kBigTextKidStyle),
-                                      ],
-                                    ),
-                                  ],
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(120)),
+                                  child: Stack(
+                                    alignment: Alignment.bottomCenter,
+                                    children: [
+                                      Positioned.fill(
+                                        child: doc['imageUrl'] == 'false'
+                                            ? Image.asset('assets/images/cat.png', fit: BoxFit.cover)
+                                            : Image.network(doc['imageUrl'], fit: BoxFit.cover),
+                                      ),
+                                      Container(
+                                        width: size.width * 0.65,
+                                        margin: const EdgeInsets.only(bottom: 24),
+                                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: kWhite.withValues(alpha: 0.7),
+                                              spreadRadius: 2,
+                                              blurRadius: 4,
+                                            )
+                                          ]
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text('${doc['whatIsIt']}', style: kBigTextKidStyle.copyWith(fontSize: 44.sp)),
+                                            Text('${doc['price']} ${doc['currency']}', style: kBigTextKidStyle),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               AddButtonWidget(doc: doc, data: data),
@@ -121,13 +139,8 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text(
-                            '$total ${doc['currency']}',
-                            style: kBigTextKidStyle,
-                          ),
-                          Text(
-                            '${percent.toStringAsFixed(0)}% saved',
-                            style: kBigTextKidStyle,
+                          Text('$total ${doc['currency']}', style: kBigTextKidStyle,),
+                          Text('${percent.toStringAsFixed(0)}% saved', style: kBigTextKidStyle,
                           ),
                         ],
                       ),
