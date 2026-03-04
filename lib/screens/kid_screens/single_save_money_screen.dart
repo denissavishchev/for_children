@@ -219,7 +219,6 @@ class AddButtonWidget extends StatelessWidget {
   final DocumentSnapshot<Map<String, dynamic>> doc;
   final KidProvider data;
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);

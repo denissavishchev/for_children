@@ -69,6 +69,7 @@ class ParentProvider with ChangeNotifier {
   Map<String, String> wishList = {};
 
   String? email = '';
+  String? name = '';
   String? role = '';
 
   double stars = 0.0;
@@ -78,6 +79,12 @@ class ParentProvider with ChangeNotifier {
   bool settingsParentInfo = false;
   bool isEdit = false;
   String editDocId = '';
+
+  Map<String, Locale> locales = {
+    'GB': const Locale('en', 'US'),
+    'PL': const Locale('pl', 'PL'),
+    'RU': const Locale('ru', 'RU'),
+  };
 
   void switchParentInfo(){
     mainParentInfo = !mainParentInfo;
@@ -94,9 +101,12 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getEmail() async{
+  Future<void> getEmailAndName() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email');
+    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
+    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+    name = doc.data()?['name'];
     notifyListeners();
   }
 
@@ -105,7 +115,7 @@ class ParentProvider with ChangeNotifier {
   }
 
   void getEmailData(){
-    getEmailVoid = getEmail();
+    getEmailVoid = getEmailAndName();
   }
 
   Future getRole(context) async{

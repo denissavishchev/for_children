@@ -1,5 +1,7 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
@@ -52,32 +54,63 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                 children: [
                                   SizedBox(height: 40, width: 40,),
                                   const Spacer(),
-                                  Text('${parent.email}', style: kTextStyle,),
+                                  Text('${parent.name}', style: kBigTextStyle,),
+                                  const SizedBox(width: 12,),
+                                  Text('${parent.email}', 
+                                    style: kTextStyle.copyWith(color: kBlue.withValues(alpha: 0.6)),),
                                   const Spacer(),
                                   const SizedBox(width: 32,)
                                 ],
                               ),
                               const SizedBox(height: 18,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text('language'.tr(),style: kTextStyle,),
-                                  GestureDetector(
-                                    onTap: () => context.setLocale(const Locale('en', 'US')),
-                                      child: const FlagWidget(country: 'GB')),
-                                  GestureDetector(
-                                    onTap:  () => context.setLocale(const Locale('pl', 'PL')),
-                                      child: const FlagWidget(country: 'PL')),
-                                  GestureDetector(
-                                    onTap: () => context.setLocale(const Locale('ru', 'RU')),
-                                      child: const FlagWidget(country: 'RU')),
-                                ],
+                              Container(
+                                width: size.width * 0.7,
+                                height: size.width * 0.45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(18))
+                                ),
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    CountryFlag.fromCountryCode(
+                                      context.locale.countryCode == 'US' ? 'GB' : context.locale.countryCode ?? 'GB',
+                                      theme: ImageTheme(
+                                      height: size.width * 0.45,
+                                      width: size.width * 0.7,
+                                      shape: RoundedRectangle(8),
+                                    ),),
+                                    Positioned(
+                                      bottom: 12,
+                                      child: Container(
+                                        width: size.width * 0.7,
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: kWhite.withValues(alpha: 0.7),
+                                              blurRadius: 10,
+                                              spreadRadius: 10,
+                                            )
+                                          ]
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: List.generate(parent.locales.length, ((i){
+                                            return GestureDetector(
+                                                onTap: () {
+                                                  context.setLocale(parent.locales.values.elementAt(i));
+                                                  },
+                                                child: FlagWidget(country: parent.locales.keys.elementAt(i)));
+                                          })),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               const SizedBox(height: 50,),
                               Column(
                                 children: [
-                                  Text(
-                                    'yourParents'.tr(), style: kTextStyle,),
+                                  Text('yourParents'.tr(), style: kTextStyle,),
                                   SizedBox(
                                     height: 24.0 * data.parentsList.length,
                                     child: FutureBuilder(
@@ -112,13 +145,8 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 18,),
-                              Consumer<LoginProvider>(
-                                  builder: (context, data, _){
-                                    return TextButton(
-                                        onPressed: () => data.logOut(context),
-                                        child: Text('LogOut',style: kTextStyle,));
-                                  })
+                              const SizedBox(height: 38,),
+                              LogoutButtonWidget(),
                             ],
                           ),
                         ),
@@ -133,12 +161,68 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                         onTap: () => data.switchSettingsKidInfo(),
                         text: 'settingsKidInfo',
                         height: 0.2,)),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: SvgPicture.asset('assets/icons/settings.svg',
+                          width: size.width * 0.8,
+                          colorFilter: ColorFilter.mode(kDarkWhite, BlendMode.srcIn),
+                          )),
                   KidBottomNavigationBarWidget()
                 ],
               );
             },
           )
       ),
+    );
+  }
+}
+
+class LogoutButtonWidget extends StatelessWidget {
+  const LogoutButtonWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    return Consumer<LoginProvider>(
+        builder: (context, data, _){
+          return GestureDetector(
+            onTap: () => data.logOut(context),
+            child: Container(
+              height: 38,
+              width: size.height * 0.2,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                        kWhite,
+                        kWhite.withValues(alpha: 0.01),
+                      ],
+                      begin: Alignment.bottomRight,
+                      end: Alignment.topLeft,
+                      stops: [0.1, 1]
+                  ),
+                  border: Border.all(color: kWhite, width: 1),
+                  borderRadius: BorderRadius.all(Radius.circular(size.width * 0.45,)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: kGrey.withValues(alpha: 0.3),
+                        blurRadius: 3,
+                        spreadRadius: 1.5,
+                        offset: Offset(0, 2)
+                    ),
+                  ]
+              ),
+              child: Center(
+                child: Text('LogOut',
+                  style: kBigTextStyle.copyWith(
+                    color: kBlue,
+                  ),),
+              ),
+            ),
+          );
+        }
     );
   }
 }
