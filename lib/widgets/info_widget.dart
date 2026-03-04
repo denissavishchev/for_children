@@ -29,7 +29,7 @@ class InfoWidget extends StatelessWidget {
               height: info ? size.height * height : 40,
               padding: EdgeInsets.all(info ? 8 : 0),
               decoration: BoxDecoration(
-                color: kGrey,
+                color: kDarkWhite,
                   border: Border.all(width: info ? 1 : 0, color: kBlue.withValues(alpha: 0.1)),
                   borderRadius: const BorderRadius.all(Radius.circular(4)),
                   boxShadow: info ? [

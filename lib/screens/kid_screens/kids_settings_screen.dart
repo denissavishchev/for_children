@@ -67,7 +67,16 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                 width: size.width * 0.7,
                                 height: size.width * 0.45,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(18))
+                                  borderRadius: BorderRadius.all(Radius.circular(18)),
+                                  border: Border.all(color: kDarkWhite),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: kGrey.withValues(alpha: 0.3),
+                                      blurRadius: 3,
+                                      spreadRadius: 3,
+                                      offset: Offset(2, 2)
+                                    )
+                                  ]
                                 ),
                                 child: Stack(
                                   alignment: Alignment.bottomCenter,
@@ -96,9 +105,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: List.generate(parent.locales.length, ((i){
                                             return GestureDetector(
-                                                onTap: () {
-                                                  context.setLocale(parent.locales.values.elementAt(i));
-                                                  },
+                                                onTap: () => context.setLocale(parent.locales.values.elementAt(i)),
                                                 child: FlagWidget(country: parent.locales.keys.elementAt(i)));
                                           })),
                                         ),
@@ -109,6 +116,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                               ),
                               const SizedBox(height: 50,),
                               Column(
+                                spacing: 8,
                                 children: [
                                   Text('yourParents'.tr(), style: kTextStyle,),
                                   SizedBox(
@@ -123,17 +131,54 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                               itemCount: data.parentsList.length,
                                               itemBuilder: (context, index){
                                                 String key = data.parentsList.keys.elementAt(index);
+                                                bool isAccepted = data.parentsListAccept[index];
                                                 return data.parentsList[key] !=''
                                                     ? Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                   children: [
-                                                    Text(key, style: kTextStyle,),
-                                                    data.parentsListAccept[index]
-                                                        ? const Icon(Icons.check,
-                                                        color: kGreen)
-                                                        : GestureDetector(
-                                                        onTap: () => data.acceptParent(index),
-                                                        child: Text('accept'.tr()))
+                                                    Text(key, style: kBigTextStyle,),
+                                                    GestureDetector(
+                                                      onTap: () => !isAccepted ? data.acceptParent(index) : null,
+                                                      child: Container(
+                                                        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                                                        decoration: BoxDecoration(
+                                                            color: !isAccepted
+                                                                ? kRed.withValues(alpha: 0.6)
+                                                                : kGreen.withValues(alpha: 0.6),
+                                                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: kDarkWhite.withValues(alpha: 0.8),
+                                                                blurRadius: 3,
+                                                                spreadRadius: 1.5,
+                                                              )
+                                                            ]
+                                                        ),
+                                                        child: Row(
+                                                          spacing: 4,
+                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                          children: [
+                                                            Text(!isAccepted ? 'clickToAccept' : 'accepted'.tr(), style: kTextStyle,),
+                                                            Container(
+                                                                width: 16,
+                                                                height: 16,
+                                                                decoration: BoxDecoration(
+                                                                    color: !isAccepted ? kRed : kGreen,
+                                                                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                                                                    border: Border.all(width: 0.5 ,color: kWhite),
+                                                                    boxShadow: [
+                                                                      BoxShadow(
+                                                                        color: kWhite,
+                                                                        blurRadius: 0.5,
+                                                                        spreadRadius: 0.5,
+                                                                      )
+                                                                    ]
+                                                                ),
+                                                                child: Icon(!isAccepted ? Icons.close : Icons.check, color: kWhite, size: 14,)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
                                                   ],
                                                 )
                                                     : const SizedBox.shrink();
@@ -215,7 +260,7 @@ class LogoutButtonWidget extends StatelessWidget {
                   ]
               ),
               child: Center(
-                child: Text('LogOut',
+                child: Text('logout'.tr(),
                   style: kBigTextStyle.copyWith(
                     color: kBlue,
                   ),),

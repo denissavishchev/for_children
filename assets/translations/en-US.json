@@ -117,6 +117,9 @@
   "taskFrom" : "Task from:",
   "type" : "type:",
   "oneTime" : "One time",
-  "fewDays" : "Few days"
+  "fewDays" : "Few days",
+  "logout" : "Logout",
+  "accepted" : "Accepted",
+  "clickToAccept" : "Click to accept"
 
 }

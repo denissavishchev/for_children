@@ -117,5 +117,8 @@
   "taskFrom": "Zadanie od:",
   "type": "Typ:",
   "oneTime" : "Jednorazowe",
-  "fewDays" : "Kilka dni"
+  "fewDays" : "Kilka dni",
+  "logout": "Wyloguj się",
+  "accepted": "Zaakceptowano",
+  "clickToAccept": "Kliknij, aby zaakceptować"
 }
