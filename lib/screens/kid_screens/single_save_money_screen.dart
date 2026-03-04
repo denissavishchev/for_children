@@ -41,15 +41,15 @@ class SingleSaveMoneyScreen extends StatelessWidget {
               total = moneyList.fold<int>(0, (s, m) => s + (int.tryParse(m.split('/')[0]) ?? 0));
               final percent = (total / (int.tryParse(doc['price'].toString()) ?? 0)) * 100;
               return SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Column(
-                    spacing: 12,
-                    children: [
-                      Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Row(
+                child: Column(
+                  spacing: 12,
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -121,61 +121,83 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                               AddButtonWidget(doc: doc, data: data),
                             ],
                           ),
-                          RotatedBox(
-                            quarterTurns: 2,
-                            child: CircularPercentIndicator(
-                              radius: size.width * 0.38,
-                              lineWidth: 15.0,
-                              arcType: ArcType.HALF,
-                              percent: percent > 100 ? 1 : percent / 100,
-                              linearGradient: LinearGradient(
+                        ),
+                        RotatedBox(
+                          quarterTurns: 2,
+                          child: CircularPercentIndicator(
+                            radius: size.width * 0.38,
+                            lineWidth: 15.0,
+                            arcType: ArcType.HALF,
+                            percent: percent > 100 ? 1 : percent / 100,
+                            linearGradient: LinearGradient(
+                                colors: [
+                                  kBlue,
+                                  kBlue.withValues(alpha: 0.6),
+                                ]
+                            ),
+                            backgroundWidth: 30,
+                            arcBackgroundColor: kGrey.withValues(alpha: 0.2),
+                            animation: true,
+                            reverse: true,
+                            circularStrokeCap: CircularStrokeCap.round,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        reverse: true,
+                        padding: const EdgeInsets.all(12),
+                        itemCount: moneyList.length,
+                        itemBuilder: (context, i) {
+                          final item = moneyList[i];
+                          final parts = item.split('/');
+                          return Container(
+                            width: size.width,
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            margin: const EdgeInsets.only(bottom: 8),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
                                   colors: [
-                                    kBlue,
-                                    kBlue.withValues(alpha: 0.6),
+                                    kWhite,
+                                    kGrey.withValues(alpha: 0.1),
+
                                   ]
                               ),
-                              backgroundWidth: 30,
-                              arcBackgroundColor: kGrey.withValues(alpha: 0.2),
-                              animation: true,
-                              reverse: true,
-                              circularStrokeCap: CircularStrokeCap.round,
+                              border: Border.all(color: kWhite, width: 1),
+                              borderRadius: const BorderRadius.all(Radius.circular(12)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: kGrey.withValues(alpha: 0.3),
+                                  blurRadius: 1,
+                                  spreadRadius: 1,
+                                  offset: const Offset(0, 2)
+                                )
+                              ]
                             ),
-                          ),
-                        ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  DateFormat('dd-MM-yyyy').format(DateTime.parse(parts[1])),
+                                  style: kTextKidStyle,
+                                ),
+                                Container(
+                                  width: 50,
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: kWhite,
+                                    borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  child: Text(parts[0], style: kTextKidStyle)),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          reverse: true,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          itemCount: moneyList.length,
-                          itemBuilder: (context, i) {
-                            final item = moneyList[i];
-                            final parts = item.split('/');
-                            return Container(
-                              width: size.width,
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              margin: const EdgeInsets.only(bottom: 8),
-                              decoration: BoxDecoration(
-                                color: kLightBlue,
-                                border: Border.all(color: kWhite, width: 1),
-                                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(parts[0], style: kTextKidStyle),
-                                  Text(
-                                    DateFormat('dd-MM-yyyy').format(DateTime.parse(parts[1])),
-                                    style: kTextKidStyle,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             },
