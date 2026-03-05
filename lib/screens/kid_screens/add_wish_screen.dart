@@ -18,6 +18,8 @@ class AddWishScreen extends StatefulWidget {
 
 class _AddWishScreenState extends State<AddWishScreen> {
 
+  final GlobalKey<FormState> _wishKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     final data = Provider.of<KidProvider>(context, listen: false);
@@ -45,7 +47,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                         child: Column(
                           children: [
                             Form(
-                              key: data.wishKey,
+                              key: _wishKey,
                               child: Column(
                                 children: [
                                   SizedBox(
@@ -145,7 +147,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                       ),
                     ),
                     Positioned(
-                        top: 24,
+                        top: 4,
                         right: 20,
                         child: KidInfoWidget(
                           info: data.wishInfo,

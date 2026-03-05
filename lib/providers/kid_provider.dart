@@ -38,7 +38,6 @@ class KidProvider with ChangeNotifier {
 
   Map<String, bool> selectedParentsEmail = {};
 
-  GlobalKey<FormState> wishKey = GlobalKey<FormState>();
   GlobalKey<FormState> saveMoneyKey = GlobalKey<FormState>();
 
   TextEditingController addWishNameController = TextEditingController();
@@ -88,22 +87,41 @@ class KidProvider with ChangeNotifier {
     }
   }
 
-  Future acceptParent(int index) async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    DocumentSnapshot<Map<String, dynamic>> docK = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    for(int k = 0; k < 6; k++){
-      if(docK.data()?['kid$k'] == parentsEmailsList[index]){
-        await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
-          'kid${k}Accept': true,});
+  Future acceptParent(int index) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? myEmail = prefs.getString('email')?.toLowerCase();
+    final String parentEmail = parentsEmailsList[index].toLowerCase();
+
+    if (myEmail == null) return;
+
+    final firestore = FirebaseFirestore.instance;
+
+    DocumentSnapshot<Map<String, dynamic>> myDoc =
+    await firestore.collection('users').doc(myEmail).get();
+
+    if (myDoc.exists) {
+      Map<String, dynamic> data = myDoc.data()!;
+      for (int k = 0; k < 6; k++) {
+        if (data['kid$k'] == parentEmail) {
+          await firestore.collection('users').doc(myEmail).update({
+            'kid${k}Accept': true,
+          });
+          break;
+        }
       }
     }
-    DocumentSnapshot<Map<String, dynamic>> docP = await FirebaseFirestore.
-    instance.collection('users').doc(parentsEmailsList[index].toLowerCase()).get();
-    for(int k = 0; k < 6; k++){
-      if(docP.data()?['kid$k'] == prefs.getString('email')){
-        await FirebaseFirestore.instance.collection('users').doc(parentsEmailsList[index]).update({
-          'kid${k}Accept': true,});
+    DocumentSnapshot<Map<String, dynamic>> parentDoc =
+    await firestore.collection('users').doc(parentEmail).get();
+
+    if (parentDoc.exists) {
+      Map<String, dynamic> dataP = parentDoc.data()!;
+      for (int k = 0; k < 6; k++) {
+        if (dataP['kid$k'] == myEmail) {
+          await firestore.collection('users').doc(parentEmail).update({
+            'kid${k}Accept': true,
+          });
+          break;
+        }
       }
     }
     getParentsData();

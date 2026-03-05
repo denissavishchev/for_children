@@ -158,7 +158,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                                           spacing: 4,
                                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                           children: [
-                                                            Text(!isAccepted ? 'clickToAccept' : 'accepted'.tr(), style: kTextStyle,),
+                                                            Text(!isAccepted ? 'clickToAccept'.tr() : 'accepted'.tr(), style: kTextStyle,),
                                                             Container(
                                                                 width: 16,
                                                                 height: 16,
