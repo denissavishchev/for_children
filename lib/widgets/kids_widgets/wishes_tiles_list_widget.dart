@@ -29,7 +29,7 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
     return Consumer2<ParentProvider, KidProvider>(
         builder: (context, data, kidData, _){
           return SizedBox(
-              height: size.height * 0.4,
+              height: size.height * 0.8,
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('wishes')
@@ -38,6 +38,7 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                 builder: (context, snapshot){
                   if(snapshot.hasData){
                     return ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 40),
                         itemCount: snapshot.data?.docs.length,
                         itemBuilder: (context, index){
                           if(snapshot.data?.docs[index].get('kidEmail').toLowerCase() == data.email){
@@ -48,41 +49,25 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                     : null;
                               },
                               child: Container(
-                                height: 60,
-                                margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                height: 120,
+                                margin: const EdgeInsets.symmetric(vertical: 3),
+                                padding: const EdgeInsets.only(left: 12),
                                 decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          kLightBlue.withValues(alpha: 0.8),
-                                          kDarkBlue.withValues(alpha: 0.8),
-                                          kPurple.withValues(alpha: 0.8),
-                                        ],
-                                        stops: const [0, 0.5, 1]
-                                    ),
-                                    border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.3)),
-                                    borderRadius: const BorderRadius.all(Radius.circular(18)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: kRed.withValues(alpha: 0.6),
-                                          blurRadius: 6,
-                                          spreadRadius: 2,
-                                          offset: const Offset(-4, 6)
-                                      ),
-                                      BoxShadow(
-                                          color: Colors.black.withValues(alpha: 0.3),
-                                          blurRadius: 1,
-                                          spreadRadius: 0.5,
-                                          offset: const Offset(-0.5, 0.5)
-                                      ),
-                                    ]
+                                    color: kLightGrey.withValues(alpha: 0.5),
+                                    border: Border.all(width: 1.5, color: kOrange),
+                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
                                 ),
                                 child: Row(
                                   spacing: 12,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(snapshot.data?.docs[index].get('wish'), style: kBigTextStyleWhite,),
-                                    Text(snapshot.data?.docs[index].get('whyNeed'), style: kBigTextStyleWhite,),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(snapshot.data?.docs[index].get('wish'), style: kBigTextStyle,),
+                                        Text(snapshot.data?.docs[index].get('whyNeed'), style: kBigTextStyle,),
+                                      ],
+                                    ),
                                     snapshot.data?.docs[index].get('imageUrl') == 'false'
                                         ? const SizedBox.shrink()
                                         : Container(

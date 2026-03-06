@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:for_children/screens/kid_screens/wishes_screen.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -108,7 +109,8 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                                     ]
                                                   ),
                                                   child: Center(
-                                                      child: Text(name, style: value ? kBigTextStyle : kBigTextStyle.copyWith(color: kGrey),)),
+                                                      child: Text(name,
+                                                        style: value ? kBigTextStyle : kBigTextStyle.copyWith(color: kGrey),)),
                                                 ),
                                               );
                                             },
@@ -176,6 +178,10 @@ class _AddWishScreenState extends State<AddWishScreen> {
                           ButtonWidget(
                             onTap: () => data.addWishToBase(context),
                             text: 'add',
+                          ),
+                          SvgPicture.asset('assets/icons/wishStar.svg',
+                            width: size.width * 0.8,
+                            colorFilter: ColorFilter.mode(kDarkWhite, BlendMode.srcIn),
                           ),
                         ],
                       ),

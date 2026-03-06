@@ -20,31 +20,26 @@ class ButtonWidget extends StatelessWidget {
           return GestureDetector(
             onTap: onTap,
             child: Container(
-              width: size.width,
-              height: size.height * 0.06,
-              margin: const EdgeInsets.symmetric(horizontal: 12),
+              height: 38,
+              width: size.height * 0.2,
               decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.8)),
                   gradient: LinearGradient(
                       colors: [
-                        kBlue.withValues(alpha: 0.4),
-                        kBlue.withValues(alpha: 0.6)
+                        kWhite,
+                        kWhite.withValues(alpha: 0.01),
                       ],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter
+                      begin: Alignment.bottomRight,
+                      end: Alignment.topLeft,
+                      stops: [0.1, 1]
                   ),
+                  border: Border.all(color: kWhite, width: 1),
+                  borderRadius: BorderRadius.all(Radius.circular(size.width * 0.45,)),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 6,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 6)
-                    ),
-                    BoxShadow(
-                      color: kGrey.withValues(alpha: 0.2),
-                      blurRadius: 2,
-                      spreadRadius: 2,
+                        color: kGrey.withValues(alpha: 0.3),
+                        blurRadius: 3,
+                        spreadRadius: 1.5,
+                        offset: Offset(0, 2)
                     ),
                   ]
               ),

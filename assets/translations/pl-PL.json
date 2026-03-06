@@ -120,5 +120,8 @@
   "fewDays" : "Kilka dni",
   "logout": "Wyloguj się",
   "accepted": "Zaakceptowano",
-  "clickToAccept": "Kliknij, aby zaakceptować"
+  "clickToAccept": "Kliknij, aby zaakceptować",
+  "addNewWish": "Dodaj nowe życzenie",
+  "back": "Wstecz",
+  "whatDoYoWant": "Czego chcesz?"
 }
