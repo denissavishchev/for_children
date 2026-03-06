@@ -120,6 +120,9 @@
   "fewDays" : "Few days",
   "logout" : "Logout",
   "accepted" : "Accepted",
-  "clickToAccept" : "Click to accept"
+  "clickToAccept" : "Click to accept",
+  "addNewWish" : "Add new wish",
+  "back" : "Back",
+  "whatDoYoWant" : "What do you want?"
 
 }

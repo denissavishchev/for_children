@@ -1,13 +1,11 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:for_children/widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
+import 'package:for_children/screens/kid_screens/wishes_screen.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/button_widget.dart';
-import '../../widgets/kids_widgets/kid_info_widget.dart';
-import '../../widgets/kids_widgets/wishes_tiles_list_widget.dart';
 
 class AddWishScreen extends StatefulWidget {
   const AddWishScreen({super.key});
@@ -17,8 +15,6 @@ class AddWishScreen extends StatefulWidget {
 }
 
 class _AddWishScreenState extends State<AddWishScreen> {
-
-  final GlobalKey<FormState> _wishKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -33,75 +29,102 @@ class _AddWishScreenState extends State<AddWishScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kWhite,
-      body: SizedBox(
-        height: size.height,
-        child: SafeArea(
-            child: Consumer<KidProvider>(
-              builder: (context, data, _){
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Form(
-                              key: _wishKey,
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                      width: size.width,
-                                      height: 100,
-                                      child: FutureBuilder(
-                                        future: data.getParent,
-                                        builder: (context, snapshot){
-                                          if(snapshot.connectionState == ConnectionState.waiting){
-                                            return const Center(child: CircularProgressIndicator(),);
-                                          }else{
-                                            return GridView.builder(
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              itemCount: data.selectedParentsEmail.length,
-                                              itemBuilder: (context, index){
-                                                String key = data.selectedParentsEmail.keys.elementAt(index);
-                                                String name = data.parentsList.keys.elementAt(index);
-                                                bool value = data.selectedParentsEmail.values.elementAt(index);
-                                                return GestureDetector(
-                                                  onTap: () => data.selectParent(key, value),
-                                                  child: Container(
-                                                    width: size.width * 0.4,
-                                                    margin: const EdgeInsets.all(2),
-                                                    decoration: BoxDecoration(
-                                                        color: kOrange.withValues(alpha: 0.8),
-                                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                                        border: Border.all(
-                                                            width: 2,
-                                                            color: value ? kBlue : kDarkGrey)
-                                                    ),
-                                                    child: Center(
-                                                        child: Text(name, style: kTextStyleWhite,)),
-                                                  ),
-                                                );
-                                              },
-                                              gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount: 2,
-                                                  mainAxisExtent: 40),);
-                                          }
-                                        },
-                                      )
+      body: SafeArea(
+          child: Consumer<KidProvider>(
+            builder: (context, data, _){
+              return Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        spacing: 12,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const SizedBox(width: 40,),
+                              Text('whatDoYoWant'.tr(), style: kBigTextStyle),
+                              GestureDetector(
+                                onTap: () => Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) => const WishesScreen())),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: kDarkGrey, width: 2),
+                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: kOrange.withValues(alpha: 0.2),
-                                          blurRadius: 10,
-                                          offset: const Offset(0, -10)
-                                        )
-                                      ]
-                                    ),
-                                    child: TextFormField(
+                                  child: Text('back'.tr(), style: kTextStyle),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Form(
+                            key: data.wishKey,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    width: size.width,
+                                    height: 100,
+                                    child: FutureBuilder(
+                                      future: data.getParent,
+                                      builder: (context, snapshot){
+                                        if(snapshot.connectionState == ConnectionState.waiting){
+                                          return const Center(child: CircularProgressIndicator(),);
+                                        }else{
+                                          return GridView.builder(
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemCount: data.selectedParentsEmail.length,
+                                            itemBuilder: (context, index){
+                                              String key = data.selectedParentsEmail.keys.elementAt(index);
+                                              String name = data.parentsList.keys.elementAt(index);
+                                              bool value = data.selectedParentsEmail.values.elementAt(index);
+                                              return GestureDetector(
+                                                onTap: () => data.selectParent(key, value),
+                                                child: Container(
+                                                  margin: const EdgeInsets.all(2),
+                                                  decoration: BoxDecoration(
+                                                      color: value ? kWhite : Colors.transparent,
+                                                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: kDarkGrey.withValues(alpha: 0.8),
+                                                          blurRadius: 0,
+                                                          spreadRadius: 0,
+                                                          offset: const Offset(0, 0)
+                                                      ),
+                                                      value
+                                                        ? BoxShadow(
+                                                          color: kGrey.withValues(alpha: 0.3),
+                                                          blurRadius: 2,
+                                                          spreadRadius: 3,
+                                                          offset: const Offset(0, 2))
+                                                        : BoxShadow(
+                                                          color: kWhite,
+                                                          blurRadius: 2,
+                                                          spreadRadius: -1,
+                                                          offset: const Offset(0, 1)
+                                                      )
+                                                    ]
+                                                  ),
+                                                  child: Center(
+                                                      child: Text(name, style: value ? kBigTextStyle : kBigTextStyle.copyWith(color: kGrey),)),
+                                                ),
+                                              );
+                                            },
+                                            gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2,
+                                                crossAxisSpacing: 12,
+                                                mainAxisExtent: 40),);
+                                        }
+                                      },
+                                    )
+                                ),
+                                Column(
+                                  spacing: 12,
+                                  children: [
+                                    TextFormField(
                                       controller: data.addWishNameController,
                                       autovalidateMode: AutovalidateMode.onUserInteraction,
                                       cursorColor: kDarkGrey,
@@ -115,58 +138,60 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                         return null;
                                       },
                                     ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => data.pickAnImage(),
-                              child: Container(
-                                width: 100,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                  color: kOrange.withValues(alpha: 0.8),
-                                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                    TextFormField(
+                                      controller: data.addWishDescriptionController,
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                                      cursorColor: kDarkGrey,
+                                      maxLines: 2,
+                                      decoration: textFieldKidDecoration.copyWith(
+                                          label: Text('whyYouNeedThis'.tr(),)),
+                                      maxLength: 256,
+                                      validator: (value){
+                                        if(value == null || value.isEmpty) {
+                                          return 'thisFieldCannotBeEmpty'.tr();
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                child: data.fileName == ''
-                                    ? const Icon(Icons.camera_alt)
-                                    : Image.file(File(data.file!.path), fit: BoxFit.cover,),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => data.pickAnImage(),
+                            child: Container(
+                              width: 100,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                color: kOrange.withValues(alpha: 0.8),
+                                borderRadius: const BorderRadius.all(Radius.circular(4)),
                               ),
+                              child: data.fileName == ''
+                                  ? const Icon(Icons.camera_alt)
+                                  : Image.file(File(data.file!.path), fit: BoxFit.cover,),
                             ),
-                            const SizedBox(height: 30,),
-                            ButtonWidget(
-                              onTap: () => data.addWishToBase(context),
-                              text: 'add',
-                            ),
-                            SizedBox(
-                              height: size.height * 0.05,),
-                            const WishesTilesListWidget()
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 30,),
+                          ButtonWidget(
+                            onTap: () => data.addWishToBase(context),
+                            text: 'add',
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                        top: 4,
-                        right: 20,
-                        child: KidInfoWidget(
-                          info: data.wishInfo,
-                          onTap: () => data.switchWishInfo(),
-                          text: 'wishInfo',
-                          height: 0.2,)),
-                    data.isLoading
-                        ? Container(
-                      width: size.width,
-                      height: size.height,
-                      color: kGrey.withValues(alpha: 0.5),
-                      child: const Center(child: CircularProgressIndicator(color: kBlue,),),
-                    ) : const SizedBox.shrink(),
-                    KidBottomNavigationBarWidget()
-                  ],
-                );
-              },
-            )
-        ),
+                  ),
+                  data.isLoading
+                      ? Container(
+                    width: size.width,
+                    height: size.height,
+                    color: kGrey.withValues(alpha: 0.5),
+                    child: const Center(child: CircularProgressIndicator(color: kBlue,),),
+                  ) : const SizedBox.shrink(),
+                ],
+              );
+            },
+          )
       ),
     );
   }

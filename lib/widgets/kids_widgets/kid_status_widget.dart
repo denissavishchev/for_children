@@ -32,7 +32,7 @@ class KidStatusWidget extends StatelessWidget {
       child: Text(name.tr(),
         style: snapshot.docs[index].get('status') == name &&
             snapshot.docs[index].get('priceStatus') == 'changed'
-            ? kOrangeTextStyle
+            ? kTextStyleOrange
             : snapshot.docs[index].get('status') == name &&
             snapshot.docs[index].get('priceStatus') == 'set'
             ? kTextStyle

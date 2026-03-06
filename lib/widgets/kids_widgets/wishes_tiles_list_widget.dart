@@ -78,9 +78,11 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                     ]
                                 ),
                                 child: Row(
+                                  spacing: 12,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(snapshot.data?.docs[index].get('wish'), style: kBigTextStyleWhite,),
+                                    Text(snapshot.data?.docs[index].get('whyNeed'), style: kBigTextStyleWhite,),
                                     snapshot.data?.docs[index].get('imageUrl') == 'false'
                                         ? const SizedBox.shrink()
                                         : Container(

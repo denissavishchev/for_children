@@ -7,7 +7,7 @@ import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
-import '../screens/kid_screens/add_wish_screen.dart';
+import '../screens/kid_screens/wishes_screen.dart';
 import '../screens/kid_screens/kids_settings_screen.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
@@ -31,16 +31,18 @@ class KidProvider with ChangeNotifier {
     Icons.home: MainKidScreen(),
     Icons.monetization_on_sharp: SaveMoneyScreen(),
     Icons.settings: KidsSettingsScreen(),
-    Icons.favorite: AddWishScreen(),
+    Icons.favorite: WishesScreen(),
   };
 
   IconData selectedRoute = Icons.home;
 
   Map<String, bool> selectedParentsEmail = {};
 
-  GlobalKey<FormState> saveMoneyKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> saveMoneyKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> wishKey = GlobalKey<FormState>();
 
   TextEditingController addWishNameController = TextEditingController();
+  TextEditingController addWishDescriptionController = TextEditingController();
   TextEditingController whatDoYoWantController = TextEditingController();
   TextEditingController whatDoYoWantPriceController = TextEditingController();
   TextEditingController whyYouNeedThisController = TextEditingController();
@@ -161,6 +163,7 @@ class KidProvider with ChangeNotifier {
     String name = doc.data()?['name'];
         await FirebaseFirestore.instance.collection('wishes').add({
           'wish': addWishNameController.text,
+          'whyNeed': addWishDescriptionController.text,
           'kidEmail': prefs.getString('email'),
           'kidName' : name,
           'parent0Name': parents.isNotEmpty ? parents[0] : '',
@@ -172,11 +175,12 @@ class KidProvider with ChangeNotifier {
           'time' : DateTime.now().toString()
         });
         addWishNameController.clear();
+        addWishDescriptionController.clear();
         imageUrl = '';
         fileName = '';
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) =>
-            const MainKidScreen()));
+            const WishesScreen()));
       }else{
         sadToast('selectParent');
       }
