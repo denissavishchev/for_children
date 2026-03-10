@@ -14,93 +14,94 @@ class OnboardingScreens extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: kWhite,
       body: Consumer<LoginProvider>(
         builder: (context, data, _){
           return SafeArea(
             child: Stack(
               children: [
-                PageView(
-                  controller: data.onboardingController,
-                  children: data.role == 'child'
-                      ? [
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                  ]
-                      : [
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                    const ParentOnboardingScreenOne(),
-                  ],
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: SizedBox(
-                    width: size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Row(
-                        children: [
-                          TextButton(
-                              onPressed: () => data.onboardingController.jumpToPage(4),
-                              child: Text('skip'.tr(), style: kTextStyle,)),
-                          const Spacer(),
-                          SmoothPageIndicator(
+                Column(
+                  children: [
+                    Expanded(
+                      child: PageView(
+                        controller: data.onboardingController,
+                        children: data.role == 'child'
+                            ? [
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                        ]
+                            : [
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
+                          children: [
+                            TextButton(
+                                onPressed: () => data.onboardingController.jumpToPage(4),
+                                child: Text('skip'.tr(), style: kTextStyle,)),
+                            const Spacer(),
+                            SmoothPageIndicator(
                               controller: data.onboardingController,
                               count: 5,
                               effect: ExpandingDotsEffect(
-                                dotWidth: 12,
-                                dotHeight: 12,
-                                spacing: 6,
-                                dotColor: kBlue.withValues(alpha: 0.5),
-                                activeDotColor: kBlue.withValues(alpha: 0.8)
+                                  dotWidth: 12,
+                                  dotHeight: 12,
+                                  spacing: 6,
+                                  dotColor: kBlue.withValues(alpha: 0.5),
+                                  activeDotColor: kBlue.withValues(alpha: 0.8)
                               ),
-                            onDotClicked: (index){
+                              onDotClicked: (index){
                                 data.onboardingController.animateToPage(
                                     index,
                                     duration: const Duration(milliseconds: 300),
                                     curve: Curves.easeInOut);
-                            },
-                          ),
-                          const Spacer(),
-                          TextButton(
-                              onPressed: () {
-                                if(data.onboardingController.page == 4){
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) =>
-                                      const RegisterScreen()));
-                                }else{
-                                  data.onboardingController.nextPage(
-                                      duration: const Duration(milliseconds: 300),
-                                      curve: Curves.easeInOut
-                                  );
-                                }
                               },
-                              child: Text('next'.tr(), style: kTextStyle,)),
-                        ],
+                            ),
+                            const Spacer(),
+                            TextButton(
+                                onPressed: () {
+                                  if(data.onboardingController.page == 4){
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) =>
+                                        const RegisterScreen()));
+                                  }else{
+                                    data.onboardingController.nextPage(
+                                        duration: const Duration(milliseconds: 300),
+                                        curve: Curves.easeInOut
+                                    );
+                                  }
+                                },
+                                child: Text('next'.tr(), style: kTextStyle,)),
+                          ],
+                        ),
                       ),
                     ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () => data.toLoginScreen(context),
+                        child: Icon(Icons.clear, size: 32, color: kDarkBlue,),
+                      )
+                    ],
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  child: SizedBox(
-                    width: size.width,
-                    height: 40,
-                    child: Row(
-                      children: [
-                        const Spacer(),
-                        IconButton(
-                            onPressed: () => data.toLoginScreen(context),
-                            icon: const Icon(Icons.clear, size: 34,))
-                      ],
-                    ),
-                  ),
-                )
               ],
             ),
           );

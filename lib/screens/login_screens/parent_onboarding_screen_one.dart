@@ -14,28 +14,81 @@ class ParentOnboardingScreenOne extends StatelessWidget {
       backgroundColor: kWhite,
       body: Consumer<LoginProvider>(
         builder: (context, data, _){
-          return Center(
+          return SingleChildScrollView(
             child: Container(
               width: size.width,
-              height: size.height * 0.8,
-              margin: const EdgeInsets.all(12),
-              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 color: kBlue.withValues(alpha: 0.1),
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
-              child: Column(
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Text('parentText.tr()',
-                          style: kTextStyle,
-                          textAlign: TextAlign.justify),
-                    ),
+                  Column(
+                    children: [
+                      Container(
+                        width: size.width,
+                        height: size.height * 0.15,
+                        decoration: BoxDecoration(
+                          color: kGrey,
+                          borderRadius: BorderRadius.all(Radius.circular(12))
+                        ),
+                      ),
+                      Container(
+                        width: size.width,
+                        height: size.height * 0.25,
+                        decoration: BoxDecoration(
+                            color: kRed.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(12))
+                        ),
+                      ),
+                      Container(
+                        width: size.width,
+                        height: size.height * 0.05,
+                        decoration: BoxDecoration(
+                            color: kDarkWhite,
+                            borderRadius: BorderRadius.all(Radius.circular(12))
+                        ),
+                      ),
+                      Container(
+                        width: size.width,
+                        height: size.height * 0.15,
+                        decoration: BoxDecoration(
+                            color: kGreen.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(12))
+                        ),
+                      ),
+                      Container(
+                        width: size.width,
+                        height: size.height * 0.2,
+                        decoration: BoxDecoration(
+                            color: kGrey.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(12))
+                        ),
+                      ),
+                      Container(
+                        width: size.width,
+                        height: size.height * 0.1,
+                        decoration: BoxDecoration(
+                            color: kGreen.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.all(Radius.circular(12))
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 12,),
-                  Expanded(
-                    child: Image.asset('assets/images/onboardingKid0.png'),
+                  Positioned(
+                    right: 0,
+                      child: Image.asset('assets/images/onboardingParent0.png', width: 150,)
+                  ),
+                  Positioned(
+                      right: 0,
+                      top: size.height * 0.2,
+                      child: Image.asset('assets/images/onboardingParent1.png', width: 150,)
+                  ),
+                  Positioned(
+                      right: 0,
+                      top: size.height * 0.5,
+                      child: Image.asset('assets/images/onboardingParent2.png', width: 150,)
                   )
                 ],
               ),
