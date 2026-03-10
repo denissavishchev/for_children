@@ -10,14 +10,6 @@ import '../screens/login_screens/auth_screen.dart';
 import '../screens/login_screens/login_screen.dart';
 import '../widgets/language.dart';
 
-enum Onboard{
-  basic,
-  advanced,
-  none
-}
-
-Onboard selectedOnboard = Onboard.basic;
-
 class LoginProvider with ChangeNotifier {
 
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
@@ -52,11 +44,6 @@ class LoginProvider with ChangeNotifier {
 
   void switchRegisterInfo(){
     registerInfo = !registerInfo;
-    notifyListeners();
-  }
-
-  void changeOnboard(Onboard onboard){
-    selectedOnboard = onboard;
     notifyListeners();
   }
 
@@ -96,7 +83,6 @@ class LoginProvider with ChangeNotifier {
     nameController.clear();
     surnameController.clear();
     resetPasswordController.clear();
-    selectedOnboard = Onboard.basic;
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         const LoginScreen()));

@@ -1,21 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
-class OnboardingScreen extends StatelessWidget {
-  const OnboardingScreen({super.key,
-    required this.parentText,
-    required this.kidText,
-    required this.parentImg,
-    required this.kidImg
+class ParentOnboardingScreenOne extends StatelessWidget {
+  const ParentOnboardingScreenOne({super.key,
   });
-
-  final String parentText;
-  final String kidText;
-  final String parentImg;
-  final String kidImg;
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +28,14 @@ class OnboardingScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      child: Text(data.role == 'parent'
-                          ? parentText.tr()
-                          : kidText.tr(),
+                      child: Text('parentText.tr()',
                           style: kTextStyle,
                           textAlign: TextAlign.justify),
                     ),
                   ),
                   const SizedBox(height: 12,),
                   Expanded(
-                    child: Image.asset(data.role == 'parent'
-                        ? 'assets/images/$parentImg.png'
-                        : 'assets/images/$kidImg.png'),
+                    child: Image.asset('assets/images/onboardingKid0.png'),
                   )
                 ],
               ),

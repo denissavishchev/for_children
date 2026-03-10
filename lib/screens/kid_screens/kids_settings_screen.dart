@@ -120,7 +120,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                 children: [
                                   Text('yourParents'.tr(), style: kTextStyle,),
                                   SizedBox(
-                                    height: 24.0 * data.parentsList.length,
+                                    height: 32.0 * data.parentsList.length,
                                     child: FutureBuilder(
                                       future: data.getParent,
                                       builder: (context, snapshot){
@@ -133,53 +133,56 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                                 String key = data.parentsList.keys.elementAt(index);
                                                 bool isAccepted = data.parentsListAccept[index];
                                                 return data.parentsList[key] !=''
-                                                    ? Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                  children: [
-                                                    Text(key, style: kBigTextStyle,),
-                                                    GestureDetector(
-                                                      onTap: () => !isAccepted ? data.acceptParent(index) : null,
-                                                      child: Container(
-                                                        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                                                        decoration: BoxDecoration(
-                                                            color: !isAccepted
-                                                                ? kRed.withValues(alpha: 0.6)
-                                                                : kGreen.withValues(alpha: 0.6),
-                                                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: kDarkWhite.withValues(alpha: 0.8),
-                                                                blurRadius: 3,
-                                                                spreadRadius: 1.5,
-                                                              )
-                                                            ]
+                                                    ? Padding(
+                                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                    children: [
+                                                      Text(key, style: kBigTextStyle,),
+                                                      GestureDetector(
+                                                        onTap: () => !isAccepted ? data.acceptParent(index) : null,
+                                                        child: Container(
+                                                          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                                                          decoration: BoxDecoration(
+                                                              color: !isAccepted
+                                                                  ? kRed.withValues(alpha: 0.6)
+                                                                  : kGreen.withValues(alpha: 0.6),
+                                                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: kDarkWhite.withValues(alpha: 0.8),
+                                                                  blurRadius: 3,
+                                                                  spreadRadius: 1.5,
+                                                                )
+                                                              ]
+                                                          ),
+                                                          child: Row(
+                                                            spacing: 4,
+                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                            children: [
+                                                              Text(!isAccepted ? 'clickToAccept'.tr() : 'accepted'.tr(), style: kTextStyle,),
+                                                              Container(
+                                                                  width: 16,
+                                                                  height: 16,
+                                                                  decoration: BoxDecoration(
+                                                                      color: !isAccepted ? kRed : kGreen,
+                                                                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                                                                      border: Border.all(width: 0.5 ,color: kWhite),
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                          color: kWhite,
+                                                                          blurRadius: 0.5,
+                                                                          spreadRadius: 0.5,
+                                                                        )
+                                                                      ]
+                                                                  ),
+                                                                  child: Icon(!isAccepted ? Icons.close : Icons.check, color: kWhite, size: 14,)),
+                                                            ],
+                                                          ),
                                                         ),
-                                                        child: Row(
-                                                          spacing: 4,
-                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                          children: [
-                                                            Text(!isAccepted ? 'clickToAccept'.tr() : 'accepted'.tr(), style: kTextStyle,),
-                                                            Container(
-                                                                width: 16,
-                                                                height: 16,
-                                                                decoration: BoxDecoration(
-                                                                    color: !isAccepted ? kRed : kGreen,
-                                                                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                                                                    border: Border.all(width: 0.5 ,color: kWhite),
-                                                                    boxShadow: [
-                                                                      BoxShadow(
-                                                                        color: kWhite,
-                                                                        blurRadius: 0.5,
-                                                                        spreadRadius: 0.5,
-                                                                      )
-                                                                    ]
-                                                                ),
-                                                                child: Icon(!isAccepted ? Icons.close : Icons.check, color: kWhite, size: 14,)),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 )
                                                     : const SizedBox.shrink();
                                               }

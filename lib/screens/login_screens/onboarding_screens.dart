@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
-import 'package:for_children/screens/login_screens/onboarding_screen.dart';
+import 'package:for_children/screens/login_screens/parent_onboarding_screen_one.dart';
 import 'package:for_children/screens/login_screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -21,13 +21,21 @@ class OnboardingScreens extends StatelessWidget {
               children: [
                 PageView(
                   controller: data.onboardingController,
-                  children: List.generate(selectedOnboard == Onboard.basic ? 3 : 9, (i){
-                    return OnboardingScreen(
-                      parentText: 'onboardingParent$i',
-                      kidText: 'onboardingKid$i',
-                      parentImg: 'onboardingParent$i',
-                      kidImg: 'onboardingKid$i',);
-                  }),
+                  children: data.role == 'child'
+                      ? [
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                  ]
+                      : [
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                    const ParentOnboardingScreenOne(),
+                  ],
                 ),
                 Positioned(
                   bottom: 0,
@@ -38,13 +46,12 @@ class OnboardingScreens extends StatelessWidget {
                       child: Row(
                         children: [
                           TextButton(
-                              onPressed: () => data.onboardingController.jumpToPage(
-                                  selectedOnboard == Onboard.basic ? 2 : 8),
+                              onPressed: () => data.onboardingController.jumpToPage(4),
                               child: Text('skip'.tr(), style: kTextStyle,)),
                           const Spacer(),
                           SmoothPageIndicator(
                               controller: data.onboardingController,
-                              count: selectedOnboard == Onboard.basic ? 3 : 9,
+                              count: 5,
                               effect: ExpandingDotsEffect(
                                 dotWidth: 12,
                                 dotHeight: 12,
@@ -62,8 +69,7 @@ class OnboardingScreens extends StatelessWidget {
                           const Spacer(),
                           TextButton(
                               onPressed: () {
-                                if(data.onboardingController.page == 2 && selectedOnboard == Onboard.basic
-                                || data.onboardingController.page == 8 && selectedOnboard == Onboard.advanced){
+                                if(data.onboardingController.page == 4){
                                   Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
                                       const RegisterScreen()));
