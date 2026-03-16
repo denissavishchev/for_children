@@ -133,5 +133,18 @@
   "childSeeTask": "Ребёнок видит задание. Он может:",
   "canAcceptOr": "принять награду или",
   "proposeYourself": "предложить свою",
-  "itChangeToLife": "Это превращает обычные обязанности в интересную игру и обучение жизни."
+  "itChangeToLife": "Это превращает обычные обязанности в интересную игру и обучение жизни.",
+  "kidShowsWhatWant": "The child shows what they really want",
+  "canCreateWishList": "In the app, the child can create their own wish list.",
+  "canCreateWishListDescription": "These are things or experiences that are important to them. When parents see this list, they better understand what motivates their child.",
+  "whatChildCanAdd": "What the child can add:",
+  "toy": "a toy",
+  "videoGame": "a video game",
+  "sweet": "sweets",
+  "cinema": "cinema tickets",
+  "boardGame": "a board game",
+  "wishesCanBeSmallAndBig": "Wishes can be small or big.",
+  "kidAddWish": "The child adds a wish to the list",
+  "parentChooseWish": "parents choose the reward",
+  "kidDoTask": "the child completes the task"
 }

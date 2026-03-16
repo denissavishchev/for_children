@@ -133,6 +133,19 @@
   "childSeeTask": "Dziecko widzi zadanie. Moze:",
   "canAcceptOr": "zaakceptowac cene lub",
   "proposeYourself": "zaproponowac swoją",
-  "itChangeToLife": "To zamienia zwykle obowiazki w ciekawa gre i nauke zycia."
+  "itChangeToLife": "To zamienia zwykle obowiazki w ciekawa gre i nauke zycia.",
+  "kidShowsWhatWant": "Dziecko pokazuje, czego naprawdę chce",
+  "canCreateWishList": "W aplikaci dziecko moze stworzyé swoja liste, zyczen.",
+  "canCreateWishListDescription": "To rzeczy lub wydarzenia, które sa dla niego wazne. Kiedy rodzice widza te liste, lepiej rozumieja co motywuje dziecko.",
+  "whatChildCanAdd": "Co dziecko może dodać:",
+  "toy": "zabawkę",
+  "videoGame": "grę wideo",
+  "sweet": "słodyczę",
+  "cinema": "bilety do kina",
+  "boardGame": "grę planszową",
+  "wishesCanBeSmallAndBig": "Zyczenia moga by mate lub duze.",
+  "kidAddWish": "Dziecko dodaje życzenie do listy",
+  "parentChooseWish": "rodzice wybierają nagrodę",
+  "kidDoTask": "dziecko wykonuje zadanie"
 
 }
