@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/screens/login_screens/parent_onboarding_screen_one.dart';
+import 'package:for_children/screens/login_screens/parent_onboarding_screen_two.dart';
 import 'package:for_children/screens/login_screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -35,7 +36,7 @@ class OnboardingScreens extends StatelessWidget {
                         ]
                             : [
                           const ParentOnboardingScreenOne(),
-                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenTwo(),
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
@@ -91,7 +92,7 @@ class OnboardingScreens extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 12),
+                  padding: const EdgeInsets.only(right: 12, top: 12),
                   child: Row(
                     children: [
                       const Spacer(),

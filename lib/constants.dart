@@ -22,6 +22,13 @@ final kTextStyle = TextStyle(
     fontSize: 24.sp,
     // fontFamily: 'Roboto'
 );
+final kTextStyleNormal = TextStyle(
+    color: kBlue,
+    fontWeight: FontWeight.w500,
+    fontSize: 24.sp,
+    // fontFamily: 'Roboto'
+);
+
 
 final kTextKidStyle = TextStyle(
     color: kBlue,
