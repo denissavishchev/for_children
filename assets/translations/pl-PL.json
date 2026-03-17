@@ -134,7 +134,6 @@
   "canAcceptOr": "zaakceptowac cene lub",
   "proposeYourself": "zaproponowac swoją",
   "itChangeToLife": "To zamienia zwykle obowiazki w ciekawa gre i nauke zycia.",
-
   "kidShowsWhatWant": "Dziecko pokazuje, czego naprawdę chce",
   "canCreateWishList": "W aplikaci dziecko moze stworzyé swoja liste, zyczen.",
   "canCreateWishListDescription": "To rzeczy lub wydarzenia, które sa dla niego wazne. Kiedy rodzice widza te liste, lepiej rozumieja co motywuje dziecko.",
@@ -147,6 +146,15 @@
   "wishesCanBeSmallAndBig": "Zyczenia moga by mate lub duze.",
   "kidAddWish": "Dziecko dodaje życzenie do listy",
   "parentChooseWish": "rodzice wybierają nagrodę",
-  "kidDoTask": "dziecko wykonuje zadanie"
+  "kidDoTask": "dziecko wykonuje zadanie",
+  "affectFamilyRelationships": "Jak to wpływa na relacje w rodzinie?",
+  "parentsUnderstandTheChildBetter": "rodzice lepiej rozumieja dziecko",
+  "childTalksOpenly": "dziecko otwarto mówi o swoich pragnieniach",
+  "turnsObligationsIntoContracts": "zamienia obowiazki w umowy, nie konflikty",
+  "whatGiveToChild": "Co to daje dziecku?",
+  "learnSetGoals": "uczyć się stawić celi",
+  "waitForReward": "cierpliwe czekać na nagrodę",
+  "understandRelationshipBetweenEffortAndResult": "rozumieć związek między wysilkiem a rezultatem",
+  "whenChildHasGoal": "Kiedy dziecko ma cel, pomaga bardziej chetnie wykonuje zadania."
 
 }

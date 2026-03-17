@@ -30,13 +30,20 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                         _one(context),
                         _two(context),
                         _three(context),
-                        // Align(
-                        //     alignment: Alignment.centerRight,
-                        //     child: _five(context)),
-                        // Align(
-                        //     alignment: Alignment.centerRight,
-                        //     child: _six(context)),
-                        // _seven(context)
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 8,
+                          children: [
+                            Column(
+                              children: [
+                                _five(context),
+                                _seven(context)
+                              ],
+                            ),
+                            Expanded(child: _six(context))
+                          ],
+                        ),
+
                       ],
                     ),
                     Positioned(
@@ -45,9 +52,9 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                         child: Image.asset('assets/images/onboardingParent3.png', width: 160,)
                     ),
                     Positioned(
-                        left: 0,
-                        top: size.height * 0.6,
-                        child: Image.asset('assets/images/onboardingParent1.png', width: 170,)
+                        right: 0,
+                        top: size.height * 0.5,
+                        child: Image.asset('assets/images/onboardingParent1.png', width: 140,)
                     ),
                   ],
                 ),
@@ -285,168 +292,141 @@ class ParentOnboardingScreenThree extends StatelessWidget {
     );
   }
 
-  Stack _five(context) {
+  Container _five(context) {
     Size size = MediaQuery.sizeOf(context);
-    return Stack(
-      children: [
-        Container(
-          width: size.width * 0.58,
-          padding: const EdgeInsets.fromLTRB(24, 12, 12, 12),
-          margin: const EdgeInsets.only(top: 4, left: 4),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    kWhite,
-                    kWhite.withValues(alpha: 0.2),
-                    Colors.transparent,
+    return Container(
+      width: size.width * 0.5,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+          color: kWhite,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          border: Border.all(color: kDarkWhite, width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: kGrey.withValues(alpha: 0.1),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: Offset(-1, 1),
+            ),
+          ]
+      ),
+      child: Consumer<ParentProvider>(
+          builder: (context, data, _){
+            return Column(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('affectFamilyRelationships'.tr(),style: kTextStyle,),
+                Column(
+                  spacing: 4,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 4,
+                      children: [
+                        Icon(Icons.check, color: kGreen, size: 18,),
+                        Expanded(child: Text('parentsUnderstandTheChildBetter'.tr(), style: kTextStyleNormal,)),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 4,
+                      children: [
+                        Icon(Icons.check, color: kGreen, size: 18,),
+                        Expanded(child: Text('childTalksOpenly'.tr(), style: kTextStyleNormal,)),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 4,
+                      children: [
+                        Icon(Icons.check, color: kGreen, size: 18,),
+                        Expanded(child: Text('turnsObligationsIntoContracts'.tr(), style: kTextStyleNormal,)),
+                      ],
+                    )
                   ],
-                  stops: [0.0, 0.6, 1]
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              border: Border.all(color: kDarkWhite, width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: kGrey.withValues(alpha: 0.1),
-                  spreadRadius: 2,
-                  blurRadius: 2,
-                  offset: Offset(1, 1),
-                ),
-              ]
-          ),
-          child: Column(
-            spacing: 4,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('childSeeTask'.tr(),style: kTextStyle,),
-              Row(
-                spacing: 4,
-                children: [
-                  Icon(Icons.circle, color: kBlue, size: 6,),
-                  Text('canAcceptOr'.tr(),style: kTextStyleNormal,),
-                ],
-              ),
-              Row(
-                spacing: 4,
-                children: [
-                  Icon(Icons.circle, color: kBlue, size: 6,),
-                  Text('proposeYourself'.tr(),style: kTextStyleNormal,),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  kBlue.withValues(alpha: 0.4),
-                  kBlue.withValues(alpha: 0.7),
-                ],
-              ),
-              shape: BoxShape.circle,
-              border: Border.all(color: kDarkWhite, width: 0.5),
-              boxShadow: [
-                BoxShadow(
-                  color: kDarkWhite.withValues(alpha: 0.4),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: Offset(1, 1),
                 )
-              ]
-          ),
-          child: Center(
-            child: Text('2', style: kTextStyle),
-          ),
-        )
-      ],
+              ],
+            );
+          }
+      ),
     );
   }
 
-  Stack _six(context) {
-    Size size = MediaQuery.sizeOf(context);
-    return Stack(
-      children: [
-        Container(
-          width: size.width * 0.58,
-          padding: const EdgeInsets.fromLTRB(24, 12, 12, 12),
-          margin: const EdgeInsets.only(top: 4, left: 4),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    kWhite,
-                    kWhite.withValues(alpha: 0.2),
-                    Colors.transparent,
-                  ],
-                  stops: [0.0, 0.6, 1]
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              border: Border.all(color: kDarkWhite, width: 1),
-              boxShadow: [
-                BoxShadow(
-                  color: kGrey.withValues(alpha: 0.1),
-                  spreadRadius: 2,
-                  blurRadius: 2,
-                  offset: Offset(1, 1),
-                ),
+  Container _six(context) {
+    return Container(
+      padding: EdgeInsets.all(12),
+      margin: EdgeInsets.only(top: 62),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [
+                kGreen.withValues(alpha: 0.2),
+                kGreen.withValues(alpha: 0.1),
               ]
           ),
-          child: Column(
-            spacing: 4,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          border: Border.all(color: kGrey.withValues(alpha: 0.2), width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: kGrey.withValues(alpha: 0.1),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: Offset(1, 1),
+            ),
+            BoxShadow(
+              color: kWhite,
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(-2, -2),
+            )
+          ]
+      ),
+      child: Column(
+        spacing: 4,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('whatGiveToChild'.tr(),style: kTextStyle,),
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 4,
             children: [
-              Text('childSeeTask'.tr(),style: kTextStyle,),
-              Row(
-                spacing: 4,
-                children: [
-                  Icon(Icons.circle, color: kBlue, size: 6,),
-                  Text('canAcceptOr'.tr(),style: kTextStyleNormal,),
-                ],
-              ),
-              Row(
-                spacing: 4,
-                children: [
-                  Icon(Icons.circle, color: kBlue, size: 6,),
-                  Text('proposeYourself'.tr(),style: kTextStyleNormal,),
-                ],
-              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                  child: Icon(Icons.circle, color: kBlue, size: 6,)),
+              Expanded(child: Text('learnSetGoals'.tr(),style: kTextStyleNormal,)),
             ],
           ),
-        ),
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  kOrange.withValues(alpha: 0.4),
-                  kOrange.withValues(alpha: 0.7),
-                ],
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 4,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Icon(Icons.circle, color: kBlue, size: 6,),
               ),
-              shape: BoxShape.circle,
-              border: Border.all(color: kDarkWhite, width: 0.5),
-              boxShadow: [
-                BoxShadow(
-                  color: kDarkWhite.withValues(alpha: 0.4),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: Offset(1, 1),
-                )
-              ]
+              Expanded(child: Text('waitForReward'.tr(),style: kTextStyleNormal,)),
+            ],
           ),
-          child: Center(
-            child: Text('3', style: kTextStyle),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 4,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Icon(Icons.circle, color: kBlue, size: 6,),
+              ),
+              Expanded(child: Text('understandRelationshipBetweenEffortAndResult'.tr(),style: kTextStyleNormal,)),
+            ],
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 
   Container _seven(context) {
     Size size = MediaQuery.sizeOf(context);
     return Container(
-      width: size.width,
+      width: size.width * 0.5,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -457,7 +437,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
         ),
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
-      child: Text('itChangeToLife'.tr(),
+      child: Text('whenChildHasGoal'.tr(),
         style: kTextStyle,
         textAlign: TextAlign.center,),
     );
