@@ -5,6 +5,7 @@ import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_one.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_three.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_two.dart';
+import 'package:for_children/screens/login_screens/onboarding_screens/parrent_onboarding_screen_five.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parrent_onboarding_screen_four.dart';
 import 'package:for_children/screens/login_screens/register_screen.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +42,7 @@ class OnboardingScreens extends StatelessWidget {
                           const ParentOnboardingScreenTwo(),
                           const ParentOnboardingScreenThree(),
                           const ParentOnboardingScreenFour(),
-                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenFive(),
                         ],
                       ),
                     ),

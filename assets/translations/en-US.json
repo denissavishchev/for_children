@@ -155,6 +155,25 @@
   "learnSetGoals": "learns to set goals",
   "waitForReward": "learns to wait patiently for rewards",
   "understandRelationshipBetweenEffortAndResult": "understands the connection between effort and results",
-  "whenChildHasGoal": "When a child has a goal, they are much more willing to complete tasks."
-
+  "whenChildHasGoal": "When a child has a goal, they are much more willing to complete tasks.",
+  "skillsForLife": "Skills for life",
+  "notJustWishList": "This app is more than just a task list.",
+  "notJustWishListDescription": "It is a tool that helps children develop important life skills.",
+  "whatChildLearn": "What does the child learn?",
+  "responsibility": "Responsibility",
+  "understandsThatTasksNeedToBeCompleted": "understands that tasks need to be completed",
+  "financialLiteracy": "Financial literacy",
+  "learnHowToEarnAndSave": "learns how to earn and save",
+  "planning": "Planning",
+  "learnsToSaveForBiggerGoals": "learns to save for bigger goals",
+  "negotiationSkills": "Negotiation skills",
+  "learnsToNegotiate": "learns to negotiate",
+  "independence": "Independence",
+  "startsCompletingTasksWithoutReminders": "starts completing tasks without reminders",
+  "forParentsThisMeans": "For parents this means:",
+  "lessControversy": "fewer conflicts",
+  "fewerReminders": "fewer reminders",
+  "moreHelpAroundTheHouse": "more help around the house",
+  "smallTasksTodayShapeTomorrow": "Small tasks today shape a responsible adult tomorrow.",
+  "createFirstTask": "Let's create the first task"
 }

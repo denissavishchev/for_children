@@ -156,7 +156,6 @@
   "waitForReward": "cierpliwe czekać na nagrodę",
   "understandRelationshipBetweenEffortAndResult": "rozumieć związek między wysilkiem a rezultatem",
   "whenChildHasGoal": "Kiedy dziecko ma cel, pomaga bardziej chetnie wykonuje zadania.",
-
   "skillsForLife": "Umiejętności na całe życie",
   "notJustWishList": "Ta aplikacja to coś więcej niż tylko lista zadań do wykonania.",
   "notJustWishListDescription": "Jest to narzędzie pomagające dziecku rozwinąć ważne umiejętności życiowe.",
@@ -175,6 +174,7 @@
   "lessControversy": "mniej kontrowersji",
   "fewerReminders": "mniej przypomnień",
   "moreHelpAroundTheHouse": "więcej pomocy w domu",
-  "smallTasksTodayShapeTomorrow": "Drobne zadania wykonywane dziś kształtują odpowiedzialnego dorosłego człowieka jutra."
+  "smallTasksTodayShapeTomorrow": "Drobne zadania wykonywane dziś kształtują odpowiedzialnego dorosłego człowieka jutra.",
+  "createFirstTask": "Utwórzmy pierwsze zadanie"
 
 }
