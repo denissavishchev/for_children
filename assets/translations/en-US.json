@@ -175,5 +175,13 @@
   "fewerReminders": "fewer reminders",
   "moreHelpAroundTheHouse": "more help around the house",
   "smallTasksTodayShapeTomorrow": "Small tasks today shape a responsible adult tomorrow.",
-  "createFirstTask": "Let's create the first task"
+  "createFirstTask": "Let's create the first task",
+  "itWillTakeLessThan30Seconds": "Zajmie to mniej niż 30 sekund.",
+  "childWillBeAble": "Następnie dziecko będzie potrafiło:",
+  "seeTheTask": "zobaczyć zadanie",
+  "offerYourPrice": "podać swoją cenę",
+  "completeAndReceiveReward": "ukończyć ją i otrzymać nagrodę.",
+  "single": "Pojedyncze",
+  "multi": "Wielierazowe",
+  "youCanAlwaysChangePriceOrNegotiate": "Zawsze możesz zmienić cenę lub negocjować ją ze swoim dzieckiem."
 }

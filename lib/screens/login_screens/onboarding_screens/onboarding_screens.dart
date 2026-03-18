@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
+import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_six.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_one.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_three.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_two.dart';
@@ -36,6 +37,7 @@ class OnboardingScreens extends StatelessWidget {
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenOne(),
                         ]
                             : [
                           const ParentOnboardingScreenOne(),
@@ -43,6 +45,7 @@ class OnboardingScreens extends StatelessWidget {
                           const ParentOnboardingScreenThree(),
                           const ParentOnboardingScreenFour(),
                           const ParentOnboardingScreenFive(),
+                          const ParentOnboardingScreenSix(),
                         ],
                       ),
                     ),
@@ -58,7 +61,7 @@ class OnboardingScreens extends StatelessWidget {
                             const Spacer(),
                             SmoothPageIndicator(
                               controller: data.onboardingController,
-                              count: 5,
+                              count: 6,
                               effect: ExpandingDotsEffect(
                                   dotWidth: 12,
                                   dotHeight: 12,
@@ -76,7 +79,7 @@ class OnboardingScreens extends StatelessWidget {
                             const Spacer(),
                             TextButton(
                                 onPressed: () {
-                                  if(data.onboardingController.page == 4){
+                                  if(data.onboardingController.page == 5){
                                     Navigator.pushReplacement(context,
                                         MaterialPageRoute(builder: (context) =>
                                         const RegisterScreen()));

@@ -29,6 +29,8 @@ class ParentProvider with ChangeNotifier {
   String selectedKidEmail = '';
   double daySlider = 5;
   int pageIndex = 0;
+  bool isSingleTask = true;
+  bool isMultiTask = false;
 
   int startHour = 0;
   int startMinute = 0;
@@ -110,6 +112,11 @@ class ParentProvider with ChangeNotifier {
 
   void switchSettingsParentInfo(){
     settingsParentInfo = !settingsParentInfo;
+    notifyListeners();
+  }
+
+  void isSingleTaskSwitch(){
+    isSingleTask = !isSingleTask;
     notifyListeners();
   }
 

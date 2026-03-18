@@ -145,3 +145,19 @@ final textFieldKidDecoration = InputDecoration(
         borderSide: BorderSide(color: kRed)
     ),
 );
+
+final textFieldDecorationOnboarding = InputDecoration(
+    hintStyle: kTextStyle,
+    enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: kOrange)
+    ),
+    focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: kOrange)
+    ),
+    focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: kRed)
+    ),
+    errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: kRed)
+    ),
+);

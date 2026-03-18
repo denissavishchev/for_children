@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import '../../../providers/parent_provider.dart';
 
 
-class ParentOnboardingScreenFive extends StatelessWidget {
-  const ParentOnboardingScreenFive({super.key,
+class ParentOnboardingScreenSix extends StatelessWidget {
+  const ParentOnboardingScreenSix({super.key,
   });
 
   @override
@@ -16,34 +16,31 @@ class ParentOnboardingScreenFive extends StatelessWidget {
     return Scaffold(
         backgroundColor: kWhite,
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-            child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 12,
-                  children: [
-                    _one(context),
-                    _two(context),
-                    _three(context),
-                    Align(
-                      alignment: Alignment.center,
-                      child: ButtonWidget(
-                          onTap: (){},
-                          text: 'add'
-                      ),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 12,
+                children: [
+                  _one(context),
+                  _two(context),
+                  _three(context),
+                  Align(
+                    alignment: Alignment.center,
+                    child: ButtonWidget(
+                        onTap: (){},
+                        text: 'add'
                     ),
-                    const SizedBox(height: 20,),
-                  ],
-                ),
-                Positioned(
-                    right: 0,
-                    top: 40,
-                    child: Image.asset('assets/images/onboardingParent13.png', width: 200,)
-                ),
-              ],
-            ),
+                  ),
+                  const SizedBox(height: 20,),
+                ],
+              ),
+              Positioned(
+                  right: 0,
+                  top: 40,
+                  child: Image.asset('assets/images/onboardingParent13.png', width: 200,)
+              ),
+            ],
           ),
         )
     );
@@ -153,112 +150,112 @@ class ParentOnboardingScreenFive extends StatelessWidget {
   Container _three(context) {
     Size size = MediaQuery.sizeOf(context);
     return Container(
-      width: size.width,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              kOrange.withValues(alpha: 0.2),
-              kDarkWhite.withValues(alpha: 0.1),
-              Colors.transparent,
-            ],
-            stops: [0.0, 0.6, 1]
+        width: size.width,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [
+                kOrange.withValues(alpha: 0.2),
+                kDarkWhite.withValues(alpha: 0.1),
+                Colors.transparent,
+              ],
+              stops: [0.0, 0.6, 1]
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          border: Border.all(color: kDarkWhite, width: 1),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        border: Border.all(color: kDarkWhite, width: 1),
-      ),
-      child: Consumer<ParentProvider>(
-          builder: (context, data, _){
-            return Column(
-              spacing: 12,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                      color: kWhite.withValues(alpha: 0.8),
-                      borderRadius: BorderRadius.all(Radius.circular(50)),
-                      border: Border.all(color: kDarkWhite, width: 1),
-                      boxShadow: [
-                        BoxShadow(
-                          color: kGrey.withValues(alpha: 0.2),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: Offset(2, 2),
-                        )
-                      ]
-                  ),
-                  child: Row(
-                    spacing: 8,
-                    children: [
-                      TaskButtonWidget(isSingle: true,),
-                      TaskButtonWidget(isSingle: false,),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 2,),
-                TextFormField(
-                  controller: data.addTaskNameController,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  cursorColor: kDarkGrey,
-                  decoration: textFieldDecorationOnboarding.copyWith(
-                      label: Text('task'.tr(),)),
-                  maxLength: 64,
-                  validator: (value){
-                    if(value == null || value.isEmpty) {
-                      return 'thisFieldCannotBeEmpty'.tr();
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  controller: data.addTaskDescriptionController,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 1,
-                  maxLines: 5,
-                  cursorColor: kDarkGrey,
-                  decoration: textFieldDecorationOnboarding.copyWith(
-                      label: Text('description'.tr(),)),
-                  maxLength: 256,
-                ),
-                TextFormField(
-                  controller: data.addTaskPriceController,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.multiline,
-                  minLines: 1,
-                  maxLines: 5,
-                  cursorColor: kDarkGrey,
-                  maxLength: 128,
-                  decoration: textFieldDecorationOnboarding.copyWith(
-                    label: Text('price'.tr()),
-                    prefixIcon: Icon(Icons.star, color: kOrange),
-                    suffixIcon: PopupMenuButton<String>(
-                      icon: const Icon(Icons.arrow_drop_down, color: kDarkGrey),
-                      onSelected: (String value) {
-                        data.addTaskPriceController.text = value;
-                      },
-                      itemBuilder: (BuildContext context) {
-                        return [
-                          'toy',
-                          'videoGame',
-                          'sweet',
-                          'cinema',
-                          'boardGame',
-                        ].map((String choice) {
-                          return PopupMenuItem<String>(
-                            value: choice.tr(),
-                            child: Text(choice.tr()),
-                          );
-                        }).toList();
-                      },
+        child: Consumer<ParentProvider>(
+            builder: (context, data, _){
+              return Column(
+                spacing: 12,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                        color: kWhite.withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        border: Border.all(color: kDarkWhite, width: 1),
+                        boxShadow: [
+                          BoxShadow(
+                            color: kGrey.withValues(alpha: 0.2),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset: Offset(2, 2),
+                          )
+                        ]
+                    ),
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        TaskButtonWidget(isSingle: true,),
+                        TaskButtonWidget(isSingle: false,),
+                      ],
                     ),
                   ),
-                ),
-                _four(context)
-              ],
-            );
-          }
-      )
+                  const SizedBox(height: 2,),
+                  TextFormField(
+                    controller: data.addTaskNameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    cursorColor: kDarkGrey,
+                    decoration: textFieldDecorationOnboarding.copyWith(
+                        label: Text('task'.tr(),)),
+                    maxLength: 64,
+                    validator: (value){
+                      if(value == null || value.isEmpty) {
+                        return 'thisFieldCannotBeEmpty'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: data.addTaskDescriptionController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: 5,
+                    cursorColor: kDarkGrey,
+                    decoration: textFieldDecorationOnboarding.copyWith(
+                        label: Text('description'.tr(),)),
+                    maxLength: 256,
+                  ),
+                  TextFormField(
+                    controller: data.addTaskPriceController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 1,
+                    maxLines: 5,
+                    cursorColor: kDarkGrey,
+                    maxLength: 128,
+                    decoration: textFieldDecorationOnboarding.copyWith(
+                      label: Text('price'.tr()),
+                      prefixIcon: Icon(Icons.star, color: kOrange),
+                      suffixIcon: PopupMenuButton<String>(
+                        icon: const Icon(Icons.arrow_drop_down, color: kDarkGrey),
+                        onSelected: (String value) {
+                          data.addTaskPriceController.text = value;
+                        },
+                        itemBuilder: (BuildContext context) {
+                          return [
+                            'toy',
+                            'videoGame',
+                            'sweet',
+                            'cinema',
+                            'boardGame',
+                          ].map((String choice) {
+                            return PopupMenuItem<String>(
+                              value: choice.tr(),
+                              child: Text(choice.tr()),
+                            );
+                          }).toList();
+                        },
+                      ),
+                    ),
+                  ),
+                  _four(context)
+                ],
+              );
+            }
+        )
     );
   }
 

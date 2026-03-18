@@ -310,45 +310,41 @@ class ParentOnboardingScreenThree extends StatelessWidget {
             ),
           ]
       ),
-      child: Consumer<ParentProvider>(
-          builder: (context, data, _){
-            return Column(
-              spacing: 8,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('affectFamilyRelationships'.tr(),style: kTextStyle,),
-                Column(
-                  spacing: 4,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 4,
-                      children: [
-                        Icon(Icons.check, color: kGreen, size: 18,),
-                        Expanded(child: Text('parentsUnderstandTheChildBetter'.tr(), style: kTextStyleNormal,)),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 4,
-                      children: [
-                        Icon(Icons.check, color: kGreen, size: 18,),
-                        Expanded(child: Text('childTalksOpenly'.tr(), style: kTextStyleNormal,)),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 4,
-                      children: [
-                        Icon(Icons.check, color: kGreen, size: 18,),
-                        Expanded(child: Text('turnsObligationsIntoContracts'.tr(), style: kTextStyleNormal,)),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            );
-          }
+      child: Column(
+        spacing: 8,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('affectFamilyRelationships'.tr(),style: kTextStyle,),
+          Column(
+            spacing: 4,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: [
+                  Icon(Icons.check, color: kGreen, size: 18,),
+                  Expanded(child: Text('parentsUnderstandTheChildBetter'.tr(), style: kTextStyleNormal,)),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: [
+                  Icon(Icons.check, color: kGreen, size: 18,),
+                  Expanded(child: Text('childTalksOpenly'.tr(), style: kTextStyleNormal,)),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: [
+                  Icon(Icons.check, color: kGreen, size: 18,),
+                  Expanded(child: Text('turnsObligationsIntoContracts'.tr(), style: kTextStyleNormal,)),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }
