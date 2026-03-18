@@ -5,7 +5,7 @@ import 'package:for_children/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../widgets/info_widget.dart';
-import 'onboarding_screens.dart';
+import 'onboarding_screens/onboarding_screens.dart';
 
 class SelectScreen extends StatelessWidget {
   const SelectScreen({super.key});

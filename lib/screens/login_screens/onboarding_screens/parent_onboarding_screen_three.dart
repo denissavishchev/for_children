@@ -5,7 +5,7 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/parent_provider.dart';
+import '../../../providers/parent_provider.dart';
 
 class ParentOnboardingScreenThree extends StatelessWidget {
   const ParentOnboardingScreenThree({super.key,

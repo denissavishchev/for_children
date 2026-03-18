@@ -2,9 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
-import 'package:for_children/screens/login_screens/parent_onboarding_screen_one.dart';
-import 'package:for_children/screens/login_screens/parent_onboarding_screen_three.dart';
-import 'package:for_children/screens/login_screens/parent_onboarding_screen_two.dart';
+import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_one.dart';
+import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_three.dart';
+import 'package:for_children/screens/login_screens/onboarding_screens/parent_onboarding_screen_two.dart';
+import 'package:for_children/screens/login_screens/onboarding_screens/parrent_onboarding_screen_four.dart';
 import 'package:for_children/screens/login_screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -39,7 +40,7 @@ class OnboardingScreens extends StatelessWidget {
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenTwo(),
                           const ParentOnboardingScreenThree(),
-                          const ParentOnboardingScreenOne(),
+                          const ParentOnboardingScreenFour(),
                           const ParentOnboardingScreenOne(),
                         ],
                       ),

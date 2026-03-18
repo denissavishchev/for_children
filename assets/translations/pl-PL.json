@@ -155,6 +155,26 @@
   "learnSetGoals": "uczyć się stawić celi",
   "waitForReward": "cierpliwe czekać na nagrodę",
   "understandRelationshipBetweenEffortAndResult": "rozumieć związek między wysilkiem a rezultatem",
-  "whenChildHasGoal": "Kiedy dziecko ma cel, pomaga bardziej chetnie wykonuje zadania."
+  "whenChildHasGoal": "Kiedy dziecko ma cel, pomaga bardziej chetnie wykonuje zadania.",
+
+  "skillsForLife": "Umiejętności na całe życie",
+  "notJustWishList": "Ta aplikacja to coś więcej niż tylko lista zadań do wykonania.",
+  "notJustWishListDescription": "Jest to narzędzie pomagające dziecku rozwinąć ważne umiejętności życiowe.",
+  "whatChildLearn": "Czego uczy się dziecko?",
+  "responsibility": "Odpowiedzialność",
+  "understandsThatTasksNeedToBeCompleted": "rozumie, że zadania muszą zostać ukończone",
+  "financialLiteracy": "Wiedza finansowa",
+  "learnHowToEarnAndSave": "dowiedzi się, jak zarabiać i oszczędzać",
+  "planning": "Planowanie",
+  "learnsToSaveForBiggerGoals": "uczy się oszczędzać na większe cele",
+  "negotiationSkills": "Umiejętności negocjacyjne",
+  "learnsToNegotiate": "uczy się negocjować?",
+  "independence": "Niezależnośći",
+  "startsCompletingTasksWithoutReminders": "zaczyna wykonywać zadania bez przypomnień",
+  "forParentsThisMeans": "Dla rodziców oznacza to:",
+  "lessControversy": "mniej kontrowersji",
+  "fewerReminders": "mniej przypomnień",
+  "moreHelpAroundTheHouse": "więcej pomocy w domu",
+  "smallTasksTodayShapeTomorrow": "Drobne zadania wykonywane dziś kształtują odpowiedzialnego dorosłego człowieka jutra."
 
 }
