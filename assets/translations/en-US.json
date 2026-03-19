@@ -183,5 +183,13 @@
   "completeAndReceiveReward": "ukończyć ją i otrzymać nagrodę.",
   "single": "Pojedyncze",
   "multi": "Wielierazowe",
-  "youCanAlwaysChangePriceOrNegotiate": "Zawsze możesz zmienić cenę lub negocjować ją ze swoim dzieckiem."
+  "youCanAlwaysChangePriceOrNegotiate": "Zawsze możesz zmienić cenę lub negocjować ją ze swoim dzieckiem.",
+  "congratulations": "Congratulations!",
+  "onboardingComplete": "Onboarding is complete!",
+  "WishYouGoodLuck": "We wish you good luck in achieving your goals!",
+  "hopeForGoodResults": "We hope for good results!",
+  "startWithFirstSimpleTask": "Start with the first simple task.",
+  "monitorProgressAndPraiseEfforts": "Monitor progress and praise efforts.",
+  "shareThoughtsAndIdeasWithYourChild": "Share thoughts and ideas with your child.",
+  "go": "Let's go"
 }

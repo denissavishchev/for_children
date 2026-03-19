@@ -45,7 +45,7 @@ class ParentOnboardingScreenOne extends StatelessWidget {
                   ),
                   Positioned(
                       right: 0,
-                      top: size.height * 0.5,
+                      top: size.height * 0.48,
                       child: Image.asset('assets/images/onboardingParent2.png', width: 150,)
                   )
                 ],
