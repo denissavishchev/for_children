@@ -12,6 +12,8 @@ import 'package:for_children/screens/login_screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'kids_onboarding_screen_one.dart';
+
 class OnboardingScreens extends StatelessWidget {
   const OnboardingScreens({super.key});
 
@@ -32,7 +34,7 @@ class OnboardingScreens extends StatelessWidget {
                         controller: data.onboardingController,
                         children: data.role == 'child'
                             ? [
-                          const ParentOnboardingScreenOne(),
+                          const KidsOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
