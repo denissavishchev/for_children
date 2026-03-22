@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'kid_onboarding_screen_one.dart';
+import 'kid_onboarding_screen_three.dart';
 import 'kid_onboarding_screen_two.dart';
 
 class OnboardingScreens extends StatelessWidget {
@@ -37,7 +38,7 @@ class OnboardingScreens extends StatelessWidget {
                             ? [
                           const KidOnboardingScreenOne(),
                           const KidOnboardingScreenTwo(),
-                          const ParentOnboardingScreenOne(),
+                          const KidOnboardingScreenThree(),
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),
                           const ParentOnboardingScreenOne(),

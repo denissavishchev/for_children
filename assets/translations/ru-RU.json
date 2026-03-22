@@ -214,5 +214,23 @@
   "walkWithTheDog": "прогулку с собакой",
   "helpForParents": "помощь родителям",
   "everyTaskReward": "Каждое задание = награда",
-  "moreTasksMoreRewards": "Чем больше заданий тем больше наград."
+  "moreTasksMoreRewards": "Чем больше заданий тем больше наград.",
+  "priceCanBeNegotiated": "Можно договорится о цене",
+  "sometimesTheTaskSeemsDifficult": "Иногда задание кажется сложным.",
+  "youCanOfferYourPriceForTask": "Ты можешь предложить свою цену за задание.",
+  "example": "Пример",
+  "cleanTheRoom": "Убрать комнату",
+  "rewardIceCream": "Награда: мороженое",
+  "youCanSay": "Ты можешь сказать:",
+  "doItFor2IceCreams": "'Сделаю за 2 мороженых'",
+  "whatIsNext": "Что дальше?",
+  "parentCan": "Родитель может:",
+  "agree": "согласиться",
+  "offerDifferentPrice": "предложить другую цену",
+  "thisIsCalledNegotiation": "Это называется переговоры",
+  "learningToNegotiateBuildsSelf": "Умение вести переговоры укрепляет уверенность в себе и развивает самостоятельность.",
+  "developsArgumentationAndCriticalThinkingSkills": "Развивает навыки аргументации и критического мышления.",
+  "teachesRespectForWorkAndValueOfMoney": "Это учит уважению к труду и ценности денег.",
+  "tryToNegotiateBetterReward": "Попробуй договориться о лучшей награде."
+
 }

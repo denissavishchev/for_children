@@ -214,5 +214,22 @@
   "walkWithTheDog": "walking the dog",
   "helpForParents": "helping parents",
   "everyTaskReward": "Every task = a reward",
-  "moreTasksMoreRewards": "The more tasks, the more rewards."
+  "moreTasksMoreRewards": "The more tasks, the more rewards.",
+  "priceCanBeNegotiated": "Price can be negotiated",
+  "sometimesTheTaskSeemsDifficult": "Sometimes a task seems difficult.",
+  "youCanOfferYourPriceForTask": "You can offer your own price for the task.",
+  "example": "Example",
+  "cleanTheRoom": "Clean the room",
+  "rewardIceCream": "Reward: ice cream",
+  "youCanSay": "You can say:",
+  "doItFor2IceCreams": "“I'll do it for 2 ice creams”",
+  "whatIsNext": "What's next?",
+  "parentCan": "A parent can:",
+  "agree": "agree",
+  "offerDifferentPrice": "offer a different price",
+  "thisIsCalledNegotiation": "This is called negotiation",
+  "learningToNegotiateBuildsSelf": "Learning to negotiate builds self-confidence and independence.",
+  "developsArgumentationAndCriticalThinkingSkills": "Develops argumentation and critical thinking skills.",
+  "teachesRespectForWorkAndValueOfMoney": "Teaches respect for work and the value of money.",
+  "tryToNegotiateBetterReward": "Try to negotiate a better reward."
 }

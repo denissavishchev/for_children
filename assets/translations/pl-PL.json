@@ -214,5 +214,22 @@
   "walkWithTheDog": "spacer z psem",
   "helpForParents": "pomoc rodzicom",
   "everyTaskReward": "Każde zadanie = nagroda",
-  "moreTasksMoreRewards": "Więcej zadań to więcej nagród."
+  "moreTasksMoreRewards": "Więcej zadań to więcej nagród.",
+  "priceCanBeNegotiated": "Można negocjować cenę",
+  "sometimesTheTaskSeemsDifficult": "Czasami zadanie wydaje się trudne.",
+  "youCanOfferYourPriceForTask": "Możesz zaproponować własną cenę za zadanie.",
+  "example": "Przykład",
+  "cleanTheRoom": "Posprzątać pokój",
+  "rewardIceCream": "Nagroda: lody",
+  "youCanSay": "Możesz powiedzieć:",
+  "doItFor2IceCreams": "„Zrobię to za 2 porcje lodów”",
+  "whatIsNext": "Co dalej?",
+  "parentCan": "Rodzic może:",
+  "agree": "zgodzić się",
+  "offerDifferentPrice": "zaproponować inną cenę",
+  "thisIsCalledNegotiation": "To się nazywa negocjacje",
+  "learningToNegotiateBuildsSelf": "Nauka negocjacji buduje pewność siebie i samodzielność.",
+  "developsArgumentationAndCriticalThinkingSkills": "Rozwija umiejętność argumentacji i krytycznego myślenia.",
+  "teachesRespectForWorkAndValueOfMoney": "Uczy szacunku do pracy i wartości pieniądza.",
+  "tryToNegotiateBetterReward": "Spróbuj wynegocjować lepszą nagrodę."
 }
