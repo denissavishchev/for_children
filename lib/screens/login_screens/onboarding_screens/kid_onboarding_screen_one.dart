@@ -6,8 +6,8 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 
-class KidsOnboardingScreenOne extends StatelessWidget {
-  const KidsOnboardingScreenOne({super.key,
+class KidOnboardingScreenOne extends StatelessWidget {
+  const KidOnboardingScreenOne({super.key,
   });
 
   @override
