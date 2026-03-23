@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../../providers/parent_provider.dart';
 
-class ParentOnboardingScreenThree extends StatelessWidget {
-  const ParentOnboardingScreenThree({super.key,
+class KidOnboardingScreenFive extends StatelessWidget {
+  const KidOnboardingScreenFive({super.key,
   });
 
   @override
@@ -19,44 +19,35 @@ class ParentOnboardingScreenThree extends StatelessWidget {
         body: Consumer<LoginProvider>(
           builder: (context, data, _){
             return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 12,
-                      children: [
-                        _one(context),
-                        _two(context),
-                        _three(context),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 8,
-                          children: [
-                            Column(
-                              children: [
-                                _five(context),
-                                _seven(context)
-                              ],
-                            ),
-                            Expanded(child: _six(context))
-                          ],
-                        ),
-
-                      ],
-                    ),
-                    Positioned(
-                        right: -30,
-                        top: 40,
-                        child: Image.asset('assets/images/onboardingParent3.png', width: 160,)
-                    ),
-                    Positioned(
-                        right: 0,
-                        top: size.height * 0.5,
-                        child: Image.asset('assets/images/onboardingParent1.png', width: 140,)
-                    ),
-                  ],
+              child: SizedBox(
+                height: size.height,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 12,
+                        children: [
+                          _one(context),
+                          _two(context),
+                          _three(context),
+                          SizedBox(height: size.height * 0.04,),
+                          _five(context)
+                        ],
+                      ),
+                      Positioned(
+                          right: -10,
+                          top: 40,
+                          child: Image.asset('assets/images/onboardingParent12.png', width: 160,)
+                      ),
+                      Positioned(
+                          right: 0,
+                          top: size.height * 0.4,
+                          child: Image.asset('assets/images/onboardingKid7.png', width: 140,)
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -69,7 +60,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Container(
       width: size.width,
-      height: size.height * 0.1,
+      height: size.height * 0.08,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage('assets/images/line.png'),
@@ -103,7 +94,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
           ]
       ),
       child: Center(
-        child: Text('kidShowsWhatWant'.tr(),
+        child: Text('addYourWish'.tr(),
           style: kTextStyle.copyWith(fontSize: 42.sp),),
       ),
     );
@@ -130,8 +121,8 @@ class ParentOnboardingScreenThree extends StatelessWidget {
         spacing: 4,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('canCreateWishList'.tr(), style: kTextStyle),
-          Text('canCreateWishListDescription'.tr(), style: kTextStyle),
+          Text('youCanCreateYourOwnWishList'.tr(), style: kTextStyle),
+          Text('addThereWhatYouWant'.tr(), style: kTextStyle),
         ],
       ),
     );
@@ -161,7 +152,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                   spacing: 8,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('whatChildCanAdd'.tr(), style: kTextStyle,),
+                    Text('wishExamples'.tr(), style: kTextStyle,),
                     Container(
                       width: size.width * 0.4,
                       decoration: BoxDecoration(
@@ -177,7 +168,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                           ]
                       ),
                       child: Column(
-                        children: List.generate(data.wishesParent.length, ((i){
+                        children: List.generate(data.wishesKid.length, ((i){
                           return Container(
                             height: 30,
                             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -191,8 +182,8 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                                   ],
                                 ),
                                 borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(i == data.wishesParent.length ? 12 : 0),
-                                  bottomRight: Radius.circular(i == data.wishesParent.length ? 12 : 0),
+                                  bottomLeft: Radius.circular(i == data.wishesKid.length ? 12 : 0),
+                                  bottomRight: Radius.circular(i == data.wishesKid.length ? 12 : 0),
                                   topRight: Radius.circular(i == 0 ? 12 : 0),
                                   topLeft: Radius.circular(i == 0 ? 12 : 0),
                                 )
@@ -200,8 +191,8 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                             child: Row(
                               spacing: 8,
                               children: [
-                                Image.asset('assets/images/${data.wishesParent.keys.elementAt(i)}.png', width: 22,),
-                                Text(data.wishesParent.values.elementAt(i).tr(), style: kTextStyleNormal,),
+                                Image.asset('assets/images/${data.wishesKid.keys.elementAt(i)}.png', width: 22,),
+                                Text(data.wishesKid.values.elementAt(i).tr(), style: kTextStyleNormal,),
                               ],
                             ),
                           );
@@ -215,7 +206,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
           ),
         ),
         Align(
-          alignment: Alignment.centerRight,
+            alignment: Alignment.centerRight,
             child: _four(context))
       ],
     );
@@ -249,7 +240,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                 Text('howItWorks'.tr(),style: kTextStyle,),
                 Column(
                   spacing: 4,
-                  children: List.generate(data.howItWorksParent.length, ((i){
+                  children: List.generate(data.howItWorksKid.length, ((i){
                     return Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 4,
@@ -261,8 +252,8 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  data.howItWorksParent.values.elementAt(i).withValues(alpha: 0.4),
-                                  data.howItWorksParent.values.elementAt(i).withValues(alpha: 0.7),
+                                  data.howItWorksKid.values.elementAt(i).withValues(alpha: 0.4),
+                                  data.howItWorksKid.values.elementAt(i).withValues(alpha: 0.7),
                                 ],
                               ),
                               shape: BoxShape.circle,
@@ -280,7 +271,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
                             child: Text('${i + 1}', style: kTextStyle),
                           ),
                         ),
-                        Expanded(child: Text(data.howItWorksParent.keys.elementAt(i).tr(), style: kTextStyleNormal,)),
+                        Expanded(child: Text(data.howItWorksKid.keys.elementAt(i).tr(), style: kTextStyleNormal,)),
                       ],
                     );
                   })),
@@ -295,134 +286,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
   Container _five(context) {
     Size size = MediaQuery.sizeOf(context);
     return Container(
-      width: size.width * 0.5,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-          color: kWhite,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          border: Border.all(color: kDarkWhite, width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: kGrey.withValues(alpha: 0.1),
-              spreadRadius: 2,
-              blurRadius: 2,
-              offset: Offset(-1, 1),
-            ),
-          ]
-      ),
-      child: Column(
-        spacing: 8,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('affectFamilyRelationships'.tr(),style: kTextStyle,),
-          Column(
-            spacing: 4,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4,
-                children: [
-                  Icon(Icons.check, color: kGreen, size: 18,),
-                  Expanded(child: Text('parentsUnderstandTheChildBetter'.tr(), style: kTextStyleNormal,)),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4,
-                children: [
-                  Icon(Icons.check, color: kGreen, size: 18,),
-                  Expanded(child: Text('childTalksOpenly'.tr(), style: kTextStyleNormal,)),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4,
-                children: [
-                  Icon(Icons.check, color: kGreen, size: 18,),
-                  Expanded(child: Text('turnsObligationsIntoContracts'.tr(), style: kTextStyleNormal,)),
-                ],
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Container _six(context) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      margin: EdgeInsets.only(top: 62),
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [
-                kGreen.withValues(alpha: 0.2),
-                kGreen.withValues(alpha: 0.1),
-              ]
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          border: Border.all(color: kGrey.withValues(alpha: 0.2), width: 1),
-          boxShadow: [
-            BoxShadow(
-              color: kGrey.withValues(alpha: 0.1),
-              spreadRadius: 2,
-              blurRadius: 2,
-              offset: Offset(1, 1),
-            ),
-            BoxShadow(
-              color: kWhite,
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: Offset(-2, -2),
-            )
-          ]
-      ),
-      child: Column(
-        spacing: 4,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('whatGiveToChild'.tr(),style: kTextStyle,),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 4,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                  child: Icon(Icons.circle, color: kBlue, size: 6,)),
-              Expanded(child: Text('learnSetGoals'.tr(),style: kTextStyleNormal,)),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 4,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Icon(Icons.circle, color: kBlue, size: 6,),
-              ),
-              Expanded(child: Text('waitForReward'.tr(),style: kTextStyleNormal,)),
-            ],
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 4,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Icon(Icons.circle, color: kBlue, size: 6,),
-              ),
-              Expanded(child: Text('understandRelationshipBetweenEffortAndResult'.tr(),style: kTextStyleNormal,)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container _seven(context) {
-    Size size = MediaQuery.sizeOf(context);
-    return Container(
-      width: size.width * 0.5,
+      width: size.width,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -433,7 +297,7 @@ class ParentOnboardingScreenThree extends StatelessWidget {
         ),
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
-      child: Text('whenChildHasGoal'.tr(),
+      child: Text('doTheTasksAndGetWhatYouDreamAbout'.tr(),
         style: kTextStyle,
         textAlign: TextAlign.center,),
     );

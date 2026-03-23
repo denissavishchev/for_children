@@ -48,18 +48,34 @@ class ParentProvider with ChangeNotifier {
   bool isLoading = false;
 
   List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
-  Map<String, String> wishes = {
+
+  Map<String, String> wishesParent = {
     'bear': 'toy',
     'gamepad': 'videoGame',
     'cupcake': 'sweet',
     'ticket': 'cinema',
     'dice': 'boardGame',
   };
-  Map<String, Color> howItWorks = {
+
+  Map<String, String> wishesKid = {
+    'gamepad': 'newGame',
+    'bike': 'bicycle',
+    'iceCream': 'iceCream',
+    'toy': 'toyInf',
+    'ticket': 'goingToTheCinema',
+  };
+
+  Map<String, Color> howItWorksParent = {
     'kidAddWish': kGreen,
     'parentChooseWish': kBlue,
     'kidDoTask': kOrange,
   };
+
+  Map<String, Color> howItWorksKid = {
+    'youAddYouWish': kGreen,
+    'parentsCanSelectFromList': kOrange,
+  };
+
   Map<String, Color> taskTypes = {
     'home': kRed,
     'study': kGreen,
@@ -69,6 +85,7 @@ class ParentProvider with ChangeNotifier {
     'health': kPurple,
     'ecology': Colors.pink,
     'hobby': kLightBlue};
+
   String selectedTypeStatus = 'home';
   int selectedExp = 1;
   bool isSelectButtonOpen = false;
