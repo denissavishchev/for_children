@@ -15,8 +15,8 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: 'firebase.env');
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: 'AIzaSyAQB9hcPJENDcNq6taQlMRRMNWoIlKQaGU',
+      options: FirebaseOptions(
+          apiKey: dotenv.env['FIREBASE_API_KEY'].toString(),
           appId: '1:403074544562:android:929551b8a32e0cb42faaab',
           messagingSenderId: 'sendid',
           projectId: 'forkids-6f5ab',
