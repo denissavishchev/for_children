@@ -5,6 +5,7 @@ import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/history_screen.dart';
 import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
+import '../../providers/kid_provider.dart';
 import 'add_multi_task_screen.dart';
 import 'add_single_task_screen.dart';
 import 'parent_settings_screen.dart';
@@ -12,8 +13,21 @@ import '../../widgets/parents_widget/parent_single_task_list_widget.dart';
 import '../../widgets/parents_widget/parent_multi_task_list_widget.dart';
 import 'package:rxdart/rxdart.dart';
 
-class MainParentScreen extends StatelessWidget {
+class MainParentScreen extends StatefulWidget {
   const MainParentScreen({super.key});
+
+  @override
+  State<MainParentScreen> createState() => _MainParentScreenState();
+}
+
+class _MainParentScreenState extends State<MainParentScreen> {
+
+  @override
+  void initState() {
+    final kidsData = Provider.of<KidProvider>(context, listen: false);
+    kidsData.setupKidNotification();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

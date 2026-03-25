@@ -9,9 +9,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'providers/parent_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: 'firebase.env');
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: 'AIzaSyAQB9hcPJENDcNq6taQlMRRMNWoIlKQaGU',

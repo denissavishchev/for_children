@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,6 +12,7 @@ import '../screens/kid_screens/wishes_screen.dart';
 import '../screens/kid_screens/kids_settings_screen.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class KidProvider with ChangeNotifier {
 
@@ -75,7 +77,6 @@ class KidProvider with ChangeNotifier {
     parentsList.clear();
     parentsListAccept.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getString('email');
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     for(int k = 0; k < 6; k++){
@@ -333,5 +334,35 @@ class KidProvider with ChangeNotifier {
     addMoneyController.clear();
     Navigator.of(context).pop();
   }
+
+  Future<void> setupKidNotification() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      String? token = await messaging.getToken();
+
+      if (token != null) {
+        log('FCMToken: $token');
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(prefs.getString('email'))
+            .set({
+          'fcmToken': token,
+        },
+            SetOptions(merge: true));
+      }
+    } else {
+      log('noPermission');
+    }
+  }
+
 
 }

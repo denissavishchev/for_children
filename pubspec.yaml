@@ -30,6 +30,9 @@ dependencies:
   flutter_svg: ^2.2.1
   rxdart: ^0.28.0
   percent_indicator: ^4.2.5
+  firebase_messaging: ^16.1.3
+  dio: ^5.9.2
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -45,5 +48,6 @@ flutter:
     - assets/translations/
     - assets/images/
     - assets/icons/
+    - firebase.env
 
 

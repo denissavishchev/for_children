@@ -1,8 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/history_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
@@ -501,7 +504,6 @@ class ParentProvider with ChangeNotifier {
       }
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getString('email');
     DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
     instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
     String parentName = doc.data()?['name'];
@@ -522,6 +524,12 @@ class ParentProvider with ChangeNotifier {
         'type' : selectedTypeStatus,
         'expQty' : selectedExp.toString(),
       });
+    DocumentSnapshot<Map<String, dynamic>> kidDoc = await FirebaseFirestore.
+    instance.collection('users').doc(selectedKidEmail.toLowerCase()).get();
+    String? kidToken = kidDoc.data()?['fcmToken'];
+    if (kidToken != null) {
+      sendNotificationToKid(kidToken, "Masz nowe zadanie do wykonania!");
+    }
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
       addTaskPriceController.clear();
@@ -1054,6 +1062,39 @@ class ParentProvider with ChangeNotifier {
       'dayEnd': '${endHour.toString().padLeft(2, '0')}:${endMinute.toString().padLeft(2, '0')}',
     });
     getKids();
+  }
+
+  Future<void> sendNotificationToKid(String token, String message) async {
+    final dio = Dio();
+    log('parentToken: $token');
+    try {
+      final response = await dio.post(
+        'https://fcm.googleapis.com/fcm/send',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': dotenv.env['FIREBASE_PRIVATE_KEY']?.replaceAll(r'\n', '\n'),
+          },
+        ),
+        data: {
+          'notification': {
+            'body': message,
+            'title': 'newTaskAdded',
+            'sound': 'default',
+          },
+          'priority': 'high',
+          'to': token,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        log("Notification sent successfully");
+      }
+    } on DioException catch (e) {
+      log("Error Dio: ${e.response?.data ?? e.message}");
+    } catch (e) {
+      log("error: $e");
+    }
   }
 
 }
