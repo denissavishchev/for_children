@@ -132,7 +132,11 @@ class KidProvider with ChangeNotifier {
 
   Future pickAnImage()async{
     ImagePicker image = ImagePicker();
-    file = await image.pickImage(source: ImageSource.camera);
+    file = await image.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 30,
+      maxWidth: 800,
+    );
     if(file == null) return;
     fileName = DateTime.now().millisecondsSinceEpoch.toString();
     imageToUpload = FirebaseStorage.instance.ref().child('wishes').child(fileName);
