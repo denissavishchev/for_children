@@ -89,7 +89,13 @@ class SaveMoneyScreen extends StatelessWidget {
                                               ),
                                               child: snapshot.data?.docs[index].get('imageUrl') == 'false'
                                                   ? Image.asset('assets/images/cat.png', fit: BoxFit.contain)
-                                                  : Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.contain),
+                                                  : Image.network(snapshot.data?.docs[index].get('imageUrl'),
+                                                  fit: BoxFit.contain,
+                                                  errorBuilder: (context, error, stackTrace) {
+                                                    return const Center(
+                                                      child: Icon(Icons.warning, color: kOrange,),
+                                                    );
+                                                  }),
                                             ),
                                             Column(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

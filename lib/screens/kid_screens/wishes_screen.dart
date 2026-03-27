@@ -17,58 +17,86 @@ class WishesScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kWhite,
-      body: SizedBox(
-        height: size.height,
-        child: SafeArea(
-            child: Consumer<KidProvider>(
-              builder: (context, data, _){
-                return Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Padding(
+      body: SafeArea(
+          child: Consumer<KidProvider>(
+            builder: (context, data, _){
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: size.height,
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          spacing: 12,
-                          children: [
-                            GestureDetector(
-                              onTap: () => Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) => const AddWishScreen())),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: kDarkGrey, width: 2),
-                                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      child: Column(
+                        spacing: 12,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) => const AddWishScreen())),
+                            child: Container(
+                              height: 40,
+                              width: size.width * 0.5,
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                              margin: const EdgeInsets.only(top: 8),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      kDarkBlue,
+                                      kPurple
+                                    ]
                                 ),
-                                child: Text('addNewWish'.tr(), style: kTextStyle),
+                                border: Border.all(color: kWhite.withValues(alpha: 0.5), width: 2),
+                                borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kPurple.withValues(alpha: 0.4),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                    offset: const Offset(-1, -3),
+                                  ),
+                                  BoxShadow(
+                                    color: kBlue.withValues(alpha: 0.4),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                    offset: const Offset(1, 3),
+                                  )
+                                ]
+                              ),
+                              child: Row(
+                                spacing: 4,
+                                children: [
+                                  Icon(Icons.add, color: kWhite),
+                                  Text('addNewWish'.tr(), style: kTextStyleWhite),
+                                ],
                               ),
                             ),
-                            const WishesTilesListWidget()
-                          ],
-                        ),
+                          ),
+                          Expanded(child: const WishesTilesListWidget())
+                        ],
                       ),
                     ),
-                    Positioned(
-                        top: 4,
-                        right: 20,
-                        child: KidInfoWidget(
-                          info: data.wishInfo,
-                          onTap: () => data.switchWishInfo(),
-                          text: 'wishInfo',
-                          height: 0.2,)),
-                    data.isLoading
-                        ? Container(
-                      width: size.width,
-                      height: size.height,
-                      color: kGrey.withValues(alpha: 0.5),
-                      child: const Center(child: CircularProgressIndicator(color: kBlue,),),
-                    ) : const SizedBox.shrink(),
-                    KidBottomNavigationBarWidget()
-                  ],
-                );
-              },
-            )
-        ),
+                  ),
+                  Positioned(
+                      top: 8,
+                      right: 20,
+                      child: KidInfoWidget(
+                        info: data.wishInfo,
+                        onTap: () => data.switchWishInfo(),
+                        text: 'wishInfo',
+                        height: 0.2,)),
+                  data.isLoading
+                      ? Container(
+                    width: size.width,
+                    height: size.height,
+                    color: kGrey.withValues(alpha: 0.5),
+                    child: const Center(child: CircularProgressIndicator(color: kBlue,),),
+                  ) : const SizedBox.shrink(),
+                  KidBottomNavigationBarWidget()
+                ],
+              );
+            },
+          )
       ),
     );
   }

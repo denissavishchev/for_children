@@ -215,7 +215,13 @@ class KidProvider with ChangeNotifier {
                 color: kGrey,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
               ),
-             child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
+             child: Image.network(snapshot.data?.docs[index].get('imageUrl'),
+                 fit: BoxFit.cover,
+                 errorBuilder: (context, error, stackTrace) {
+                   return const Center(
+                     child: Icon(Icons.warning, color: kOrange,),
+                   );
+                 }),
             ),
           );
         });

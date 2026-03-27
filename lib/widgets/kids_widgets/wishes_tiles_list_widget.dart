@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/providers/kid_provider.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -28,69 +30,186 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
     Size size = MediaQuery.sizeOf(context);
     return Consumer2<ParentProvider, KidProvider>(
         builder: (context, data, kidData, _){
-          return SizedBox(
-              height: size.height * 0.8,
-              child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('wishes')
-                    .orderBy('time', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot){
-                  if(snapshot.hasData){
-                    return ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 40),
-                        itemCount: snapshot.data?.docs.length,
-                        itemBuilder: (context, index){
-                          if(snapshot.data?.docs[index].get('kidEmail').toLowerCase() == data.email){
-                            return GestureDetector(
-                              onTap: () {
-                                snapshot.data?.docs[index].get('imageUrl') != 'false'
-                                    ? kidData.showWishDescription(context, snapshot, index)
-                                    : null;
-                              },
-                              child: Container(
-                                height: 120,
-                                margin: const EdgeInsets.symmetric(vertical: 3),
-                                padding: const EdgeInsets.only(left: 12),
-                                decoration: BoxDecoration(
-                                    color: kLightGrey.withValues(alpha: 0.5),
-                                    border: Border.all(width: 1.5, color: kOrange),
-                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                ),
-                                child: Row(
-                                  spacing: 12,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
+          return StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection('wishes')
+                .orderBy('time', descending: true)
+                .snapshots(),
+            builder: (context, snapshot){
+              if(snapshot.hasData){
+                return ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 40),
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (context, index){
+                      if(snapshot.data?.docs[index].get('kidEmail').toLowerCase() == data.email){
+                        return GestureDetector(
+                          onTap: () {
+                            snapshot.data?.docs[index].get('imageUrl') != 'false'
+                                ? kidData.showWishDescription(context, snapshot, index)
+                                : null;
+                          },
+                          child: Container(
+                            height: 120,
+                            margin: const EdgeInsets.symmetric(vertical: 3),
+                            padding: const EdgeInsets.only(right: 6, left: 12),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    kDarkBlue.withValues(alpha: 0.5),
+                                    kBlue,
+                                  ]
+                              ),
+                              border: Border.all(width: 0.5, color: kOrange.withValues(alpha: 0.5)),
+                              borderRadius: const BorderRadius.all(Radius.circular(8)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: kBlue.withValues(alpha: 0.1),
+                                  blurRadius: 1,
+                                  spreadRadius: 1,
+                                  offset: const Offset(0, 3),
+                                )
+                              ]
+                            ),
+                            child: Row(
+                              spacing: 12,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(snapshot.data?.docs[index].get('wish'), style: kBigTextStyle,),
-                                        Text(snapshot.data?.docs[index].get('whyNeed'), style: kBigTextStyle,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(snapshot.data?.docs[index].get('wish'),
+                                              style: kBigTextStyleWhite.copyWith(fontSize: 44.sp),),
+                                            Container(
+                                              padding: const EdgeInsets.fromLTRB(2, 2, 4, 2),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    colors: [
+                                                      kOrange.withValues(alpha: 0.4),
+                                                      kOrange.withValues(alpha: 0.3),
+                                                      kOrange.withValues(alpha: 0.2),
+                                                    ]
+                                                ),
+                                                borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                                border: Border.all(width: 0.5, color: kOrange.withValues(alpha: 0.5)),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: kOrange,
+                                                    size: 16,
+                                                    shadows: [
+                                                      Shadow(
+                                                        color: kWhite,
+                                                        blurRadius: 3,
+                                                        offset: const Offset(0.2, 0.2),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Text('dreamItem'.tr(),
+                                                    style: kTextStyleWhite.copyWith(fontSize: 18.sp),
+                                                    textAlign: TextAlign.center,),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        Text(snapshot.data?.docs[index].get('whyNeed'),
+                                          style: kTextStyleWhite.copyWith(fontSize: 18.sp),),
                                       ],
                                     ),
-                                    snapshot.data?.docs[index].get('imageUrl') == 'false'
-                                        ? const SizedBox.shrink()
-                                        : Container(
-                                          clipBehavior: Clip.hardEdge,
-                                          margin: const EdgeInsets.all(3),
-                                          decoration: BoxDecoration(
-                                            color: kBlue.withValues(alpha: 0.3),
-                                            borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                          ),
-                                          child: Image.network(snapshot.data?.docs[index].get('imageUrl'), fit: BoxFit.cover),
-                                        )
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        });
-                  }else{
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              )
+                                snapshot.data?.docs[index].get('imageUrl') == 'false'
+                                    ? Container(
+                                  width: size.width * 0.2,
+                                  height: 100,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            kLightBlue.withValues(alpha: 0.2),
+                                            kBlue,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight
+                                      ),
+                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                      border: Border.all(width: 0.5, color: kWhite),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: kDarkWhite,
+                                          blurRadius: 10,
+                                          spreadRadius: 1,
+                                          offset: const Offset(1, 1),
+                                        ),
+                                        BoxShadow(
+                                          color: kLightBlue.withValues(alpha: 0.5),
+                                          blurRadius: 10,
+                                          spreadRadius: 1,
+                                          offset: const Offset(-2, -2),
+                                        ),
+                                      ]
+                                  ),
+                                  child: Icon(Icons.no_photography, color: kDarkBlue, size: 84.sp,),
+                                )
+                                    : Container(
+                                      width: size.width * 0.2,
+                                      height: 100,
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              kLightBlue.withValues(alpha: 0.2),
+                                              kBlue,
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight
+                                        ),
+                                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                        border: Border.all(width: 0.5, color: kWhite),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: kDarkWhite,
+                                            blurRadius: 10,
+                                            spreadRadius: 1,
+                                            offset: const Offset(1, 1),
+                                          ),
+                                          BoxShadow(
+                                            color: kLightBlue.withValues(alpha: 0.5),
+                                            blurRadius: 10,
+                                            spreadRadius: 1,
+                                            offset: const Offset(-2, -2),
+                                          ),
+                                        ]
+                                      ),
+                                      child: Image.network(snapshot.data?.docs[index].get('imageUrl'),
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return Center(
+                                            child: Image.asset('assets/images/headphones.png'),
+                                          );
+                                        },),
+                                    )
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    });
+              }else{
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           );
         });
   }
