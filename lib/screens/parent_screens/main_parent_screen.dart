@@ -69,6 +69,19 @@ class _MainParentScreenState extends State<MainParentScreen> {
                                       color: kBlue,
                                       size: 32,
                                     )),
+                                IconButton(
+                                    onPressed: () =>
+                                        data.sendNotificationToKid(
+                                            'dgpc8b_aR_ylWHNa_DWpJS:APA91bGTzcIt4GBIsBtR-5wj2G75j1Nqt9D9HWlHoGZmCRxlREf9kJFJ-YpMVMvjbDvTQPwD0ft76S2dS1mSFjgAfcL1B9AOwmLlH9AIyneVC9IjF__M1wY',
+                                            'title',
+                                            'dad',
+                                            'message'
+                                        ),
+                                    icon: const Icon(
+                                      Icons.notification_important,
+                                      color: kBlue,
+                                      size: 32,
+                                    )),
                               ],
                             ),
                             SelectTaskButtonWidget()

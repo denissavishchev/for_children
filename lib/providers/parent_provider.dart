@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
+import 'package:googleapis_auth/auth_io.dart' as auth;
 
 class ParentProvider with ChangeNotifier {
 
@@ -531,8 +532,9 @@ class ParentProvider with ChangeNotifier {
     DocumentSnapshot<Map<String, dynamic>> kidDoc = await FirebaseFirestore.
     instance.collection('users').doc(selectedKidEmail.toLowerCase()).get();
     String? kidToken = kidDoc.data()?['fcmToken'];
-    if (kidToken != null) {
-      sendNotificationToKid(kidToken, "Masz nowe zadanie do wykonania!");
+    bool isNotification = kidDoc.data()?['notificationsNewTask'] ?? true;
+    if (kidToken != null && isNotification) {
+      sendNotificationToKid(kidToken, 'newTaskToDo'.tr(), parentName, addTaskNameController.text);
     }
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
@@ -587,6 +589,13 @@ class ParentProvider with ChangeNotifier {
         'expQty' : selectedExp.toString(),
         'daysNumber' : List.filled(daySlider.toInt(), 0),
       });
+      DocumentSnapshot<Map<String, dynamic>> kidDoc = await FirebaseFirestore.
+      instance.collection('users').doc(selectedKidEmail.toLowerCase()).get();
+      String? kidToken = kidDoc.data()?['fcmToken'];
+      bool isNotification = kidDoc.data()?['notificationsNewTask'] ?? true;
+      if (kidToken != null && isNotification) {
+        sendNotificationToKid(kidToken, 'newTaskToDo'.tr(), parentName, addTaskNameController.text);
+      }
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
       addTaskPriceController.clear();
@@ -1068,32 +1077,57 @@ class ParentProvider with ChangeNotifier {
     getKids();
   }
 
-  Future<void> sendNotificationToKid(String token, String message) async {
+  Future<void> sendNotificationToKid(String token, String title, String fromWho, String message) async {
     final dio = Dio();
-    log('parentToken: $token');
+    final serviceAccountJson = {
+      "type": "service_account",
+      "private_key_id": "any_random_id",
+      "client_id": "123456789",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_x509_cert_url": dotenv.env['CLIENT_CERT_URL'].toString(),
+      "project_id": dotenv.env['PROJECT_ID'].toString(),
+      "private_key": dotenv.env['FIREBASE_PRIVATE_KEY']?.replaceAll(r'\n', '\n'),
+      "client_email": dotenv.env['CLIENT_EMAIL'].toString(),
+    };
+
+    final scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+
     try {
+      final accountCredentials = auth.ServiceAccountCredentials.fromJson(serviceAccountJson);
+      final client = await auth.clientViaServiceAccount(accountCredentials, scopes);
+      final accessToken = client.credentials.accessToken.data;
+
       final response = await dio.post(
-        'https://fcm.googleapis.com/fcm/send',
+        'https://fcm.googleapis.com/v1/projects/${serviceAccountJson['project_id']}/messages:send',
         options: Options(
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': dotenv.env['FIREBASE_PRIVATE_KEY']?.replaceAll(r'\n', '\n'),
+            'Authorization': 'Bearer $accessToken',
           },
         ),
         data: {
-          'notification': {
-            'body': message,
-            'title': 'newTaskAdded',
-            'sound': 'default',
-          },
-          'priority': 'high',
-          'to': token,
+          "message": {
+            "token": token,
+            "notification": {
+              "title": '$title $fromWho',
+              "body": message
+            },
+            "android": {
+              "priority": "high",
+              "notification": {
+                "channel_id": "high_importance_channel",
+                 "icon": "ic_launcher",
+              }
+            }
+          }
         },
       );
-
       if (response.statusCode == 200) {
         log("Notification sent successfully");
       }
+      client.close();
     } on DioException catch (e) {
       log("Error Dio: ${e.response?.data ?? e.message}");
     } catch (e) {

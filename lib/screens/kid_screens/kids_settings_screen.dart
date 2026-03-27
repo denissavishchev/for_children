@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,13 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
               return Stack(
                 alignment: Alignment.center,
                 children: [
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: SvgPicture.asset('assets/icons/settings.svg',
+                        width: size.width * 0.8,
+                        colorFilter: ColorFilter.mode(kDarkWhite, BlendMode.srcIn),
+                      )),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: SingleChildScrollView(
@@ -56,7 +64,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                   const Spacer(),
                                   Text('${parent.name}', style: kBigTextStyle,),
                                   const SizedBox(width: 12,),
-                                  Text('${parent.email}', 
+                                  Text('${parent.email}',
                                     style: kTextStyle.copyWith(color: kBlue.withValues(alpha: 0.6)),),
                                   const Spacer(),
                                   const SizedBox(width: 32,)
@@ -194,6 +202,28 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                 ],
                               ),
                               const SizedBox(height: 38,),
+                              Row(
+                                spacing: 12,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(child: Text('switchNotifications'.tr(), style: kTextStyle,)),
+                                  StreamBuilder<DocumentSnapshot>(
+                                    stream: FirebaseFirestore.instance.collection('users').doc(parent.email).snapshots(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState == ConnectionState.waiting) return const CircularProgressIndicator();
+                                      final dataMap = snapshot.data!.data() as Map<String, dynamic>?;
+                                      bool isEnabled = (dataMap != null && dataMap.containsKey('notificationsNewTask'))
+                                          ? dataMap['notificationsNewTask']
+                                          : true;
+                                      return Switch(
+                                        value: isEnabled,
+                                        onChanged: (value) => data.switchNewTaskNotifications('${parent.email}'),
+                                      );
+                                    },
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 38,),
                               LogoutButtonWidget(),
                             ],
                           ),
@@ -209,13 +239,6 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                         onTap: () => data.switchSettingsKidInfo(),
                         text: 'settingsKidInfo',
                         height: 0.2,)),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: SvgPicture.asset('assets/icons/settings.svg',
-                          width: size.width * 0.8,
-                          colorFilter: ColorFilter.mode(kDarkWhite, BlendMode.srcIn),
-                          )),
                   KidBottomNavigationBarWidget()
                 ],
               );

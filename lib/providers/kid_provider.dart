@@ -353,8 +353,6 @@ class KidProvider with ChangeNotifier {
       String? token = await messaging.getToken();
 
       if (token != null) {
-        log('FCMToken: $token');
-
         await FirebaseFirestore.instance
             .collection('users')
             .doc(prefs.getString('email'))
@@ -368,5 +366,22 @@ class KidProvider with ChangeNotifier {
     }
   }
 
+  Future<void> switchNewTaskNotifications(String docId) async {
+      final docRef = FirebaseFirestore.instance.collection('users').doc(docId);
+      final snapshot = await docRef.get();
+      bool newValue;
+      if (snapshot.exists) {
+        final data = snapshot.data();
+        bool currentValue = (data != null && data.containsKey('notificationsNewTask'))
+            ? data['notificationsNewTask']
+            : true;
+        newValue = !currentValue;
+      } else {
+        newValue = true;
+      }
+      await docRef.set({
+        'notificationsNewTask': newValue,
+      }, SetOptions(merge: true));
+  }
 
 }
