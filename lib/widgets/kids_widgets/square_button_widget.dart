@@ -7,10 +7,12 @@ class SquareButtonWidget extends StatelessWidget {
     super.key,
     required this.icon,
     required this.onTap,
+    this.color = kOrange,
   });
 
   final IconData icon;
   final Function() onTap;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class SquareButtonWidget extends StatelessWidget {
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: [
-                  kOrange,
+                  color,
                   kWhite
                 ],
                 begin: Alignment.bottomRight,

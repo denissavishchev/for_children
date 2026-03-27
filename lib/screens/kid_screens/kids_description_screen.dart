@@ -34,12 +34,40 @@ class KidsDescriptionScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(12),
                       child: Row(
+                        spacing: 12,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(snapshot.docs[index].get(data.role == 'parent'
-                              ? 'kidName' : 'parentName'),
-                            style: kBigTextStyle,),
+                          Expanded(
+                            child: Container(
+                              height: 40,
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        kBlue.withValues(alpha: 0.7),
+                                        kWhite.withValues(alpha: 0.7),
+                                      ]
+                                  ),
+                                  border: Border.all(color: kWhite, width: 0.5),
+                                  borderRadius: const BorderRadius.all(Radius.circular(8)
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kBlue.withValues(alpha: 0.4),
+                                        blurRadius: 6,
+                                        spreadRadius: 1,
+                                        offset: const Offset(2, 4)
+                                    )
+                                  ]
+                              ),
+                              child: Text(snapshot.docs[index].get(data.role == 'parent'
+                                  ? 'kidName' : 'parentName'),
+                                style: kBigTextStyle,),
+                            ),
+                          ),
                           SquareButtonWidget(
+                            color: kBlue,
                             icon: Icons.close,
                             onTap: () {
                               data.pageIndex = 0;
@@ -56,18 +84,25 @@ class KidsDescriptionScreen extends StatelessWidget {
                     Container(
                       height: 60,
                       width: size.width,
+                      alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.all(12),
                       margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                        color: kOrange.withValues(alpha: 0.7),
-                        border: Border.all(color: kWhite, width: 1),
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(18)
+                        gradient: LinearGradient(
+                            colors: [
+                              kBlue.withValues(alpha: 0.7),
+                              kBlue.withValues(alpha: 0.7),
+                              kWhite.withValues(alpha: 0.7),
+                          ]
+                        ),
+                        border: Border.all(color: kWhite, width: 0.5),
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(18)
                         ),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.15),
-                                blurRadius: 4,
+                                color: kBlue.withValues(alpha: 0.4),
+                                blurRadius: 12,
                                 spreadRadius: 1,
                                 offset: const Offset(2, 2)
                             )
@@ -78,20 +113,26 @@ class KidsDescriptionScreen extends StatelessWidget {
                     ),
                     Container(
                       width: size.width,
-                      padding: const EdgeInsets.only(left: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                        color: kOrange.withValues(alpha: 0.7),
-                        border: Border.all(color: kWhite, width: 1),
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(18)
+                          gradient: LinearGradient(
+                              colors: [
+                                kBlue.withValues(alpha: 0.7),
+                                kBlue.withValues(alpha: 0.7),
+                                kWhite.withValues(alpha: 0.7),
+                              ]
+                          ),
+                        border: Border.all(color: kWhite, width: 0.5),
+                        borderRadius: const BorderRadius.vertical(
+                            bottom: Radius.circular(18)
                         ),
                           boxShadow: [
                             BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.15),
-                                blurRadius: 4,
+                                color: kDarkGrey.withValues(alpha: 0.4),
+                                blurRadius: 12,
                                 spreadRadius: 1,
-                                offset: const Offset(2, 2)
+                                offset: const Offset(2, 6)
                             )
                           ]
                       ),
@@ -136,14 +177,23 @@ class KidsDescriptionScreen extends StatelessWidget {
                             margin: EdgeInsets.fromLTRB(12, 12,
                                 snapshot.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
                             decoration: BoxDecoration(
-                                color: kOrange.withValues(alpha: 0.7),
-                                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                gradient: LinearGradient(
+                                    colors: [
+                                      kBlue.withValues(alpha: 0.9),
+                                      kWhite.withValues(alpha: 0.7)
+                                    ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  stops: const [0.1, 0.9]
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                border: Border.all(color: kWhite, width: 0.5),
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.15),
-                                      blurRadius: 4,
+                                      color: kDarkGrey.withValues(alpha: 0.4),
+                                      blurRadius: 12,
                                       spreadRadius: 1,
-                                      offset: const Offset(2, 2)
+                                      offset: const Offset(2, 6)
                                   )
                                 ]
                             ),
@@ -173,15 +223,40 @@ class KidsDescriptionScreen extends StatelessWidget {
                           ),)
                       ],
                     ),
-                    snapshot.docs[index].get('status') == 'price'
-                        ? _buildPrice(snapshot, data, context, size)
-                        : snapshot.docs[index].get('status') == 'inProgress'
-                        ? _buildInProgress(snapshot, data, context, size)
-                        : snapshot.docs[index].get('status') == 'done'
-                        ? _buildDone(snapshot, data, context, size)
-                        : snapshot.docs[index].get('status') == 'checked'
-                        ? _buildChecked(snapshot, data, context, size)
-                        : _buildComplete(snapshot),
+                    const SizedBox(height: 20,),
+                    Container(
+                      width: size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                          color: kWhite,
+                          border: Border.all(color: kBlue, width: 0.5),
+                          borderRadius: const BorderRadius.all(Radius.circular(18)
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: kBlue.withValues(alpha: 0.1),
+                                blurRadius: 12,
+                                spreadRadius: 1,
+                                offset: const Offset(-2, -2)
+                            ),
+                            BoxShadow(
+                                color: kGrey.withValues(alpha: 0.4),
+                                blurRadius: 12,
+                                spreadRadius: 1,
+                                offset: const Offset(4, 4)
+                            )
+                          ]
+                      ),
+                      child: snapshot.docs[index].get('status') == 'price'
+                          ? _buildPrice(snapshot, data, context, size)
+                          : snapshot.docs[index].get('status') == 'inProgress'
+                          ? _buildInProgress(snapshot, data, context, size)
+                          : snapshot.docs[index].get('status') == 'done'
+                          ? _buildDone(snapshot, data, context, size)
+                          : snapshot.docs[index].get('status') == 'checked'
+                          ? _buildChecked(snapshot, data, context, size)
+                          : _buildComplete(snapshot),
+                    ),
                     const SizedBox(height: 20,),
                     data.role == 'parent' && snapshot.docs[index].get('status') == 'paid'
                         ? IconButton(
@@ -458,33 +533,33 @@ class KidsDescriptionScreen extends StatelessWidget {
   _buildPrice(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child:  (snapshot.docs[index].get('priceStatus') == 'set' && data.role == 'child') ||
+      child: (snapshot.docs[index].get('priceStatus') == 'set' && data.role == 'child') ||
           (snapshot.docs[index].get('priceStatus') == 'changed' && data.role == 'parent')
           ? Column(
         children: [
           const SizedBox(height: 18,),
           Row(
+            spacing: 8,
             children: [
               Expanded(
                 child: TextField(
                   controller: data.priceController,
                   cursorColor: kDarkGrey,
-                  style: kTextStyleWhite,
+                  style: kTextStyle,
                   decoration: textFieldDecoration.copyWith(
-                      label: Text('price'.tr(), style: kTextStyleWhite,),),
+                      label: Text('price'.tr(), style: kTextStyle,),),
                 ),
               ),
-              IconButton(
-                  onPressed: () {
-                    data.changePriceStatus(snapshot, index, data.role, data.pageIndex == 0);
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) =>
-                        data.role == 'parent'
-                            ? const MainParentScreen()
-                            : const MainKidScreen()));
-                  },
-                  icon: const Icon(Icons.change_circle_outlined)
-              )
+              GestureDetector(
+                onTap: () {
+                  data.changePriceStatus(snapshot, index, data.role, data.pageIndex == 0);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) =>
+                      data.role == 'parent'
+                          ? const MainParentScreen()
+                          : const MainKidScreen()));
+                },
+                  child: const Icon(Icons.change_circle_outlined, color: kOrange,))
             ],
           ),
           const SizedBox(height: 12,),
