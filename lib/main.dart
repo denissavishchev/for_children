@@ -7,6 +7,7 @@ import 'package:for_children/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'providers/parent_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,6 +15,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: 'firebase.env');
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL'].toString(),
+    anonKey: dotenv.env['SUPABASE_ANON_KEY'].toString(),
+  );
   await Firebase.initializeApp(
       options: FirebaseOptions(
           apiKey: dotenv.env['FIREBASE_API_KEY'].toString(),
