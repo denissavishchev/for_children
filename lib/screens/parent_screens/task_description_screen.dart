@@ -29,182 +29,182 @@ class TaskDescriptionScreen extends StatelessWidget {
       body: Consumer<ParentProvider>(
           builder: (context, data, _){
             return SingleChildScrollView(
-              // child: Column(
-              //   children: [
-              //     const SizedBox(height: 60,),
-              //     Padding(
-              //       padding: const EdgeInsets.only(left: 12),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Text(snapshot[index].get(data.role == 'parent'
-              //               ? 'kidName' : 'parentName'),
-              //             style: kBigTextStyle,),
-              //           IconButton(
-              //             onPressed: () => Navigator.pushReplacement(context,
-              //                 MaterialPageRoute(builder: (context) =>
-              //                 data.role == 'parent'
-              //                    ? const MainParentScreen()
-              //                    : const MainKidScreen())),
-              //             icon: const Icon(Icons.close, size: 40,), color: kBlue,)
-              //         ],
-              //       ),
-              //     ),
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         SizedBox(
-              //           height: 104,
-              //           child: IntrinsicWidth(
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Container(
-              //                   height: 60,
-              //                   width: size.width,
-              //                   padding: const EdgeInsets.all(12),
-              //                   decoration: BoxDecoration(
-              //                     color: kBlue.withValues(alpha: 0.1),
-              //                     borderRadius: const BorderRadius.horizontal(
-              //                         right: Radius.circular(4)
-              //                     ),
-              //                   ),
-              //                   child: Text(snapshot.docs[index].get('taskName'),
-              //                     style: kBigTextStyle,),
-              //                 ),
-              //                 Divider(color: kBlue.withValues(alpha: 0.2), height: 0.1,),
-              //                 Container(
-              //                   width: size.width,
-              //                   padding: const EdgeInsets.only(left: 12),
-              //                   color: kBlue.withValues(alpha: 0.1),
-              //                   child: Column(
-              //                     children: [
-              //                       Row(
-              //                         children: [
-              //                           Text('taskPrice'.tr(),
-              //                             style: kTextStyle.copyWith(
-              //                                 color: kBlue.withValues(alpha: 0.6)),),
-              //                           Text(snapshot.docs[index].get('price'),
-              //                             style: kTextStyle,),
-              //                         ],
-              //                       ),
-              //                       snapshot.docs[index].data().containsKey('deadline')
-              //                         ? Row(
-              //                         children: [
-              //                           Text(snapshot.docs[index].get('deadline') != 'false'
-              //                               ? 'taskDeadline'.tr()
-              //                               : '',
-              //                             style: kTextStyle.copyWith(
-              //                                 color: kBlue.withValues(alpha: 0.6)),),
-              //                           Text(snapshot.docs[index].get('deadline') == 'false'
-              //                               ? 'withoutDeadline'.tr()
-              //                               : snapshot.docs[index].get('deadline') != null
-              //                               ? DateFormat('dd-MM-yyyy').format(
-              //                               DateTime.parse(snapshot.docs[index].get('deadline')))
-              //                               : snapshot.docs[index].get('deadline'),
-              //                             style: kTextStyle,),
-              //                         ],
-              //                       )
-              //                       : SizedBox.shrink(),
-              //                     ],
-              //                   ),
-              //                 )
-              //               ],
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //     Row(
-              //       children: [
-              //         Expanded(
-              //           child: Container(
-              //             height: 300,
-              //             padding: const EdgeInsets.all(12),
-              //             margin: EdgeInsets.fromLTRB(12, 12,
-              //                 snapshot.docs[index].get('imageUrl') == 'false' ? 12 : 3, 0),
-              //             decoration: BoxDecoration(
-              //                 color: kBlue.withValues(alpha: 0.1),
-              //                 borderRadius: const BorderRadius.all(Radius.circular(4))
-              //             ),
-              //             child: Text(snapshot.docs[index].get('description'), style: kTextStyle),
-              //           ),
-              //         ),
-              //         snapshot.docs[index].get('imageUrl') == 'false'
-              //             ? const SizedBox.shrink()
-              //             : Expanded(
-              //           child: Container(
-              //             height: 300,
-              //             clipBehavior: Clip.hardEdge,
-              //             margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
-              //             decoration: BoxDecoration(
-              //               color: kBlue.withValues(alpha: 0.3),
-              //               borderRadius: const BorderRadius.all(Radius.circular(4)),
-              //             ),
-              //             child: Image.network(snapshot.docs[index].get('imageUrl'), fit: BoxFit.cover),
-              //           ),)
-              //       ],
-              //     ),
-              //     snapshot.docs[index].get('status') == 'price'
-              //     ? _buildPrice(snapshot, data, context, size)
-              //     : snapshot.docs[index].get('status') == 'inProgress'
-              //     ? _buildInProgress(snapshot, data, context, size)
-              //     : snapshot.docs[index].get('status') == 'done'
-              //     ? _buildDone(snapshot, data, context, size)
-              //     : snapshot.docs[index].get('status') == 'checked'
-              //     ? _buildChecked(snapshot, data, context, size)
-              //     : _buildComplete(snapshot),
-              //     const SizedBox(height: 20,),
-              //     data.role == 'parent' && snapshot.docs[index].get('status') == 'paid'
-              //     ? IconButton(
-              //         onPressed: () => data.addTaskToHistory(context, snapshot, index,
-              //             snapshot.docs[index].get('parentName'),
-              //             snapshot.docs[index].get('parentEmail'),
-              //             snapshot.docs[index].get('kidName'),
-              //             snapshot.docs[index].get('kidEmail'),
-              //             snapshot.docs[index].get('taskName'),
-              //             snapshot.docs[index].get('description'),
-              //             snapshot.docs[index].get('price'),
-              //             snapshot.docs[index].get('stars'),
-              //             snapshot.docs[index].get('imageUrl'),
-              //             snapshot.docs[index].data().containsKey('type') ? snapshot.docs[index].get('type') : 'home',
-              //             snapshot.docs[index].data().containsKey('expQty') ? snapshot.docs[index].get('expQty') : '1',
-              //         ),
-              //         icon: const Icon(Icons.history, size: 32, color: kBlue,))
-              //     : data.role == 'parent'
-              //         && snapshot.docs[index].get('status') == 'price'
-              //         && snapshot.docs[index].get('priceStatus') == 'set'
-              //     ? Padding(
-              //       padding: const EdgeInsets.symmetric(horizontal: 18),
-              //       child: Row(
-              //         children: [
-              //           Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyle,)),
-              //           IconButton(
-              //               onPressed: () {
-              //                 if(data.pageIndex == 0){
-              //                 data.searchSingleTaskForEditing(snapshot.docs[index].id.toString());
-              //                 Navigator.pushReplacement(context,
-              //                 MaterialPageRoute(builder: (context) =>
-              //                 const AddSingleTaskScreen()));
-              //               }else{
-              //                   data.searchMultiTaskForEditing(snapshot.docs[index].id.toString());
-              //                   Navigator.pushReplacement(context,
-              //                       MaterialPageRoute(builder: (context) =>
-              //                       const AddMultiTaskScreen()));
-              //               }},
-              //               icon: const Icon(Icons.edit, size: 32, color: kBlue,))
-              //         ],
-              //       ),
-              //     )
-              //         : const SizedBox.shrink()
-              //   ],
-              // ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 60,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(snapshot[data.role == 'parent'
+                            ? 'kidName' : 'parentName'],
+                          style: kBigTextStyle,),
+                        IconButton(
+                          onPressed: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              data.role == 'parent'
+                                 ? const MainParentScreen()
+                                 : const MainKidScreen())),
+                          icon: const Icon(Icons.close, size: 40,), color: kBlue,)
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 104,
+                        child: IntrinsicWidth(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 60,
+                                width: size.width,
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: kBlue.withValues(alpha: 0.1),
+                                  borderRadius: const BorderRadius.horizontal(
+                                      right: Radius.circular(4)
+                                  ),
+                                ),
+                                child: Text(snapshot['taskName'],
+                                  style: kBigTextStyle,),
+                              ),
+                              Divider(color: kBlue.withValues(alpha: 0.2), height: 0.1,),
+                              Container(
+                                width: size.width,
+                                padding: const EdgeInsets.only(left: 12),
+                                color: kBlue.withValues(alpha: 0.1),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('taskPrice'.tr(),
+                                          style: kTextStyle.copyWith(
+                                              color: kBlue.withValues(alpha: 0.6)),),
+                                        Text(snapshot['price'],
+                                          style: kTextStyle,),
+                                      ],
+                                    ),
+                                    snapshot.containsKey('deadline')
+                                      ? Row(
+                                      children: [
+                                        Text(snapshot['deadline'] != 'false'
+                                            ? 'taskDeadline'.tr()
+                                            : '',
+                                          style: kTextStyle.copyWith(
+                                              color: kBlue.withValues(alpha: 0.6)),),
+                                        Text(snapshot['deadline'] == 'false'
+                                            ? 'withoutDeadline'.tr()
+                                            : snapshot['deadline'] != null
+                                            ? DateFormat('dd-MM-yyyy').format(
+                                            DateTime.parse(snapshot['deadline']))
+                                            : snapshot['deadline'],
+                                          style: kTextStyle,),
+                                      ],
+                                    )
+                                    : SizedBox.shrink(),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 300,
+                          padding: const EdgeInsets.all(12),
+                          margin: EdgeInsets.fromLTRB(12, 12,
+                              snapshot['imageUrl'] == 'false' ? 12 : 3, 0),
+                          decoration: BoxDecoration(
+                              color: kBlue.withValues(alpha: 0.1),
+                              borderRadius: const BorderRadius.all(Radius.circular(4))
+                          ),
+                          child: Text(snapshot['description'], style: kTextStyle),
+                        ),
+                      ),
+                      snapshot['imageUrl'] == 'false'
+                          ? const SizedBox.shrink()
+                          : Expanded(
+                        child: Container(
+                          height: 300,
+                          clipBehavior: Clip.hardEdge,
+                          margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
+                          decoration: BoxDecoration(
+                            color: kBlue.withValues(alpha: 0.3),
+                            borderRadius: const BorderRadius.all(Radius.circular(4)),
+                          ),
+                          child: Image.network(snapshot['imageUrl'], fit: BoxFit.cover),
+                        ),)
+                    ],
+                  ),
+                  snapshot['status'] == 'price'
+                  ? _buildPrice(snapshot, data, context, size)
+                  : snapshot['status'] == 'inProgress'
+                  ? _buildInProgress(snapshot, data, context, size)
+                  : snapshot['status'] == 'done'
+                  ? _buildDone(snapshot, data, context, size)
+                  : snapshot['status'] == 'checked'
+                  ? _buildChecked(snapshot, data, context, size)
+                  : _buildComplete(snapshot),
+                  const SizedBox(height: 20,),
+                  data.role == 'parent' && snapshot['status'] == 'paid'
+                  ? IconButton(
+                      onPressed: () => data.addTaskToHistory(context, snapshot, index,
+                          snapshot['parentName'],
+                          snapshot['parentEmail'],
+                          snapshot['kidName'],
+                          snapshot['kidEmail'],
+                          snapshot['taskName'],
+                          snapshot['description'],
+                          snapshot['price'],
+                          snapshot['stars'],
+                          snapshot['imageUrl'],
+                          snapshot.containsKey('type') ? snapshot['type'] : 'home',
+                          snapshot.containsKey('expQty') ? snapshot['expQty'] : '1',
+                      ),
+                      icon: const Icon(Icons.history, size: 32, color: kBlue,))
+                  : data.role == 'parent'
+                      && snapshot['status'] == 'price'
+                      && snapshot['priceStatus'] == 'set'
+                  ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyle,)),
+                        IconButton(
+                            onPressed: () {
+                              if(data.pageIndex == 0){
+                              data.searchSingleTaskForEditing(snapshot.docs[index].id.toString());
+                              Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              const AddSingleTaskScreen()));
+                            }else{
+                                data.searchMultiTaskForEditing(snapshot.docs[index].id.toString());
+                                Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) =>
+                                    const AddMultiTaskScreen()));
+                            }},
+                            icon: const Icon(Icons.edit, size: 32, color: kBlue,))
+                      ],
+                    ),
+                  )
+                      : const SizedBox.shrink()
+                ],
+              ),
             );
           }),
     );
   }
 
-  _buildComplete(QuerySnapshot<Map<String, dynamic>> snapshot){
+  _buildComplete(Map<String, dynamic> snapshot){
     return Padding(
         padding: const EdgeInsets.all(12),
       child: Column(
@@ -212,7 +212,7 @@ class TaskDescriptionScreen extends StatelessWidget {
           const SizedBox(height: 8,),
           Center(
             child: RatingBar(
-              initialRating: double.parse(snapshot.docs[index].get('stars')),
+              initialRating: double.parse(snapshot['stars']),
               ignoreGestures: true,
               allowHalfRating: false,
               itemCount: 3,
@@ -250,13 +250,13 @@ class TaskDescriptionScreen extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(
                   width: 2,
-                  color: snapshot.docs[index].get('status') == 'paid'
+                  color: snapshot['status'] == 'paid'
                       ? kGreen : kRed),
               borderRadius: const BorderRadius.all(Radius.circular(12))
             ),
             child: Center(child: Text(
               'paid'.tr(),
-              style: snapshot.docs[index].get('status') == 'paid'
+              style: snapshot['status'] == 'paid'
                   ? kGreenTextStyle : kRedTextStyle,)),
           )
         ],
@@ -264,7 +264,7 @@ class TaskDescriptionScreen extends StatelessWidget {
     );
   }
 
-  _buildChecked(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
+  _buildChecked(Map<String, dynamic> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: data.role == 'child'
@@ -272,7 +272,7 @@ class TaskDescriptionScreen extends StatelessWidget {
         children: [
           Center(
             child: RatingBar(
-              initialRating: double.parse(snapshot.docs[index].get('stars')),
+              initialRating: double.parse(snapshot['stars']),
               ignoreGestures: true,
               allowHalfRating: false,
               itemCount: 3,
@@ -318,7 +318,7 @@ class TaskDescriptionScreen extends StatelessWidget {
     );
   }
 
-  _buildDone(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
+  _buildDone(Map<String, dynamic> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: data.role == 'parent'
@@ -369,15 +369,15 @@ class TaskDescriptionScreen extends StatelessWidget {
           )
         ],
       )
-          : Text('waitingForPay'.tr(args: [snapshot.docs[index].get(
+          : Text('waitingForPay'.tr(args: [snapshot[
           data.role == 'parent'
               ? 'kidName'
               : 'parentName'
-      )]), style: kTextStyle,),
+      ]]), style: kTextStyle,),
     );
   }
 
-  _buildInProgress(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
+  _buildInProgress(Map<String, dynamic> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: data.role == 'child'
@@ -391,19 +391,19 @@ class TaskDescriptionScreen extends StatelessWidget {
           )
         ],
       )
-          : Text('waitingForDone'.tr(args: [snapshot.docs[index].get(
+          : Text('waitingForDone'.tr(args: [snapshot[
           data.role == 'parent'
               ? 'kidName'
               : 'parentName'
-      )]), style: kTextStyle,),
+      ]]), style: kTextStyle,),
     );
   }
 
-  _buildPrice(QuerySnapshot<Map<String, dynamic>> snapshot, ParentProvider data, context, Size size) {
+  _buildPrice(Map<String, dynamic> snapshot, ParentProvider data, context, Size size) {
     return Padding(
             padding: const EdgeInsets.all(12.0),
-             child:  (snapshot.docs[index].get('priceStatus') == 'set' && data.role == 'child') ||
-                 (snapshot.docs[index].get('priceStatus') == 'changed' && data.role == 'parent')
+             child:  (snapshot['priceStatus'] == 'set' && data.role == 'child') ||
+                 (snapshot['priceStatus'] == 'changed' && data.role == 'parent')
             ? Column(
               children: [
                 const SizedBox(height: 18,),
@@ -438,11 +438,11 @@ class TaskDescriptionScreen extends StatelessWidget {
                   text: 'acceptPriceChangeStatus',),
               ],
             )
-            : Text('waitingForPrice'.tr(args: [snapshot.docs[index].get(
+            : Text('waitingForPrice'.tr(args: [snapshot[
                  data.role == 'parent'
                      ? 'kidName'
                      : 'parentName'
-             )]), style: kTextStyle,),
+             ]]), style: kTextStyle,),
           );
   }
 }

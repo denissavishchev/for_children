@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +12,7 @@ class StatusWidget extends StatelessWidget {
     this.border = true,
   });
 
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final Map<String, dynamic> snapshot;
   final int index;
   final String name;
   final bool border;
@@ -26,15 +25,15 @@ class StatusWidget extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(4)),
         border: border ? Border.all(
           width: 0.5,
-          color: snapshot.docs[index].get('status') == name
+          color: snapshot['status'] == name
             ? kBlue : Colors.transparent,) : null
       ),
       child: Text(name.tr(),
-        style: snapshot.docs[index].get('status') == name &&
-            snapshot.docs[index].get('priceStatus') == 'changed'
+        style: snapshot['status'] == name &&
+            snapshot['priceStatus'] == 'changed'
             ? kRedTextStyle
-            : snapshot.docs[index].get('status') == name &&
-            snapshot.docs[index].get('priceStatus') == 'set'
+            : snapshot['status'] == name &&
+            snapshot['priceStatus'] == 'set'
             ? kGreenTextStyle
             : kSmallTextStyle,),
     );

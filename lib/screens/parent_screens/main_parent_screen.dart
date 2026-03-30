@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
@@ -82,12 +84,13 @@ class _MainParentScreenState extends State<MainParentScreen> {
                                 .from('tasks')
                                 .stream(primaryKey: ['id'])
                                 .order('time', ascending: false),
-                            Supabase.instance.client
-                                .from('multiTasks')
-                                .stream(primaryKey: ['id'])
-                                .order('time', ascending: false),
+                            // Supabase.instance.client
+                            //     .from('multiTasks')
+                            //     .stream(primaryKey: ['id'])
+                            //     .order('time', ascending: false),
                           ]),
                           builder: (context, snapshot){
+                            log('data: ${snapshot.data}');
                             if (!snapshot.hasData) return CircularProgressIndicator();
                             return SizedBox(
                               height: size.height * 0.8,

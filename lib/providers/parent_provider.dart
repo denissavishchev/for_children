@@ -430,7 +430,7 @@ class ParentProvider with ChangeNotifier {
   Future<void> pickAnImage() async {
     ImagePicker imagePicker = ImagePicker();
 
-    final XFile? file = await imagePicker.pickImage(
+    file = await imagePicker.pickImage(
       source: ImageSource.camera,
       imageQuality: 30,
       maxWidth: 800,
@@ -439,14 +439,10 @@ class ParentProvider with ChangeNotifier {
     if (file == null) {
       return;
     }
-
-    final File fileToUpload = File(file.path);
-
+    final File fileToUpload = File(file!.path);
     fileName = DateTime.now().millisecondsSinceEpoch.toString();
-
     try {
       final String bucketName = 'images';
-
       await Supabase.instance.client.storage
           .from(bucketName)
           .upload(
@@ -456,7 +452,6 @@ class ParentProvider with ChangeNotifier {
       imageUrl = Supabase.instance.client.storage
           .from(bucketName)
           .getPublicUrl(fileName);
-
     } catch (e) {
       log('❌ Błąd Supabase przy wgrywaniu zdjęcia: $e');
     }
@@ -552,24 +547,17 @@ class ParentProvider with ChangeNotifier {
     isLoading = true;
     notifyListeners();
     if(selectedKidName != ''){
-    if(fileName != ''){
-      try{
-        await imageToUpload.putFile(File(file!.path));
-        imageUrl = await imageToUpload.getDownloadURL();
-      }catch(e){
-        return;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final Map<String, dynamic>? doc = await Supabase.instance.client
+          .from('users')
+          .select('name')
+          .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+          .maybeSingle();
+      String parentName = '';
+      if(doc != null){
+        parentName = doc['name'];
       }
-    }
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final Map<String, dynamic>? doc = await Supabase.instance.client
-        .from('users')
-        .select('name')
-        .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
-        .maybeSingle();
-    String parentName = '';
-    if(doc != null){
-      parentName = doc['name'];
-    }
+
     await Supabase.instance.client
         .from('tasks')
         .insert({
@@ -624,14 +612,6 @@ class ParentProvider with ChangeNotifier {
     isLoading = true;
     notifyListeners();
     if(selectedKidName != ''){
-      if(fileName != ''){
-        try{
-          await imageToUpload.putFile(File(file!.path));
-          imageUrl = await imageToUpload.getDownloadURL();
-        }catch(e){
-          return;
-        }
-      }
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.getString('email');
       DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
@@ -753,7 +733,7 @@ class ParentProvider with ChangeNotifier {
     });
   }
 
-  Future<void>addTaskToHistory(context, QuerySnapshot<Map<String, dynamic>> snapshot,
+  Future<void>addTaskToHistory(context, Map<String, dynamic> snapshot,
       int index, String parentName, String parentEmail, String kidName, String kidEmail,
       String taskName, String description, String price, String stars, String url, String type, String expQty)async {
     Size size = MediaQuery.sizeOf(context);
@@ -952,8 +932,8 @@ class ParentProvider with ChangeNotifier {
     if(isEdit){
       if(fileName == 'false'){
         return const SizedBox.shrink();
-      }else if(fileName.contains('https://firebasestorage')){
-        return Image.network(fileName);
+      }else if(fileName.contains('https://pwwvrdktfdzokxnovokf.supabase.co')){
+        return Image.network(imageUrl);
       }
     }else{
       if(fileName == '' || file!.path == ''){
