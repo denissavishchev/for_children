@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import 'kid_stars_widget.dart';
 import 'kid_status_widget.dart';
-
 
 class KidSingleBasicContainerWidget extends StatelessWidget {
   const KidSingleBasicContainerWidget({
@@ -19,7 +17,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
   });
 
   final double height;
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final Map<String, dynamic> snapshot;
   final int index;
   final String nameOf;
 
@@ -94,7 +92,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                 children: [
                                   Text('taskFrom'.tr(),
                                     style: kTextStyle,),
-                                  Text(snapshot.docs[index].get(nameOf),
+                                  Text(snapshot[nameOf],
                                     style: kBigTextStyle,),
                                 ],
                               ),
@@ -103,7 +101,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                 children: [
                                   Text(('type'.tr()),
                                     style: kTextStyle,),
-                                  Text((snapshot.docs[index].get('type')),
+                                  Text((snapshot['type']),
                                     style: kTextStyle,),
                                 ],
                               ),
@@ -112,7 +110,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 8),
-                          child: Text(snapshot.docs[index].get('taskName'),
+                          child: Text(snapshot['taskName'],
                             style: kBigTextStyle,),
                         ),
                         Padding(
@@ -122,7 +120,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                               Text('taskPrice'.tr(),
                                 style: kTextStyle.copyWith(
                                     color: kBlue.withValues(alpha: 0.6)),),
-                              Text(snapshot.docs[index].get('price'),
+                              Text(snapshot['price'],
                                 style: kTextStyle,),
                               Spacer(),
                               Row(
@@ -133,8 +131,8 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                         borderRadius: BorderRadius.all(Radius.circular(12)),
                                         boxShadow: [
                                           BoxShadow(
-                                              color: (2 - i) < (snapshot.docs[index].data().containsKey('expQty')
-                                                  ? int.parse(snapshot.docs[index].get('expQty'))
+                                              color: (2 - i) < (snapshot.containsKey('expQty')
+                                                  ? int.parse(snapshot['expQty'])
                                                   : 1)
                                                   ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
                                               blurRadius: 2,
@@ -144,7 +142,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                     ),
                                     child: SvgPicture.asset('assets/icons/pepper.svg',
                                       width: 22,
-                                      colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot.docs[index].get('expQty'))
+                                      colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot['expQty'])
                                           ? kRed : Colors.transparent, BlendMode.srcIn),
                                     ),
                                   );
@@ -186,10 +184,10 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                           color: kDarkWhite),
                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                     ),
-                    child: snapshot.docs[index].get('status') == 'checked' ||
-                        snapshot.docs[index].get('status') == 'paid'
+                    child: snapshot['status'] == 'checked' ||
+                        snapshot['status'] == 'paid'
                         ? KidStarsWidget(
-                            stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
+                            stars: double.parse(snapshot['stars']).toInt(),
                             snapshot: snapshot,
                             index: index,)
                               : Column(

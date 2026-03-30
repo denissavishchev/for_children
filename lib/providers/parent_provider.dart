@@ -458,28 +458,28 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future changePriceStatus(QuerySnapshot<Map<String, dynamic>> snapshot, int index, String? role, bool isSingle)async{
+  Future changePriceStatus(Map<String, dynamic> snapshot, int index, String? role, bool isSingle)async{
     isSingle
-    ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
-      'price': priceController.text.trim(),
-      'priceStatus': role == 'parent' ? 'set' : 'changed'
-    })
-    : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
-      'price': priceController.text.trim(),
-      'priceStatus': role == 'parent' ? 'set' : 'changed'
-    });
+      ? Supabase.instance.client
+        .from('tasks')
+        .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
+        .eq('id', snapshot['id'])
+      : Supabase.instance.client
+        .from('multiTasks')
+        .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
+        .eq('id', snapshot['id']);
   }
 
-  Future changeToInProgress(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+  Future changeToInProgress(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
     isSingle
-    ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
-      'status': 'inProgress',
-      'time' : DateTime.now().toString(),
-    })
-    : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
-      'status': 'inProgress',
-      'time' : DateTime.now().toString(),
-    });
+      ? Supabase.instance.client
+      .from('tasks')
+      .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
+      .eq('id', snapshot['id'])
+      : Supabase.instance.client
+      .from('multiTasks')
+      .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
+      .eq('id', snapshot['id']);
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         role == 'parent'
@@ -487,14 +487,16 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToDone(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle, bool changeScreen)async{
+  Future changeToDone(Map<String, dynamic> snapshot, int index, context, bool isSingle, bool changeScreen)async{
     isSingle
-        ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
-      'status': 'done'
-    })
-        : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
-      'status': 'done'
-    });
+        ? Supabase.instance.client
+          .from('tasks')
+          .update({'status': 'done'})
+          .eq('id', snapshot['id'])
+        : Supabase.instance.client
+          .from('multiTasks')
+          .update({'status': 'done'})
+          .eq('id', snapshot['id']);
     if(changeScreen){
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) =>
@@ -504,16 +506,16 @@ class ParentProvider with ChangeNotifier {
     }
   }
 
-  Future changeToChecked(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+  Future changeToChecked(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
     isSingle
-        ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
-      'status': 'checked',
-      'stars': stars.toString()
-    })
-        : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
-      'status': 'checked',
-      'stars': stars.toString()
-    });
+        ? Supabase.instance.client
+          .from('tasks')
+          .update({'status': 'checked'})
+          .eq('id', snapshot['id'])
+        : Supabase.instance.client
+          .from('multiTasks')
+          .update({'status': 'checked'})
+          .eq('id', snapshot['id']);
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         role == 'parent'
@@ -521,14 +523,16 @@ class ParentProvider with ChangeNotifier {
             : const MainKidScreen()));
   }
 
-  Future changeToPaid(QuerySnapshot<Map<String, dynamic>> snapshot, int index, context, bool isSingle)async{
+  Future changeToPaid(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
     isSingle
-        ? FirebaseFirestore.instance.collection('tasks').doc(snapshot.docs[index].id).update({
-      'status': 'paid',
-    })
-        : FirebaseFirestore.instance.collection('multiTasks').doc(snapshot.docs[index].id).update({
-      'status': 'paid',
-    });
+        ? Supabase.instance.client
+          .from('tasks')
+          .update({'status': 'paid'})
+          .eq('id', snapshot['id'])
+        : Supabase.instance.client
+          .from('multiTasks')
+          .update({'status': 'paid'})
+          .eq('id', snapshot['id']);
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         role == 'parent'
@@ -557,7 +561,6 @@ class ParentProvider with ChangeNotifier {
       if(doc != null){
         parentName = doc['name'];
       }
-
     await Supabase.instance.client
         .from('tasks')
         .insert({
@@ -661,17 +664,20 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void>editSingleTaskInBase(context, String docId)async{
-    await FirebaseFirestore.instance.collection('tasks').doc(docId).update({
-      'kidName': selectedKidName,
-      'kidEmail': selectedKidEmail,
-      'taskName': addTaskNameController.text,
-      'description': addTaskDescriptionController.text,
-      'price': addTaskPriceController.text,
-      'deadline': isDeadline ? taskDeadline.toString() : 'false',
-      'time' : DateTime.now().toString(),
-      'type' : selectedTypeStatus,
-      'expQty' : selectedExp.toString(),
-    });
+    await Supabase.instance.client
+        .from('tasks')
+        .update({
+          'kidName': selectedKidName,
+          'kidEmail': selectedKidEmail,
+          'taskName': addTaskNameController.text,
+          'description': addTaskDescriptionController.text,
+          'price': addTaskPriceController.text,
+          'deadline': isDeadline ? taskDeadline.toString() : 'false',
+          'time' : DateTime.now().toString(),
+          'type' : selectedTypeStatus,
+          'expQty' : selectedExp.toString(),
+        })
+        .eq('id', docId);
     addTaskNameController.clear();
     addTaskDescriptionController.clear();
     addTaskPriceController.clear();
@@ -689,17 +695,20 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void>editMultiTaskInBase(context, String docId)async{
-    await FirebaseFirestore.instance.collection('multiTasks').doc(docId).update({
-      'kidName': selectedKidName,
-      'kidEmail': selectedKidEmail,
-      'taskName': addTaskNameController.text,
-      'description': addTaskDescriptionController.text,
-      'price': addTaskPriceController.text,
-      'time' : DateTime.now().toString(),
-      'type' : selectedTypeStatus,
-      'expQty' : selectedExp.toString(),
-      'daysNumber' : List.filled(daySlider.toInt(), 0)
-    });
+    await Supabase.instance.client
+        .from('multiTasks')
+        .update({
+          'kidName': selectedKidName,
+          'kidEmail': selectedKidEmail,
+          'taskName': addTaskNameController.text,
+          'description': addTaskDescriptionController.text,
+          'price': addTaskPriceController.text,
+          'time': DateTime.now().toString(),
+          'type': selectedTypeStatus,
+          'expQty': selectedExp.toString(),
+          'daysNumber': List.filled(daySlider.toInt(), 0)
+        })
+        .eq('id', docId);
     addTaskNameController.clear();
     addTaskDescriptionController.clear();
     addTaskPriceController.clear();
@@ -766,10 +775,15 @@ class ParentProvider with ChangeNotifier {
                       onTap: () {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
                             taskName, description, price, stars, type, expQty).then((v) =>
-                          FirebaseFirestore.instance.collection('tasks').doc(
-                              snapshot.docs[index].id).delete());
+                          Supabase.instance.client
+                              .from('tasks')
+                              .delete()
+                              .eq('id', snapshot['id']));
                         if(url != 'false'){
                           FirebaseStorage.instance.refFromURL(url).delete();
+                          Supabase.instance.client.storage
+                              .from('images')
+                              .remove([url]);
                         }
                         Navigator.of(context).pop();
                         Navigator.pushReplacement(context,
@@ -891,40 +905,44 @@ class ParentProvider with ChangeNotifier {
 
   Future searchSingleTaskForEditing(String docId) async{
     isEdit = true;
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('tasks').doc(docId).get();
-    if(doc.exists){
-      Map<String, dynamic>? data = doc.data();
-      selectedKidName = data?['kidName'];
-      addTaskNameController.text = data?['taskName'];
-      selectedKidEmail = data?['kidEmail'];
-      addTaskDescriptionController.text = data?['description'];
-      addTaskPriceController.text = data?['price'];
-      taskDeadline = data?['deadline'] == 'false' ? DateTime.now() : DateTime.parse(data?['deadline']);
-      isDeadline = data?['deadline'] == 'false' ? false : true;
-      fileName = data?['imageUrl'];
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('tasks')
+        .select('kidName, taskName, kidEmail, description, price, deadline, imageUrl, type, expQty')
+        .eq('id', docId)
+        .maybeSingle();
+    if(doc != null){
+      selectedKidName = doc['kidName'];
+      addTaskNameController.text = doc['taskName'];
+      selectedKidEmail = doc['kidEmail'];
+      addTaskDescriptionController.text = doc['description'];
+      addTaskPriceController.text = doc['price'];
+      taskDeadline = doc['deadline'] == 'false' ? DateTime.now() : DateTime.parse(doc['deadline']);
+      isDeadline = doc['deadline'] == 'false' ? false : true;
+      fileName = doc['imageUrl'];
       editDocId = docId;
-      selectedTypeStatus = data?['type'] ?? 'home';
-      selectedExp = int.tryParse(data?['expQty']) ?? 1;
+      selectedTypeStatus = doc['type'] ?? 'home';
+      selectedExp = int.tryParse(doc['expQty']) ?? 1;
     }
   }
 
   Future searchMultiTaskForEditing(String docId) async{
     isEdit = true;
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('multiTasks').doc(docId).get();
-    if(doc.exists){
-      Map<String, dynamic>? data = doc.data();
-      selectedKidName = data?['kidName'];
-      addTaskNameController.text = data?['taskName'];
-      selectedKidEmail = data?['kidEmail'];
-      addTaskDescriptionController.text = data?['description'];
-      addTaskPriceController.text = data?['price'];
-      fileName = data?['imageUrl'];
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('multiTasks')
+        .select('kidName, taskName, kidEmail, description, price, imageUrl, type, expQty, daysNumber')
+        .eq('id', docId)
+        .maybeSingle();
+    if(doc != null){
+      selectedKidName = doc['kidName'];
+      addTaskNameController.text = doc['taskName'];
+      selectedKidEmail = doc['kidEmail'];
+      addTaskDescriptionController.text = doc['description'];
+      addTaskPriceController.text = doc['price'];
+      fileName = doc['imageUrl'];
       editDocId = docId;
-      selectedTypeStatus = data?['type'] ?? 'home';
-      selectedExp = int.tryParse(data?['expQty']) ?? 1;
-      daySlider = double.parse(data!['daysNumber'].length.toString());
+      selectedTypeStatus = doc['type'] ?? 'home';
+      selectedExp = int.tryParse(doc['expQty']) ?? 1;
+      daySlider = double.parse(doc['daysNumber'].length.toString());
     }
   }
 

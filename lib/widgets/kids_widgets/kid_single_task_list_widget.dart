@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/parent_provider.dart';
@@ -10,7 +9,7 @@ class KidSingleTaskListWidget extends StatefulWidget {
     super.key, required this.snapshot,
   });
 
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final List<Map<String, dynamic>> snapshot;
 
   @override
   State<KidSingleTaskListWidget> createState() => _KidSingleTaskListWidgetState();
@@ -34,18 +33,19 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
             children: [
               ListView.builder(
                   padding: const EdgeInsets.only(bottom: 80, top: 2),
-                  itemCount: widget.snapshot.docs.length,
+                  itemCount: widget.snapshot.length,
                   itemBuilder: (context, index){
-                    if(widget.snapshot.docs[index].get('kidEmail').toLowerCase() == data.email){
+                    final taskData = widget.snapshot[index];
+                    if(taskData['kidEmail'].toLowerCase() == data.email){
                       return GestureDetector(
                         onTap: () {
-                          data.priceController.text = widget.snapshot.docs[index].get('price');
+                          data.priceController.text = taskData['price'];
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
-                                  KidsDescriptionScreen(index: index, snapshot: widget.snapshot)));
+                                  KidsDescriptionScreen(index: index, snapshot: taskData)));
                         },
                         child: KidSingleBasicContainerWidget(
-                          snapshot: widget.snapshot,
+                          snapshot: taskData,
                           index: index,
                           nameOf: 'parentName',
                         ),

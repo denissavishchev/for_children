@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
@@ -8,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../kid_screens/main_kid_screen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'add_multi_task_screen.dart';
 
 class TaskDescriptionScreen extends StatelessWidget {
@@ -141,7 +139,7 @@ class TaskDescriptionScreen extends StatelessWidget {
                             color: kBlue.withValues(alpha: 0.3),
                             borderRadius: const BorderRadius.all(Radius.circular(4)),
                           ),
-                          child: Image.network(snapshot['imageUrl'], fit: BoxFit.cover),
+                          child: Image.network('${snapshot['imageUrl']}', fit: BoxFit.cover),
                         ),)
                     ],
                   ),
@@ -182,12 +180,12 @@ class TaskDescriptionScreen extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               if(data.pageIndex == 0){
-                              data.searchSingleTaskForEditing(snapshot.docs[index].id.toString());
+                              data.searchSingleTaskForEditing(snapshot['id'].toString());
                               Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
                               const AddSingleTaskScreen()));
                             }else{
-                                data.searchMultiTaskForEditing(snapshot.docs[index].id.toString());
+                                data.searchMultiTaskForEditing(snapshot['id'].toString());
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>
                                     const AddMultiTaskScreen()));
@@ -457,7 +455,7 @@ class ChangeButtonWidget extends StatelessWidget {
   });
 
   final int index;
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final Map<String, dynamic> snapshot;
   final Function() onTap;
   final String text;
 

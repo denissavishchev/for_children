@@ -4,6 +4,7 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/day_night_widget.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
@@ -70,16 +71,16 @@ class _MainKidScreenState extends State<MainKidScreen> {
                       children: [
                         SwitchTaskTabWidget(),
                         Expanded(
-                          child: StreamBuilder(
+                          child: StreamBuilder<List<List<Map<String, dynamic>>>>(
                               stream: CombineLatestStream.list([
-                                FirebaseFirestore.instance
-                                    .collection('tasks')
-                                    .orderBy('time', descending: true)
-                                    .snapshots(),
-                                FirebaseFirestore.instance
-                                    .collection('multiTasks')
-                                    .orderBy('time', descending: true)
-                                    .snapshots(),
+                                Supabase.instance.client
+                                    .from('tasks')
+                                    .stream(primaryKey: ['id'])
+                                    .order('time', ascending: false),
+                                // Supabase.instance.client
+                                //     .from('multiTasks')
+                                //     .stream(primaryKey: ['id'])
+                                //     .order('time', ascending: false),
                               ]),
                               builder: (context, snapshot){
                                 if (!snapshot.hasData) return Center(child: CircularProgressIndicator());

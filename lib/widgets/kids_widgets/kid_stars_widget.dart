@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
@@ -11,7 +10,7 @@ class KidStarsWidget extends StatelessWidget {
   });
 
   final int stars;
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final Map<String, dynamic> snapshot;
   final int index;
 
   final shadow = [
@@ -64,7 +63,7 @@ class KidStarsWidget extends StatelessWidget {
           Align(
               alignment: Alignment.bottomCenter,
               child: Text('paid'.tr(),
-                style: snapshot.docs[index].get('status') == 'paid'
+                style: snapshot['status'] == 'paid'
                     ? kTextStyle : kRedTextStyle,)),
         ],
       ),
