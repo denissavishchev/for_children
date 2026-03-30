@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -198,28 +197,6 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                         }
                                       },
                                     ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 38,),
-                              Row(
-                                spacing: 12,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(child: Text('switchNotifications'.tr(), style: kTextStyle,)),
-                                  StreamBuilder<DocumentSnapshot>(
-                                    stream: FirebaseFirestore.instance.collection('users').doc(parent.email).snapshots(),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState == ConnectionState.waiting) return const CircularProgressIndicator();
-                                      final dataMap = snapshot.data!.data() as Map<String, dynamic>?;
-                                      bool isEnabled = (dataMap != null && dataMap.containsKey('notificationsNewTask'))
-                                          ? dataMap['notificationsNewTask']
-                                          : true;
-                                      return Switch(
-                                        value: isEnabled,
-                                        onChanged: (value) => data.switchNewTaskNotifications('${parent.email}'),
-                                      );
-                                    },
                                   )
                                 ],
                               ),

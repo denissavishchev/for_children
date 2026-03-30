@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 import '../screens/kid_screens/wishes_screen.dart';
 import '../screens/kid_screens/kids_settings_screen.dart';
@@ -77,16 +78,26 @@ class KidProvider with ChangeNotifier {
     parentsList.clear();
     parentsListAccept.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('users')
+        .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept')
+        .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+        .maybeSingle();
     for(int k = 0; k < 6; k++){
-      DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.
-      instance.collection('users').doc(doc.data()?['kid$k']?.toLowerCase()).get();
-      selectedParentsEmail.addAll({'${doc.data()?['kid$k']}': true});
-      parentsList.addAll({'${docEmail.data()?['name']}': '${doc.data()?['kid$k']}'});
-      parentsListAccept.add(doc.data()?['kid${k}Accept']);
-      parentsEmailsList.add(doc.data()?['kid$k']);
-      notifyListeners();
+      if(doc != null){
+        final Map<String, dynamic>? docEmail = await Supabase.instance.client
+            .from('users')
+            .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
+            .eq('email', doc['kid$k'])
+            .maybeSingle();
+        selectedParentsEmail.addAll({'${doc['kid$k']}': true});
+        if(docEmail != null){
+          parentsList.addAll({'${docEmail['name']}': '${doc['kid$k']}'});
+        }
+        parentsListAccept.add(doc['kid${k}Accept']);
+        parentsEmailsList.add(doc['kid$k']);
+        notifyListeners();
+      }
     }
   }
 
@@ -97,32 +108,36 @@ class KidProvider with ChangeNotifier {
 
     if (myEmail == null) return;
 
-    final firestore = FirebaseFirestore.instance;
+    final Map<String, dynamic>? docEmail = await Supabase.instance.client
+        .from('users')
+        .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
+        .eq('email', myEmail)
+        .maybeSingle();
 
-    DocumentSnapshot<Map<String, dynamic>> myDoc =
-    await firestore.collection('users').doc(myEmail).get();
-
-    if (myDoc.exists) {
-      Map<String, dynamic> data = myDoc.data()!;
+    if (docEmail != null) {
       for (int k = 0; k < 6; k++) {
-        if (data['kid$k'] == parentEmail) {
-          await firestore.collection('users').doc(myEmail).update({
-            'kid${k}Accept': true,
-          });
+        if (docEmail['kid$k'] == parentEmail) {
+          await Supabase.instance.client
+              .from('users')
+              .update({'kid${k}Accept': true,})
+              .eq('email', myEmail);
           break;
         }
       }
     }
-    DocumentSnapshot<Map<String, dynamic>> parentDoc =
-    await firestore.collection('users').doc(parentEmail).get();
+    final Map<String, dynamic>? parentDoc = await Supabase.instance.client
+        .from('users')
+        .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
+        .eq('email', parentEmail)
+        .maybeSingle();
 
-    if (parentDoc.exists) {
-      Map<String, dynamic> dataP = parentDoc.data()!;
+    if (parentDoc != null) {
       for (int k = 0; k < 6; k++) {
-        if (dataP['kid$k'] == myEmail) {
-          await firestore.collection('users').doc(parentEmail).update({
-            'kid${k}Accept': true,
-          });
+        if (parentDoc['kid$k'] == myEmail) {
+          await Supabase.instance.client
+              .from('users')
+              .update({'kid${k}Accept': true,})
+              .eq('email', parentEmail);
           break;
         }
       }
@@ -359,35 +374,15 @@ class KidProvider with ChangeNotifier {
       String? token = await messaging.getToken();
 
       if (token != null) {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(prefs.getString('email'))
-            .set({
-          'fcmToken': token,
-        },
-            SetOptions(merge: true));
+        await Supabase.instance.client
+            .from('users')
+            .update({'fcmToken': token})
+            .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '');
       }
     } else {
       log('noPermission');
     }
   }
 
-  Future<void> switchNewTaskNotifications(String docId) async {
-      final docRef = FirebaseFirestore.instance.collection('users').doc(docId);
-      final snapshot = await docRef.get();
-      bool newValue;
-      if (snapshot.exists) {
-        final data = snapshot.data();
-        bool currentValue = (data != null && data.containsKey('notificationsNewTask'))
-            ? data['notificationsNewTask']
-            : true;
-        newValue = !currentValue;
-      } else {
-        newValue = true;
-      }
-      await docRef.set({
-        'notificationsNewTask': newValue,
-      }, SetOptions(merge: true));
-  }
 
 }

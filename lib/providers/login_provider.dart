@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/toasts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 import '../screens/login_screens/auth_screen.dart';
 import '../screens/login_screens/login_screen.dart';
@@ -49,7 +48,7 @@ class LoginProvider with ChangeNotifier {
 
   Future logIn() async{
     try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await Supabase.instance.client.auth.signInWithPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim()
       );
@@ -69,7 +68,7 @@ class LoginProvider with ChangeNotifier {
     nameController.clear();
     surnameController.clear();
     resetPasswordController.clear();
-    FirebaseAuth.instance.signOut().then((v) =>
+    Supabase.instance.client.auth.signOut().then((v) =>
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         const AuthScreen()))
@@ -91,11 +90,13 @@ class LoginProvider with ChangeNotifier {
   Future signUp(context) async{
     isLoading = true;
     notifyListeners();
-    try{
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
-      await FirebaseFirestore.instance.collection('users').doc(emailController.text.trim()).set({
+    try {
+      await Supabase.instance.client.auth.signUp(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+      await Supabase.instance.client.from('users').insert({
+        'id': Supabase.instance.client.auth.currentUser!.id,
         'kid0': '',
         'kid0Accept': false,
         'kid1': '',
@@ -111,15 +112,16 @@ class LoginProvider with ChangeNotifier {
         'name': nameController.text.trim(),
         'surName': surnameController.text.trim(),
         'role': role,
-        'time' : DateTime.now().toString(),
-        'dayStart' : '06:00',
-        'dayEnd' : '22:00'
+        'time': DateTime.now().toString(),
+        'dayStart': '06:00',
+        'dayEnd': '22:00',
+        'email': emailController.text.trim()
       });
       successSighUp(context);
     }catch(e){
       if(e.toString().contains('Password should be at least 6 characters')){
         sadToast('weakPassword');
-      }else if(e.toString().contains('The email address is already in use by another account')){
+      }else if(e.toString().contains('User already registered')){
         sadToast('alreadyTaken');
       }
     }
@@ -167,12 +169,12 @@ class LoginProvider with ChangeNotifier {
                     const SizedBox(height: 36,),
                     ButtonWidget(
                         onTap: () async{
-                          try{
-                            await FirebaseAuth.instance.sendPasswordResetEmail(
-                                email: resetPasswordController.text.trim());
-                          }on FirebaseAuthException {
-                            sadToast('noEmail');
-                          }
+                          // try{
+                          //   await FirebaseAuth.instance.sendPasswordResetEmail(
+                          //       email: resetPasswordController.text.trim());
+                          // }on FirebaseAuthException {
+                          //   sadToast('noEmail');
+                          // }
                         },
                         text: 'resetPassword'),
                     const Spacer(),

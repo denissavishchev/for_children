@@ -5,6 +5,7 @@ import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/history_screen.dart';
 import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
 import 'add_multi_task_screen.dart';
 import 'add_single_task_screen.dart';
@@ -69,35 +70,22 @@ class _MainParentScreenState extends State<MainParentScreen> {
                                       color: kBlue,
                                       size: 32,
                                     )),
-                                IconButton(
-                                    onPressed: () =>
-                                        data.sendNotificationToKid(
-                                            'dgpc8b_aR_ylWHNa_DWpJS:APA91bGTzcIt4GBIsBtR-5wj2G75j1Nqt9D9HWlHoGZmCRxlREf9kJFJ-YpMVMvjbDvTQPwD0ft76S2dS1mSFjgAfcL1B9AOwmLlH9AIyneVC9IjF__M1wY',
-                                            'title',
-                                            'dad',
-                                            'message'
-                                        ),
-                                    icon: const Icon(
-                                      Icons.notification_important,
-                                      color: kBlue,
-                                      size: 32,
-                                    )),
                               ],
                             ),
                             SelectTaskButtonWidget()
                           ],
                         ),
                       ),
-                      StreamBuilder(
+                      StreamBuilder<List<List<Map<String, dynamic>>>>(
                           stream: CombineLatestStream.list([
-                            FirebaseFirestore.instance
-                                .collection('tasks')
-                                .orderBy('time', descending: true)
-                                .snapshots(),
-                            FirebaseFirestore.instance
-                                .collection('multiTasks')
-                                .orderBy('time', descending: true)
-                                .snapshots(),
+                            Supabase.instance.client
+                                .from('tasks')
+                                .stream(primaryKey: ['id'])
+                                .order('time', ascending: false),
+                            Supabase.instance.client
+                                .from('multiTasks')
+                                .stream(primaryKey: ['id'])
+                                .order('time', ascending: false),
                           ]),
                           builder: (context, snapshot){
                             if (!snapshot.hasData) return CircularProgressIndicator();

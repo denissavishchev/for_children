@@ -18,7 +18,7 @@ class BasicSingleContainerWidget extends StatelessWidget {
   });
 
   final double height;
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final Map<String, dynamic> snapshot;
   final int index;
   final String nameOf;
 
@@ -55,108 +55,108 @@ class BasicSingleContainerWidget extends StatelessWidget {
                           ),
                         ]
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(snapshot.docs[index].get(nameOf),
-                                style: kBigTextStyle,),
-                              Text((snapshot.docs[index].data().containsKey('type')
-                                  ? snapshot.docs[index].get('type')
-                                  : ''),
-                                style: kTextStyle,),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 65,
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(right: 6),
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: kBlue.withValues(alpha: 0.1),
-                            borderRadius: const BorderRadius.horizontal(
-                                right: Radius.circular(4)
-                            ),
-                          ),
-                          child: Text(snapshot.docs[index].get('taskName'),
-                            style: kBigTextStyle,),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
-                            children: [
-                              Text('taskPrice'.tr(),
-                                style: kTextStyle.copyWith(
-                                    color: kBlue.withValues(alpha: 0.6)),),
-                              Text(snapshot.docs[index].get('price'),
-                                style: kTextStyle,),
-                              Spacer(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: List.generate(3, ((i){
-                                  return SvgPicture.asset('assets/icons/pepper.svg',
-                                    width: 12,
-                                    colorFilter: ColorFilter.mode((2 - i) < (snapshot.docs[index].data().containsKey('expQty')
-                                        ? int.parse(snapshot.docs[index].get('expQty'))
-                                        : 1)
-                                        ? kRed : kGrey, BlendMode.srcIn),
-                                  );
-                                })),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                    // child: Column(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(horizontal: 8),
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //         children: [
+                    //           Text(snapshot.docs[index].get(nameOf),
+                    //             style: kBigTextStyle,),
+                    //           Text((snapshot.docs[index].data().containsKey('type')
+                    //               ? snapshot.docs[index].get('type')
+                    //               : ''),
+                    //             style: kTextStyle,),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //     Container(
+                    //       height: 65,
+                    //       width: double.infinity,
+                    //       margin: const EdgeInsets.only(right: 6),
+                    //       padding: const EdgeInsets.all(8),
+                    //       decoration: BoxDecoration(
+                    //         color: kBlue.withValues(alpha: 0.1),
+                    //         borderRadius: const BorderRadius.horizontal(
+                    //             right: Radius.circular(4)
+                    //         ),
+                    //       ),
+                    //       child: Text(snapshot.docs[index].get('taskName'),
+                    //         style: kBigTextStyle,),
+                    //     ),
+                    //     Padding(
+                    //       padding: const EdgeInsets.symmetric(horizontal: 8),
+                    //       child: Row(
+                    //         children: [
+                    //           Text('taskPrice'.tr(),
+                    //             style: kTextStyle.copyWith(
+                    //                 color: kBlue.withValues(alpha: 0.6)),),
+                    //           Text(snapshot.docs[index].get('price'),
+                    //             style: kTextStyle,),
+                    //           Spacer(),
+                    //           Row(
+                    //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //             children: List.generate(3, ((i){
+                    //               return SvgPicture.asset('assets/icons/pepper.svg',
+                    //                 width: 12,
+                    //                 colorFilter: ColorFilter.mode((2 - i) < (snapshot.docs[index].data().containsKey('expQty')
+                    //                     ? int.parse(snapshot.docs[index].get('expQty'))
+                    //                     : 1)
+                    //                     ? kRed : kGrey, BlendMode.srcIn),
+                    //               );
+                    //             })),
+                    //           )
+                    //         ],
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(3, 0, 12, 12),
-                    width: size.width,
-                    height: height,
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    decoration: BoxDecoration(
-                        color: kWhite,
-                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
-                        borderRadius: const BorderRadius.all(Radius.circular(4)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              blurRadius: 6,
-                              spreadRadius: 2,
-                              offset: const Offset(0, 6)
-                          ),
-                          BoxShadow(
-                            color: kGrey.withValues(alpha: 0.2),
-                            blurRadius: 2,
-                            spreadRadius: 2,
-                          ),
-                        ]
-                    ),
-                    child: snapshot.docs[index].get('status') == 'checked' ||
-                        snapshot.docs[index].get('status') == 'paid'
-                        ? StarsWidget(
-                            stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
-                            snapshot: snapshot,
-                            index: index,)
-                        : Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(3, (i){
-                            return StatusWidget(
-                              snapshot: snapshot,
-                              index: index,
-                              name: data.status[i],);
-                          }),
-                        ),
-                      ),
-                    )
+                // Expanded(
+                //   flex: 1,
+                //   child: Container(
+                //     margin: const EdgeInsets.fromLTRB(3, 0, 12, 12),
+                //     width: size.width,
+                //     height: height,
+                //     padding: const EdgeInsets.symmetric(vertical: 3),
+                //     decoration: BoxDecoration(
+                //         color: kWhite,
+                //         border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
+                //         borderRadius: const BorderRadius.all(Radius.circular(4)),
+                //         boxShadow: [
+                //           BoxShadow(
+                //               color: Colors.black.withValues(alpha: 0.2),
+                //               blurRadius: 6,
+                //               spreadRadius: 2,
+                //               offset: const Offset(0, 6)
+                //           ),
+                //           BoxShadow(
+                //             color: kGrey.withValues(alpha: 0.2),
+                //             blurRadius: 2,
+                //             spreadRadius: 2,
+                //           ),
+                //         ]
+                //     ),
+                //     child: snapshot.docs[index].get('status') == 'checked' ||
+                //         snapshot.docs[index].get('status') == 'paid'
+                //         ? StarsWidget(
+                //             stars: double.parse(snapshot.docs[index].get('stars')).toInt(),
+                //             snapshot: snapshot,
+                //             index: index,)
+                //         : Column(
+                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //           children: List.generate(3, (i){
+                //             return StatusWidget(
+                //               snapshot: snapshot,
+                //               index: index,
+                //               name: data.status[i],);
+                //           }),
+                //         ),
+                //       ),
+                //     )
                   ],
                 ),
               );

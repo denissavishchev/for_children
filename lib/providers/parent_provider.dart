@@ -13,6 +13,7 @@ import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
@@ -144,9 +145,14 @@ class ParentProvider with ChangeNotifier {
   Future<void> getEmailAndName() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email');
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    name = doc.data()?['name'];
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('users')
+        .select('name')
+        .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+        .maybeSingle();
+    if(doc != null){
+      name = doc['name'];
+    }
     notifyListeners();
   }
 
@@ -160,9 +166,16 @@ class ParentProvider with ChangeNotifier {
 
   Future getRole(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    prefs.setString('role', doc.data()?['role'] ?? '');
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('users')
+        .select('role')
+        .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+        .maybeSingle();
+    if (doc != null) {
+      prefs.setString('role', doc['role']);
+    } else {
+      log('noUser');
+    }
     role = prefs.getString('role');
     notifyListeners();
   }
@@ -206,41 +219,59 @@ class ParentProvider with ChangeNotifier {
 
   Future addKidToParent(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getString('email');
-    DocumentSnapshot<Map<String, dynamic>> docP = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    if(docP.data()?['kid4'] == ''){
-      for(var k = 0; k < 5; k++){
-        if(docP.data()?['kid$k'] != kidSearchController.text.trim()){
-          if(docP.data()?['kid$k'] == ''){
-            await FirebaseFirestore.instance.collection('users').doc(prefs.getString('email')).update({
-              'kid$k': kidSearchController.text.trim(),});
+    final Map<String, dynamic>? docP = await Supabase.instance.client
+        .from('users')
+        .select('kid0, kid1, kid2, kid3, kid4, kid5')
+        .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+        .maybeSingle();
+    if (docP != null) {
+      if(docP['kid4'] == ''){
+        for(var k = 0; k < 5; k++){
+          if(docP['kid$k'] != kidSearchController.text.trim()){
+            if(docP['kid$k'] == ''){
+              await Supabase.instance.client
+                  .from('users')
+                  .update({'kid$k': kidSearchController.text.trim()})
+                  .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '');
+              log('kidAdded ${prefs.getString('email')?.toLowerCase().trim()}');
+              log('kidAdded ${'kid$k' '${kidSearchController.text.trim()}'}');
+              break;
+            }
+          }else{
+            sadToast('kidAlreadyInList');
             break;
           }
-        }else{
-          sadToast('kidAlreadyInList');
-          break;
         }
+      }else{
+        sadToast('onlyFiveKids');
       }
-    }else{
-      sadToast('onlyFiveKids');
     }
-    DocumentSnapshot<Map<String, dynamic>> docK = await FirebaseFirestore.
-    instance.collection('users').doc(kidSearchController.text.trim().toLowerCase()).get();
-    if(docK.data()?['kid4'] == ''){
-      for(var k = 0; k < 5; k++){
-        if(docK.data()?['kid$k'] != prefs.getString('email')){
-          if(docK.data()?['kid$k'] == ''){
-            await FirebaseFirestore.instance.collection('users').doc(kidSearchController.text.trim()).update({
-              'kid$k': prefs.getString('email'),});
+    else {
+      log('noUser');
+    }
+    final Map<String, dynamic>? docK = await Supabase.instance.client
+        .from('users')
+        .select('kid0, kid1, kid2, kid3, kid4, kid5')
+        .eq('email', kidSearchController.text.trim().toLowerCase())
+        .maybeSingle();
+    if(docK != null){
+      if(docK['kid4'] == ''){
+        for(var k = 0; k < 5; k++){
+          if(docK['kid$k'] != prefs.getString('email')){
+            if(docK['kid$k'] == ''){
+              await Supabase.instance.client
+                  .from('users')
+                  .update({'kid$k': prefs.getString('email')})
+                  .eq('email', kidSearchController.text.trim());
+              break;
+            }
+          }else{
             break;
           }
-        }else{
-          break;
         }
+      }else{
+        sadToast('kidHasFiveParent');
       }
-    }else{
-      sadToast('kidHasFiveParent');
     }
     kidSearchController.clear();
     Navigator.of(context).pop();
@@ -249,12 +280,14 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future kidSearch(context) async{
-      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-      instance.collection('users').doc(kidSearchController.text.trim().toLowerCase()).get();
-      if(doc.exists && doc.data()?['role'] == 'child'){
-        Map<String, dynamic>? data = doc.data();
-        showKidSearchInfo(context, data?['name'], data?['surName'], kidSearchController.text.trim());
-        }else{
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('users')
+        .select('role, name, surName')
+        .eq('email', kidSearchController.text.toLowerCase().trim())
+        .maybeSingle();
+      if(doc != null && doc['role'] == 'child'){
+        showKidSearchInfo(context, doc['name'], doc['surName'], kidSearchController.text.trim());
+      }else{
         sadToast('noEmail');
       }
   }
@@ -266,42 +299,38 @@ class ParentProvider with ChangeNotifier {
 
     if (parentEmail == null) return;
 
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(parentEmail)
-        .get();
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('users')
+        .select('kid0, kid1, kid2, kid3, kid4, kid5')
+        .eq('email', parentEmail)
+        .maybeSingle();
 
-    final parentData = doc.data();
-    if (parentData == null) return;
-
+    if (doc == null) return;
     for (int k = 0; k < 6; k++) {
-      String? kidEmail = parentData['kid$k']?.toLowerCase();
+      String? kidEmail = doc['kid$k']?.toLowerCase();
       if (kidEmail == null || kidEmail.isEmpty) continue;
-      DocumentSnapshot<Map<String, dynamic>> docEmail = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(kidEmail)
-          .get();
-
-      final kidData = docEmail.data();
-      if (kidData == null) continue;
+      final Map<String, dynamic>? docEmail = await Supabase.instance.client
+          .from('users')
+          .select('*')
+          .eq('email', kidEmail)
+          .maybeSingle();
+      if (docEmail == null) continue;
       bool isAcceptedByChild = false;
       for (int i = 0; i < 6; i++) {
-        if (kidData['kid$i']?.toLowerCase() == parentEmail) {
-          if (kidData['kid${i}Accept'] == true) {
+        if (docEmail['kid$i']?.toLowerCase() == parentEmail) {
+          if (docEmail['kid${i}Accept'] == true) {
             isAcceptedByChild = true;
           }
           break;
         }
       }
-      if (isAcceptedByChild) {
         final kid = KidModel(
-            name: kidData['name'] ?? '',
+            name: docEmail['name'] ?? '',
             email: kidEmail,
             accept: isAcceptedByChild,
-            startDay: kidData['dayStart'] ?? '',
-            endDay: kidData['dayEnd'] ?? '');
+            startDay: docEmail['dayStart'] ?? '',
+            endDay: docEmail['dayEnd'] ?? '');
         kidsList.add(kid);
-      }
     }
     notifyListeners();
   }
@@ -398,16 +427,39 @@ class ParentProvider with ChangeNotifier {
     Navigator.of(context).pop();
   }
 
-  Future pickAnImage()async{
-    ImagePicker image = ImagePicker();
-    file = await image.pickImage(
+  Future<void> pickAnImage() async {
+    ImagePicker imagePicker = ImagePicker();
+
+    final XFile? file = await imagePicker.pickImage(
       source: ImageSource.camera,
       imageQuality: 30,
       maxWidth: 800,
     );
-    if(file == null) return;
+
+    if (file == null) {
+      return;
+    }
+
+    final File fileToUpload = File(file.path);
+
     fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    imageToUpload = FirebaseStorage.instance.ref().child('images').child(fileName);
+
+    try {
+      final String bucketName = 'images';
+
+      await Supabase.instance.client.storage
+          .from(bucketName)
+          .upload(
+        fileName,
+        fileToUpload,
+      );
+      imageUrl = Supabase.instance.client.storage
+          .from(bucketName)
+          .getPublicUrl(fileName);
+
+    } catch (e) {
+      log('❌ Błąd Supabase przy wgrywaniu zdjęcia: $e');
+    }
     notifyListeners();
   }
 
@@ -509,32 +561,45 @@ class ParentProvider with ChangeNotifier {
       }
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    String parentName = doc.data()?['name'];
-      await FirebaseFirestore.instance.collection('tasks').add({
-        'priceStatus': 'set',
-        'parentName': parentName,
-        'parentEmail': prefs.getString('email'),
-        'kidName': selectedKidName,
-        'kidEmail': selectedKidEmail,
-        'taskName': addTaskNameController.text,
-        'description': addTaskDescriptionController.text,
-        'status': 'price',
-        'price': addTaskPriceController.text,
-        'deadline': isDeadline ? taskDeadline.toString() : 'false',
-        'stars' : '0',
-        'imageUrl' : fileName == '' ? 'false' : imageUrl,
-        'time' : DateTime.now().toString(),
-        'type' : selectedTypeStatus,
-        'expQty' : selectedExp.toString(),
-      });
-    DocumentSnapshot<Map<String, dynamic>> kidDoc = await FirebaseFirestore.
-    instance.collection('users').doc(selectedKidEmail.toLowerCase()).get();
-    String? kidToken = kidDoc.data()?['fcmToken'];
-    bool isNotification = kidDoc.data()?['notificationsNewTask'] ?? true;
-    if (kidToken != null && isNotification) {
-      sendNotificationToKid(kidToken, 'newTaskToDo'.tr(), parentName, addTaskNameController.text);
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('users')
+        .select('name')
+        .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+        .maybeSingle();
+    String parentName = '';
+    if(doc != null){
+      parentName = doc['name'];
+    }
+    await Supabase.instance.client
+        .from('tasks')
+        .insert({
+          'priceStatus': 'set',
+          'parentName': parentName,
+          'parentEmail': prefs.getString('email'),
+          'kidName': selectedKidName,
+          'kidEmail': selectedKidEmail,
+          'taskName': addTaskNameController.text,
+          'description': addTaskDescriptionController.text,
+          'status': 'price',
+          'price': addTaskPriceController.text,
+          'deadline': isDeadline ? taskDeadline.toString() : 'false',
+          'stars' : '0',
+          'imageUrl' : fileName == '' ? 'false' : imageUrl,
+          'time' : DateTime.now().toString(),
+          'type' : selectedTypeStatus,
+          'expQty' : selectedExp.toString(),
+        });
+    final Map<String, dynamic>? kidDoc = await Supabase.instance.client
+        .from('users')
+        .select('fcmToken, notificationsNewTask')
+        .eq('email', selectedKidEmail.toLowerCase())
+        .maybeSingle();
+    if(kidDoc != null){
+      String? kidToken = kidDoc['fcmToken'];
+      bool isNotification = kidDoc['notificationsNewTask'] ?? true;
+      if (kidToken != null && isNotification) {
+        sendNotificationToKid(kidToken, 'newTaskToDo'.tr(), parentName, addTaskNameController.text);
+      }
     }
       addTaskNameController.clear();
       addTaskDescriptionController.clear();

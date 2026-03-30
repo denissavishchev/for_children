@@ -11,7 +11,7 @@ class ParentSingleTaskListWidget extends StatefulWidget {
     super.key, required this.snapshot,
   });
 
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final List<Map<String, dynamic>> snapshot;
 
   @override
   State<ParentSingleTaskListWidget> createState() => _ParentSingleTaskListWidgetState();
@@ -38,18 +38,19 @@ class _ParentSingleTaskListWidgetState extends State<ParentSingleTaskListWidget>
                   height: size.height * 0.8,
                   child: ListView.builder(
                     padding: EdgeInsets.only(bottom: 50),
-                      itemCount: widget.snapshot.docs.length,
+                      itemCount: widget.snapshot.length,
                       itemBuilder: (context, index){
-                        if(widget.snapshot.docs[index].get('parentEmail').toLowerCase() == data.email){
+                        final taskData = widget.snapshot[index];
+                        if(taskData['parentEmail'].toLowerCase() == data.email){
                           return GestureDetector(
                             onTap: () {
-                              data.priceController.text = widget.snapshot.docs[index].get('price');
+                              data.priceController.text = taskData['price'];
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) =>
-                                      TaskDescriptionScreen(index: index, snapshot: widget.snapshot)));
+                                      TaskDescriptionScreen(index: index, snapshot: taskData)));
                             },
                             child: BasicSingleContainerWidget(
-                              snapshot: widget.snapshot,
+                              snapshot: taskData,
                               index: index,
                               nameOf: 'kidName',
                             ),

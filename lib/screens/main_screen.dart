@@ -26,23 +26,16 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: Consumer<ParentProvider>(
         builder: (context, data, _){
-          return StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                .snapshots(),
-            builder: (context, snapshot){
-              if(data.role == 'parent'){
-                return const MainParentScreen();
-              }else if(data.role == 'child'){
-                return const MainKidScreen();
-              }else{
-                return SizedBox(
-                    height: MediaQuery.sizeOf(context).height,
-                    width: MediaQuery.sizeOf(context).width,
-                    child: Image.asset('assets/images/bg.png', fit: BoxFit.cover,));
-              }
-            },
-          );
+          if(data.role == 'parent'){
+            return const MainParentScreen();
+          }else if(data.role == 'child'){
+            return const MainKidScreen();
+          }else{
+            return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Image.asset('assets/images/bg.png', fit: BoxFit.cover,));
+          };
         },
       )
     );

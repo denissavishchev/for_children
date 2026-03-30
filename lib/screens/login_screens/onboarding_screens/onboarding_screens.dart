@@ -63,7 +63,7 @@ class OnboardingScreens extends StatelessWidget {
                         child: Row(
                           children: [
                             TextButton(
-                                onPressed: () => data.onboardingController.jumpToPage(4),
+                                onPressed: () => data.onboardingController.jumpToPage(5),
                                 child: Text('skip'.tr(), style: kTextStyle,)),
                             const Spacer(),
                             SmoothPageIndicator(
