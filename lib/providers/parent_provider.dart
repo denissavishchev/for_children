@@ -617,11 +617,18 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
     if(selectedKidName != ''){
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.getString('email');
-      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-      instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-      String parentName = doc.data()?['name'];
-      await FirebaseFirestore.instance.collection('multiTasks').add({
+      final Map<String, dynamic>? doc = await Supabase.instance.client
+          .from('users')
+          .select('name')
+          .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+          .maybeSingle();
+      String parentName = '';
+      if(doc != null){
+        parentName = doc['name'];
+      }
+      await Supabase.instance.client
+          .from('multiTasks')
+          .insert({
         'priceStatus': 'set',
         'parentName': parentName,
         'parentEmail': prefs.getString('email'),
@@ -638,12 +645,17 @@ class ParentProvider with ChangeNotifier {
         'expQty' : selectedExp.toString(),
         'daysNumber' : List.filled(daySlider.toInt(), 0),
       });
-      DocumentSnapshot<Map<String, dynamic>> kidDoc = await FirebaseFirestore.
-      instance.collection('users').doc(selectedKidEmail.toLowerCase()).get();
-      String? kidToken = kidDoc.data()?['fcmToken'];
-      bool isNotification = kidDoc.data()?['notificationsNewTask'] ?? true;
-      if (kidToken != null && isNotification) {
-        sendNotificationToKid(kidToken, 'newTaskToDo'.tr(), parentName, addTaskNameController.text);
+      final Map<String, dynamic>? kidDoc = await Supabase.instance.client
+          .from('users')
+          .select('fcmToken, notificationsNewTask')
+          .eq('email', selectedKidEmail.toLowerCase())
+          .maybeSingle();
+      if(kidDoc != null){
+        String? kidToken = kidDoc['fcmToken'];
+        bool isNotification = kidDoc['notificationsNewTask'] ?? true;
+        if (kidToken != null && isNotification) {
+          sendNotificationToKid(kidToken, 'newTaskToDo'.tr(), parentName, addTaskNameController.text);
+        }
       }
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
@@ -923,6 +935,7 @@ class ParentProvider with ChangeNotifier {
       editDocId = docId;
       selectedTypeStatus = doc['type'] ?? 'home';
       selectedExp = int.tryParse(doc['expQty']) ?? 1;
+      imageUrl = doc['imageUrl'];
     }
   }
 
@@ -944,6 +957,7 @@ class ParentProvider with ChangeNotifier {
       selectedTypeStatus = doc['type'] ?? 'home';
       selectedExp = int.tryParse(doc['expQty']) ?? 1;
       daySlider = double.parse(doc['daysNumber'].length.toString());
+      imageUrl = doc['imageUrl'];
     }
   }
 

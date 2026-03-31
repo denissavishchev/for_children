@@ -81,10 +81,10 @@ class _MainParentScreenState extends State<MainParentScreen> {
                                 .from('tasks')
                                 .stream(primaryKey: ['id'])
                                 .order('time', ascending: false),
-                            // Supabase.instance.client
-                            //     .from('multiTasks')
-                            //     .stream(primaryKey: ['id'])
-                            //     .order('time', ascending: false),
+                            Supabase.instance.client
+                                .from('multiTasks')
+                                .stream(primaryKey: ['id'])
+                                .order('time', ascending: false),
                           ]),
                           builder: (context, snapshot){
                             if (!snapshot.hasData) return CircularProgressIndicator();
