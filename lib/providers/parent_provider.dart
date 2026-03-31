@@ -460,23 +460,24 @@ class ParentProvider with ChangeNotifier {
 
   Future changePriceStatus(Map<String, dynamic> snapshot, int index, String? role, bool isSingle)async{
     isSingle
-      ? Supabase.instance.client
+      ? await Supabase.instance.client
         .from('tasks')
         .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
         .eq('id', snapshot['id'])
-      : Supabase.instance.client
+      : await Supabase.instance.client
         .from('multiTasks')
         .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
         .eq('id', snapshot['id']);
   }
 
   Future changeToInProgress(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
+    log('snapshotID: ${snapshot['id']}');
     isSingle
-      ? Supabase.instance.client
+      ? await Supabase.instance.client
       .from('tasks')
       .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
       .eq('id', snapshot['id'])
-      : Supabase.instance.client
+      : await Supabase.instance.client
       .from('multiTasks')
       .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
       .eq('id', snapshot['id']);
@@ -489,11 +490,11 @@ class ParentProvider with ChangeNotifier {
 
   Future changeToDone(Map<String, dynamic> snapshot, int index, context, bool isSingle, bool changeScreen)async{
     isSingle
-        ? Supabase.instance.client
+        ? await Supabase.instance.client
           .from('tasks')
           .update({'status': 'done'})
           .eq('id', snapshot['id'])
-        : Supabase.instance.client
+        : await Supabase.instance.client
           .from('multiTasks')
           .update({'status': 'done'})
           .eq('id', snapshot['id']);
@@ -508,13 +509,13 @@ class ParentProvider with ChangeNotifier {
 
   Future changeToChecked(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
     isSingle
-        ? Supabase.instance.client
+        ? await Supabase.instance.client
           .from('tasks')
-          .update({'status': 'checked'})
+          .update({'status': 'checked', 'stars' : stars.toStringAsFixed(0)})
           .eq('id', snapshot['id'])
-        : Supabase.instance.client
+        : await Supabase.instance.client
           .from('multiTasks')
-          .update({'status': 'checked'})
+          .update({'status': 'checked', 'stars' : stars.toStringAsFixed(0)})
           .eq('id', snapshot['id']);
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
@@ -525,11 +526,11 @@ class ParentProvider with ChangeNotifier {
 
   Future changeToPaid(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
     isSingle
-        ? Supabase.instance.client
+        ? await Supabase.instance.client
           .from('tasks')
           .update({'status': 'paid'})
           .eq('id', snapshot['id'])
-        : Supabase.instance.client
+        : await Supabase.instance.client
           .from('multiTasks')
           .update({'status': 'paid'})
           .eq('id', snapshot['id']);
@@ -772,19 +773,19 @@ class ParentProvider with ChangeNotifier {
                   ),
                   Text('addToHistoryQuestion'.tr(), style: kTextStyle,),
                   ButtonWidget(
-                      onTap: () {
+                      onTap: () async {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
-                            taskName, description, price, stars, type, expQty).then((v) =>
-                          Supabase.instance.client
+                            taskName, description, price, stars, type, expQty).then((v) async =>
+                        await Supabase.instance.client
                               .from('tasks')
                               .delete()
                               .eq('id', snapshot['id']));
                         if(url != 'false'){
-                          FirebaseStorage.instance.refFromURL(url).delete();
-                          Supabase.instance.client.storage
+                          await Supabase.instance.client.storage
                               .from('images')
                               .remove([url]);
                         }
+                        if (!context.mounted) return;
                         Navigator.of(context).pop();
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) =>
