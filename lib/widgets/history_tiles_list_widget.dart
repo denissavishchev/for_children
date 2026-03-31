@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,7 @@ import '../providers/parent_provider.dart';
 class HistoryTilesListWidget extends StatelessWidget {
   const HistoryTilesListWidget({super.key, required this.snapshot});
 
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final List<Map<String, dynamic>> snapshot;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +17,15 @@ class HistoryTilesListWidget extends StatelessWidget {
           return SizedBox(
               height: size.height * 0.4,
               child: ListView.builder(
-                  itemCount: snapshot.docs.length,
+                  itemCount: snapshot.length,
                   itemBuilder: (context, index){
-                    if(snapshot.docs[index].get('parentEmail').toLowerCase() == data.email){
+                    final history = snapshot[index];
+                    if(history['parentEmail'].toLowerCase() == data.email){
                       return GestureDetector(
                         onTap: () => data.historyDescription(context,
-                            snapshot.docs[index].get('price'),
-                            snapshot.docs[index].get('description'),
-                            snapshot, index),
+                            history['price'],
+                            history['description'],
+                            history, index),
                         child: Container(
                             margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
                             width: size.width,
@@ -53,22 +53,22 @@ class HistoryTilesListWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(data.role == 'parent'
-                                    ? snapshot.docs[index].get('kidName')
-                                    : snapshot.docs[index].get('parentName'), style: kTextStyle,),
-                                Text(snapshot.docs[index].get('taskName'), style: kTextStyle,),
+                                    ? history['kidName']
+                                    : history['parentName'], style: kTextStyle,),
+                                Text(history['taskName'], style: kTextStyle,),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: List.generate(5, ((i){
                                     return SvgPicture.asset('assets/icons/pepper.svg',
                                       width: 12,
-                                      colorFilter: ColorFilter.mode((4 - i) < int.parse(snapshot.docs[index].get('expQty'))
+                                      colorFilter: ColorFilter.mode((4 - i) < int.parse(history['expQty'])
                                           ? kRed : kWhite, BlendMode.srcIn),
                                     );
                                   })),
                                 ),
-                                Text(snapshot.docs[index].get('type'),
-                                  style: kTextStyle.copyWith(color: data.taskTypes[snapshot.docs[index].get('type')]),),
-                                Text(snapshot.docs[index].data().containsKey('daysNumber')
+                                Text(history['type'],
+                                  style: kTextStyle.copyWith(color: data.taskTypes[history['type']]),),
+                                Text(history['daysNumber'] != null
                                     ? 'M'
                                     : 'S', style: kTextStyle,),
                                 SizedBox(
@@ -79,7 +79,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                                           top: 10,
                                           left: 0,
                                           child: Icon(
-                                            double.parse(snapshot.docs[index].get('stars')).toInt() >= 1
+                                            double.parse(history['stars']).toInt() >= 1
                                                 ? Icons.star
                                                 : Icons.star_border,
                                             color: kWhite,
@@ -96,7 +96,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                                       Align(
                                           alignment: Alignment.topCenter,
                                           child: Icon(
-                                            double.parse(snapshot.docs[index].get('stars')).toInt() >= 2
+                                            double.parse(history['stars']).toInt() >= 2
                                                 ? Icons.star
                                                 : Icons.star_border,
                                             color: kWhite,
@@ -114,7 +114,7 @@ class HistoryTilesListWidget extends StatelessWidget {
                                           top: 10,
                                           right: 0,
                                           child: Icon(
-                                            double.parse(snapshot.docs[index].get('stars')).toInt() >= 3
+                                            double.parse(history['stars']).toInt() >= 3
                                                 ? Icons.star
                                                 : Icons.star_border,
                                             color: kWhite,

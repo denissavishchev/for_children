@@ -86,7 +86,7 @@
   "waitingForPrice": "Waiting for {} accept the price",
   "waitingForDone": "Waiting for {} done the task",
   "waitingForPay": "Waiting for {} for rate and payment",
-  "taskType": "Task type: ",
+  "taskType": "Type: ",
   "daysLeft": "Only days left {}",
   "multiTask": "Recurring task",
   "multiTaskDescription": "Allows you to create tasks repeated daily (e.g. brushing teeth, cleaning, homework).\nThis way the child sees that the task returns every day, and the parent can easily check if it has been completed.",

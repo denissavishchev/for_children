@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 import '../providers/parent_provider.dart';
 import '../widgets/history_bar_widget.dart';
@@ -34,11 +34,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
           child: Consumer<ParentProvider>(
             builder: (context, data, _){
               return SingleChildScrollView(
-                child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('history')
-                        .orderBy('time', descending: true)
-                        .snapshots(),
+                child: StreamBuilder<List<Map<String, dynamic>>>(
+                    stream: Supabase.instance.client
+                        .from('history')
+                        .stream(primaryKey: ['id'])
+                        .order('time', ascending: false),
                     builder: (context, snapshot){
                       if(snapshot.hasData){
                         return Column(

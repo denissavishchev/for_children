@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
@@ -11,7 +10,7 @@ class HistoryBarWidget extends StatelessWidget {
     required this.kidName,
   });
 
-  final QuerySnapshot<Map<String, dynamic>> snapshot;
+  final List<Map<String, dynamic>> snapshot;
   final String kidName;
 
   @override

@@ -740,18 +740,20 @@ class ParentProvider with ChangeNotifier {
 
   Future<void>saveTaskToHistory(String parentName, String parentEmail, String kidName, String kidEmail,
       String taskName, String description, String price, String stars, String type, String expQty)async {
-    await FirebaseFirestore.instance.collection('history').add({
-      'parentName': parentName,
-      'parentEmail': parentEmail,
-      'kidName': kidName,
-      'kidEmail': kidEmail,
-      'taskName': taskName,
-      'description': description,
-      'price': price,
-      'stars' : stars,
-      'time' : DateTime.now().toString(),
-      'expQty' : expQty,
-      'type' : type,
+    await Supabase.instance.client
+        .from('history')
+        .insert({
+          'parentName': parentName,
+          'parentEmail': parentEmail,
+          'kidName': kidName,
+          'kidEmail': kidEmail,
+          'taskName': taskName,
+          'description': description,
+          'price': price,
+          'stars' : stars,
+          'time' : DateTime.now().toString(),
+          'expQty' : expQty,
+          'type' : type,
     });
   }
 
@@ -813,7 +815,7 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void>historyDescription(context, String price, String description,
-  QuerySnapshot<Map<String, dynamic>> snapshot, int index,) async{
+  Map<String, dynamic> snapshot, int index,) async{
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -849,7 +851,7 @@ class ParentProvider with ChangeNotifier {
                           right: Radius.circular(4)
                       ),
                     ),
-                    child: Text(snapshot.docs[index].get('taskName'),
+                    child: Text(snapshot['taskName'],
                       style: kBigTextStyle,),
                   ),
                   Container(
@@ -861,7 +863,7 @@ class ParentProvider with ChangeNotifier {
                         color: kBlue.withValues(alpha: 0.1),
                         borderRadius: const BorderRadius.all(Radius.circular(4))
                     ),
-                    child: Text(snapshot.docs[index].get('description'), style: kTextStyle),
+                    child: Text(snapshot['description'], style: kTextStyle),
                   ),
                   ButtonWidget(
                       onTap: () => deleteFromHistory(context, snapshot, index),
@@ -872,7 +874,7 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
-  Future<void>deleteFromHistory(context, QuerySnapshot<Map<String, dynamic>> snapshot, int index)async {
+  Future<void>deleteFromHistory(context, Map<String, dynamic> snapshot, int index)async {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -901,9 +903,12 @@ class ParentProvider with ChangeNotifier {
                   ),
                   Center(child: Text('areYouSure'.tr(), style: kTextStyle,)),
                   TextButton(
-                      onPressed: () {
-                        FirebaseFirestore.instance.collection('history').doc(
-                            snapshot.docs[index].id).delete();
+                      onPressed: () async {
+                        await Supabase.instance.client
+                            .from('history')
+                            .delete()
+                            .eq('id', snapshot['id']);
+                        if (!context.mounted) return;
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) =>
                             const HistoryScreen()));
@@ -1023,13 +1028,21 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void> switchTodayTask(int index, String docId) async {
-    final docRef = FirebaseFirestore.instance.collection('multiTasks').doc(docId);
-    final snapshot = await docRef.get();
-    List<dynamic> days = List.from(snapshot['daysNumber']);
-    if (index >= 0 && index < days.length) {
-      days[index] = days[index] == 0 ? 1 : 0;
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('multiTasks')
+        .select('daysNumber')
+        .eq('id', docId)
+        .maybeSingle();
+    if(doc != null){
+      List<dynamic> days = List.from(doc['daysNumber']);
+      if (index >= 0 && index < days.length) {
+        days[index] = days[index] == 0 ? 1 : 0;
+      }
+      await Supabase.instance.client
+          .from('multiTasks')
+          .update({'daysNumber': days})
+          .eq('id', docId);
     }
-    await docRef.update({'daysNumber': days});
   }
 
   int whatDayIs(String date) {
@@ -1045,15 +1058,14 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int historyBoxSums(QuerySnapshot<Map<String, dynamic>> snapshot, int index, String kidName) {
+  int historyBoxSums(List<Map<String, dynamic>> snapshot, int index, String kidName) {
     Map<String, int> sums = {
       for (var t in taskTypes.keys.toList()) t: 0,
     };
-    for (var doc in snapshot.docs) {
-      final data = doc.data();
-      if (data['parentEmail'].toLowerCase() == email && data['kidName'] == kidName){
-        String type = doc.data()['type'];
-        int qty = int.parse(doc.data()['expQty']);
+    for (var doc in snapshot) {
+      if (doc['parentEmail'].toLowerCase() == email && doc['kidName'] == kidName){
+        String type = doc['type'];
+        int qty = int.parse(doc['expQty']);
         if (sums.containsKey(type)) {
           sums[type] = sums[type]! + qty;
         }

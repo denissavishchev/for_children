@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/screens/kid_screens/main_kid_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
@@ -35,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
                 height: MediaQuery.sizeOf(context).height,
                 width: MediaQuery.sizeOf(context).width,
                 child: Image.asset('assets/images/bg.png', fit: BoxFit.cover,));
-          };
+          }
         },
       )
     );
