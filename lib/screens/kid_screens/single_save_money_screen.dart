@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,7 @@ import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:for_children/widgets/kids_widgets/square_button_widget.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
 
 class SingleSaveMoneyScreen extends StatelessWidget {
@@ -26,16 +26,16 @@ class SingleSaveMoneyScreen extends StatelessWidget {
       backgroundColor: kWhite,
       body: Consumer<KidProvider>(
         builder: (context, data, _) {
-          return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection('saveMoney')
-                .doc(documentId)
-                .snapshots(),
+          return StreamBuilder<List<Map<String, dynamic>>>(
+            stream: Supabase.instance.client
+                .from('saveMoney')
+                .stream(primaryKey: ['id'])
+                .order('time', ascending: false),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
-              final doc = snapshot.data!;
+              final doc = snapshot.data!.first;
               final moneyList = List.from(doc['money'] ?? []);
               int total = 0;
               total = moneyList.fold<int>(0, (s, m) => s + (int.tryParse(m.split('/')[0]) ?? 0));
@@ -216,14 +216,14 @@ class AddButtonWidget extends StatelessWidget {
     required this.data,
   });
 
-  final DocumentSnapshot<Map<String, dynamic>> doc;
+  final Map<String, dynamic> doc;
   final KidProvider data;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return GestureDetector(
-      onTap: () => data.showToAddMoney(context, doc.id),
+      onTap: () => data.showToAddMoney(context, doc['id'].toString()),
       child: Container(
         width: 38,
         height: size.height * 0.2,

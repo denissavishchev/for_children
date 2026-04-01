@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -180,7 +179,7 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteTask(AsyncSnapshot snapshot, int index, context)async {
+  Future<void> deleteTask(Map<String, dynamic> snapshot, int index, context)async {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -208,8 +207,10 @@ class ParentProvider with ChangeNotifier {
                   ),
                   Text('deleteThisTask'.tr(), style: kTextStyle,),
                   ButtonWidget(
-                      onTap: () => FirebaseFirestore.instance.collection('history').doc(
-                          snapshot.data?.docs[index].id).delete(),
+                      onTap: () async => await Supabase.instance.client
+                        .from('history')
+                        .delete()
+                        .eq('id', snapshot['id']),
                       text: 'delete')
                 ],
               )
@@ -233,8 +234,6 @@ class ParentProvider with ChangeNotifier {
                   .from('users')
                   .update({'kid$k': kidSearchController.text.trim()})
                   .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '');
-              log('kidAdded ${prefs.getString('email')?.toLowerCase().trim()}');
-              log('kidAdded ${'kid$k' '${kidSearchController.text.trim()}'}');
               break;
             }
           }else{
@@ -1159,11 +1158,13 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void> updateDayDuration(String email) async {
-    final docRef = FirebaseFirestore.instance.collection('users').doc(email);
-    await docRef.update({
+    await Supabase.instance.client
+        .from('users')
+        .update({
       'dayStart': '${startHour.toString().padLeft(2, '0')}:${startMinute.toString().padLeft(2, '0')}',
       'dayEnd': '${endHour.toString().padLeft(2, '0')}:${endMinute.toString().padLeft(2, '0')}',
-    });
+         })
+        .eq('email', email);
     getKids();
   }
 

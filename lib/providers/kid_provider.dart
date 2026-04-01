@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -298,15 +297,9 @@ class KidProvider with ChangeNotifier {
   Future<void>saveSaveMoneyItem(context)async {
     isLoading = true;
     notifyListeners();
-    if (fileName != '') {
-      try {
-        await imageToUpload.putFile(File(file!.path));
-        imageUrl = await imageToUpload.getDownloadURL();
-      } catch (e) {
-        return;
-      }
-    }
-    await FirebaseFirestore.instance.collection('saveMoney').add({
+    await Supabase.instance.client
+        .from('saveMoney')
+        .insert({
       'whatIsIt': whatDoYoWantController.text,
       'price': whatDoYoWantPriceController.text,
       'whyNeed': whyYouNeedThisController.text,
@@ -378,11 +371,17 @@ class KidProvider with ChangeNotifier {
   }
 
   Future<void> updateMoney(context, String id)async{
-    final docRef = FirebaseFirestore.instance.collection('saveMoney').doc(id);
-    final doc = await docRef.get();
-    List<dynamic> moneyList = List.from(doc['money']);
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('saveMoney')
+        .select('money')
+        .eq('id', id)
+        .maybeSingle();
+    List<dynamic> moneyList = List.from(doc?['money']);
     moneyList.add('${addMoneyController.text}/${DateTime.now().toString()}');
-    await docRef.update({'money': moneyList});
+    await Supabase.instance.client
+        .from('saveMoney')
+        .update({'money': moneyList})
+        .eq('id', id);
     addMoneyController.clear();
     Navigator.of(context).pop();
   }

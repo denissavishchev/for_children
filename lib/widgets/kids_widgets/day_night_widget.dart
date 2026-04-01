@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import 'day_duration_widget.dart';
@@ -19,14 +19,14 @@ class DayNightWidget extends StatelessWidget {
     return Consumer<KidProvider>(
         builder: (context, data, _){
           final h = size.height * 0.2;
-          return StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(email)
-                  .snapshots(),
+          return StreamBuilder<List<Map<String, dynamic>>>(
+              stream: Supabase.instance.client
+                  .from('users')
+                  .stream(primaryKey: ['id'])
+                  .order('time', ascending: false),
               builder: (context, snapshot){
                 if(!snapshot.hasData) return CircularProgressIndicator();
-                final docs = snapshot.data!.data();
+                final docs = snapshot.data!.first;
                 return Container(
                   width: size.width,
                   height: h,
@@ -87,7 +87,7 @@ class DayNightWidget extends StatelessWidget {
                             : size.width - 126,
                         width: 90,
                         child: GestureDetector(
-                          onLongPress: () => data.switchDay(docs?['dayEnd']),
+                          onLongPress: () => data.switchDay(docs['dayEnd']),
                           child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 1000),
                             transitionBuilder: (child, anim) {

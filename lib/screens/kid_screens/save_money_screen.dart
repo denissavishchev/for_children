@@ -1,13 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/kid_screens/single_save_money_screen.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
-import 'add_single_save_money_screen.dart';
+import 'add_save_money_screen.dart';
 
 class SaveMoneyScreen extends StatelessWidget {
   const SaveMoneyScreen({super.key});
@@ -26,27 +26,28 @@ class SaveMoneyScreen extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('saveMoney')
-                            .orderBy('time', descending: true)
-                            .snapshots(),
+                    StreamBuilder<List<Map<String, dynamic>>>(
+                        stream: Supabase.instance.client
+                            .from('saveMoney')
+                            .stream(primaryKey: ['id'])
+                            .order('time', ascending: false),
                         builder: (context, snapshot){
                           if (!snapshot.hasData) return CircularProgressIndicator();
+                          final money = snapshot.data!;
                           return SizedBox(
                             height: size.height * 0.6,
                             child: ListView.builder(
                                 padding: const EdgeInsets.only(bottom: 124),
-                                itemCount: snapshot.data?.docs.length,
+                                itemCount: money.length,
                                 itemBuilder: (context, index){
-                                  final total = List.from(snapshot.data?.docs[index].get('money') ?? [])
+                                  final total = List.from(money[index]['money'] ?? [])
                                       .fold<int>(0, (s, m) => s + (int.tryParse(m.split('/')[0]) ?? 0));
-                                  final percent = (total / (int.tryParse(snapshot.data!.docs[index].get('price').toString()) ?? 0)) * 100;
+                                  final percent = (total / (int.tryParse(money[index]['price'].toString()) ?? 0)) * 100;
                                     return GestureDetector(
                                       onTap: () {
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(builder: (context) =>
-                                            SingleSaveMoneyScreen(documentId: snapshot.data!.docs.elementAt(index).id,)));
+                                            SingleSaveMoneyScreen(documentId: money[index]['id'].toString(),)));
                                       },
                                       child: Container(
                                         height: 200,
@@ -87,9 +88,9 @@ class SaveMoneyScreen extends StatelessWidget {
                                                     )
                                                   ]
                                               ),
-                                              child: snapshot.data?.docs[index].get('imageUrl') == 'false'
+                                              child: money[index]['imageUrl'] == 'false'
                                                   ? Image.asset('assets/images/cat.png', fit: BoxFit.contain)
-                                                  : Image.network(snapshot.data?.docs[index].get('imageUrl'),
+                                                  : Image.network(money[index]['imageUrl'],
                                                   fit: BoxFit.contain,
                                                   errorBuilder: (context, error, stackTrace) {
                                                     return const Center(
@@ -101,7 +102,7 @@ class SaveMoneyScreen extends StatelessWidget {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                Text(snapshot.data?.docs[index].get('whatIsIt'),
+                                                Text(money[index]['whatIsIt'],
                                                   style: kBigTextStyle,
                                                 ),
                                                 SizedBox(
@@ -160,8 +161,8 @@ class SaveMoneyScreen extends StatelessWidget {
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
                                                     Text('$total'
-                                                        '/ ${snapshot.data?.docs[index].get('price')} '
-                                                        '${snapshot.data?.docs[index].get('currency')}',
+                                                        '/ ${money[index]['price']} '
+                                                        '${money[index]['currency']}',
                                                       style: kBigTextStyle,),
                                                   ],
                                                 ),
@@ -179,7 +180,7 @@ class SaveMoneyScreen extends StatelessWidget {
                     ButtonWidget(
                       onTap: () => Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) =>
-                          const AddSingleSaveMoneyScreen())),
+                          const AddSaveMoneyScreen())),
                       text: 'add',
                     ),
                     const SizedBox(height: 80,),
