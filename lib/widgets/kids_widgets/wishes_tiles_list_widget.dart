@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/providers/kid_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants.dart';
 import '../../providers/parent_provider.dart';
 
@@ -30,22 +30,23 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
     Size size = MediaQuery.sizeOf(context);
     return Consumer2<ParentProvider, KidProvider>(
         builder: (context, data, kidData, _){
-          return StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('wishes')
-                .orderBy('time', descending: true)
-                .snapshots(),
+          return StreamBuilder<List<Map<String, dynamic>>>(
+            stream: Supabase.instance.client
+                .from('wishes')
+                .stream(primaryKey: ['id'])
+                .order('time', ascending: false),
             builder: (context, snapshot){
               if(snapshot.hasData){
+                final wishes = snapshot.data!;
                 return ListView.builder(
                   padding: const EdgeInsets.only(bottom: 40),
-                    itemCount: snapshot.data?.docs.length,
+                    itemCount: wishes.length,
                     itemBuilder: (context, index){
-                      if(snapshot.data?.docs[index].get('kidEmail').toLowerCase() == data.email){
+                      if(wishes[index]['kidEmail'].toLowerCase() == data.email){
                         return GestureDetector(
                           onTap: () {
-                            snapshot.data?.docs[index].get('imageUrl') != 'false'
-                                ? kidData.showWishDescription(context, snapshot, index)
+                            wishes[index]['imageUrl'] != 'false'
+                                ? kidData.showWishDescription(context, wishes[index], index)
                                 : null;
                           },
                           child: Container(
@@ -84,7 +85,7 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(snapshot.data?.docs[index].get('wish'),
+                                            Text(wishes[index]['wish'],
                                               style: kBigTextStyleWhite.copyWith(fontSize: 44.sp),),
                                             Container(
                                               padding: const EdgeInsets.fromLTRB(2, 2, 4, 2),
@@ -122,13 +123,13 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                           ],
                                         ),
                                         const Spacer(),
-                                        Text(snapshot.data?.docs[index].get('whyNeed'),
+                                        Text(wishes[index]['whyNeed'],
                                           style: kTextStyleWhite.copyWith(fontSize: 18.sp),),
                                       ],
                                     ),
                                   ),
                                 ),
-                                snapshot.data?.docs[index].get('imageUrl') == 'false'
+                                   wishes[index]['imageUrl'] == 'false'
                                     ? Container(
                                   width: size.width * 0.2,
                                   height: 100,
@@ -191,7 +192,7 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                           ),
                                         ]
                                       ),
-                                      child: Image.network(snapshot.data?.docs[index].get('imageUrl'),
+                                      child: Image.network(wishes[index]['imageUrl'],
                                         fit: BoxFit.cover,
                                         errorBuilder: (context, error, stackTrace) {
                                           return Center(

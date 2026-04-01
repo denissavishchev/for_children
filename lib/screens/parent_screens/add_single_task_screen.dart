@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +5,7 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/info_widget.dart';
 import '../../widgets/parents_widget/exp_widget.dart';
@@ -234,18 +234,19 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                         SizedBox(
                           height: 10,
                           child: StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection('wishes')
-                                  .snapshots(),
+                              stream: Supabase.instance.client
+                                  .from('wishes')
+                                  .stream(primaryKey: ['id']),
                               builder: (context, snapshot){
                                 if(snapshot.hasData){
+                                  final wishes = snapshot.data!;
                                   return ListView.builder(
-                                      itemCount: snapshot.data?.docs.length,
+                                      itemCount: wishes.length,
                                       itemBuilder: (context, index){
-                                        for(int w = 0; w < snapshot.data!.docs.length;){
-                                          if(snapshot.data?.docs[index].get('parent${w}Name').toLowerCase() == data.email
-                                          && snapshot.data?.docs[index].get('kidName') == data.selectedKidName){
-                                            data.wishList.addAll({'${snapshot.data?.docs[index].get('wish')}' : '${snapshot.data?.docs[index].get('imageUrl')}'});
+                                        for(int w = 0; w < wishes.length;){
+                                          if(wishes[index]['parent${w}Name'].toLowerCase() == data.email
+                                          && wishes[index]['kidName'] == data.selectedKidName){
+                                            data.wishList.addAll({'${wishes[index]['wish']}' : '${wishes[index]['imageUrl']}'});
                                             return const SizedBox.shrink();
                                           }else{
                                             return const SizedBox.shrink();

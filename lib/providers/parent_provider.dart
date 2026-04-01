@@ -396,7 +396,7 @@ class ParentProvider with ChangeNotifier {
                       onTap: () => addWishToField(context, wish),
                       child: Container(
                         width: size.width,
-                        height: image == 'false'
+                        height: image == ''
                             ? 50 : 100,
                         margin: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -408,7 +408,7 @@ class ParentProvider with ChangeNotifier {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(wish, style: kTextStyle,),
-                            image == 'false'
+                            image == ''
                                 ? const SizedBox.shrink()
                                 : Image.network(image),
                           ],

@@ -90,12 +90,13 @@ class KidProvider with ChangeNotifier {
             .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
             .eq('email', doc['kid$k'])
             .maybeSingle();
-        selectedParentsEmail.addAll({'${doc['kid$k']}': true});
         if(docEmail != null){
           parentsList.addAll({'${docEmail['name']}': '${doc['kid$k']}'});
+          selectedParentsEmail.addAll({'${doc['kid$k']}': true});
+          parentsListAccept.add(doc['kid${k}Accept']);
+          parentsEmailsList.add(doc['kid$k']);
         }
-        parentsListAccept.add(doc['kid${k}Accept']);
-        parentsEmailsList.add(doc['kid$k']);
+
         notifyListeners();
       }
     }
@@ -145,16 +146,34 @@ class KidProvider with ChangeNotifier {
     getParentsData();
   }
 
-  Future pickAnImage()async{
-    ImagePicker image = ImagePicker();
-    file = await image.pickImage(
+  Future<void> pickAnImage() async {
+    ImagePicker imagePicker = ImagePicker();
+
+    file = await imagePicker.pickImage(
       source: ImageSource.camera,
       imageQuality: 30,
       maxWidth: 800,
     );
-    if(file == null) return;
+
+    if (file == null) {
+      return;
+    }
+    final File fileToUpload = File(file!.path);
     fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    imageToUpload = FirebaseStorage.instance.ref().child('wishes').child(fileName);
+    try {
+      final String bucketName = 'images';
+      await Supabase.instance.client.storage
+          .from(bucketName)
+          .upload(
+        fileName,
+        fileToUpload,
+      );
+      imageUrl = Supabase.instance.client.storage
+          .from(bucketName)
+          .getPublicUrl(fileName);
+    } catch (e) {
+      log('❌ Błąd Supabase przy wgrywaniu zdjęcia: $e');
+    }
     notifyListeners();
   }
 
@@ -168,32 +187,40 @@ class KidProvider with ChangeNotifier {
         }
       }
     if(parents.isNotEmpty){
-    if(fileName != ''){
-      try{
-        await imageToUpload.putFile(File(file!.path));
-        imageUrl = await imageToUpload.getDownloadURL();
-      }catch(e){
-        return;
-      }
-    }
+    // if(fileName != ''){
+    //   try{
+    //     await imageToUpload.putFile(File(file!.path));
+    //     imageUrl = await imageToUpload.getDownloadURL();
+    //   }catch(e){
+    //     return;
+    //   }
+    // }
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('users')
+        .select('name')
+        .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+        .maybeSingle();
 
-    DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.
-    instance.collection('users').doc(prefs.getString('email')?.toLowerCase()).get();
-    String name = doc.data()?['name'];
-        await FirebaseFirestore.instance.collection('wishes').add({
-          'wish': addWishNameController.text,
-          'whyNeed': addWishDescriptionController.text,
-          'kidEmail': prefs.getString('email'),
-          'kidName' : name,
-          'parent0Name': parents.isNotEmpty ? parents[0] : '',
-          'parent1Name': parents.length > 1 ? parents[1] : '',
-          'parent2Name': parents.length > 2 ? parents[2] : '',
-          'parent3Name': parents.length > 3 ? parents[3] : '',
-          'parent4Name': parents.length > 4 ? parents[4] : '',
-          'imageUrl' : fileName == '' ? 'false' : imageUrl,
-          'time' : DateTime.now().toString()
-        });
+        String name = '';
+        if(doc != null){
+          name = doc['name'];
+        }
+    await Supabase.instance.client
+        .from('wishes')
+        .insert({
+      'wish': addWishNameController.text,
+      'whyNeed': addWishDescriptionController.text,
+      'kidEmail': prefs.getString('email'),
+      'kidName' : name,
+      'parent0Name': parents.isNotEmpty ? parents[0] : '',
+      'parent1Name': parents.length > 1 ? parents[1] : '',
+      'parent2Name': parents.length > 2 ? parents[2] : '',
+      'parent3Name': parents.length > 3 ? parents[3] : '',
+      'parent4Name': parents.length > 4 ? parents[4] : '',
+      'imageUrl' : fileName == '' ? 'false' : imageUrl,
+      'time' : DateTime.now().toString()
+    });
         addWishNameController.clear();
         addWishDescriptionController.clear();
         imageUrl = '';
@@ -213,7 +240,7 @@ class KidProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future showWishDescription(context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot, int index) {
+  Future showWishDescription(context, Map<String, dynamic> snapshot, int index) {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -230,7 +257,7 @@ class KidProvider with ChangeNotifier {
                 color: kGrey,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
               ),
-             child: Image.network(snapshot.data?.docs[index].get('imageUrl'),
+             child: Image.network(snapshot['imageUrl'],
                  fit: BoxFit.cover,
                  errorBuilder: (context, error, stackTrace) {
                    return const Center(
