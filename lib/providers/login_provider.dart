@@ -2,12 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/toasts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 import '../screens/login_screens/auth_screen.dart';
 import '../screens/login_screens/login_screen.dart';
 import '../widgets/language.dart';
+import 'kid_provider.dart';
 
 class LoginProvider with ChangeNotifier {
 
@@ -61,6 +63,7 @@ class LoginProvider with ChangeNotifier {
 
   Future logOut(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final kidsData = Provider.of<KidProvider>(context, listen: false);
     prefs.remove('email');
     emailController.clear();
     passwordController.clear();
@@ -68,6 +71,7 @@ class LoginProvider with ChangeNotifier {
     nameController.clear();
     surnameController.clear();
     resetPasswordController.clear();
+    kidsData.selectedRoute = Icons.home;
     Supabase.instance.client.auth.signOut().then((v) =>
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
