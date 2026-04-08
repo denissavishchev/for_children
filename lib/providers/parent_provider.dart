@@ -1291,7 +1291,7 @@ class ParentProvider with ChangeNotifier {
         'description': addTaskDescriptionController.text,
         'imageUrl' : fileName == '' ? 'false' : imageUrl,
         'isActual' : true,
-        "endTime": DateTime.now().add(const Duration(days: 5)).toString(),
+        "endTime": DateTime.now().add(Duration(days: daySlider.toInt())).toString(),
       });
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
@@ -1299,6 +1299,7 @@ class ParentProvider with ChangeNotifier {
       fileName = '';
       selectedKidName = '';
       selectedKidEmail = '';
+      daySlider = 5;
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) =>
           const MainParentScreen()));

@@ -3,25 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/info_widget.dart';
+import 'ads_list_screen.dart';
 
-class AddAdsScreen extends StatefulWidget {
+class AddAdsScreen extends StatelessWidget {
   const AddAdsScreen({super.key});
-
-  @override
-  State<AddAdsScreen> createState() => _AddAdsScreenState();
-}
-
-class _AddAdsScreenState extends State<AddAdsScreen> {
-
-  @override
-  void initState() {
-    final data = Provider.of<ParentProvider>(context, listen: false);
-    data.getKidsData();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +32,7 @@ class _AddAdsScreenState extends State<AddAdsScreen> {
                               IconButton(
                                   onPressed: () => Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
-                                      const MainParentScreen())),
+                                      const AdsListScreen())),
                                   icon: const Icon(
                                     Icons.arrow_back_ios_new,
                                     color: kBlue,
@@ -54,61 +41,13 @@ class _AddAdsScreenState extends State<AddAdsScreen> {
                               const Spacer(),
                             ],
                           ),
+                          Text('kid name ${data.selectedKidName}'),
+                          Text('kid email ${data.selectedKidEmail}'),
                           Form(
                             key: data.adsKey,
                             child: Column(
                               spacing: 18,
                               children: [
-                                SizedBox(
-                                    width: size.width,
-                                    height: 40.0 * (data.kidsList.length / 2).round(),
-                                    child: FutureBuilder(
-                                      future: data.getKid,
-                                      builder: (context, snapshot){
-                                        if(snapshot.connectionState == ConnectionState.waiting){
-                                          return const Center(child: CircularProgressIndicator(),);
-                                        }else{
-                                          return GridView.builder(
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            itemCount: data.kidsList.length,
-                                            itemBuilder: (context, index){
-                                              return data.kidsList[index].accept == true
-                                                  ? GestureDetector(
-                                                onTap: () => data.selectKid(data.kidsList[index].name, data.kidsList[index].email),
-                                                child: Container(
-                                                  width: size.width * 0.4,
-                                                  margin: const EdgeInsets.all(2),
-                                                  decoration: BoxDecoration(
-                                                      color: kDarkWhite,
-                                                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                                      border: Border.all(
-                                                          width: 2,
-                                                          color: data.selectedKidName == data.kidsList[index].name
-                                                              ? kOrange : kDarkGrey)
-                                                  ),
-                                                  child: Center(
-                                                      child: Text(data.kidsList[index].name, style: kTextStyle,)),
-                                                ),
-                                              )
-                                                  : Container(
-                                                width: size.width * 0.4,
-                                                margin: const EdgeInsets.all(2),
-                                                decoration: BoxDecoration(
-                                                  color: kDarkGrey.withValues(alpha: 0.3),
-                                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                                ),
-                                                child: Center(
-                                                    child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyle,)),
-                                              );
-                                            },
-                                            gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2,
-                                                mainAxisExtent: 40),);
-                                        }
-                                      },
-                                    )
-                                ),
                                 TextFormField(
                                   controller: data.addTaskNameController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -158,8 +97,25 @@ class _AddAdsScreenState extends State<AddAdsScreen> {
                               ],
                             ),
                           ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Slider(
+                                  divisions: 5,
+                                  activeColor: kBlue,
+                                  inactiveColor: kWhite,
+                                  thumbColor: kBlue,
+                                  value: data.daySlider,
+                                  onChanged: (v) => data.changeDaySlider(v),
+                                  min: 5,
+                                  max: 30,
+                                ),
+                              ),
+                              Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,)
+                            ],
+                          ),
                           GestureDetector(
-                            onTap: () => data.isEdit ? null : data.pickAnImage(),
+                            onTap: () => data.pickAnImage(),
                             child: Container(
                               width: 100,
                               clipBehavior: Clip.hardEdge,

@@ -6,9 +6,9 @@ import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
-import 'add_ads_screen.dart';
 import 'add_multi_task_screen.dart';
 import 'add_single_task_screen.dart';
+import 'ads_list_screen.dart';
 import 'parent_settings_screen.dart';
 import '../../widgets/parents_widget/parent_single_task_list_widget.dart';
 import '../../widgets/parents_widget/parent_multi_task_list_widget.dart';
@@ -76,7 +76,7 @@ class _MainParentScreenState extends State<MainParentScreen> {
                                 IconButton(
                                     onPressed: () => Navigator.pushReplacement(context,
                                         MaterialPageRoute(builder: (context) =>
-                                        const AddAdsScreen())),
+                                        const AdsListScreen())),
                                     icon: const Icon(
                                       Icons.campaign,
                                       color: kBlue,
