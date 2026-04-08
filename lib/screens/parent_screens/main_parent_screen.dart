@@ -6,6 +6,7 @@ import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
+import 'add_ads_screen.dart';
 import 'add_multi_task_screen.dart';
 import 'add_single_task_screen.dart';
 import 'parent_settings_screen.dart';
@@ -50,6 +51,9 @@ class _MainParentScreenState extends State<MainParentScreen> {
                           children: [
                             Row(
                               children: [
+                                SizedBox(
+                                  width: 58,
+                                ),
                                 IconButton(
                                     onPressed: () =>
                                       Navigator.pushReplacement(context,
@@ -66,6 +70,15 @@ class _MainParentScreenState extends State<MainParentScreen> {
                                         const HistoryScreen())),
                                     icon: const Icon(
                                       Icons.history,
+                                      color: kBlue,
+                                      size: 32,
+                                    )),
+                                IconButton(
+                                    onPressed: () => Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) =>
+                                        const AddAdsScreen())),
+                                    icon: const Icon(
+                                      Icons.campaign,
                                       color: kBlue,
                                       size: 32,
                                     )),
@@ -105,8 +118,8 @@ class _MainParentScreenState extends State<MainParentScreen> {
                     ],
                   ),
                   Positioned(
-                    top: 30,
-                      left: 150,
+                    top: 20,
+                      left: 12,
                       child: InfoWidget(
                         info: data.mainParentInfo,
                         onTap: () => data.switchParentInfo(),

@@ -269,7 +269,7 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                   ),
                 ),
                 Positioned(
-                    top: 24,
+                    top: 0,
                     right: 20,
                     child: InfoWidget(
                       info: data.addTaskInfo,

@@ -36,6 +36,7 @@ dependencies:
   googleapis_auth: ^2.0.0
   supabase_flutter: ^2.12.2
   flutter_spinkit: ^5.2.2
+  google_generative_ai: ^0.4.7
 
 dev_dependencies:
   flutter_test:

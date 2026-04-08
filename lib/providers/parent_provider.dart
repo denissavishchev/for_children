@@ -10,6 +10,7 @@ import 'package:for_children/screens/history_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,6 +22,7 @@ import 'package:googleapis_auth/auth_io.dart' as auth;
 class ParentProvider with ChangeNotifier {
 
   GlobalKey<FormState> taskKey = GlobalKey<FormState>();
+  GlobalKey<FormState> adsKey = GlobalKey<FormState>();
 
   TextEditingController addTaskNameController = TextEditingController();
   TextEditingController addTaskDescriptionController = TextEditingController();
@@ -50,6 +52,11 @@ class ParentProvider with ChangeNotifier {
   bool isDeadline = false;
 
   bool isLoading = false;
+
+  final aiModel = GenerativeModel(
+    model: 'gemini-2.5-flash-lite',
+    apiKey: dotenv.env['GOOGLE_AI_STUDIO_KEY'].toString(),
+  );
 
   List<String> status = ['price', 'inProgress', 'done', 'checked', 'paid'];
 
@@ -1225,5 +1232,82 @@ class ParentProvider with ChangeNotifier {
       log("error: $e");
     }
   }
+
+  Future<void> getSmartAdDescription(context)async {
+    isLoading = true;
+    notifyListeners();
+    Locale myLocale = Localizations.localeOf(context);
+    String language = myLocale.languageCode;
+    final prompt = [
+      Content.multi([
+        TextPart(
+          "Jesteś profesjonalnym, kreatywnym asystentem copywritera reklamowego mówiącym po polsku. "
+              "Twoim zadaniem jest stworzenie chwytliwego, sprzedażowego opisu reklamowego dla produktu, "
+              "używając podanych słów kluczowych: '${addTaskDescriptionController.text.trim()}'. "
+              "Opis musi mieć dokładnie około 30 słów. Nie używaj hasztagów ani emotikonów."
+              "Tylko opis, żadnych dodatkowych informacji"
+              "Opis ma być w języku $language",
+        ),
+      ]),
+    ];
+    try {
+      final response = await aiModel.generateContent(prompt);
+
+      if (response.text != null) {
+        addTaskDescriptionController.text = response.text ?? '';
+      } else {
+        throw Exception('empty response');
+      }
+    } catch (e) {
+      log('Gemini error: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future addAdToBase(context)async{
+    isLoading = true;
+    notifyListeners();
+    if(selectedKidName != ''){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final Map<String, dynamic>? doc = await Supabase.instance.client
+          .from('users')
+          .select('name')
+          .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
+          .maybeSingle();
+      String parentName = '';
+      if(doc != null){
+        parentName = doc['name'];
+      }
+      await Supabase.instance.client
+          .from('ads')
+          .insert({
+        'parentName': parentName,
+        'parentEmail': prefs.getString('email'),
+        'kidName': selectedKidName,
+        'kidEmail': selectedKidEmail,
+        'title': addTaskNameController.text,
+        'description': addTaskDescriptionController.text,
+        'imageUrl' : fileName == '' ? 'false' : imageUrl,
+        'isActual' : true,
+        "endTime": DateTime.now().add(const Duration(days: 5)).toString(),
+      });
+      addTaskNameController.clear();
+      addTaskDescriptionController.clear();
+      imageUrl = '';
+      fileName = '';
+      selectedKidName = '';
+      selectedKidEmail = '';
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) =>
+          const MainParentScreen()));
+    }else{
+      sadToast('selectKid');
+    }
+    isLoading = false;
+    notifyListeners();
+  }
+
 
 }
