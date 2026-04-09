@@ -31,7 +31,7 @@ class KidOnboardingScreenSix extends StatelessWidget {
                       child: Column(
                         children: [
                           Text('congratulations'.tr(), style: kBigTextStyleOrange.copyWith(fontSize: 52.sp),),
-                          Text('onboardingComplete'.tr(), style: kBigTextKidStyle,),
+                          Text('onboardingComplete'.tr(), style: kBigTextStyle,),
                         ],
                       )
                   ),
@@ -45,11 +45,11 @@ class KidOnboardingScreenSix extends StatelessWidget {
                             child: SizedBox(
                               width: size.width,
                               child: Text('WishYouGoodLuck'.tr(),
-                                style: kBigTextKidStyle.copyWith(fontSize: 36.sp),
+                                style: kBigTextStyle.copyWith(fontSize: 36.sp),
                                 textAlign: TextAlign.center,),
                             ),
                           ),
-                          Text('hopeForGoodResults'.tr(), style: kBigTextKidStyle,),
+                          Text('hopeForGoodResults'.tr(), style: kBigTextStyle,),
                         ],
                       )
                   ),

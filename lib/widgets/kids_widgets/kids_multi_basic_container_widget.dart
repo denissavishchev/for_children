@@ -93,7 +93,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(snapshot['taskName'],
-                                style: kBigTextKidStyle,),
+                                style: kBigTextStyle,),
                               Text(snapshot[nameOf],
                                 style: kTextKidStyle,),
                             ],

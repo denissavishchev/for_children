@@ -1244,7 +1244,7 @@ class ParentProvider with ChangeNotifier {
           "Jesteś profesjonalnym, kreatywnym asystentem copywritera reklamowego mówiącym po polsku. "
               "Twoim zadaniem jest stworzenie chwytliwego, sprzedażowego opisu reklamowego dla produktu, "
               "używając podanych słów kluczowych: '${addTaskDescriptionController.text.trim()}'. "
-              "Opis musi mieć dokładnie około 30 słów. Nie używaj hasztagów ani emotikonów."
+              "Opis musi mieć maksymalnie 128 symboli, zakładaj że spacja też symbol. Nie używaj hasztagów ani emotikonów."
               "Tylko opis, żadnych dodatkowych informacji"
               "Opis ma być w języku $language",
         ),
@@ -1307,6 +1307,13 @@ class ParentProvider with ChangeNotifier {
       sadToast('selectKid');
     }
     isLoading = false;
+    notifyListeners();
+  }
+
+  void changeAdTexts(String value, bool title){
+    title
+      ? addTaskNameController.text = value
+      : addTaskDescriptionController.text = value;
     notifyListeners();
   }
 
