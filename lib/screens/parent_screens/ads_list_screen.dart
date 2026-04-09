@@ -77,64 +77,84 @@ class _AdsListScreenState extends State<AdsListScreen> {
                                     margin: const EdgeInsets.only(bottom: 12),
                                     clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(
+                                      color: kWhite,
                                       borderRadius: BorderRadius.all(Radius.circular(18)),
                                       border: Border.all(color: kGrey, width: 1),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: kGrey.withValues(alpha: 0.4),
+                                          spreadRadius: 1.5,
+                                          blurRadius: 3,
+                                          offset: const Offset(0, 2),
+                                        )
+                                      ]
                                     ),
-                                    child: Stack(
+                                    child: Row(
                                       children: [
-                                        Positioned(
-                                          right: 0,
-                                          bottom: 0,
-                                          top: 0,
-                                          child: Container(
-                                            width: 100,
-                                            height: 100,
-                                            clipBehavior: Clip.hardEdge,
-                                            decoration: BoxDecoration(
-                                              color: kBlue.withValues(alpha: 0.3),
-                                              borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                            child: Column(
+                                              spacing: 12,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(data.adsList[index].title,
+                                                  style: kBigTextStyle.copyWith(fontSize: 44.sp),),
+                                                Text(data.adsList[index].description,
+                                                  style: kTextStyleNormal, softWrap: true,),
+                                              ],
                                             ),
-                                            child: Image.network(data.adsList[index].imageUrl,
-                                                fit: BoxFit.cover,
-                                                loadingBuilder: (context, child, loadingProgress) {
-                                                  if (loadingProgress == null) return child;
-                                                  return const Center(child: CircularProgressIndicator(strokeWidth: 2));
-                                                },
-                                                errorBuilder: (context, error, stackTrace) {
-                                                  return const Center(
-                                                    child: Icon(Icons.warning, color: kOrange,),
-                                                  );
-                                                }),
                                           ),
                                         ),
-                                        Positioned(
-                                            top: 12,
-                                            left: 12,
-                                            child: SizedBox(
-                                              width: size.width * 0.6,
-                                              child: Text(data.adsList[index].title,
-                                                style: kBigTextStyle.copyWith(fontSize: 44.sp),),
-                                            )
-                                        ),
-                                        Positioned(
-                                            top: size.height * 0.1,
-                                            left: 12,
-                                            child: SizedBox(
-                                              width: size.width * 0.6,
-                                              child: Text(data.adsList[index].description,
-                                                style: kTextStyleNormal,),
-                                            )
-                                        ),
-                                        Positioned(
-                                            top: 12,
-                                            right: 12,
-                                            child: Container(
-                                              color: kRed,
-                                              width: size.width * 0.3,
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              clipBehavior: Clip.hardEdge,
+                                              margin: const EdgeInsets.only(left: 12),
+                                              decoration: BoxDecoration(
+                                                color: kBlue.withValues(alpha: 0.3),
+                                                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                              ),
+                                              child: Image.network(data.adsList[index].imageUrl,
+                                                  fit: BoxFit.cover,
+                                                  loadingBuilder: (context, child, loadingProgress) {
+                                                    if (loadingProgress == null) return child;
+                                                    return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                                                  },
+                                                  errorBuilder: (context, error, stackTrace) {
+                                                    return const Center(
+                                                      child: Icon(Icons.warning, color: kOrange,),
+                                                    );
+                                                  }),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(top: 12),
+                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: kDarkWhite,
+                                                borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                                border: Border.all(color: kOrange.withValues(alpha: 0.7), width: 1),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: kWhite.withValues(alpha: 0.7),
+                                                    spreadRadius: 3,
+                                                    blurRadius: 3,
+                                                    offset: const Offset(0, -1),
+                                                  ),
+                                                  BoxShadow(
+                                                    color: kOrange.withValues(alpha: 0.4),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 3,
+                                                    offset: const Offset(0, 4),
+                                                  )
+                                                ]
+                                              ),
                                               child: Text(data.adsList[index].name,
                                                 style: kTextStyleNormal,),
                                             )
-                                        )
+                                          ],
+                                        ),
+                                      
                                       ],
                                     ),
                                   ),
