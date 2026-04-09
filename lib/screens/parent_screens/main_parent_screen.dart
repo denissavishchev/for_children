@@ -26,7 +26,9 @@ class _MainParentScreenState extends State<MainParentScreen> {
   @override
   void initState() {
     final kidsData = Provider.of<KidProvider>(context, listen: false);
+    final parentsData = Provider.of<ParentProvider>(context, listen: false);
     kidsData.setupKidNotification();
+    parentsData.getKids();
     super.initState();
   }
 

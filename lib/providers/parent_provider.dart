@@ -14,6 +14,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/ads_model.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../widgets/toasts.dart';
@@ -106,8 +107,10 @@ class ParentProvider with ChangeNotifier {
   late Reference imageToUpload;
   XFile? file = XFile('');
   late Future<void> getKid;
+  Future<void> getAds = Future.value(null);
   late Future<void> getEmailVoid;
   List<KidModel> kidsList = [];
+  List<AdsModel> adsList = [];
   Map<String, String> wishList = {};
 
   String? email = '';
@@ -145,7 +148,6 @@ class ParentProvider with ChangeNotifier {
 
   void isSingleTaskSwitch(){
     isSingleTask = !isSingleTask;
-    notifyListeners();
   }
 
   Future<void> getEmailAndName() async{
@@ -162,8 +164,13 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getKidsData(){
+  Future<void> getKidsData()async {
     getKid = getKids();
+  }
+
+  Future<void> getAdsData()async {
+    getAds = getAdsFromBase();
+    notifyListeners();
   }
 
   void getEmailData(){
@@ -1314,6 +1321,30 @@ class ParentProvider with ChangeNotifier {
     title
       ? addTaskNameController.text = value
       : addTaskDescriptionController.text = value;
+    notifyListeners();
+  }
+
+  Future<void> getAdsFromBase()async{
+    final List<String> emails = kidsList.map((k) => k.email.toLowerCase()).toList();
+    if (emails.isEmpty) return;
+
+    final List<Map<String, dynamic>> kidDoc = await Supabase.instance.client
+        .from('ads')
+        .select('kidName, kidEmail, title, description, endTime, imageUrl')
+        .inFilter('kidEmail', emails);
+
+    adsList.clear();
+    for (var doc in kidDoc) {
+      final ad = AdsModel(
+        name: doc['kidName'],
+        kidEmail: doc['kidEmail'],
+        title: doc['title'],
+        description: doc['description'],
+        endTime: doc['endTime'],
+        imageUrl: doc['imageUrl']
+      );
+      adsList.add(ad);
+    }
     notifyListeners();
   }
 

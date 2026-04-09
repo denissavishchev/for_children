@@ -1,5 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/add_ads_screen.dart';
@@ -17,8 +17,10 @@ class _AdsListScreenState extends State<AdsListScreen> {
 
   @override
   void initState() {
-    final data = Provider.of<ParentProvider>(context, listen: false);
-    data.getKidsData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final data = Provider.of<ParentProvider>(context, listen: false);
+      data.getAdsData();
+    });
     super.initState();
   }
 
@@ -52,48 +54,90 @@ class _AdsListScreenState extends State<AdsListScreen> {
                         ],
                       ),
                       FutureBuilder(
-                        future: data.getKid,
+                        future: data.getAds,
                         builder: (context, snapshot){
                           if(snapshot.connectionState == ConnectionState.waiting){
                             return const Center(child: CircularProgressIndicator(),);
                           }else{
                             return ListView.builder(
                               shrinkWrap: true,
-                              itemCount: data.kidsList.length,
+                              itemCount: data.adsList.length,
                               itemBuilder: (context, index){
-                                return data.kidsList[index].accept == true
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          data.selectedKidName = data.kidsList[index].name;
-                                          data.selectedKidEmail = data.kidsList[index].email;
-                                          Navigator.pushReplacement(context,
-                                              MaterialPageRoute(builder: (context) =>
-                                              const AddAdsScreen()));
+                                return GestureDetector(
+                                  onTap: () {
+                                    data.selectedKidName = data.adsList[index].name;
+                                    data.selectedKidEmail = data.adsList[index].kidEmail;
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) =>
+                                        const AddAdsScreen()));
                                   },
                                   child: Container(
-                                    width: size.width * 0.8,
-                                    height: 100,
-                                    margin: const EdgeInsets.all(2),
+                                    width: size.width,
+                                    height: size.height * 0.2,
+                                    margin: const EdgeInsets.only(bottom: 12),
+                                    clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(
-                                        color: kDarkWhite,
-                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                        border: Border.all(
-                                            width: 2,
-                                            color: kDarkGrey)
+                                      borderRadius: BorderRadius.all(Radius.circular(18)),
+                                      border: Border.all(color: kGrey, width: 1),
                                     ),
-                                    child: Center(
-                                        child: Text(data.kidsList[index].name, style: kTextStyle,)),
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          right: 0,
+                                          bottom: 0,
+                                          top: 0,
+                                          child: Container(
+                                            width: 100,
+                                            height: 100,
+                                            clipBehavior: Clip.hardEdge,
+                                            decoration: BoxDecoration(
+                                              color: kBlue.withValues(alpha: 0.3),
+                                              borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                            ),
+                                            child: Image.network(data.adsList[index].imageUrl,
+                                                fit: BoxFit.cover,
+                                                loadingBuilder: (context, child, loadingProgress) {
+                                                  if (loadingProgress == null) return child;
+                                                  return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                                                },
+                                                errorBuilder: (context, error, stackTrace) {
+                                                  return const Center(
+                                                    child: Icon(Icons.warning, color: kOrange,),
+                                                  );
+                                                }),
+                                          ),
+                                        ),
+                                        Positioned(
+                                            top: 12,
+                                            left: 12,
+                                            child: SizedBox(
+                                              width: size.width * 0.6,
+                                              child: Text(data.adsList[index].title,
+                                                style: kBigTextStyle.copyWith(fontSize: 44.sp),),
+                                            )
+                                        ),
+                                        Positioned(
+                                            top: size.height * 0.1,
+                                            left: 12,
+                                            child: SizedBox(
+                                              width: size.width * 0.6,
+                                              child: Text(data.adsList[index].description,
+                                                style: kTextStyleNormal,),
+                                            )
+                                        ),
+                                        Positioned(
+                                            top: 12,
+                                            right: 12,
+                                            child: Container(
+                                              color: kRed,
+                                              width: size.width * 0.3,
+                                              child: Text(data.adsList[index].name,
+                                                style: kTextStyleNormal,),
+                                            )
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                )
-                                    : Container(
-                                  width: size.width * 0.4,
-                                  margin: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    color: kDarkGrey.withValues(alpha: 0.3),
-                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                  ),
-                                  child: Center(
-                                      child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyle,)),
                                 );
                               },
                             );
