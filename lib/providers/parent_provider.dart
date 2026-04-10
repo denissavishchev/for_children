@@ -335,7 +335,12 @@ class ParentProvider with ChangeNotifier {
             email: kidEmail,
             accept: isAcceptedByChild,
             startDay: docEmail['dayStart'] ?? '',
-            endDay: docEmail['dayEnd'] ?? '');
+            endDay: docEmail['dayEnd'] ?? '',
+            adTitle: docEmail['adTitle'] ?? '',
+            adDescription: docEmail['adDescription'] ?? '',
+            adImageUrl: docEmail['adImageUrl'] ?? '',
+            adEndTime: docEmail['adEndTime'] ?? ''
+        );
         kidsList.add(kid);
     }
     notifyListeners();
@@ -1245,6 +1250,7 @@ class ParentProvider with ChangeNotifier {
               "Twoim zadaniem jest stworzenie chwytliwego, sprzedażowego opisu reklamowego dla produktu, "
               "używając podanych słów kluczowych: '${addTaskDescriptionController.text.trim()}'. "
               "Opis musi mieć dokładnie około 30 słów. Nie używaj hasztagów ani emotikonów."
+              "Opis musi mieć maksymalnie 128 symboli, zakładaj że spacja też symbol. Nie używaj hasztagów ani emotikonów."
               "Tylko opis, żadnych dodatkowych informacji"
               "Opis ma być w języku $language",
         ),
@@ -1270,29 +1276,15 @@ class ParentProvider with ChangeNotifier {
     isLoading = true;
     notifyListeners();
     if(selectedKidName != ''){
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final Map<String, dynamic>? doc = await Supabase.instance.client
-          .from('users')
-          .select('name')
-          .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
-          .maybeSingle();
-      String parentName = '';
-      if(doc != null){
-        parentName = doc['name'];
-      }
       await Supabase.instance.client
-          .from('ads')
-          .insert({
-        'parentName': parentName,
-        'parentEmail': prefs.getString('email'),
-        'kidName': selectedKidName,
-        'kidEmail': selectedKidEmail,
-        'title': addTaskNameController.text,
-        'description': addTaskDescriptionController.text,
-        'imageUrl' : fileName == '' ? 'false' : imageUrl,
-        'isActual' : true,
-        "endTime": DateTime.now().add(Duration(days: daySlider.toInt())).toString(),
-      });
+          .from('users')
+          .update({
+            'adTitle': addTaskNameController.text,
+            'adDescription': addTaskDescriptionController.text,
+            'adImageUrl': fileName == '' ? 'false' : imageUrl,
+            'adEndTime': DateTime.now().add(Duration(days: daySlider.toInt())).toString(),
+          })
+          .eq('email', selectedKidEmail.toLowerCase().trim());
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
       imageUrl = '';
@@ -1309,6 +1301,14 @@ class ParentProvider with ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
+  void changeAdTexts(String value, bool title){
+    title
+        ? addTaskNameController.text = value
+        : addTaskDescriptionController.text = value;
+    notifyListeners();
+  }
+
 
 
 }

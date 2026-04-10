@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/add_ads_screen.dart';
@@ -71,29 +72,102 @@ class _AdsListScreenState extends State<AdsListScreen> {
                                               const AddAdsScreen()));
                                   },
                                   child: Container(
-                                    width: size.width * 0.8,
-                                    height: 100,
-                                    margin: const EdgeInsets.all(2),
+                                    clipBehavior: Clip.hardEdge,
+                                    margin: const EdgeInsets.only(bottom: 12),
                                     decoration: BoxDecoration(
                                         color: kDarkWhite,
                                         borderRadius: const BorderRadius.all(Radius.circular(12)),
                                         border: Border.all(
                                             width: 2,
-                                            color: kDarkGrey)
+                                            color: kDarkGrey),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: kGrey.withValues(alpha: 0.4),
+                                            spreadRadius: 1.5,
+                                            blurRadius: 3,
+                                            offset: const Offset(0, 2),
+                                          )
+                                        ]
                                     ),
-                                    child: Center(
-                                        child: Text(data.kidsList[index].name, style: kTextStyle,)),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                        child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                        child: Column(
+                                          spacing: 12,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(data.kidsList[index].adTitle,
+                                              style: kBigTextStyle.copyWith(fontSize: 44.sp), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                            Text(data.kidsList[index].adDescription,
+                                              style: kTextStyleNormal, softWrap: true,),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              clipBehavior: Clip.hardEdge,
+                                              width: size.width * 0.3,
+                                              margin: const EdgeInsets.only(left: 12),
+                                              decoration: BoxDecoration(
+                                                color: kBlue.withValues(alpha: 0.3),
+                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                              ),
+                                              child: Image.network(data.kidsList[index].adImageUrl,
+                                                  fit: BoxFit.cover,
+                                                  loadingBuilder: (context, child, loadingProgress) {
+                                                    if (loadingProgress == null) return child;
+                                                    return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                                                  },
+                                                  errorBuilder: (context, error, stackTrace) {
+                                                    return const Center(
+                                                      child: Icon(Icons.warning, color: kOrange,),
+                                                    );
+                                                  }),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(top: 12),
+                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                              decoration: BoxDecoration(
+                                                  color: kDarkWhite,
+                                                  borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                                  border: Border.all(color: kOrange.withValues(alpha: 0.7), width: 1),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: kWhite.withValues(alpha: 0.7),
+                                                      spreadRadius: 3,
+                                                      blurRadius: 3,
+                                                      offset: const Offset(0, -1),
+                                                    ),
+                                                    BoxShadow(
+                                                      color: kOrange.withValues(alpha: 0.4),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 3,
+                                                      offset: const Offset(0, 4),
+                                                    )
+                                                  ]
+                                              ),
+                                              child: Text(data.kidsList[index].name,
+                                                style: kTextStyleNormal,),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 )
                                     : Container(
-                                  width: size.width * 0.4,
-                                  margin: const EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    color: kDarkGrey.withValues(alpha: 0.3),
-                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                  ),
-                                  child: Center(
-                                      child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyle,)),
+                                      width: size.width * 0.4,
+                                      margin: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: kDarkGrey.withValues(alpha: 0.3),
+                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                      ),
+                                      child: Center(
+                                          child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyle,)),
                                 );
                               },
                             );

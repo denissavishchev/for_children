@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,8 @@ class AddAdsScreen extends StatelessWidget {
                                   cursorColor: kDarkGrey,
                                   decoration: textFieldDecoration.copyWith(
                                       label: Text('title'.tr(),)),
-                                  maxLength: 64,
+                                  onChanged: (value) => data.changeAdTexts(value, true),
+                                  maxLength: 32,
                                   validator: (value){
                                     if(value == null || value.isEmpty) {
                                       return 'thisFieldCannotBeEmpty'.tr();
@@ -74,7 +76,8 @@ class AddAdsScreen extends StatelessWidget {
                                         cursorColor: kDarkGrey,
                                         decoration: textFieldDecoration.copyWith(
                                             label: Text('description'.tr(),)),
-                                        maxLength: 256,
+                                        onChanged: (value) => data.changeAdTexts(value, false),
+                                        maxLength: 128,
                                       ),
                                     ),
                                     Padding(
@@ -114,16 +117,52 @@ class AddAdsScreen extends StatelessWidget {
                               Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,)
                             ],
                           ),
-                          GestureDetector(
-                            onTap: () => data.pickAnImage(),
-                            child: Container(
-                              width: 100,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                color: kBlue.withValues(alpha: 0.3),
-                                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                              ),
-                              child: data.image(),
+                          Container(
+                            width: size.width,
+                            height: size.height * 0.2,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(18)),
+                              border: Border.all(color: kGrey, width: 1),
+                            ),
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  right: 0,
+                                  bottom: 0,
+                                  top: 0,
+                                  child: GestureDetector(
+                                    onTap: () => data.pickAnImage(),
+                                    child: Container(
+                                      width: 100,
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration: BoxDecoration(
+                                        color: kBlue.withValues(alpha: 0.3),
+                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                      ),
+                                      child: data.image(),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                    top: 12,
+                                    left: 12,
+                                    child: SizedBox(
+                                      width: size.width * 0.6,
+                                      child: Text(data.addTaskNameController.text,
+                                        style: kBigTextStyle.copyWith(fontSize: 44.sp),),
+                                    )
+                                ),
+                                Positioned(
+                                    top: size.height * 0.1,
+                                    left: 12,
+                                    child: SizedBox(
+                                      width: size.width * 0.6,
+                                      child: Text(data.addTaskDescriptionController.text,
+                                        style: kTextStyleNormal,),
+                                    )
+                                )
+                              ],
                             ),
                           ),
                           ButtonWidget(
