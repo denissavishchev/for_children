@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/history_screen.dart';
+import 'package:for_children/screens/parent_screens/ads_list_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
@@ -16,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
+import '../screens/parent_screens/add_ads_screen.dart';
 import '../widgets/toasts.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
@@ -1294,7 +1296,7 @@ class ParentProvider with ChangeNotifier {
       daySlider = 5;
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) =>
-          const MainParentScreen()));
+          const AdsListScreen()));
     }else{
       sadToast('selectKid');
     }
@@ -1309,6 +1311,65 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future deleteAdDialog(context, String imageUrl) async{
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.35,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kGrey,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                    ],
+                  ),
+                  Center(child: Text('beforeAddingNewAd'.tr(), style: kTextStyle,)),
+                  TextButton(
+                      onPressed: () {
+                        deleteAd(context, imageUrl);
+                      },
+                      child: Text('ok'.tr(), style: kTextStyle,)
+                  )
+                ],
+              )
+          );
+        });
+  }
+
+  Future deleteAd(context, String imageUrl)async {
+    await Supabase.instance.client
+        .from('users')
+        .update({
+          'adTitle': '',
+          'adDescription': '',
+          'adImageUrl': '',
+          'adEndTime': '',
+        })
+        .eq('email', selectedKidEmail.toLowerCase().trim());
+    if(imageUrl != 'false'){
+      await Supabase.instance.client.storage
+          .from('images')
+          .remove([imageUrl.split('/').last]);
+    }
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const AddAdsScreen()));
+  }
 
 
 }
