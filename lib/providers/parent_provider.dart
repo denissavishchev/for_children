@@ -1311,7 +1311,7 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future deleteAdDialog(context, String imageUrl) async{
+  Future deleteAdDialog(context, String imageUrl, int index) async{
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -1319,15 +1319,15 @@ class ParentProvider with ChangeNotifier {
         backgroundColor: Colors.transparent,
         builder: (context) {
           return Container(
-              height: size.height * 0.35,
+              height: size.height * 0.25,
               width: size.width,
               margin: const EdgeInsets.only(bottom: 300),
               decoration: const BoxDecoration(
-                color: kGrey,
+                color: kWhite,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1338,13 +1338,20 @@ class ParentProvider with ChangeNotifier {
                         icon: const Icon(Icons.clear), color: kBlue,),
                     ],
                   ),
-                  Center(child: Text('beforeAddingNewAd'.tr(), style: kTextStyle,)),
-                  TextButton(
-                      onPressed: () {
-                        deleteAd(context, imageUrl);
-                      },
-                      child: Text('ok'.tr(), style: kTextStyle,)
-                  )
+                  Column(
+                    children: [
+                      Text('beforeAddingNewAd'.tr(), style: kTextStyle,),
+                      Text('timeLeft'.tr(args: [getTimeLeft(kidsList[index].adEndTime)]),
+                        style: kBigTextStyle,),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 18),
+                    child: ButtonWidget(
+                        onTap: () => deleteAd(context, imageUrl),
+                        text: 'ok'
+                    ),
+                  ),
                 ],
               )
           );
@@ -1369,6 +1376,24 @@ class ParentProvider with ChangeNotifier {
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) =>
         const AddAdsScreen()));
+  }
+
+  String getTimeLeft(String adEndTime) {
+
+      final DateTime end = DateTime.parse(adEndTime);
+      final DateTime now = DateTime.now();
+
+      final Duration difference = end.difference(now);
+
+      if (difference.isNegative) {
+        return 'expired'.tr();
+      }
+
+      if (difference.inDays >= 1) {
+        return '${difference.inDays} ${'days'.tr()}';
+      } else {
+        return '${difference.inHours} ${'hours'.tr()}';
+      }
   }
 
 

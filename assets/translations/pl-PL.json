@@ -264,6 +264,11 @@
   "shareThoughtsAndIdeasWithYourChildKid": "Rozmawiajcie o marzeniach – wspólne planowanie to najlepsza droga do ich spełnienia.",
   "newTaskToDo": "Nowe zadania do wykonania od",
   "dreamItem": "Wymarzona\nrzecz",
-  "title": "Tytuł"
+  "title": "Tytuł",
+  "noAdAdded": "Brak reklam",
+  "beforeAddingNewAd": "Przed dodaniem nowej reklamy zostanie usunięta obecna, która jeszcze się wyświetla",
+  "timeLeft": "Pozostało: {}",
+  "days": "dni",
+  "hours": "godzin"
 
 }
