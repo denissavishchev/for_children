@@ -269,5 +269,7 @@
   "beforeAddingNewAd": "Adding a new ad will remove the current one still running",
   "timeLeft": "Left: {}",
   "days": "days",
-  "hours": "hours"
+  "hours": "hours",
+  "min": "min",
+  "okIWantToAddNew": "Ok, I want to add a new"
 }

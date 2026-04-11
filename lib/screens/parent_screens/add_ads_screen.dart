@@ -114,7 +114,24 @@ class AddAdsScreen extends StatelessWidget {
                                   max: 30,
                                 ),
                               ),
-                              Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,)
+                              Column(
+                                children: [
+                                  Row(
+                                    spacing: 2,
+                                    children: [
+                                      Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,),
+                                      Text('days'.tr(), style: kTextStyle,),
+                                    ],
+                                  ),
+                                  Row(
+                                    spacing: 2,
+                                    children: [
+                                      Text(data.getPriceFromDays(data.daySlider), style: kTextStyle,),
+                                      Text('\$', style: kTextStyle,),
+                                    ],
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                           Container(

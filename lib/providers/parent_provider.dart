@@ -1349,7 +1349,8 @@ class ParentProvider with ChangeNotifier {
                     padding: const EdgeInsets.only(bottom: 18),
                     child: ButtonWidget(
                         onTap: () => deleteAd(context, imageUrl),
-                        text: 'ok'
+                        text: 'okIWantToAddNew',
+                        width: 0.55,
                     ),
                   ),
                 ],
@@ -1379,21 +1380,35 @@ class ParentProvider with ChangeNotifier {
   }
 
   String getTimeLeft(String adEndTime) {
+    final DateTime end = DateTime.parse(adEndTime);
+    final DateTime now = DateTime.now();
+    final Duration difference = end.difference(now);
 
-      final DateTime end = DateTime.parse(adEndTime);
-      final DateTime now = DateTime.now();
+    if (difference.isNegative) {
+      return 'expired'.tr();
+    }
+    final int days = difference.inDays;
+    final int hours = difference.inHours % 24;
+    final int minutes = difference.inMinutes % 60;
+    if (days >= 1) {
+      return '$days ${'days'.tr()} $hours ${'hours'.tr()}';
+    } else if (hours >= 1) {
+      return '$hours ${'hours'.tr()} $minutes ${'min'.tr()}';
+    } else {
+      return '$minutes ${'min'.tr()}';
+    }
+  }
 
-      final Duration difference = end.difference(now);
-
-      if (difference.isNegative) {
-        return 'expired'.tr();
-      }
-
-      if (difference.inDays >= 1) {
-        return '${difference.inDays} ${'days'.tr()}';
-      } else {
-        return '${difference.inHours} ${'hours'.tr()}';
-      }
+  String getPriceFromDays(double value) {
+    Map<int, String> values = {
+      5: '3',
+      10: '5',
+      15: '7',
+      20: '9',
+      25: '11',
+      30: '13',
+    };
+    return values[value] ?? value.toStringAsFixed(0);
   }
 
 

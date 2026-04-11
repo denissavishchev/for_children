@@ -269,6 +269,8 @@
   "beforeAddingNewAd": "Przed dodaniem nowej reklamy zostanie usunięta obecna, która jeszcze się wyświetla",
   "timeLeft": "Pozostało: {}",
   "days": "dni",
-  "hours": "godzin"
+  "hours": "godzin",
+  "min": "minut",
+  "okIWantToAddNew": "OK, chcę dodać nową"
 
 }
