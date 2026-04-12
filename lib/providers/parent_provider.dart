@@ -114,6 +114,9 @@ class ParentProvider with ChangeNotifier {
 
   String? email = '';
   String? name = '';
+  String? adTitle = '';
+  String? adDescription = '';
+  String? adImageUrl = '';
   String? role = '';
 
   double stars = 0.0;
@@ -155,11 +158,14 @@ class ParentProvider with ChangeNotifier {
     email = prefs.getString('email');
     final Map<String, dynamic>? doc = await Supabase.instance.client
         .from('users')
-        .select('name')
+        .select('name, adTitle, adDescription, adImageUrl')
         .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
         .maybeSingle();
     if(doc != null){
       name = doc['name'];
+      adTitle = doc['adTitle'];
+      adDescription = doc['adDescription'];
+      adImageUrl = doc['adImageUrl'];
     }
     notifyListeners();
   }
