@@ -271,6 +271,8 @@
   "days": "dni",
   "hours": "godzin",
   "min": "minut",
-  "okIWantToAddNew": "OK, chcę dodać nową"
+  "okIWantToAddNew": "OK, chcę dodać nową",
+  "helloName": "Cześć, {}! Miłego dnia!",
+  "goodNightName": "Dobranoc, {}",
 
 }

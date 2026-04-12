@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -125,6 +126,35 @@ class DayNightWidget extends StatelessWidget {
                             userEndTime: data.endDateTime,
                             docs: docs,),
                         ),
+                      ),
+                      Positioned(
+                        top: 4,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(18)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: kWhite.withValues(alpha: 0.5),
+                                  blurRadius: 3,
+                                  spreadRadius: 3,
+                                )
+                              ],
+                            ),
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 300),
+                              transitionBuilder: (Widget child, Animation<double> animation) {
+                                return FadeTransition(opacity: animation, child: child);
+                              },
+                              child: Text(
+                                data.isDay
+                                    ? 'helloName'.tr(args: [docs['name']])
+                                    : 'goodNightName'.tr(args: [docs['name']]),
+                                key: ValueKey<bool>(data.isDay),
+                                style: kBigTextStyle,
+                              ),
+                            ),
+                          )
                       )
                     ],
                   ),
