@@ -52,21 +52,21 @@ class SwitchTaskButtonWidget extends StatelessWidget {
                       end: Alignment.topLeft,
                       stops: [0.1, 1]
                   ),
-                  border: Border.all(color: kWhite, width: 1),
+                  border: Border.all(color: isIndex ? kDarkWhite : kGrey.withValues(alpha: 0.2), width: 1),
                   borderRadius: BorderRadius.all(Radius.circular(size.width * 0.45,)),
                   boxShadow: [
                     BoxShadow(
                       color: kGrey.withValues(alpha: 0.3),
-                      blurRadius: isIndex ? 3 : 5,
-                      spreadRadius: isIndex ? 0.5 : 1.5,
-                      offset: Offset(0, 2)
+                      blurRadius: isIndex ? 3 : 0,
+                      spreadRadius: isIndex ? 0.5 : 0,
+                      offset: Offset(0, isIndex ? 2 : 0)
                     ),
                   ]
               ),
               child: Center(
                 child: Text(index == 0 ? 'oneTime'.tr() : 'fewDays'.tr(),
                   style: kBigTextStyle.copyWith(
-                    color: isIndex ? kOrange.withValues(alpha: 0.8) : kBlue,
+                    color: isIndex ? kOrange.withValues(alpha: 0.8) : kBlue.withValues(alpha: 0.5),
                     shadows: [
                       Shadow(
                         color: isIndex ? kOrange.withValues(alpha: 0.4) : Colors.transparent,
