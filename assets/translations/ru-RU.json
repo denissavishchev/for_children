@@ -273,5 +273,7 @@
   "min": "мин",
   "okIWantToAddNew": "ОК, я хочу добавить новую",
   "helloName": "Привет, {}! Хорошего дня!",
-  "goodNightName": "Спокойной ночи, {}"
+  "goodNightName": "Спокойной ночи, {}",
+  "addSomeMoney": "Добавить деньги"
+
 }

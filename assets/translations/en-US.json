@@ -273,5 +273,6 @@
   "min": "min",
   "okIWantToAddNew": "Ok, I want to add a new",
   "helloName": "Hello, {}! Have a great day!",
-  "goodNightName": "Good night, {}!"
+  "goodNightName": "Good night, {}!",
+  "addSomeMoney": "Add some money"
 }
