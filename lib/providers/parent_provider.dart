@@ -180,11 +180,6 @@ class ParentProvider with ChangeNotifier {
     getKid = getKids();
   }
 
-  Future<void> getAdsData()async {
-    getAds = getAdsFromBase();
-    notifyListeners();
-  }
-
   void getEmailData(){
     getEmailVoid = getEmailAndName();
   }

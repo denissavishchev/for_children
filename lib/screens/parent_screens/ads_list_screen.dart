@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/constants.dart';
@@ -17,10 +18,8 @@ class _AdsListScreenState extends State<AdsListScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final data = Provider.of<ParentProvider>(context, listen: false);
-      data.getAdsData();
-    });
+    final data = Provider.of<ParentProvider>(context, listen: false);
+    data.getKidsData();
     super.initState();
   }
 
@@ -54,175 +53,175 @@ class _AdsListScreenState extends State<AdsListScreen> {
                         ],
                       ),
                       FutureBuilder(
-                        future: data.getAds,
+                        future: data.getKid,
                         builder: (context, snapshot){
                           if(snapshot.connectionState == ConnectionState.waiting){
                             return const Center(child: CircularProgressIndicator(),);
                           }else{
                             return ListView.builder(
                               shrinkWrap: true,
-                              itemCount: data.adsList.length,
+                              itemCount: data.kidsList.length,
                               itemBuilder: (context, index){
                                 return data.kidsList[index].accept == true
                                     ? Container(
-                                        margin: const EdgeInsets.only(bottom: 12),
-                                        decoration: BoxDecoration(
-                                            color: kDarkWhite,
-                                            borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                            border: Border.all(
-                                                width: 2,
-                                                color: kDarkGrey),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: kGrey.withValues(alpha: 0.4),
-                                                spreadRadius: 1.5,
-                                                blurRadius: 3,
-                                                offset: const Offset(0, 2),
-                                              )
-                                            ]
-                                        ),
-                                        child: data.kidsList[index].adTitle != ''
+                                    margin: const EdgeInsets.only(bottom: 12),
+                                    decoration: BoxDecoration(
+                                        color: kDarkWhite,
+                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                        border: Border.all(
+                                            width: 2,
+                                            color: kDarkGrey),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: kGrey.withValues(alpha: 0.4),
+                                            spreadRadius: 1.5,
+                                            blurRadius: 3,
+                                            offset: const Offset(0, 2),
+                                          )
+                                        ]
+                                    ),
+                                    child: data.kidsList[index].adTitle != ''
                                         ? GestureDetector(
-                                            onTap: () {
-                                              data.selectedKidName = data.kidsList[index].name;
-                                              data.selectedKidEmail = data.kidsList[index].email;
-                                              data.deleteAdDialog(context, data.kidsList[index].adImageUrl, index);
-                                            },
-                                            child: ClipRRect(
-                                              clipBehavior: Clip.hardEdge,
-                                              child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                                                      child: Column(
-                                                        spacing: 4,
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(data.kidsList[index].adTitle,
-                                                              style: kBigTextStyle.copyWith(fontSize: 44.sp)),
-                                                          Text(data.kidsList[index].adDescription,
-                                                            style: kTextStyleNormal, softWrap: true,),
-                                                          Container(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                                            decoration: BoxDecoration(
-                                                              color: kDarkWhite,
-                                                              borderRadius: const BorderRadius.all(Radius.circular(18)),
-                                                              border: Border.all(color: kOrange.withValues(alpha: 0.7), width: 1),
-                                                            ),
-                                                            child: Text('timeLeft'.tr(args: [data.getTimeLeft(data.kidsList[index].adEndTime)]),
-                                                              style: kTextStyleNormal,),
-                                                          ),
-                                                        ],
+                                      onTap: () {
+                                        data.selectedKidName = data.kidsList[index].name;
+                                        data.selectedKidEmail = data.kidsList[index].email;
+                                        data.deleteAdDialog(context, data.kidsList[index].adImageUrl, index);
+                                      },
+                                      child: ClipRRect(
+                                        clipBehavior: Clip.hardEdge,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                                                child: Column(
+                                                  spacing: 4,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(data.kidsList[index].adTitle,
+                                                        style: kBigTextStyle.copyWith(fontSize: 44.sp)),
+                                                    Text(data.kidsList[index].adDescription,
+                                                      style: kTextStyleNormal, softWrap: true,),
+                                                    Container(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                                      decoration: BoxDecoration(
+                                                        color: kDarkWhite,
+                                                        borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                                        border: Border.all(color: kOrange.withValues(alpha: 0.7), width: 1),
                                                       ),
+                                                      child: Text('timeLeft'.tr(args: [data.getTimeLeft(data.kidsList[index].adEndTime)]),
+                                                        style: kTextStyleNormal,),
                                                     ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Stack(
+                                              children: [
+                                                Container(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  width: size.width * 0.3,
+                                                  margin: const EdgeInsets.only(left: 12),
+                                                  decoration: BoxDecoration(
+                                                      color: kBlue.withValues(alpha: 0.3),
+                                                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: kGrey.withValues(alpha: 0.4),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 1,
+                                                          offset: Offset(0, 1),
+                                                        )
+                                                      ]
                                                   ),
-                                                  Stack(
-                                                    children: [
-                                                      Container(
-                                                        clipBehavior: Clip.hardEdge,
-                                                        width: size.width * 0.3,
-                                                        margin: const EdgeInsets.only(left: 12),
-                                                        decoration: BoxDecoration(
-                                                          color: kBlue.withValues(alpha: 0.3),
-                                                          borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: kGrey.withValues(alpha: 0.4),
-                                                              spreadRadius: 1,
-                                                              blurRadius: 1,
-                                                              offset: Offset(0, 1),
-                                                            )
-                                                          ]
+                                                  child: Image.network(data.kidsList[index].adImageUrl,
+                                                      fit: BoxFit.cover,
+                                                      loadingBuilder: (context, child, loadingProgress) {
+                                                        if (loadingProgress == null) return child;
+                                                        return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                                                      },
+                                                      errorBuilder: (context, error, stackTrace) {
+                                                        return const Center(
+                                                          child: Icon(Icons.warning, color: kOrange,),
+                                                        );
+                                                      }),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets.only(top: 12),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                      color: kDarkWhite,
+                                                      borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                                      border: Border.all(color: kOrange.withValues(alpha: 0.7), width: 1),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: kWhite.withValues(alpha: 0.7),
+                                                          spreadRadius: 3,
+                                                          blurRadius: 3,
+                                                          offset: const Offset(0, -1),
                                                         ),
-                                                        child: Image.network(data.kidsList[index].adImageUrl,
-                                                            fit: BoxFit.cover,
-                                                            loadingBuilder: (context, child, loadingProgress) {
-                                                              if (loadingProgress == null) return child;
-                                                              return const Center(child: CircularProgressIndicator(strokeWidth: 2));
-                                                            },
-                                                            errorBuilder: (context, error, stackTrace) {
-                                                              return const Center(
-                                                                child: Icon(Icons.warning, color: kOrange,),
-                                                              );
-                                                            }),
-                                                      ),
-                                                      Container(
-                                                        margin: const EdgeInsets.only(top: 12),
-                                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                                        decoration: BoxDecoration(
-                                                            color: kDarkWhite,
-                                                            borderRadius: const BorderRadius.all(Radius.circular(18)),
-                                                            border: Border.all(color: kOrange.withValues(alpha: 0.7), width: 1),
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                color: kWhite.withValues(alpha: 0.7),
-                                                                spreadRadius: 3,
-                                                                blurRadius: 3,
-                                                                offset: const Offset(0, -1),
-                                                              ),
-                                                              BoxShadow(
-                                                                color: kOrange.withValues(alpha: 0.4),
-                                                                spreadRadius: 1,
-                                                                blurRadius: 3,
-                                                                offset: const Offset(0, 4),
-                                                              )
-                                                            ]
-                                                        ),
-                                                        child: Text(data.kidsList[index].name,
-                                                          style: kTextStyleNormal,),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )
+                                                        BoxShadow(
+                                                          color: kOrange.withValues(alpha: 0.4),
+                                                          spreadRadius: 1,
+                                                          blurRadius: 3,
+                                                          offset: const Offset(0, 4),
+                                                        )
+                                                      ]
+                                                  ),
+                                                  child: Text(data.kidsList[index].name,
+                                                    style: kTextStyleNormal,),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
                                         : GestureDetector(
-                                          behavior: HitTestBehavior.opaque,
-                                            onTap: () {
-                                              data.selectedKidName = data.kidsList[index].name;
-                                              data.selectedKidEmail = data.kidsList[index].email;
-                                              Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(builder: (context) =>
-                                                  const AddAdsScreen()));
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                spacing: 8,
-                                                children: [
-                                                  Text(data.kidsList[index].name,
-                                                    style: kTextStyle,),
-                                                  Text('noAdAdded'.tr(), style: kTextStyle),
-                                                  Icon(Icons.auto_awesome, color: kOrange,)
-                                                ],
-                                              ),
-                                            ),
-                                          )
-                                      )
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        data.selectedKidName = data.kidsList[index].name;
+                                        data.selectedKidEmail = data.kidsList[index].email;
+                                        Navigator.pushReplacement(context,
+                                            MaterialPageRoute(builder: (context) =>
+                                            const AddAdsScreen()));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          spacing: 8,
+                                          children: [
+                                            Text(data.kidsList[index].name,
+                                              style: kTextStyle,),
+                                            Text('noAdAdded'.tr(), style: kTextStyle),
+                                            Icon(Icons.auto_awesome, color: kOrange,)
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                )
                                     : Container(
-                                        margin: const EdgeInsets.only(bottom: 12),
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                            color: kDarkWhite,
-                                            borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                            border: Border.all(
-                                                width: 2,
-                                                color: kDarkGrey),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: kGrey.withValues(alpha: 0.4),
-                                                spreadRadius: 1.5,
-                                                blurRadius: 3,
-                                                offset: const Offset(0, 2),
-                                              )
-                                            ]
-                                          ),
-                                          child: Center(
-                                              child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]),
-                                                style: kTextStyle,)),
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                      color: kDarkWhite,
+                                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                      border: Border.all(
+                                          width: 2,
+                                          color: kDarkGrey),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: kGrey.withValues(alpha: 0.4),
+                                          spreadRadius: 1.5,
+                                          blurRadius: 3,
+                                          offset: const Offset(0, 2),
+                                        )
+                                      ]
+                                  ),
+                                  child: Center(
+                                      child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]),
+                                        style: kTextStyle,)),
                                 );
                               },
                             );

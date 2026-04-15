@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
@@ -100,7 +99,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Image.asset('assets/images/todo.png', width: 16,),
-                              Text(snapshot['taskName'], style: kBigTextKidStyle,),
+                              Text(snapshot['taskName'], style: kBigTextStyle,),
                             ],
                           ),
                         ),

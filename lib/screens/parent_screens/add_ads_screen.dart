@@ -77,7 +77,6 @@ class AddAdsScreen extends StatelessWidget {
                                         onChanged: (value) => data.changeAdTexts(value, false),
                                         decoration: textFieldDecoration.copyWith(
                                             label: Text('description'.tr(),)),
-                                        onChanged: (value) => data.changeAdTexts(value, false),
                                         maxLength: 128,
                                       ),
                                     ),
