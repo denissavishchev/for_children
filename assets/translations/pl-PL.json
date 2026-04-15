@@ -96,7 +96,6 @@
   "ok" : "OK",
   "whatDoYouWant": "Czego chcesz?",
   "whyYouNeedThis": "Dlaczego tego potrzebujesz?",
-  "taskFrom": "Zadanie od:",
   "type": "Typ:",
   "oneTime" : "Jednorazowe",
   "fewDays" : "Kilka dni",
@@ -264,6 +263,16 @@
   "shareThoughtsAndIdeasWithYourChildKid": "Rozmawiajcie o marzeniach – wspólne planowanie to najlepsza droga do ich spełnienia.",
   "newTaskToDo": "Nowe zadania do wykonania od",
   "dreamItem": "Wymarzona\nrzecz",
-  "title": "Tytuł"
+  "title": "Tytuł",
+  "noAdAdded": "Brak reklam",
+  "beforeAddingNewAd": "Przed dodaniem nowej reklamy zostanie usunięta obecna, która jeszcze się wyświetla",
+  "timeLeft": "Pozostało: {}",
+  "days": "dni",
+  "hours": "godzin",
+  "min": "minut",
+  "okIWantToAddNew": "OK, chcę dodać nową",
+  "helloName": "Cześć, {}! Miłego dnia!",
+  "goodNightName": "Dobranoc, {}",
+  "addSomeMoney": "Dodaj pieniądze"
 
 }

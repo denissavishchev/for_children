@@ -117,8 +117,8 @@ class LoginProvider with ChangeNotifier {
         'surName': surnameController.text.trim(),
         'role': role,
         'time': DateTime.now().toString(),
-        'dayStart': '06:00',
-        'dayEnd': '22:00',
+        'dayStart': '06:00:00',
+        'dayEnd': '22:00:00',
         'email': emailController.text.trim()
       });
       successSighUp(context);

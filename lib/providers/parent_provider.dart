@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/history_screen.dart';
+import 'package:for_children/screens/parent_screens/ads_list_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
@@ -17,6 +18,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/ads_model.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
+import '../screens/parent_screens/add_ads_screen.dart';
 import '../widgets/toasts.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
@@ -41,13 +43,17 @@ class ParentProvider with ChangeNotifier {
 
   int startHour = 0;
   int startMinute = 0;
+  int startSecund = 0;
   int endHour = 0;
   int endMinute = 0;
+  int endSecund = 0;
 
   FixedExtentScrollController _startMinController = FixedExtentScrollController();
   FixedExtentScrollController _startHourController = FixedExtentScrollController();
+  FixedExtentScrollController _startSecondController = FixedExtentScrollController();
   FixedExtentScrollController _endMinController = FixedExtentScrollController();
   FixedExtentScrollController _endHourController = FixedExtentScrollController();
+  FixedExtentScrollController _endSecondController = FixedExtentScrollController();
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -115,6 +121,9 @@ class ParentProvider with ChangeNotifier {
 
   String? email = '';
   String? name = '';
+  String? adTitle = '';
+  String? adDescription = '';
+  String? adImageUrl = '';
   String? role = '';
 
   double stars = 0.0;
@@ -155,11 +164,14 @@ class ParentProvider with ChangeNotifier {
     email = prefs.getString('email');
     final Map<String, dynamic>? doc = await Supabase.instance.client
         .from('users')
-        .select('name')
+        .select('name, adTitle, adDescription, adImageUrl')
         .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
         .maybeSingle();
     if(doc != null){
       name = doc['name'];
+      adTitle = doc['adTitle'];
+      adDescription = doc['adDescription'];
+      adImageUrl = doc['adImageUrl'];
     }
     notifyListeners();
   }
@@ -342,7 +354,12 @@ class ParentProvider with ChangeNotifier {
             email: kidEmail,
             accept: isAcceptedByChild,
             startDay: docEmail['dayStart'] ?? '',
-            endDay: docEmail['dayEnd'] ?? '');
+            endDay: docEmail['dayEnd'] ?? '',
+            adTitle: docEmail['adTitle'] ?? '',
+            adDescription: docEmail['adDescription'] ?? '',
+            adImageUrl: docEmail['adImageUrl'] ?? '',
+            adEndTime: docEmail['adEndTime'] ?? ''
+        );
         kidsList.add(kid);
     }
     notifyListeners();
@@ -1093,12 +1110,16 @@ class ParentProvider with ChangeNotifier {
     Size size = MediaQuery.sizeOf(context);
     startHour = int.parse(start.split(':')[0]);
     startMinute = int.parse(start.split(':')[1]);
+    startSecund = int.parse(start.split(':')[2]);
     endHour = int.parse(end.split(':')[0]);
     endMinute = int.parse(end.split(':')[1]);
+    endSecund = int.parse(end.split(':')[2]);
     _startHourController = FixedExtentScrollController(initialItem: startHour - 4);
     _startMinController = FixedExtentScrollController(initialItem: startMinute);
+    _startSecondController = FixedExtentScrollController(initialItem: startSecund);
     _endHourController = FixedExtentScrollController(initialItem: endHour - 18);
     _endMinController = FixedExtentScrollController(initialItem: endMinute);
+    _endSecondController = FixedExtentScrollController(initialItem: endSecund);
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -1277,29 +1298,15 @@ class ParentProvider with ChangeNotifier {
     isLoading = true;
     notifyListeners();
     if(selectedKidName != ''){
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final Map<String, dynamic>? doc = await Supabase.instance.client
-          .from('users')
-          .select('name')
-          .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
-          .maybeSingle();
-      String parentName = '';
-      if(doc != null){
-        parentName = doc['name'];
-      }
       await Supabase.instance.client
-          .from('ads')
-          .insert({
-        'parentName': parentName,
-        'parentEmail': prefs.getString('email'),
-        'kidName': selectedKidName,
-        'kidEmail': selectedKidEmail,
-        'title': addTaskNameController.text,
-        'description': addTaskDescriptionController.text,
-        'imageUrl' : fileName == '' ? 'false' : imageUrl,
-        'isActual' : true,
-        "endTime": DateTime.now().add(Duration(days: daySlider.toInt())).toString(),
-      });
+          .from('users')
+          .update({
+            'adTitle': addTaskNameController.text,
+            'adDescription': addTaskDescriptionController.text,
+            'adImageUrl': fileName == '' ? 'false' : imageUrl,
+            'adEndTime': DateTime.now().add(Duration(days: daySlider.toInt())).toString(),
+          })
+          .eq('email', selectedKidEmail.toLowerCase().trim());
       addTaskNameController.clear();
       addTaskDescriptionController.clear();
       imageUrl = '';
@@ -1309,7 +1316,7 @@ class ParentProvider with ChangeNotifier {
       daySlider = 5;
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) =>
-          const MainParentScreen()));
+          const AdsListScreen()));
     }else{
       sadToast('selectKid');
     }
@@ -1319,33 +1326,109 @@ class ParentProvider with ChangeNotifier {
 
   void changeAdTexts(String value, bool title){
     title
-      ? addTaskNameController.text = value
-      : addTaskDescriptionController.text = value;
+        ? addTaskNameController.text = value
+        : addTaskDescriptionController.text = value;
     notifyListeners();
   }
 
-  Future<void> getAdsFromBase()async{
-    final List<String> emails = kidsList.map((k) => k.email.toLowerCase()).toList();
-    if (emails.isEmpty) return;
+  Future deleteAdDialog(context, String imageUrl, int index) async{
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text('beforeAddingNewAd'.tr(), style: kTextStyle,),
+                      Text('timeLeft'.tr(args: [getTimeLeft(kidsList[index].adEndTime)]),
+                        style: kBigTextStyle,),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 18),
+                    child: ButtonWidget(
+                        onTap: () => deleteAd(context, imageUrl),
+                        text: 'okIWantToAddNew',
+                        width: 0.55,
+                    ),
+                  ),
+                ],
+              )
+          );
+        });
+  }
 
-    final List<Map<String, dynamic>> kidDoc = await Supabase.instance.client
-        .from('ads')
-        .select('kidName, kidEmail, title, description, endTime, imageUrl')
-        .inFilter('kidEmail', emails);
-
-    adsList.clear();
-    for (var doc in kidDoc) {
-      final ad = AdsModel(
-        name: doc['kidName'],
-        kidEmail: doc['kidEmail'],
-        title: doc['title'],
-        description: doc['description'],
-        endTime: doc['endTime'],
-        imageUrl: doc['imageUrl']
-      );
-      adsList.add(ad);
+  Future deleteAd(context, String imageUrl)async {
+    await Supabase.instance.client
+        .from('users')
+        .update({
+          'adTitle': '',
+          'adDescription': '',
+          'adImageUrl': '',
+          'adEndTime': '',
+        })
+        .eq('email', selectedKidEmail.toLowerCase().trim());
+    if(imageUrl != 'false'){
+      await Supabase.instance.client.storage
+          .from('images')
+          .remove([imageUrl.split('/').last]);
     }
-    notifyListeners();
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) =>
+        const AddAdsScreen()));
+  }
+
+  String getTimeLeft(String adEndTime) {
+    final DateTime end = DateTime.parse(adEndTime);
+    final DateTime now = DateTime.now();
+    final Duration difference = end.difference(now);
+
+    if (difference.isNegative) {
+      return 'expired'.tr();
+    }
+    final int days = difference.inDays;
+    final int hours = difference.inHours % 24;
+    final int minutes = difference.inMinutes % 60;
+    if (days >= 1) {
+      return '$days ${'days'.tr()} $hours ${'hours'.tr()}';
+    } else if (hours >= 1) {
+      return '$hours ${'hours'.tr()} $minutes ${'min'.tr()}';
+    } else {
+      return '$minutes ${'min'.tr()}';
+    }
+  }
+
+  String getPriceFromDays(double value) {
+    Map<int, String> values = {
+      5: '3',
+      10: '5',
+      15: '7',
+      20: '9',
+      25: '11',
+      30: '13',
+    };
+    return values[value] ?? value.toStringAsFixed(0);
   }
 
 

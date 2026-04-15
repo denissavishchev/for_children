@@ -77,6 +77,7 @@ class AddAdsScreen extends StatelessWidget {
                                         onChanged: (value) => data.changeAdTexts(value, false),
                                         decoration: textFieldDecoration.copyWith(
                                             label: Text('description'.tr(),)),
+                                        onChanged: (value) => data.changeAdTexts(value, false),
                                         maxLength: 128,
                                       ),
                                     ),
@@ -114,7 +115,24 @@ class AddAdsScreen extends StatelessWidget {
                                   max: 30,
                                 ),
                               ),
-                              Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,)
+                              Column(
+                                children: [
+                                  Row(
+                                    spacing: 2,
+                                    children: [
+                                      Text(data.daySlider.toStringAsFixed(0), style: kTextStyle,),
+                                      Text('days'.tr(), style: kTextStyle,),
+                                    ],
+                                  ),
+                                  Row(
+                                    spacing: 2,
+                                    children: [
+                                      Text(data.getPriceFromDays(data.daySlider), style: kTextStyle,),
+                                      Text('\$', style: kTextStyle,),
+                                    ],
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                           Container(
@@ -145,13 +163,13 @@ class AddAdsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Positioned(
-                                  top: 12,
-                                  left: 12,
-                                  child: SizedBox(
-                                    width: size.width * 0.6,
-                                    child: Text(data.addTaskNameController.text,
-                                      style: kBigTextStyle.copyWith(fontSize: 44.sp),),
-                                  )
+                                    top: 12,
+                                    left: 12,
+                                    child: SizedBox(
+                                      width: size.width * 0.6,
+                                      child: Text(data.addTaskNameController.text,
+                                        style: kBigTextStyle.copyWith(fontSize: 44.sp),),
+                                    )
                                 ),
                                 Positioned(
                                     top: size.height * 0.1,

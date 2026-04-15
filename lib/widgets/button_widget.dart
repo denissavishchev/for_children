@@ -4,11 +4,15 @@ import '../constants.dart';
 
 class ButtonWidget extends StatelessWidget {
   const ButtonWidget({
-    super.key, required this.onTap, required this.text,
+    super.key,
+    required this.onTap,
+    required this.text,
+    this.width = 0.3,
   });
 
   final VoidCallback onTap;
   final String text;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class ButtonWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 38,
-        width: size.height * 0.2,
+        width: size.width * width,
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: [

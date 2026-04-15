@@ -96,7 +96,6 @@
   "ok" : "OK",
   "whatDoYouWant" : "What do you want?",
   "whyYouNeedThis" : "Why you need this?",
-  "taskFrom" : "Task from:",
   "type" : "type:",
   "oneTime" : "One time",
   "fewDays" : "Few days",
@@ -264,5 +263,15 @@
   "shareThoughtsAndIdeasWithYourChildKid": "Talk about your dreams – planning together is the best way to make them come true.",
   "newTaskToDo": "New tasks to do from",
   "dreamItem": "Dream\nitem",
-  "title": "Title"
+  "title": "Title",
+  "noAdAdded": "No ads yet",
+  "beforeAddingNewAd": "Adding a new ad will remove the current one still running",
+  "timeLeft": "Left: {}",
+  "days": "days",
+  "hours": "hours",
+  "min": "min",
+  "okIWantToAddNew": "Ok, I want to add a new",
+  "helloName": "Hello, {}! Have a great day!",
+  "goodNightName": "Good night, {}!",
+  "addSomeMoney": "Add some money"
 }

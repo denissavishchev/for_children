@@ -28,6 +28,7 @@ class KidProvider with ChangeNotifier {
   bool isDay = false;
   String startDayTime = '';
   String endDateTime = '';
+  String dayDuration = '';
 
   final Map<IconData, Widget> routes = {
     Icons.home: MainKidScreen(),
@@ -272,13 +273,13 @@ class KidProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isDay = !isDay;
     if(isDay){
-      startDayTime = DateFormat('HH:mm').format(
+      startDayTime = DateFormat('HH:mm:ss').format(
           DateTime.parse(DateTime.now().toString()));
       prefs.setString('startDayTime', startDayTime);
       prefs.setString('endDateTime', endTime);
       endDateTime = endTime;
     }else{
-      endDateTime = DateFormat('HH:mm').format(
+      endDateTime = DateFormat('HH:mm:ss').format(
           DateTime.parse(DateTime.now().toString()));
       prefs.setString('endDateTime', endDateTime);
     }
@@ -289,8 +290,8 @@ class KidProvider with ChangeNotifier {
   void initTimes() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isDay = prefs.getBool('isDay') ?? false;
-    startDayTime = prefs.getString('startDayTime') ?? '06:00';
-    endDateTime = prefs.getString('endDateTime') ?? '22:00';
+    startDayTime = prefs.getString('startDayTime') ?? '06:00:00';
+    endDateTime = prefs.getString('endDateTime') ?? '22:00:00';
     notifyListeners();
   }
 
@@ -408,6 +409,49 @@ class KidProvider with ChangeNotifier {
     } else {
       log('noPermission');
     }
+  }
+
+  Future<void> updateTimer() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedTime = prefs.getString('startDayTime');
+
+    if (savedTime == null || !savedTime.contains(':')) {
+      dayDuration = "00:00:00";
+      notifyListeners();
+      return;
+    }
+    final now = DateTime.now();
+    final parts = savedTime.split(':');
+    final int hour = int.parse(parts[0]);
+    final int minute = int.parse(parts[1]);
+    final int second = parts.length > 2 ? int.parse(parts[2]) : 0;
+    final startDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+      second,
+    );
+    Duration duration = now.difference(startDateTime);
+    if (duration.isNegative) {
+      duration += const Duration(hours: 24);
+    }
+
+    dayDuration = formatDuration(duration);
+    notifyListeners();
+
+  }
+
+  String formatDuration(Duration duration) {
+    // Używamy padLeft dla czystszego kodu
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+
+    final hours = twoDigits(duration.inHours);
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+
+    return "$hours:$minutes:$seconds";
   }
 
 

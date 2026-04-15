@@ -30,8 +30,8 @@ class DayDurationWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('P ${docs?['dayStart']} - ${docs?['dayEnd']}', style: kTextStyle,),
-                    Text('K $userStartTime - $userEndTime', style: kTextStyle,),
+                    Text('P ${docs?['dayStart'].split(':').take(2).join(':')} - ${docs?['dayEnd'].split(':').take(2).join(':')}', style: kTextStyle,),
+                    Text('K ${userStartTime.split(':').take(2).join(':')} - ${userEndTime.split(':').take(2).join(':')}', style: kTextStyle,),
                   ],
                 ),
                 TimeProgressContainer(
