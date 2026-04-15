@@ -42,13 +42,17 @@ class ParentProvider with ChangeNotifier {
 
   int startHour = 0;
   int startMinute = 0;
+  int startSecund = 0;
   int endHour = 0;
   int endMinute = 0;
+  int endSecund = 0;
 
   FixedExtentScrollController _startMinController = FixedExtentScrollController();
   FixedExtentScrollController _startHourController = FixedExtentScrollController();
+  FixedExtentScrollController _startSecondController = FixedExtentScrollController();
   FixedExtentScrollController _endMinController = FixedExtentScrollController();
   FixedExtentScrollController _endHourController = FixedExtentScrollController();
+  FixedExtentScrollController _endSecondController = FixedExtentScrollController();
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -1099,12 +1103,16 @@ class ParentProvider with ChangeNotifier {
     Size size = MediaQuery.sizeOf(context);
     startHour = int.parse(start.split(':')[0]);
     startMinute = int.parse(start.split(':')[1]);
+    startSecund = int.parse(start.split(':')[2]);
     endHour = int.parse(end.split(':')[0]);
     endMinute = int.parse(end.split(':')[1]);
+    endSecund = int.parse(end.split(':')[2]);
     _startHourController = FixedExtentScrollController(initialItem: startHour - 4);
     _startMinController = FixedExtentScrollController(initialItem: startMinute);
+    _startSecondController = FixedExtentScrollController(initialItem: startSecund);
     _endHourController = FixedExtentScrollController(initialItem: endHour - 18);
     _endMinController = FixedExtentScrollController(initialItem: endMinute);
+    _endSecondController = FixedExtentScrollController(initialItem: endSecund);
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,

@@ -1,18 +1,46 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import 'day_duration_widget.dart';
 
-class DayNightWidget extends StatelessWidget {
+class DayNightWidget extends StatefulWidget {
   const DayNightWidget({
     super.key,
     required this.email,
   });
 
   final String email;
+
+  @override
+  State<DayNightWidget> createState() => _DayNightWidgetState();
+}
+
+class _DayNightWidgetState extends State<DayNightWidget> {
+
+  Timer? timer;
+
+  @override
+  void initState() {
+    final data = Provider.of<KidProvider>(context, listen: false);
+    data.updateTimer();
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        data.updateTimer();
+      });
+    });
+    super.initState();
+  }
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +125,50 @@ class DayNightWidget extends StatelessWidget {
                                 child: child,
                               );
                             },
-                            child: Image.asset(
-                              'assets/images/${data.isDay ? 'sun' : 'moon'}.png',
-                              key: ValueKey(data.isDay),
-                              width: 100,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/${data.isDay ? 'sun' : 'moon'}.png',
+                                  key: ValueKey(data.isDay),
+                                  width: 100,
+                                ),
+                                Visibility(
+                                  visible: data.isDay,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(data.dayDuration.substring(0, 2),
+                                        style: kBigTextStyle.copyWith(fontSize: 44.sp),),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.5))
+                                            ),
+                                            child: Text(data.dayDuration.substring(6, 7),
+                                              style: kTextStyleOrange.copyWith(height: 1),),
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(width: 1, color: kOrange.withValues(alpha: 0.5))
+                                            ),
+                                            child: Text(data.dayDuration.substring(7, 8),
+                                              style: kTextStyleOrange.copyWith(height: 1),),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(data.dayDuration.substring(3, 5),
+                                          style: kBigTextStyle.copyWith(fontSize: 44.sp)),
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -129,6 +197,7 @@ class DayNightWidget extends StatelessWidget {
                       ),
                       Positioned(
                         top: 4,
+                          right: data.isDay ? 12 : null,
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                             decoration: BoxDecoration(
