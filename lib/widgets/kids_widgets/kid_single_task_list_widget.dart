@@ -33,58 +33,61 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
         builder: (context, data, _){
           return Column(
             children: [
-              Container(
-                clipBehavior: Clip.hardEdge,
-                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: kOrange),
-                  borderRadius: BorderRadius.all(Radius.circular(12))
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                        child: Column(
-                          spacing: 4,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${data.adTitle}',
-                                style: kBigTextStyle.copyWith(fontSize: 44.sp)),
-                            Text('${data.adDescription}',
-                              style: kTextStyleNormal, softWrap: true,),
-                          ],
+              Visibility(
+                visible: data.adTitle != '' && data.adDescription != '',
+                child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: kOrange),
+                    borderRadius: BorderRadius.all(Radius.circular(12))
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                          child: Column(
+                            spacing: 4,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${data.adTitle}',
+                                  style: kBigTextStyle.copyWith(fontSize: 44.sp)),
+                              Text('${data.adDescription}',
+                                style: kTextStyleNormal, softWrap: true,),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(11)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: kGrey.withValues(alpha: 0.4),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(-2, 0),
-                          )
-                        ]
+                      Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(11)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: kGrey.withValues(alpha: 0.4),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(-2, 0),
+                            )
+                          ]
+                        ),
+                        child: Image.network('${data.adImageUrl}',
+                            width: size.width * 0.3,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Center(
+                                child: Icon(Icons.warning, color: kOrange,),
+                              );
+                            }),
                       ),
-                      child: Image.network('${data.adImageUrl}',
-                          width: size.width * 0.3,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const Center(child: CircularProgressIndicator(strokeWidth: 2));
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Center(
-                              child: Icon(Icons.warning, color: kOrange,),
-                            );
-                          }),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               ListView.builder(
