@@ -12,7 +12,7 @@ import 'kid_status_widget.dart';
 class KidsMultiBasicContainerWidget extends StatelessWidget {
   const KidsMultiBasicContainerWidget({
     super.key,
-    this.height = 120,
+    this.height = 130,
     required this.snapshot,
     required this.index,
     required this.nameOf,
@@ -64,7 +64,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     width: size.width,
                     height: height,
                     decoration: BoxDecoration(
@@ -96,12 +96,11 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 4,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(snapshot['taskName'],
-                                style: kBigTextKidStyle,),
-                              Text(snapshot[nameOf],
-                                style: kTextKidStyle,),
+                              Image.asset('assets/images/todo.png', width: 16,),
+                              Text(snapshot['taskName'], style: kBigTextKidStyle,),
                             ],
                           ),
                         ),
@@ -122,30 +121,33 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Row(
-                              spacing: 4,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        TaskSquareWidget(number: 0),
-                                        Text('-', style: kTextStyle,),
-                                        Text(counts[0].toString(), style: kTextStyle,),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        TaskSquareWidget(number: 1, color: kOrange,),
-                                        Text('-', style: kTextStyle,),
-                                        Text(counts[1].toString(), style: kTextStyle,),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: Row(
+                                spacing: 4,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 0),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[0].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          TaskSquareWidget(number: 1, color: kOrange,),
+                                          Text('-', style: kTextStyle,),
+                                          Text(counts[1].toString(), style: kTextStyle,),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -158,52 +160,48 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text('taskPrice'.tr(),
-                                        style: kTextKidStyle.copyWith(
-                                            color: kBlue.withValues(alpha: 0.6)),),
-                                      Text(snapshot['price'],
-                                        style: kTextKidStyle,),
+                                      Image.asset('assets/images/medal.png', width: 14,),
+                                      const SizedBox(width: 4),
+                                      Text(snapshot['price'], style: kBigTextStyle,),
+                                      const SizedBox(width: 4),
+                                      Text('(', style: kTextStyle,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: List.generate(3, ((i){
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: (2 - i) < (snapshot.containsKey('expQty')
+                                                          ? int.parse(snapshot['expQty'])
+                                                          : 1)
+                                                          ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
+                                                      blurRadius: 2,
+                                                      spreadRadius: 2
+                                                  )
+                                                ]
+                                            ),
+                                            child: SvgPicture.asset('assets/icons/pepper.svg',
+                                              width: 16,
+                                              colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot['expQty'])
+                                                  ? kRed : Colors.transparent, BlendMode.srcIn),
+                                            ),
+                                          );
+                                        })),
+                                      ),
+                                      Text(')', style: kTextStyle,),
                                     ],
                                   ),
                                   Row(
+                                    spacing: 4,
                                     children: [
-                                      Text('taskType'.tr(),
-                                        style: kTextKidStyle.copyWith(
-                                            color: kBlue.withValues(alpha: 0.6)),),
-                                      Text(snapshot['type'],
-                                        style: kTextKidStyle,),
+                                      Image.asset('assets/images/person.png', width: 14,),
+                                      Text(snapshot[nameOf], style: kTextKidStyle,),
                                     ],
                                   )
                                 ],
                               ),
-                              Spacer(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: List.generate(5, ((i){
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: (4 - i) < (snapshot.containsKey('expQty')
-                                                  ? int.parse(snapshot['expQty'])
-                                                  : 1)
-                                                  ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
-                                              blurRadius: 2,
-                                              spreadRadius: 2
-                                          )
-                                        ]
-                                    ),
-                                    child: SvgPicture.asset('assets/icons/pepper.svg',
-                                      width: 14,
-                                      colorFilter: ColorFilter.mode((4 - i) < (snapshot.containsKey('expQty')
-                                          ? int.parse(snapshot['expQty'])
-                                          : 1)
-                                          ? kRed : Colors.transparent, BlendMode.srcIn),
-                                    ),
-                                  );
-                                })),
-                              )
                             ],
                           ),
                         )

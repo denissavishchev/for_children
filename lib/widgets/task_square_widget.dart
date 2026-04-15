@@ -32,6 +32,9 @@ class TaskSquareWidget extends StatelessWidget {
             width: 2,
             color: kWhite.withValues(alpha: 0.7)),
       ),
+      child: number == 0
+          ? const SizedBox.shrink()
+          : Icon(Icons.check, color: kDarkWhite, size: size.width * 0.02,),
     );
   }
 }
