@@ -102,8 +102,8 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text('${doc['whatIsIt']}', style: kBigTextKidStyle.copyWith(fontSize: 44.sp)),
-                                            Text('${percent.toStringAsFixed(0)}% saved', style: kBigTextKidStyle,),
+                                            Text('${doc['whatIsIt']}', style: kBigTextStyle.copyWith(fontSize: 44.sp)),
+                                            Text('${percent.toStringAsFixed(0)}% saved', style: kBigTextStyle,),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [

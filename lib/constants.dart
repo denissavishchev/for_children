@@ -72,13 +72,6 @@ final kBigTextStyle = TextStyle(
     // fontFamily: 'Roboto'
 );
 
-final kBigTextKidStyle = TextStyle(
-    color: kBlue,
-    fontWeight: FontWeight.bold,
-    fontSize: 32.sp,
-    // fontFamily: 'Roboto'
-);
-
 final kBigTextStyleWhite = TextStyle(
     color: kWhite.withValues(alpha: 0.8),
     fontWeight: FontWeight.bold,

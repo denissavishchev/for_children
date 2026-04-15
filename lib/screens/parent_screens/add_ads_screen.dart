@@ -74,6 +74,7 @@ class AddAdsScreen extends StatelessWidget {
                                         keyboardType: TextInputType.multiline,
                                         maxLines: null,
                                         cursorColor: kDarkGrey,
+                                        onChanged: (value) => data.changeAdTexts(value, false),
                                         decoration: textFieldDecoration.copyWith(
                                             label: Text('description'.tr(),)),
                                         onChanged: (value) => data.changeAdTexts(value, false),

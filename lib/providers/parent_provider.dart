@@ -15,6 +15,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/ads_model.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../screens/parent_screens/add_ads_screen.dart';
@@ -112,8 +113,10 @@ class ParentProvider with ChangeNotifier {
   late Reference imageToUpload;
   XFile? file = XFile('');
   late Future<void> getKid;
+  Future<void> getAds = Future.value(null);
   late Future<void> getEmailVoid;
   List<KidModel> kidsList = [];
+  List<AdsModel> adsList = [];
   Map<String, String> wishList = {};
 
   String? email = '';
@@ -154,7 +157,6 @@ class ParentProvider with ChangeNotifier {
 
   void isSingleTaskSwitch(){
     isSingleTask = !isSingleTask;
-    notifyListeners();
   }
 
   Future<void> getEmailAndName() async{
@@ -174,8 +176,13 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void getKidsData(){
+  Future<void> getKidsData()async {
     getKid = getKids();
+  }
+
+  Future<void> getAdsData()async {
+    getAds = getAdsFromBase();
+    notifyListeners();
   }
 
   void getEmailData(){
@@ -1265,7 +1272,6 @@ class ParentProvider with ChangeNotifier {
           "Jesteś profesjonalnym, kreatywnym asystentem copywritera reklamowego mówiącym po polsku. "
               "Twoim zadaniem jest stworzenie chwytliwego, sprzedażowego opisu reklamowego dla produktu, "
               "używając podanych słów kluczowych: '${addTaskDescriptionController.text.trim()}'. "
-              "Opis musi mieć dokładnie około 30 słów. Nie używaj hasztagów ani emotikonów."
               "Opis musi mieć maksymalnie 128 symboli, zakładaj że spacja też symbol. Nie używaj hasztagów ani emotikonów."
               "Tylko opis, żadnych dodatkowych informacji"
               "Opis ma być w języku $language",

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/constants.dart';
@@ -18,8 +17,10 @@ class _AdsListScreenState extends State<AdsListScreen> {
 
   @override
   void initState() {
-    final data = Provider.of<ParentProvider>(context, listen: false);
-    data.getKidsData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final data = Provider.of<ParentProvider>(context, listen: false);
+      data.getAdsData();
+    });
     super.initState();
   }
 
@@ -53,14 +54,14 @@ class _AdsListScreenState extends State<AdsListScreen> {
                         ],
                       ),
                       FutureBuilder(
-                        future: data.getKid,
+                        future: data.getAds,
                         builder: (context, snapshot){
                           if(snapshot.connectionState == ConnectionState.waiting){
                             return const Center(child: CircularProgressIndicator(),);
                           }else{
                             return ListView.builder(
                               shrinkWrap: true,
-                              itemCount: data.kidsList.length,
+                              itemCount: data.adsList.length,
                               itemBuilder: (context, index){
                                 return data.kidsList[index].accept == true
                                     ? Container(
