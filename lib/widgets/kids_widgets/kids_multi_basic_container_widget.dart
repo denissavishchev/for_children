@@ -37,13 +37,19 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    kLightGrey.withValues(alpha: 0.35),
-                    kLightGrey
+                    kLightGrey.withValues(alpha: 0.05),
+                    kLightGrey.withValues(alpha: 0.15),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter
               ),
               boxShadow: [
+                BoxShadow(
+                    color: kDarkBlue.withValues(alpha: 0.1),
+                    blurRadius: 2,
+                    spreadRadius: 2,
+                    offset: Offset(-2, 2)
+                ),
                 BoxShadow(
                     color: kGrey.withValues(alpha: 0.1),
                     blurRadius: 2,

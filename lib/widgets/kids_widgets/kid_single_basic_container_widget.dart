@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
@@ -31,13 +30,19 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    kLightGrey.withValues(alpha: 0.35),
-                    kLightGrey
+                    kLightGrey.withValues(alpha: 0.05),
+                    kLightGrey.withValues(alpha: 0.15),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter
               ),
               boxShadow: [
+                BoxShadow(
+                    color: kDarkBlue.withValues(alpha: 0.1),
+                    blurRadius: 2,
+                    spreadRadius: 2,
+                    offset: Offset(-2, 2)
+                ),
                 BoxShadow(
                   color: kGrey.withValues(alpha: 0.1),
                   blurRadius: 2,
@@ -90,39 +95,80 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                               Row(
                                 spacing: 4,
                                 children: [
-                                  Text('taskFrom'.tr(),
-                                    style: kTextStyle,),
-                                  Text(snapshot[nameOf],
-                                    style: kBigTextStyle,),
+                                  Image.asset('assets/images/person.png', width: 12,),
+                                  Text(snapshot[nameOf], style: kTextStyle,),
                                 ],
                               ),
-                              Row(
-                                spacing: 4,
-                                children: [
-                                  Text(('type'.tr()),
-                                    style: kTextStyle,),
-                                  Text((snapshot['type']),
-                                    style: kTextStyle,),
-                                ],
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: kDarkWhite.withValues(alpha: 0.7),
+                                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kBlue.withValues(alpha: 0.2),
+                                        blurRadius: 1,
+                                        spreadRadius: 0.5,
+                                        offset: Offset(0.5, 0.5)
+                                    )
+                                  ]
+                                ),
+                                child: Text((snapshot['type']),
+                                  style: kTextStyle,),
                               ),
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Text(snapshot['taskName'],
-                            style: kBigTextStyle,),
+                        Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: kWhite.withValues(alpha: 0.3),
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          child: Row(
+                            spacing: 4,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/todo.png', width: 18,),
+                              Expanded(
+                                child: Text(
+                                  snapshot['taskName'],
+                                  style: kBigTextStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              snapshot['imageUrl'] == 'false'
+                                  ? const SizedBox.shrink()
+                                  : Container(
+                                    height: 40,
+                                    width: 40,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                        color: kOrange.withValues(alpha: 0.7),
+                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black.withValues(alpha: 0.15),
+                                              blurRadius: 4,
+                                              spreadRadius: 1,
+                                              offset: const Offset(2, 2)
+                                          )
+                                        ]
+                                    ),
+                                    child: Image.network(snapshot['imageUrl'], fit: BoxFit.cover),
+                                  )
+                            ],
+                          ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: Row(
                             children: [
-                              Text('taskPrice'.tr(),
-                                style: kTextStyle.copyWith(
-                                    color: kBlue.withValues(alpha: 0.6)),),
-                              Text(snapshot['price'],
-                                style: kTextStyle,),
-                              Spacer(),
+                              Image.asset('assets/images/medal.png', width: 18,),
+                              const SizedBox(width: 4),
+                              Text(snapshot['price'], style: kBigTextStyle,),
+                              const SizedBox(width: 4),
+                              Text('(', style: kTextStyle,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: List.generate(3, ((i){
@@ -141,13 +187,14 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                         ]
                                     ),
                                     child: SvgPicture.asset('assets/icons/pepper.svg',
-                                      width: 22,
+                                      width: 16,
                                       colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot['expQty'])
                                           ? kRed : Colors.transparent, BlendMode.srcIn),
                                     ),
                                   );
                                 })),
-                              )
+                              ),
+                              Text(')', style: kTextStyle,),
                             ],
                           ),
                         )
