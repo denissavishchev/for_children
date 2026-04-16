@@ -104,6 +104,12 @@ class ParentProvider with ChangeNotifier {
     'ecology': Colors.pink,
     'hobby': kLightBlue};
 
+  Map<IconData, String> hashtags = {
+    Icons.tag_faces_rounded: 'Rozsmiesza',
+    Icons.star: 'Wviatkowy',
+    Icons.redeem: 'Idealny prezent',
+  };
+
   String selectedTypeStatus = 'home';
   int selectedExp = 1;
   bool isSelectButtonOpen = false;
