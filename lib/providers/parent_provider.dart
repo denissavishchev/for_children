@@ -50,10 +50,8 @@ class ParentProvider with ChangeNotifier {
 
   FixedExtentScrollController _startMinController = FixedExtentScrollController();
   FixedExtentScrollController _startHourController = FixedExtentScrollController();
-  FixedExtentScrollController _startSecondController = FixedExtentScrollController();
   FixedExtentScrollController _endMinController = FixedExtentScrollController();
   FixedExtentScrollController _endHourController = FixedExtentScrollController();
-  FixedExtentScrollController _endSecondController = FixedExtentScrollController();
 
   DateTime taskDeadline = DateTime.now();
   bool isDeadline = false;
@@ -130,6 +128,7 @@ class ParentProvider with ChangeNotifier {
   String? adTitle = '';
   String? adDescription = '';
   String? adImageUrl = '';
+  String adEndTime = '';
   String? role = '';
 
   double stars = 0.0;
@@ -170,7 +169,7 @@ class ParentProvider with ChangeNotifier {
     email = prefs.getString('email');
     final Map<String, dynamic>? doc = await Supabase.instance.client
         .from('users')
-        .select('name, adTitle, adDescription, adImageUrl')
+        .select('name, adTitle, adDescription, adImageUrl, adEndTime')
         .eq('email', prefs.getString('email')?.toLowerCase().trim() ?? '')
         .maybeSingle();
     if(doc != null){
@@ -178,6 +177,24 @@ class ParentProvider with ChangeNotifier {
       adTitle = doc['adTitle'];
       adDescription = doc['adDescription'];
       adImageUrl = doc['adImageUrl'];
+      adEndTime = doc['adEndTime'] ?? '';
+      if(adEndTime != ''){
+        DateTime deadline = DateTime.parse(adEndTime);
+        if (!deadline.isAfter(DateTime.now())) {
+          await Supabase.instance.client
+              .from('users')
+              .update({
+            'adTitle': '',
+            'adDescription': '',
+            'adImageUrl': '',
+            'adEndTime': '',
+          })
+              .eq('email', email.toString());
+          await Supabase.instance.client.storage
+              .from('images')
+              .remove([imageUrl.split('/').last]);
+        }
+      }
     }
     notifyListeners();
   }
@@ -1117,10 +1134,8 @@ class ParentProvider with ChangeNotifier {
     endSecund = int.parse(end.split(':')[2]);
     _startHourController = FixedExtentScrollController(initialItem: startHour - 4);
     _startMinController = FixedExtentScrollController(initialItem: startMinute);
-    _startSecondController = FixedExtentScrollController(initialItem: startSecund);
     _endHourController = FixedExtentScrollController(initialItem: endHour - 18);
     _endMinController = FixedExtentScrollController(initialItem: endMinute);
-    _endSecondController = FixedExtentScrollController(initialItem: endSecund);
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
