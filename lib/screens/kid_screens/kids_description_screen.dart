@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/add_single_task_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
@@ -44,7 +45,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                       colors: [
-                                        kBlue.withValues(alpha: 0.7),
+                                        kBlue.withValues(alpha: 0.4),
                                         kWhite.withValues(alpha: 0.7),
                                       ]
                                   ),
@@ -60,9 +61,15 @@ class KidsDescriptionScreen extends StatelessWidget {
                                     )
                                   ]
                               ),
-                              child: Text(snapshot[data.role == 'parent'
-                                  ? 'kidName' : 'parentName'],
-                                style: kBigTextStyle,),
+                              child: Row(
+                                spacing: 4,
+                                children: [
+                                  Image.asset('assets/images/person.png', width: 12,),
+                                  Text(snapshot[data.role == 'parent'
+                                      ? 'kidName' : 'parentName'],
+                                    style: kBigTextStyleWhite,)
+                                ],
+                              ),
                             ),
                           ),
                           SquareButtonWidget(
@@ -84,7 +91,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                       height: 60,
                       width: size.width,
                       alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -107,12 +114,40 @@ class KidsDescriptionScreen extends StatelessWidget {
                             )
                           ]
                       ),
-                      child: Text(snapshot['taskName'],
-                        style: kBigTextStyleWhite,),
+                      child: Row(
+                        spacing: 4,
+                        children: [
+                          Image.asset('assets/images/todo.png', width: 18,),
+                          Expanded(
+                            child: Text(
+                              snapshot['taskName'],
+                              style: kBigTextStyleWhite,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                            decoration: BoxDecoration(
+                                color: kDarkWhite.withValues(alpha: 0.7),
+                                borderRadius: BorderRadius.all(Radius.circular(4)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: kBlue.withValues(alpha: 0.2),
+                                      blurRadius: 1,
+                                      spreadRadius: 0.5,
+                                      offset: Offset(0.5, 0.5)
+                                  )
+                                ]
+                            ),
+                            child: Text((snapshot['type']),
+                              style: kTextStyle,),
+                          ),
+                        ],
+                      ),
                     ),
                     Container(
                       width: size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       margin: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -139,30 +174,53 @@ class KidsDescriptionScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Text('taskPrice'.tr(),
-                                style: kTextStyle.copyWith(
-                                    color: kWhite.withValues(alpha: 0.6)),),
-                              Text(snapshot['price'],
-                                style: kTextStyleWhite,),
+                              Image.asset('assets/images/medal.png', width: 18,),
+                              const SizedBox(width: 4),
+                              Text(snapshot['price'], style: kBigTextStyleWhite,),
+                              const SizedBox(width: 4),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: List.generate(3, ((i){
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: (2 - i) < (snapshot.containsKey('expQty')
+                                                  ? int.parse(snapshot['expQty'])
+                                                  : 1)
+                                                  ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
+                                              blurRadius: 2,
+                                              spreadRadius: 2
+                                          )
+                                        ]
+                                    ),
+                                    child: SvgPicture.asset('assets/icons/pepper.svg',
+                                      width: 16,
+                                      colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot['expQty'])
+                                          ? kRed : Colors.transparent, BlendMode.srcIn),
+                                    ),
+                                  );
+                                })),
+                              ),
                             ],
                           ),
                           snapshot.containsKey('deadline')
                               ? Row(
-                            children: [
-                              Text(snapshot['deadline'] != 'false'
-                                  ? 'taskDeadline'.tr()
-                                  : '',
-                                style: kTextStyle.copyWith(
-                                    color: kWhite.withValues(alpha: 0.6)),),
-                              Text(snapshot['deadline'] == 'false'
-                                  ? 'withoutDeadline'.tr()
-                                  : snapshot['deadline'] != null
-                                  ? DateFormat('dd-MM-yyyy').format(
-                                  DateTime.parse(snapshot['deadline']))
-                                  : snapshot['deadline'],
-                                style: kTextStyleWhite,),
-                            ],
-                          )
+                                  children: [
+                                    const Spacer(),
+                                    snapshot['deadline'] != 'false'
+                                        ? Image.asset('assets/images/deadline.png', width: 16,)
+                                        : SizedBox.shrink(),
+                                    Text(snapshot['deadline'] == 'false'
+                                        ? 'withoutDeadline'.tr()
+                                        : snapshot['deadline'] != null
+                                        ? DateFormat('dd-MM-yyyy').format(
+                                        DateTime.parse(snapshot['deadline']))
+                                        : snapshot['deadline'],
+                                      style: kTextStyle,),
+                                  ],
+                                )
                               : SizedBox.shrink(),
                         ],
                       ),
@@ -172,7 +230,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                         Expanded(
                           child: Container(
                             height: 300,
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(8),
                             margin: EdgeInsets.fromLTRB(12, 12,
                                 snapshot['imageUrl'] == 'false' ? 12 : 3, 0),
                             decoration: BoxDecoration(
@@ -196,7 +254,20 @@ class KidsDescriptionScreen extends StatelessWidget {
                                   )
                                 ]
                             ),
-                            child: Text(snapshot['description'], style: kTextStyleWhite),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  spacing: 4,
+                                  children: [
+                                    Image.asset('assets/images/bulb.png', width: 16,),
+                                    Text('details'.tr(), style: kTextStyleWhite),
+                                  ],
+                                ),
+                                const Divider(color: kDarkWhite,),
+                                Text(snapshot['description'], style: kTextStyleWhite),
+                              ],
+                            ),
                           ),
                         ),
                         snapshot['imageUrl'] == 'false'
@@ -208,7 +279,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                             margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
                             decoration: BoxDecoration(
                               color: kOrange.withValues(alpha: 0.7),
-                              borderRadius: const BorderRadius.all(Radius.circular(4)),
+                              borderRadius: const BorderRadius.all(Radius.circular(18)),
                                 boxShadow: [
                                   BoxShadow(
                                       color: Colors.black.withValues(alpha: 0.15),
