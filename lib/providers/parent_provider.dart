@@ -1212,8 +1212,8 @@ class ParentProvider with ChangeNotifier {
     await Supabase.instance.client
         .from('users')
         .update({
-      'dayStart': '${startHour.toString().padLeft(2, '0')}:${startMinute.toString().padLeft(2, '0')}',
-      'dayEnd': '${endHour.toString().padLeft(2, '0')}:${endMinute.toString().padLeft(2, '0')}',
+      'dayStart': '${startHour.toString().padLeft(2, '0')}:${startMinute.toString().padLeft(2, '0')}:00',
+      'dayEnd': '${endHour.toString().padLeft(2, '0')}:${endMinute.toString().padLeft(2, '0')}:00',
          })
         .eq('email', email);
     getKids();
