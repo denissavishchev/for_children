@@ -138,31 +138,63 @@ class AdWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(11)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: kGrey.withValues(alpha: 0.4),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: const Offset(-2, 0),
-                        )
-                      ]
-                  ),
-                  child: Image.network('${data.adImageUrl}',
-                      width: size.width * 0.3,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const Center(child: CircularProgressIndicator(strokeWidth: 2));
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Center(
-                          child: Icon(Icons.warning, color: kOrange,),
-                        );
-                      }),
+                Stack(
+                  children: [
+                    Container(
+                      clipBehavior: Clip.hardEdge,
+                      margin: EdgeInsets.only(left: size.width * 0.02),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(11)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: kGrey.withValues(alpha: 0.7),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(-2, 0),
+                            )
+                          ]
+                      ),
+                      child: Image.network('${data.adImageUrl}',
+                          width: size.width * 0.3,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                              child: Icon(Icons.warning, color: kOrange,),
+                            );
+                          }),
+                    ),
+                    Positioned(
+                      top: 12,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: kOrange, width: 1),
+                            boxShadow: [
+                              BoxShadow(
+                                color: kBlue.withValues(alpha: 0.5),
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                offset: const Offset(-1, -1),
+                              ),
+                              BoxShadow(
+                                color: kDarkWhite,
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                offset: const Offset(2, 2),
+                              ),
+                            ]
+                          ),
+                          child: Icon(
+                            Icons.stars,
+                            color: kOrange,
+                            size: 24,
+                            ),
+                        )),
+                  ],
                 ),
               ],
             ),
