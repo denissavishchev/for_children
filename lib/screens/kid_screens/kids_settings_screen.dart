@@ -1,4 +1,3 @@
-import 'package:country_flags/country_flags.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,86 +45,127 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                         width: size.width * 0.8,
                         colorFilter: ColorFilter.mode(kDarkWhite, BlendMode.srcIn),
                       )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: SingleChildScrollView(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                            minWidth: size.width,
-                            minHeight: size.height),
-                        child: IntrinsicHeight(
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 18,),
-                              Row(
+                  SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          minWidth: size.width,
+                          minHeight: size.height),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              child: Row(
+                                spacing: 12,
                                 children: [
-                                  SizedBox(height: 40, width: 40,),
-                                  const Spacer(),
-                                  Text('${parent.name}', style: kBigTextStyle,),
-                                  const SizedBox(width: 12,),
-                                  Text('${parent.email}',
-                                    style: kTextStyle.copyWith(color: kBlue.withValues(alpha: 0.6)),),
-                                  const Spacer(),
-                                  const SizedBox(width: 32,)
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: kDarkWhite),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: kGrey.withValues(alpha: 0.3),
+                                              blurRadius: 3,
+                                              spreadRadius: 3,
+                                              offset: Offset(2, 2)
+                                          )
+                                        ]
+                                    ),
+                                    child: Image.asset('assets/images/catAvatar.png'),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('${parent.name}', style: kBigTextStyle,),
+                                      Text('${parent.email}',
+                                        style: kTextStyle.copyWith(color: kBlue.withValues(alpha: 0.6)),),
+                                    ],
+                                  )
                                 ],
                               ),
-                              const SizedBox(height: 18,),
-                              Container(
-                                width: size.width * 0.7,
-                                height: size.width * 0.45,
-                                decoration: BoxDecoration(
+                            ),
+                            const SizedBox(height: 18,),
+                            Container(
+                              width: size.width,
+                              margin: const EdgeInsets.symmetric(horizontal: 12),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: kWhite.withValues(alpha: 0.8),
+                                borderRadius: BorderRadius.all(Radius.circular(18)),
+                                border: Border.all(color: kDarkWhite),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kGrey.withValues(alpha: 0.3),
+                                    blurRadius: 3,
+                                    spreadRadius: 1,
+                                    offset: Offset(0, 2)
+                                  )
+                                ]
+                              ),
+                              child: Column(
+                                spacing: 12,
+                                children: [
+                                  Row(
+                                    spacing: 8,
+                                    children: [
+                                      Image.asset('assets/images/languages.png', width: 20),
+                                      Text('language'.tr(), style: kBigTextStyle,),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: List.generate(parent.locales.length, ((i){
+                                      return GestureDetector(
+                                          onTap: () => context.setLocale(parent.locales.values.elementAt(i)),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: context.locale == parent.locales.values.elementAt(i)
+                                                        ? kDarkBlue : Colors.transparent,
+                                                    blurRadius: 3,
+                                                    spreadRadius: 2,
+                                                  )
+                                                ]
+                                              ),
+                                              child: FlagWidget(country: parent.locales.keys.elementAt(i))));
+                                    })),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 20,),
+                            Container(
+                              width: size.width,
+                              margin: const EdgeInsets.symmetric(horizontal: 12),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                  color: kWhite.withValues(alpha: 0.8),
                                   borderRadius: BorderRadius.all(Radius.circular(18)),
                                   border: Border.all(color: kDarkWhite),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: kGrey.withValues(alpha: 0.3),
-                                      blurRadius: 3,
-                                      spreadRadius: 3,
-                                      offset: Offset(2, 2)
+                                        color: kGrey.withValues(alpha: 0.3),
+                                        blurRadius: 3,
+                                        spreadRadius: 1,
+                                        offset: Offset(0, 2)
                                     )
                                   ]
-                                ),
-                                child: Stack(
-                                  alignment: Alignment.bottomCenter,
-                                  children: [
-                                    CountryFlag.fromCountryCode(
-                                      context.locale.countryCode == 'US' ? 'GB' : context.locale.countryCode ?? 'GB',
-                                      theme: ImageTheme(
-                                      height: size.width * 0.45,
-                                      width: size.width * 0.7,
-                                      shape: RoundedRectangle(8),
-                                    ),),
-                                    Positioned(
-                                      bottom: 12,
-                                      child: Container(
-                                        width: size.width * 0.7,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: kWhite.withValues(alpha: 0.7),
-                                              blurRadius: 10,
-                                              spreadRadius: 10,
-                                            )
-                                          ]
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: List.generate(parent.locales.length, ((i){
-                                            return GestureDetector(
-                                                onTap: () => context.setLocale(parent.locales.values.elementAt(i)),
-                                                child: FlagWidget(country: parent.locales.keys.elementAt(i)));
-                                          })),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ),
-                              const SizedBox(height: 50,),
-                              Column(
+                              child: Column(
                                 spacing: 8,
                                 children: [
-                                  Text('yourParents'.tr(), style: kTextStyle,),
+                                  Row(
+                                    spacing: 8,
+                                    children: [
+                                      Image.asset('assets/images/family.png', width: 20),
+                                      Text('yourParents'.tr(), style: kBigTextStyle,),
+                                    ],
+                                  ),
                                   SizedBox(
                                     height: 32.0 * data.parentsList.length,
                                     child: FutureBuilder(
@@ -134,65 +174,63 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                         if(snapshot.connectionState == ConnectionState.waiting){
                                           return const Center(child: CircularProgressIndicator(),);
                                         }else{
-                                          return ListView.builder(
+                                          return ListView.separated(
                                               itemCount: data.parentsList.length,
                                               itemBuilder: (context, index){
                                                 String key = data.parentsList.keys.elementAt(index);
                                                 bool isAccepted = data.parentsListAccept[index];
                                                 return data.parentsList[key] !=''
-                                                    ? Padding(
-                                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                    children: [
-                                                      Text(key, style: kBigTextStyle,),
-                                                      GestureDetector(
-                                                        onTap: () => !isAccepted ? data.acceptParent(index) : null,
-                                                        child: Container(
-                                                          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                                                          decoration: BoxDecoration(
-                                                              color: !isAccepted
-                                                                  ? kRed.withValues(alpha: 0.6)
-                                                                  : kGreen.withValues(alpha: 0.6),
-                                                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                  color: kDarkWhite.withValues(alpha: 0.8),
-                                                                  blurRadius: 3,
-                                                                  spreadRadius: 1.5,
-                                                                )
-                                                              ]
+                                                    ? Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text(key, style: kBigTextStyle,),
+                                                        GestureDetector(
+                                                          onTap: () => !isAccepted ? data.acceptParent(index) : null,
+                                                          child: Container(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                                                            decoration: BoxDecoration(
+                                                                color: !isAccepted
+                                                                    ? kRed.withValues(alpha: 0.6)
+                                                                    : Colors.transparent,
+                                                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: !isAccepted ? kDarkWhite.withValues(alpha: 0.8) : Colors.transparent,
+                                                                    blurRadius: 3,
+                                                                    spreadRadius: 1.5,
+                                                                  )
+                                                                ]
+                                                            ),
+                                                            child: Row(
+                                                              spacing: 4,
+                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                              children: [
+                                                                Text(!isAccepted ? 'clickToAccept'.tr() : 'accepted'.tr(),
+                                                                  style: kBigTextStyle.copyWith(fontWeight: FontWeight.normal),),
+                                                                Container(
+                                                                    width: 16,
+                                                                    height: 16,
+                                                                    decoration: BoxDecoration(
+                                                                        color: !isAccepted ? kRed : kGreen,
+                                                                        shape: BoxShape.circle,
+                                                                        border: Border.all(width: 0.5 ,color: kWhite),
+                                                                        boxShadow: [
+                                                                          BoxShadow(
+                                                                            color: kWhite,
+                                                                            blurRadius: 0.5,
+                                                                            spreadRadius: 0.5,
+                                                                          )
+                                                                        ]
+                                                                    ),
+                                                                    child: Icon(!isAccepted ? Icons.close : Icons.check, color: kWhite, size: 14,)),
+                                                              ],
+                                                            ),
                                                           ),
-                                                          child: Row(
-                                                            spacing: 4,
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                            children: [
-                                                              Text(!isAccepted ? 'clickToAccept'.tr() : 'accepted'.tr(), style: kTextStyle,),
-                                                              Container(
-                                                                  width: 16,
-                                                                  height: 16,
-                                                                  decoration: BoxDecoration(
-                                                                      color: !isAccepted ? kRed : kGreen,
-                                                                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                                                                      border: Border.all(width: 0.5 ,color: kWhite),
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                          color: kWhite,
-                                                                          blurRadius: 0.5,
-                                                                          spreadRadius: 0.5,
-                                                                        )
-                                                                      ]
-                                                                  ),
-                                                                  child: Icon(!isAccepted ? Icons.close : Icons.check, color: kWhite, size: 14,)),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                )
+                                                        )
+                                                      ],
+                                                    )
                                                     : const SizedBox.shrink();
-                                              }
+                                              }, separatorBuilder: (BuildContext context, int index) => const Divider(),
                                           );
                                         }
                                       },
@@ -200,16 +238,16 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                   )
                                 ],
                               ),
-                              const SizedBox(height: 38,),
-                              LogoutButtonWidget(),
-                            ],
-                          ),
+                            ),
+                            SizedBox(height: size.height * 0.2,),
+                            LogoutButtonWidget(),
+                          ],
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                      top: 24,
+                      top: 12,
                       right: 20,
                       child: InfoWidget(
                         info: data.settingsKidInfo,
