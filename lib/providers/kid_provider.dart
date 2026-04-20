@@ -60,11 +60,6 @@ class KidProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void switchWishInfo(){
-    wishInfo = !wishInfo;
-    notifyListeners();
-  }
-
   void switchSettingsKidInfo(){
     settingsKidInfo = !settingsKidInfo;
     notifyListeners();

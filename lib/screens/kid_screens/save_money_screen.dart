@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
+import '../../widgets/round_button.dart';
 import 'add_save_money_screen.dart';
 
 class SaveMoneyScreen extends StatelessWidget {
@@ -35,47 +36,11 @@ class SaveMoneyScreen extends StatelessWidget {
                         spacing: 8,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Image.asset('assets/images/star.png', width: 24,),
-                          Text('yourWishes'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp),),
+                          Image.asset('assets/images/piggy.png', width: 24,),
+                          Text('yourSavings'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp),),
                           const Spacer(),
-                          GestureDetector(
-                            onTap: () => Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) =>
-                                const AddSaveMoneyScreen())),
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        kWhite,
-                                        kWhite.withValues(alpha: 0.01),
-                                        kWhite,
-                                      ],
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topLeft,
-                                      stops: [0.1, 0.8, 1]
-                                  ),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: kWhite, width: 1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: kGrey.withValues(alpha: 0.5),
-                                        blurRadius: 3,
-                                        spreadRadius: 1.5,
-                                        offset: Offset(-0.5, 2)
-                                    ),
-                                  ]
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add_circle_outline,
-                                  size: 30,
-                                  color: kBlue.withValues(alpha: 0.7),
-                                ),
-                              ),
-                            ),
-                          ),
+                          RoundButton(onTap: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => const AddSaveMoneyScreen())),),
                         ],
                       ),
                     ),

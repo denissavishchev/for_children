@@ -60,6 +60,10 @@ class _AddWishScreenState extends State<AddWishScreen> {
                           ),
                         ),
                         Text('whatDoYoWant'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text('wishInfo'.tr(), style: kTextStyle,),
+                        ),
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
@@ -83,7 +87,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                   children: [
                                     SizedBox(
                                         width: size.width,
-                                        height: 100,
+                                        height: 60,
                                         child: FutureBuilder(
                                           future: data.getParent,
                                           builder: (context, snapshot){
@@ -195,7 +199,6 @@ class _AddWishScreenState extends State<AddWishScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 30,),
                         GestureDetector(
                           onTap: () => data.addWishToBase(context),
                           child: Container(

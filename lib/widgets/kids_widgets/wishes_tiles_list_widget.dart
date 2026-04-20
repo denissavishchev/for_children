@@ -54,22 +54,22 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                             margin: const EdgeInsets.symmetric(vertical: 3),
                             padding: const EdgeInsets.only(right: 6, left: 12),
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    kDarkBlue.withValues(alpha: 0.5),
-                                    kBlue,
-                                  ]
-                              ),
-                              border: Border.all(width: 0.5, color: kOrange.withValues(alpha: 0.5)),
-                              borderRadius: const BorderRadius.all(Radius.circular(8)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: kBlue.withValues(alpha: 0.1),
-                                  blurRadius: 1,
-                                  spreadRadius: 1,
-                                  offset: const Offset(0, 3),
-                                )
-                              ]
+                                gradient: LinearGradient(
+                                    colors: [
+                                      kBlue.withValues(alpha: 0.2),
+                                      kWhite,
+                                    ]
+                                ),
+                                border: Border.all(width: 1, color: kDarkWhite),
+                                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: kDarkGrey.withValues(alpha: 0.3),
+                                      blurRadius: 4,
+                                      spreadRadius: 2,
+                                      offset: Offset(4, 4)
+                                  )
+                                ]
                             ),
                             child: Row(
                               spacing: 12,
@@ -92,9 +92,9 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                               decoration: BoxDecoration(
                                                 gradient: LinearGradient(
                                                     colors: [
+                                                      kOrange.withValues(alpha: 0.6),
+                                                      kOrange.withValues(alpha: 0.5),
                                                       kOrange.withValues(alpha: 0.4),
-                                                      kOrange.withValues(alpha: 0.3),
-                                                      kOrange.withValues(alpha: 0.2),
                                                     ]
                                                 ),
                                                 borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -147,13 +147,13 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                       border: Border.all(width: 0.5, color: kWhite),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: kDarkWhite,
+                                          color: kGrey,
                                           blurRadius: 10,
                                           spreadRadius: 1,
                                           offset: const Offset(1, 1),
                                         ),
                                         BoxShadow(
-                                          color: kLightBlue.withValues(alpha: 0.5),
+                                          color: kWhite.withValues(alpha: 0.5),
                                           blurRadius: 10,
                                           spreadRadius: 1,
                                           offset: const Offset(-2, -2),
@@ -179,13 +179,13 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                         border: Border.all(width: 0.5, color: kWhite),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: kDarkWhite,
+                                            color: kGrey,
                                             blurRadius: 10,
                                             spreadRadius: 1,
                                             offset: const Offset(1, 1),
                                           ),
                                           BoxShadow(
-                                            color: kLightBlue.withValues(alpha: 0.5),
+                                            color: kWhite.withValues(alpha: 0.5),
                                             blurRadius: 10,
                                             spreadRadius: 1,
                                             offset: const Offset(-2, -2),

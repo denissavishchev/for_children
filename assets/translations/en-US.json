@@ -71,7 +71,7 @@
   "addTaskInfo": "Remember:\n\n1. The child must understand the task\n2. The child must understand the task well\n3. The child must want to complete the task. Motivate with an interesting task or good pay",
   "settingsParentInfo": "Before assigning tasks, add your child to the list of children. Then wait until he confirms\n\nDo you want to learn a new language? Learn with your child",
   "mainKidInfo": "Remember:\n\nNo pain, no gain\n\nNo task, no result",
-  "wishInfo": "Remember not to add expensive desires that may trigger difficult tasks or multiple tasks. Also, your wishes should be clear",
+  "wishInfo": "\uD83D\uDCA1 Remember not to add expensive desires that may trigger difficult tasks or multiple tasks. Also, your wishes should be clear",
   "settingsKidInfo": "Try installing the application in a different language. This will help you learn a few new words, thereby developing your neural connections\n\nAdd only your relatives to add tasks",
   "addToHistoryQuestion": "Move this task into history?",
   "deleteFromHistory": "Delete from history",
@@ -102,7 +102,6 @@
   "logout" : "Logout",
   "accepted" : "Accepted",
   "clickToAccept" : "Click to accept",
-  "addNewWish" : "Add new wish",
   "back" : "Back",
   "whatDoYoWant" : "What do you want?",
   "childrenDontLike": "Dzieci nie lubią domowych obowiazków?",
@@ -275,6 +274,9 @@
   "goodNightName": "Good night, {}!",
   "addSomeMoney": "Add some money",
   "details": "Details",
-  "yourWishes": "Your savings",
-  "youSaved": "you saved:"
+  "yourSavings": "Your savings",
+  "youSaved": "you saved:",
+
+  "yourWishes": "Your wishes"
+
 }
