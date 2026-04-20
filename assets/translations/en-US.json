@@ -274,5 +274,7 @@
   "helloName": "Hello, {}! Have a great day!",
   "goodNightName": "Good night, {}!",
   "addSomeMoney": "Add some money",
-  "details": "Details"
+  "details": "Details",
+  "yourWishes": "Your savings",
+  "youSaved": "you saved:"
 }

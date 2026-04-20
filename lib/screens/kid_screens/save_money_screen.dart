@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
-import '../../widgets/wave_button.dart';
 import 'add_save_money_screen.dart';
 
 class SaveMoneyScreen extends StatelessWidget {
@@ -29,6 +29,56 @@ class SaveMoneyScreen extends StatelessWidget {
               children: [
                 Column(
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                      child: Row(
+                        spacing: 8,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image.asset('assets/images/star.png', width: 24,),
+                          Text('yourWishes'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp),),
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () => Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) =>
+                                const AddSaveMoneyScreen())),
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        kWhite,
+                                        kWhite.withValues(alpha: 0.01),
+                                        kWhite,
+                                      ],
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topLeft,
+                                      stops: [0.1, 0.8, 1]
+                                  ),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: kWhite, width: 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kGrey.withValues(alpha: 0.5),
+                                        blurRadius: 3,
+                                        spreadRadius: 1.5,
+                                        offset: Offset(-0.5, 2)
+                                    ),
+                                  ]
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.add_circle_outline,
+                                  size: 30,
+                                  color: kBlue.withValues(alpha: 0.7),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     StreamBuilder<List<Map<String, dynamic>>>(
                         stream: Supabase.instance.client
                             .from('saveMoney')
@@ -46,7 +96,7 @@ class SaveMoneyScreen extends StatelessWidget {
                           final money = snapshot.data!;
                           return Expanded(
                             child: ListView.builder(
-                                padding: const EdgeInsets.only(bottom: 160),
+                                padding: const EdgeInsets.only(bottom: 80, top: 4),
                                 itemCount: money.length,
                                 itemBuilder: (context, index){
                                   final total = List.from(money[index]['money'] ?? [])
@@ -155,13 +205,6 @@ class SaveMoneyScreen extends StatelessWidget {
                         }
                     ),
                   ],
-                ),
-                Positioned(
-                  bottom: 70,
-                  child: WaveButton(
-                    onTap: () => Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) =>
-                        const AddSaveMoneyScreen())),),
                 ),
                 KidBottomNavigationBarWidget()
               ],

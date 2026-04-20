@@ -54,7 +54,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding: const EdgeInsets.fromLTRB(12, 12,12, 0),
                               child: Row(
                                 spacing: 12,
                                 children: [
@@ -247,7 +247,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                     ),
                   ),
                   Positioned(
-                      top: 12,
+                      top: 24,
                       right: 20,
                       child: InfoWidget(
                         info: data.settingsKidInfo,
