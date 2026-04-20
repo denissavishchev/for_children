@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/parent_provider.dart';
@@ -159,7 +160,10 @@ class AdWidget extends StatelessWidget {
                           fit: BoxFit.cover,
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
-                            return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                            return const Center(child: SpinKitSpinningLines(
+                              color: kBlue,
+                              size: 40,
+                            ));
                           },
                           errorBuilder: (context, error, stackTrace) {
                             return const Center(

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/providers/kid_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -208,7 +209,10 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                       return const SizedBox.shrink();
                     });
               }else{
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: SpinKitSpinningLines(
+                  color: kBlue,
+                  size: 40,
+                ));
               }
             },
           );

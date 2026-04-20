@@ -163,7 +163,6 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                       const SizedBox(width: 4),
                                       Text(snapshot['price'], style: kBigTextStyle,),
                                       const SizedBox(width: 4),
-                                      Text('(', style: kTextStyle,),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: List.generate(3, ((i){
@@ -189,7 +188,6 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                           );
                                         })),
                                       ),
-                                      Text(')', style: kTextStyle,),
                                     ],
                                   ),
                                   Row(

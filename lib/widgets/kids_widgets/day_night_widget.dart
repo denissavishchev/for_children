@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants.dart';
@@ -54,7 +55,12 @@ class _DayNightWidgetState extends State<DayNightWidget> {
                   .stream(primaryKey: ['id'])
                   .order('time', ascending: false),
               builder: (context, snapshot){
-                if(!snapshot.hasData) return CircularProgressIndicator();
+                if(!snapshot.hasData) {
+                  return SpinKitSpinningLines(
+                  color: kBlue,
+                  size: 40,
+                );
+                }
                 final docs = snapshot.data!.first;
                 return Container(
                   width: size.width,

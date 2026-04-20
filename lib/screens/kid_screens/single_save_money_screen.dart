@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:for_children/widgets/kids_widgets/square_button_widget.dart';
@@ -34,7 +35,10 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                 .order('time', ascending: false),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: SpinKitSpinningLines(
+                  color: kBlue,
+                  size: 40,
+                ));
               }
               final doc = snapshot.data!.first;
               final moneyList = List.from(doc['money'] ?? []);

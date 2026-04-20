@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/providers/parent_provider.dart';
@@ -172,7 +173,10 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                       future: data.getParent,
                                       builder: (context, snapshot){
                                         if(snapshot.connectionState == ConnectionState.waiting){
-                                          return const Center(child: CircularProgressIndicator(),);
+                                          return const Center(child: SpinKitSpinningLines(
+                                            color: kBlue,
+                                            size: 40,
+                                          ),);
                                         }else{
                                           return ListView.separated(
                                               itemCount: data.parentsList.length,

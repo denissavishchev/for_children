@@ -144,7 +144,15 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                     width: 40,
                                     clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(
-                                        color: kOrange.withValues(alpha: 0.7),
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              kWhite.withValues(alpha: 0.4),
+                                              kDarkWhite.withValues(alpha: 0.5),
+                                              kWhite.withValues(alpha: 0.4),
+                                            ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight
+                                        ),
                                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                                         boxShadow: [
                                           BoxShadow(
@@ -168,7 +176,6 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                               const SizedBox(width: 4),
                               Text(snapshot['price'], style: kBigTextStyle,),
                               const SizedBox(width: 4),
-                              Text('(', style: kTextStyle,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: List.generate(3, ((i){
@@ -194,7 +201,6 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                   );
                                 })),
                               ),
-                              Text(')', style: kTextStyle,),
                             ],
                           ),
                         )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,10 @@ class _MainKidScreenState extends State<MainKidScreen> {
                 Positioned(
                   top: 0,
                   child: parent.email == ''
-                      ? CircularProgressIndicator()
+                      ? SpinKitSpinningLines(
+                        color: kBlue,
+                        size: 40,
+                      )
                       : DayNightWidget(email: parent.email ?? '',),
                 ),
                 Align(
@@ -82,7 +86,12 @@ class _MainKidScreenState extends State<MainKidScreen> {
                                     .order('time', ascending: false),
                               ]),
                               builder: (context, snapshot){
-                                if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+                                if (!snapshot.hasData) {
+                                  return Center(child: SpinKitSpinningLines(
+                                  color: kBlue,
+                                  size: 40,
+                                ));
+                                }
                                 return Consumer<ParentProvider>(
                                     builder: (context, data, _){
                                       return PageView.builder(

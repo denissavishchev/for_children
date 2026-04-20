@@ -31,7 +31,7 @@ class SaveMoneyScreen extends StatelessWidget {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
                       child: Row(
                         spacing: 8,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
