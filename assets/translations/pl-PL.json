@@ -83,11 +83,11 @@
   "weakPassword": "Hasło musi zawierać co najmniej 6 znaków, co najmniej jedną literę i jedną cyfrę",
   "alreadyTaken": "Ten e-mail jest już zajęty",
   "passwordsMustBeTheSame": "Hasła muszą być takie same",
-  "waitingForPrice": "Czekamy póki {} zaakceptuje cene",
+  "waitingForPrice": "Czekamy póki {} zaakceptuje cene\nW tym czasie możesz zrobić coś innego i wrócić później",
   "waitingForDone": "Waiting for {} kończy zadanie",
-  "waitingForPay": "Waiting for {} oceni pracę i zapłaci",
+  "waitingForPay": "Waiting for {} oceni pracę i zapłaci\nW międzyczasie możesz zrobić coś innego lub sprawdzić inne zadania",
   "taskType": "Typ: ",
-  "daysLeft": "Pozostało tylko {} dni",
+  "daysLeft": "Pozostało tylko {} dni.\nTo już naprawdę niedużo! Rób zadania starannie i z uśmiechem – wierzę, że dasz radę utrzymać świetną formę do samego końca!",
   "multiTask": "Wielierazowe zadanie",
   "multiTaskDescription": "Pozwala tworzyć zadania powtarzane codziennie (np. mycie zębów, sprzątanie, lekcje).\nDzięki temu dziecko widzi, że zadanie wraca każdego dnia, a rodzic może łatwo sprawdzić, czy zostało wykonane",
   "singleTask": "Pojedyncze zadanie",
@@ -275,6 +275,13 @@
   "addSomeMoney": "Dodaj pieniądze",
   "details": "Szczegóły",
   "yourSavings": "Twoje oszczędności",
-  "youSaved": "Zaoszczędzono::"
+  "youSaved": "Zaoszczędzono:",
+  "yourWishes": "Twoje życzenia",
+  "priceStatusDescription": "To proponowana nagroda za zadanie.\nMożesz ją\n✔ zaakceptować \nlub\n\uD83D\uDCAC zaproponować zmianę i wysłać do rodzica.\n\uD83E\uDD1D Postarajcie się dojść do wspólnej decyzji",
+  "inProgressStatusDescription": "Zanim naciśniesz, sprawdź czy zadanie jest naprawdę dobrze wykonane.\nCzy zrobiłeś wszystko, co było trzeba ✔\ni zgodnie z założeniami?\nJeśli tak — klikaj \uD83D\uDE80\n⏳ Teraz czas na sprawdzenie i nagrodę",
+  "weakResult": "Twoja praca otrzymała dzisiaj słabszą ocenę, ale traktuj to jak trening – następnym razem wybiegniesz na boisko z nową wiedzą i dasz z siebie wszystko! Nie poddawaj się, bo drzemie w Tobie duży potencjał.",
+  "goodResult": "Twoja praca została oceniona fantastycznie! To był prawdziwy popis Twoich umiejętności – wbiegłeś na metę jak mistrz. Widać, że włożyłeś w to dużo serca i pracy. Jesteś na doskonałej drodze, tak trzymaj!",
+  "middleResult": "Twoja praca jest solidna i pokazuje, że znasz podstawy, ale wiem, że stać Cię na jeszcze więcej! To taki wynik 'w połowie drogi' – masz już dobrą bazę, teraz wystarczy dodać trochę więcej szczegółów, by następnym razem wskoczyć na najwyższe podium.",
+  "completeStatusDescription": "Misja wykonana! Zadanie jest rozliczone i domknięte. Możesz odetchnąć z ulgą i zająć się czymś zupełnie innym – zasłużyłeś na chwilę przerwy przed kolejnym startem!"
 
 }

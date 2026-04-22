@@ -83,11 +83,11 @@
   "weakPassword": "The password must contain at least 6 signs, at least one letter and one digit",
   "alreadyTaken": "This Email is already taken",
   "passwordsMustBeTheSame": "Passwords must be the same",
-  "waitingForPrice": "Waiting for {} accept the price",
+  "waitingForPrice": "Waiting for {} accept the price.\nIn the meantime, you can do something else and come back later.",
   "waitingForDone": "Waiting for {} done the task",
-  "waitingForPay": "Waiting for {} for rate and payment",
+  "waitingForPay": "Waiting for {} for rate and payment\nIn the meantime, you can do something else or check other tasks",
   "taskType": "Type: ",
-  "daysLeft": "Only days left {}",
+  "daysLeft": "Only days left {}\nThis is the home stretch. Keep doing your best in every task, just like you have been. Give it your all – victory is just around the corner!",
   "multiTask": "Recurring task",
   "multiTaskDescription": "Allows you to create tasks repeated daily (e.g. brushing teeth, cleaning, homework).\nThis way the child sees that the task returns every day, and the parent can easily check if it has been completed.",
   "singleTask": "Single task",
@@ -276,7 +276,12 @@
   "details": "Details",
   "yourSavings": "Your savings",
   "youSaved": "you saved:",
-
-  "yourWishes": "Your wishes"
+  "yourWishes": "Your wishes",
+  "priceStatusDescription": "This is the suggested reward for the task.\nYou can\n✔ accept it\nor\n💬 suggest a change and send it to your parent.\n🤝 Try to reach a mutual decision together",
+  "inProgressStatusDescription": "Before you click, check if the task is truly well done.\nDid you do everything that was needed ✔\nand according to the requirements?\nIf so — click 🚀\n⏳ Now it's time for review and your reward",
+  "weakResult": "Your work received a lower grade today, but treat it like training – next time you'll step onto the field with new knowledge and give it your all! Don't give up, you have great potential within you.",
+  "goodResult": "Your work was rated fantastically! It was a true showcase of your skills – you crossed the finish line like a champion. It's clear you put a lot of heart and effort into this. You're on a great path, keep it up!",
+  "middleResult": "Your work is solid and shows you know the basics, but I know you're capable of even more! It's a 'halfway there' result – you have a good foundation, now just add a few more details to jump onto the top podium next time.",
+  "completeStatusDescription": "Mission accomplished! The task is settled and closed. You can breathe a sigh of relief and move on to something completely different – you’ve earned a little break before the next start!"
 
 }
