@@ -134,7 +134,6 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                                 child: Text(
                                   snapshot['taskName'],
                                   style: kBigTextStyle,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               snapshot['imageUrl'] == 'false'
@@ -243,15 +242,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
                             stars: double.parse(snapshot['stars']).toInt(),
                             snapshot: snapshot,
                             index: index,)
-                              : Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: List.generate(3, (i){
-                              return KidStatusWidget(
-                                snapshot: snapshot,
-                                index: index,
-                                name: data.status[i],);
-                      }),
-                    ),
+                              : KidStatusWidget(snapshot: snapshot),
                   ),
                 )
               ],

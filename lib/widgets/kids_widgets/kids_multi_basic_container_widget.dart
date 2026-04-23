@@ -259,15 +259,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                               : snapshot['daysNumber'][data.whatDayIs(snapshot['time'])] == 1,)
                         ],
                       )
-                          : Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: List.generate(3, (i){
-                          return KidStatusWidget(
-                            snapshot: snapshot,
-                            index: index,
-                            name: data.status[i],);
-                        }),
-                      ),
+                          : KidStatusWidget(snapshot: snapshot),
                     ),
                 )
               ],

@@ -62,7 +62,9 @@ class KidStarsWidget extends StatelessWidget {
               )),
           Align(
               alignment: Alignment.bottomCenter,
-              child: Text('paid'.tr(),
+              child: Text(snapshot['status'] == 'paid'
+                  ? 'paid'.tr()
+                  : 'unpaid'.tr(),
                 style: snapshot['status'] == 'paid'
                     ? kTextStyle : kRedTextStyle,)),
         ],
