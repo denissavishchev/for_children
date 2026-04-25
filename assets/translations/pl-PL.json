@@ -282,6 +282,9 @@
   "weakResult": "Twoja praca otrzymała dzisiaj słabszą ocenę, ale traktuj to jak trening – następnym razem wybiegniesz na boisko z nową wiedzą i dasz z siebie wszystko! Nie poddawaj się, bo drzemie w Tobie duży potencjał.",
   "goodResult": "Twoja praca została oceniona fantastycznie! To był prawdziwy popis Twoich umiejętności – wbiegłeś na metę jak mistrz. Widać, że włożyłeś w to dużo serca i pracy. Jesteś na doskonałej drodze, tak trzymaj!",
   "middleResult": "Twoja praca jest solidna i pokazuje, że znasz podstawy, ale wiem, że stać Cię na jeszcze więcej! To taki wynik 'w połowie drogi' – masz już dobrą bazę, teraz wystarczy dodać trochę więcej szczegółów, by następnym razem wskoczyć na najwyższe podium.",
-  "completeStatusDescription": "Misja wykonana! Zadanie jest rozliczone i domknięte. Możesz odetchnąć z ulgą i zająć się czymś zupełnie innym – zasłużyłeś na chwilę przerwy przed kolejnym startem!"
-
+  "completeStatusDescription": "Misja wykonana! Zadanie jest rozliczone i domknięte. Możesz odetchnąć z ulgą i zająć się czymś zupełnie innym – zasłużyłeś na chwilę przerwy przed kolejnym startem!",
+  "parentProposition": "{}\nproponuje",
+  "youOffer": "Proponujesz",
+  "unpaid": "Nieopłacone",
+  "whyYouNeedDreams": "Śmiało sięgaj po to, co naprawdę daje radość ✨ — nie wszystko musi być kolejną rzeczą. Czasem wspólny czas, śmiech i dobre wspomnienia są więcej warte niż gadżety.\nMyśl prosto i dbaj o świat \uD83C\uDF31 — wtedy Twoje marzenia mają jeszcze większy sens"
 }

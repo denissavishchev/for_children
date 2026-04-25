@@ -43,6 +43,7 @@ class WishesScreen extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => const AddWishScreen())),),
                             ],
                           ),
+                          Text('whyYouNeedDreams'.tr(), style: kTextStyle,),
                           Expanded(child: const WishesTilesListWidget())
                         ],
                       ),
