@@ -182,14 +182,6 @@ class KidProvider with ChangeNotifier {
         }
       }
     if(parents.isNotEmpty){
-    // if(fileName != ''){
-    //   try{
-    //     await imageToUpload.putFile(File(file!.path));
-    //     imageUrl = await imageToUpload.getDownloadURL();
-    //   }catch(e){
-    //     return;
-    //   }
-    // }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final Map<String, dynamic>? doc = await Supabase.instance.client
         .from('users')
@@ -214,7 +206,9 @@ class KidProvider with ChangeNotifier {
       'parent3Name': parents.length > 3 ? parents[3] : '',
       'parent4Name': parents.length > 4 ? parents[4] : '',
       'imageUrl' : fileName == '' ? 'false' : imageUrl,
-      'time' : DateTime.now().toString()
+      'time' : DateTime.now().toString(),
+      'assignedToTask' : '',
+      'isAssignedToMultitask' : false,
     });
         addWishNameController.clear();
         addWishDescriptionController.clear();

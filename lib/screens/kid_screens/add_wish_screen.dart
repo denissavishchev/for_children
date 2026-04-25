@@ -242,7 +242,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                               border: Border.all(color: kDarkWhite.withValues(alpha: 0.8), width: 0.5),
                               borderRadius: const BorderRadius.all(Radius.circular(18)),
                             ),
-                            child: Text('add', style: kBigTextStyleWhite.copyWith(fontSize: 44.sp)),
+                            child: Text('add'.tr(), style: kBigTextStyleWhite.copyWith(fontSize: 44.sp)),
                           ),
                         ),
                       ],
