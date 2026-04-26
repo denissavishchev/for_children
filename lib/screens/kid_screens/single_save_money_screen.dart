@@ -101,7 +101,6 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: ListView.builder(
-                              reverse: true,
                               padding: const EdgeInsets.all(12),
                               itemCount: moneyList.length,
                               itemBuilder: (context, i) {
