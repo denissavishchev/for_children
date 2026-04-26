@@ -79,7 +79,7 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                           SizedBox(height: size.height * 0.28,),
                           Text('${doc['whatIsIt']}', style: kBigTextStyle.copyWith(fontSize: 44.sp)),
                           LinearPercentIndicator(
-                            percent: percent > 100 ? 1 : percent / 100,
+                            percent: (percent > 100 )? 1 : percent / 100,
                             linearGradient: LinearGradient(
                                 colors: [
                                   kBlue,

@@ -163,7 +163,7 @@ class SaveMoneyScreen extends StatelessWidget {
                                                             child: LinearPercentIndicator(
                                                               padding: EdgeInsets.zero,
                                                               animation: true,
-                                                              percent: percent / 100,
+                                                              percent: (percent / 100) > 1 ? 1 : percent / 100,
                                                               lineHeight: 8,
                                                               backgroundColor: kBlue.withValues(alpha: 0.3),
                                                               barRadius: Radius.circular(12),
