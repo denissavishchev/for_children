@@ -29,9 +29,10 @@ class SaveMoneyScreen extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 Column(
+                  spacing: 8,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
                       child: Row(
                         spacing: 8,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,6 +47,9 @@ class SaveMoneyScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('whyYouNeedEarn'.tr(), style: kTextStyle,)),
                     StreamBuilder<List<Map<String, dynamic>>>(
                         stream: Supabase.instance.client
                             .from('saveMoney')
@@ -70,99 +74,118 @@ class SaveMoneyScreen extends StatelessWidget {
                                       .fold<int>(0, (s, m) => s + (int.tryParse(m.split('/')[0]) ?? 0));
                                   final percent = (total / (int.tryParse(money[index]['price'].toString()) ?? 0)) * 100;
                                     return Container(
-                                      height: 200,
                                       margin: const EdgeInsets.fromLTRB(12, 3, 12, 12),
-                                      padding: const EdgeInsets.only(right: 12),
                                       decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                              colors: [
-                                                kGrey,
-                                                kWhite,
-                                              ]
+                                          color: kWhite,
+                                          gradient: RadialGradient(
+                                            colors: [
+                                              kWhite,
+                                              kPurple.withValues(alpha: 0.3),
+                                              kLightBlue.withValues(alpha: 0.3),
+                                            ],
+                                            center: Alignment.bottomLeft,
+                                            radius: 1.7,
                                           ),
-                                          border: Border.all(width: 1, color: kDarkWhite),
+                                          border: Border.all(width: 1, color: kPurple),
                                           borderRadius: const BorderRadius.all(Radius.circular(8)),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: kDarkGrey.withValues(alpha: 0.3),
-                                              blurRadius: 4,
-                                              spreadRadius: 2,
-                                              offset: Offset(4, 4)
+                                                color: kDarkBlue.withValues(alpha: 0.25),
+                                                blurRadius: 4,
+                                                spreadRadius: 2,
+                                                offset: Offset(4, 4)
                                             )
                                           ]
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      child: Stack(
                                         children: [
-                                          Container(
-                                            clipBehavior: Clip.hardEdge,
-                                            decoration: BoxDecoration(
-                                                color: kBlue.withValues(alpha: 0.3),
-                                                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      color: kGrey.withValues(alpha: 0.3),
-                                                      blurRadius: 4,
-                                                      spreadRadius: 2,
-                                                      offset: Offset(2, 0)
-                                                  )
-                                                ]
-                                            ),
-                                            child: money[index]['imageUrl'] == 'false'
-                                                ? Image.asset('assets/images/cat.png', fit: BoxFit.contain)
-                                                : Image.network(money[index]['imageUrl'],
-                                                fit: BoxFit.contain,
-                                                errorBuilder: (context, error, stackTrace) {
-                                                  return const Center(
-                                                    child: Icon(Icons.warning, color: kOrange,),
-                                                  );
-                                                }),
-                                          ),
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(money[index]['whatIsIt'],
-                                                style: kBigTextStyle.copyWith(fontSize: 44.sp),
-                                              ),
-                                              Row(
-                                                spacing: 12,
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text('$total'
-                                                      '/ ${money[index]['price']} '
-                                                      '${money[index]['currency']}',
-                                                    style: kBigTextStyle,),
-                                                ],
-                                              ),
-                                              Row(
-                                                spacing: 8,
-                                                children: [
-                                                  SizedBox(
-                                                    height: 10,
-                                                    width: size.width * 0.35,
-                                                    child: LinearPercentIndicator(
-                                                      padding: EdgeInsets.zero,
-                                                      animation: true,
-                                                      percent: percent / 100,
-                                                      lineHeight: 8,
-                                                      backgroundColor: kBlue.withValues(alpha: 0.3),
-                                                      barRadius: Radius.circular(12),
-                                                      progressColor: kBlue,
-                                                    ),
+                                          Positioned(
+                                              top: -30,
+                                              right: -30,
+                                              child: Icon(
+                                                  Icons.euro,
+                                                  color: kPurple.withValues(alpha: 0.1),
+                                                  size: 300.sp)),
+                                          IntrinsicHeight(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  decoration: BoxDecoration(
+                                                      color: kBlue.withValues(alpha: 0.3),
+                                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: kGrey.withValues(alpha: 0.3),
+                                                            blurRadius: 4,
+                                                            spreadRadius: 2,
+                                                            offset: Offset(2, 0)
+                                                        )
+                                                      ]
                                                   ),
-                                                  Text('${percent.toStringAsFixed(0)}%',
-                                                      style: kTextStyleNormal)
-                                                ],
-                                              ),
-                                              ButtonWidget(
-                                                  onTap: () => Navigator.pushReplacement(context,
-                                                      MaterialPageRoute(builder: (context) =>
-                                                          SingleSaveMoneyScreen(documentId: money[index]['id'].toString(),))),
-                                                  width: 0.4,
-                                                  text: 'addSomeMoney'
-                                              )
-                                            ],
+                                                  child: money[index]['imageUrl'] == 'false'
+                                                      ? Image.asset('assets/images/cat.png', fit: BoxFit.contain, height: 200,)
+                                                      : Image.network(money[index]['imageUrl'],
+                                                      fit: BoxFit.contain,
+                                                      height: 200,
+                                                      errorBuilder: (context, error, stackTrace) {
+                                                        return const Center(
+                                                          child: Icon(Icons.warning, color: kOrange,),
+                                                        );
+                                                      }),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(right: 12),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(money[index]['whatIsIt'],
+                                                        style: kBigTextStyle.copyWith(fontSize: 44.sp),
+                                                      ),
+                                                      Row(
+                                                        spacing: 12,
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text('$total'
+                                                              '/ ${money[index]['price']} '
+                                                              '${money[index]['currency']}',
+                                                            style: kBigTextStyle,),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        spacing: 8,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 10,
+                                                            width: size.width * 0.35,
+                                                            child: LinearPercentIndicator(
+                                                              padding: EdgeInsets.zero,
+                                                              animation: true,
+                                                              percent: percent / 100,
+                                                              lineHeight: 8,
+                                                              backgroundColor: kBlue.withValues(alpha: 0.3),
+                                                              barRadius: Radius.circular(12),
+                                                              progressColor: kBlue,
+                                                            ),
+                                                          ),
+                                                          Text('${percent.toStringAsFixed(0)}%',
+                                                              style: kTextStyleNormal)
+                                                        ],
+                                                      ),
+                                                      ButtonWidget(
+                                                          onTap: () => Navigator.pushReplacement(context,
+                                                              MaterialPageRoute(builder: (context) =>
+                                                                  SingleSaveMoneyScreen(documentId: money[index]['id'].toString(),))),
+                                                          width: 0.4,
+                                                          text: 'addSomeMoney'
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),

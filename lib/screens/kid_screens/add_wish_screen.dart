@@ -41,7 +41,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                       spacing: 12,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
