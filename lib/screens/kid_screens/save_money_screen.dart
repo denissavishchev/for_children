@@ -39,7 +39,9 @@ class SaveMoneyScreen extends StatelessWidget {
                           Image.asset('assets/images/piggy.png', width: 24,),
                           Text('yourSavings'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp),),
                           const Spacer(),
-                          RoundButton(onTap: () => Navigator.pushReplacement(context,
+                          RoundButton(
+                            icon: Icons.add_circle_outline,
+                            onTap: () => Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) => const AddSaveMoneyScreen())),),
                         ],
                       ),

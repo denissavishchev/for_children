@@ -3,10 +3,13 @@ import '../constants.dart';
 
 class RoundButton extends StatelessWidget {
   const RoundButton({
-    super.key, required this.onTap,
+    super.key,
+    required this.onTap,
+    required this.icon,
   });
 
   final Function() onTap;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class RoundButton extends StatelessWidget {
         ),
         child: Center(
           child: Icon(
-            Icons.add_circle_outline,
+            icon,
             size: 30,
             color: kBlue.withValues(alpha: 0.7),
           ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/screens/kid_screens/wishes_screen.dart';
+import 'package:for_children/widgets/round_button.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
@@ -44,23 +45,16 @@ class _AddWishScreenState extends State<AddWishScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              GestureDetector(
-                                onTap: () => Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) => const WishesScreen())),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: kDarkGrey, width: 2),
-                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                  ),
-                                  child: Text('back'.tr(), style: kTextStyle),
-                                ),
+                              RoundButton(
+                                  onTap: () => Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) => const WishesScreen())),
+                                  icon: Icons.close
                               ),
-                              Spacer(),
+                              Text('whatDoYoWant'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp)),
+                              const SizedBox(width: 40,)
                             ],
                           ),
                         ),
-                        Text('whatDoYoWant'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp)),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: Text('wishInfo'.tr(), style: kTextStyle,),
@@ -73,10 +67,10 @@ class _AddWishScreenState extends State<AddWishScreen> {
                             border: Border.all(color: kDarkWhite, width: 2),
                             boxShadow: [
                               BoxShadow(
-                                color: kGrey.withValues(alpha: 0.7),
-                                spreadRadius: 10,
-                                blurRadius: 20,
-                                offset: const Offset(0, 10)
+                                color: kGrey.withValues(alpha: 0.5),
+                                spreadRadius: 7,
+                                blurRadius: 16,
+                                offset: const Offset(0, 8)
                               )
                             ]
                           ),
@@ -85,20 +79,22 @@ class _AddWishScreenState extends State<AddWishScreen> {
                               Form(
                                 key: data.wishKey,
                                 child: Column(
+                                  spacing: 12,
                                   children: [
-                                    SizedBox(
-                                        width: size.width,
-                                        height: 60,
-                                        child: FutureBuilder(
-                                          future: data.getParent,
-                                          builder: (context, snapshot){
-                                            if(snapshot.connectionState == ConnectionState.waiting){
-                                              return const Center(child: SpinKitSpinningLines(
-                                                color: kBlue,
-                                                size: 40,
-                                              ),);
-                                            }else{
-                                              return GridView.builder(
+                                    FutureBuilder(
+                                      future: data.getParent,
+                                      builder: (context, snapshot){
+                                        if(snapshot.connectionState == ConnectionState.waiting){
+                                          return const Center(child: SpinKitSpinningLines(
+                                            color: kBlue,
+                                            size: 40,
+                                          ),);
+                                        }else{
+                                          return Column(
+                                            spacing: 8,
+                                            children: [
+                                              GridView.builder(
+                                                shrinkWrap: true,
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 itemCount: data.selectedParentsEmail.length,
                                                 itemBuilder: (context, index){
@@ -112,6 +108,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                                       decoration: BoxDecoration(
                                                           color: value ? kWhite : Colors.transparent,
                                                           borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                          border: Border.all(color: value ? kOrange : kGrey, width: 0.5),
                                                           boxShadow: [
                                                             BoxShadow(
                                                                 color: kDarkGrey.withValues(alpha: 0.8),
@@ -121,10 +118,10 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                                             ),
                                                             value
                                                                 ? BoxShadow(
-                                                                color: kGrey.withValues(alpha: 0.3),
+                                                                color: kOrange.withValues(alpha: 0.15),
                                                                 blurRadius: 2,
                                                                 spreadRadius: 3,
-                                                                offset: const Offset(0, 2))
+                                                                offset: const Offset(0, 1))
                                                                 : BoxShadow(
                                                                 color: kWhite,
                                                                 blurRadius: 2,
@@ -143,10 +140,12 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                                     crossAxisCount: 2,
                                                     crossAxisSpacing: 12,
-                                                    mainAxisExtent: 40),);
-                                            }
-                                          },
-                                        )
+                                                    mainAxisExtent: 40),),
+                                              Text(data.selectedParentsDisplay, style: kTextStyle),
+                                            ],
+                                          );
+                                        }
+                                      },
                                     ),
                                     Column(
                                       spacing: 12,
@@ -172,7 +171,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                           maxLines: 2,
                                           decoration: textFieldKidDecoration.copyWith(
                                               label: Text('whyYouNeedThis'.tr(),)),
-                                          maxLength: 256,
+                                          maxLength: 128,
                                           validator: (value){
                                             if(value == null || value.isEmpty) {
                                               return 'thisFieldCannotBeEmpty'.tr();
@@ -185,6 +184,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(height: 12,),
                               GestureDetector(
                                 onTap: () => data.pickAnImage(),
                                 child: Container(
@@ -204,7 +204,11 @@ class _AddWishScreenState extends State<AddWishScreen> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => data.addWishToBase(context),
+                          onTap: () {
+                            if(data.wishKey.currentState!.validate()){
+                              data.addWishToBase(context);
+                            }
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             width: size.width * 0.7,
@@ -233,10 +237,10 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                     offset: const Offset(-4, 0)
                                 ),
                                 BoxShadow(
-                                  color: kDarkBlue.withValues(alpha: 0.35),
-                                  blurRadius: 10,
+                                  color: kDarkBlue.withValues(alpha: 0.25),
+                                  blurRadius: 7,
                                   spreadRadius: 5,
-                                  offset: const Offset(0, 10)
+                                  offset: const Offset(0, 7)
                                 )
                               ],
                               border: Border.all(color: kDarkWhite.withValues(alpha: 0.8), width: 0.5),

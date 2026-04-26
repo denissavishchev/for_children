@@ -433,7 +433,6 @@ class KidProvider with ChangeNotifier {
   }
 
   String formatDuration(Duration duration) {
-    // Używamy padLeft dla czystszego kodu
     String twoDigits(int n) => n.toString().padLeft(2, '0');
 
     final hours = twoDigits(duration.inHours);
@@ -441,6 +440,16 @@ class KidProvider with ChangeNotifier {
     final seconds = twoDigits(duration.inSeconds.remainder(60));
 
     return "$hours:$minutes:$seconds";
+  }
+
+  String get selectedParentsDisplay {
+    final selectedNames = parentsList.entries
+        .where((e) => selectedParentsEmail[e.value] == true)
+        .map((e) => e.key);
+    if (selectedNames.isEmpty) {
+      return 'selectAtLeastOneParent'.tr();
+    }
+    return 'canSeeAndAddToTasks'.tr(args: [selectedNames.join(' and ')]);
   }
 
 

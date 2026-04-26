@@ -285,6 +285,7 @@
   "parentProposition": "{}\noffers",
   "youOffer": "You offer",
   "unpaid": "Unpaid",
-  "whyYouNeedDreams": "Go for what truly brings you joy ✨ — not everything has to be another thing. Sometimes time with loved ones, laughter, and memories are worth more than any gadgets.\nKeep it simple and care about the world \uD83C\uDF31 — then your wishes will mean even more"
-
+  "whyYouNeedDreams": "Go for what truly brings you joy ✨ — not everything has to be another thing. Sometimes time with loved ones, laughter, and memories are worth more than any gadgets.\nKeep it simple and care about the world \uD83C\uDF31 — then your wishes will mean even more",
+  "canSeeAndAddToTasks": "{} can see and add this wish to your tasks",
+  "selectAtLeastOneParent": "Select at least one parent"
 }
