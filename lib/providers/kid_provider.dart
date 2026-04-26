@@ -11,6 +11,7 @@ import '../constants.dart';
 import '../screens/kid_screens/wishes_screen.dart';
 import '../screens/kid_screens/kids_settings_screen.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
+import '../widgets/kids_widgets/add_save_money_widget.dart';
 import '../widgets/toasts.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -38,6 +39,7 @@ class KidProvider with ChangeNotifier {
   };
 
   IconData selectedRoute = Icons.home;
+  int totalBanknotesSum = 0;
 
   Map<String, bool> selectedParentsEmail = {};
 
@@ -54,6 +56,17 @@ class KidProvider with ChangeNotifier {
   bool mainKidInfo = false;
   bool wishInfo = false;
   bool settingsKidInfo = false;
+
+  Map <String, int> savedMoney = {
+    '1': 0,
+    '2': 0,
+    '5': 0,
+    '10': 0,
+    '20': 0,
+    '50': 0,
+    '100': 0,
+  };
+
 
   void switchMainKidInfo(){
     mainKidInfo = !mainKidInfo;
@@ -312,50 +325,13 @@ class KidProvider with ChangeNotifier {
   }
 
   Future showToAddMoney(context, String id) {
-    Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (context) {
-          return Container(
-            height: size.height * 0.2,
-            width: size.width,
-            margin: const EdgeInsets.only(bottom: 300),
-            decoration: const BoxDecoration(
-              color: kWhite,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: size.width * 0.7,
-                  child: TextFormField(
-                    controller: addMoneyController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    cursorColor: kDarkGrey,
-                    decoration: textFieldDecoration.copyWith(
-                        label: Text('add'.tr(),)),
-                    maxLength: 64,
-                    validator: (value){
-                      if(value == null || value.isEmpty) {
-                        return 'thisFieldCannotBeEmpty'.tr();
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => updateMoney(context, id),
-                    child: Icon(
-                      Icons.add_circle_rounded,
-                      color: kBlue,
-                      size: 60,
-                    ))
-              ],
-            )
+          return SafeArea(
+            child: AddSaveMoneyWidget(id: id)
           );
         });
   }
@@ -367,12 +343,21 @@ class KidProvider with ChangeNotifier {
         .eq('id', id)
         .maybeSingle();
     List<dynamic> moneyList = List.from(doc?['money']);
-    moneyList.add('${addMoneyController.text}/${DateTime.now().toString()}');
+    moneyList.add('$totalBanknotesSum/${DateTime.now().toString()}');
     await Supabase.instance.client
         .from('saveMoney')
         .update({'money': moneyList})
         .eq('id', id);
-    addMoneyController.clear();
+    totalBanknotesSum = 0;
+    savedMoney = {
+      '1': 0,
+      '2': 0,
+      '5': 0,
+      '10': 0,
+      '20': 0,
+      '50': 0,
+      '100': 0,
+    };
     Navigator.of(context).pop();
   }
 
@@ -450,6 +435,15 @@ class KidProvider with ChangeNotifier {
       return 'selectAtLeastOneParent'.tr();
     }
     return 'canSeeAndAddToTasks'.tr(args: [selectedNames.join(' and ')]);
+  }
+
+  void updateBanknote(String key, int value, bool increment) {
+    increment
+     ? savedMoney.update(key, (value) => value = value + 1)
+     : value == 0
+      ? null
+      : savedMoney.update(key, (value) => value = value - 1);
+    notifyListeners();
   }
 
 

@@ -4,10 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/add_single_task_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
+import 'package:for_children/widgets/round_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../constants.dart';
-import '../../widgets/kids_widgets/square_button_widget.dart';
 import 'main_kid_screen.dart';
 
 class KidsDescriptionScreen extends StatelessWidget {
@@ -72,8 +72,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SquareButtonWidget(
-                            color: kBlue,
+                          RoundButton(
                             icon: Icons.close,
                             onTap: () {
                               data.pageIndex = 0;

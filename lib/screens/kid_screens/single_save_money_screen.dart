@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/kid_screens/save_money_screen.dart';
-import 'package:for_children/widgets/kids_widgets/square_button_widget.dart';
+import 'package:for_children/widgets/round_button.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -64,20 +64,19 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SquareButtonWidget(
+                                RoundButton(
                                   icon: Icons.close,
-                                  color: kBlue,
                                   onTap: () => Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) => const SaveMoneyScreen())),
                                 ),
-                                SquareButtonWidget(
+                                RoundButton(
                                   icon: Icons.add,
                                   onTap: () => data.showToAddMoney(context, doc['id'].toString()),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: size.height * 0.3,),
+                          SizedBox(height: size.height * 0.28,),
                           Text('${doc['whatIsIt']}', style: kBigTextStyle.copyWith(fontSize: 44.sp)),
                           LinearPercentIndicator(
                             percent: percent > 100 ? 1 : percent / 100,
@@ -96,6 +95,10 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                               Text('${doc['price']} ${doc['currency']}', style: kTextKidStyle,),
                             ],
                           ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Text('pennyTip'.tr(), style: kTextKidStyle,),
+                          ),
                           Expanded(
                             child: ListView.builder(
                               reverse: true,
@@ -111,16 +114,16 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                           colors: [
-                                            kGrey.withValues(alpha: 0.3),
-                                            kGrey.withValues(alpha: 0.1),
+                                            kBlue.withValues(alpha: 0.3),
+                                            kBlue.withValues(alpha: 0.1),
                                           ]
                                       ),
                                       border: Border.all(color: kWhite, width: 1),
                                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                                       boxShadow: [
                                         BoxShadow(
-                                            color: kGrey.withValues(alpha: 0.3),
-                                            blurRadius: 1,
+                                            color: kBlue.withValues(alpha: 0.3),
+                                            blurRadius: 3,
                                             spreadRadius: 1,
                                             offset: const Offset(0, 2)
                                         )
@@ -130,11 +133,12 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Image.asset('assets/images/calendar.png', width: 18,),
+                                      const SizedBox(width: 4,),
                                       Text(
                                         DateFormat('dd-MM-yyyy').format(DateTime.parse(parts[1])),
                                         style: kTextKidStyle,
                                       ),
-                                      Spacer(),
+                                      const SizedBox(width: 4,),
                                       Text('youSaved'.tr(), style: kTextKidStyle,
                                       ),
                                       Spacer(),
