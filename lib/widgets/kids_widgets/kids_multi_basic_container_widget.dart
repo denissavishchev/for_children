@@ -165,25 +165,32 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                       const SizedBox(width: 4),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: List.generate(3, ((i){
+                                        children: List.generate(5, ((i) {
+                                          // Pobieramy wartość expQty (bezpieczna obsługa)
+                                          final int expQty = snapshot.containsKey('expQty')
+                                              ? int.parse(snapshot['expQty'].toString())
+                                              : 1;
+
                                           return Container(
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                      color: (2 - i) < (snapshot.containsKey('expQty')
-                                                          ? int.parse(snapshot['expQty'])
-                                                          : 1)
-                                                          ? kWhite.withValues(alpha: 0.2) : Colors.transparent,
+                                                      color: i < expQty
+                                                          ? kWhite.withValues(alpha: 0.2)
+                                                          : Colors.transparent,
                                                       blurRadius: 2,
                                                       spreadRadius: 2
                                                   )
                                                 ]
                                             ),
-                                            child: SvgPicture.asset('assets/icons/pepper.svg',
-                                              width: 16,
-                                              colorFilter: ColorFilter.mode((2 - i) < int.parse(snapshot['expQty'])
-                                                  ? kRed : Colors.transparent, BlendMode.srcIn),
+                                            child: SvgPicture.asset(
+                                              'assets/icons/pepper.svg',
+                                              width: 14,
+                                              colorFilter: ColorFilter.mode(
+                                                  i < expQty ? kRed : Colors.transparent,
+                                                  BlendMode.srcIn
+                                              ),
                                             ),
                                           );
                                         })),
@@ -250,7 +257,7 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                               data.switchTodayTask(data.whatDayIs(snapshot['time']), snapshot['id'].toString());
                               if(snapshot['status'] == 'inProgress'
                                   && snapshot['daysNumber'].length <= data.whatDayIs(snapshot['time']) + 1){
-                                data.changeToDone(snapshot, index, context, false, false);
+                                data.changeToDoneWithoutDialog(context, snapshot);
                               }
                             },
                             checked: snapshot['status'] == 'inProgress'

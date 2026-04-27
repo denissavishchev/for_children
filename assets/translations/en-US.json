@@ -70,7 +70,6 @@
   "mainParentInfo": "Remember:\n\nA well-defined task is halfway there\n\nTwo small tasks are easier to complete than one large one.",
   "addTaskInfo": "Remember:\n\n1. The child must understand the task\n2. The child must understand the task well\n3. The child must want to complete the task. Motivate with an interesting task or good pay",
   "settingsParentInfo": "Before assigning tasks, add your child to the list of children. Then wait until he confirms\n\nDo you want to learn a new language? Learn with your child",
-  "mainKidInfo": "Remember:\n\nNo pain, no gain\n\nNo task, no result",
   "wishInfo": "\uD83D\uDCA1 Remember not to add expensive desires that may trigger difficult tasks or multiple tasks. Also, your wishes should be clear",
   "settingsKidInfo": "Try installing the application in a different language. This will help you learn a few new words, thereby developing your neural connections\n\nAdd only your relatives to add tasks",
   "addToHistoryQuestion": "Move this task into history?",
@@ -302,5 +301,17 @@
   "howToEarnAdvice5": "Draw a 'goal thermometer' or a progress bar on a piece of paper (e.g., 'New Headphones') and hang it above your desk. Every time you add to your savings, color in a part of the bar. Seeing yourself get physically closer to your goal is a huge boost and stops you from wasting money! \uD83C\uDFC1✨",
   "someAdvicesBelow": "\uD83D\uDCA1 Check out these 5 pro-tips below to help you save for your dreams! 👇✨",
   "pennyTip": "\uD83D\uDCA1 Remember: take care of the pennies, and the pounds will take care of themselves! 💰",
-  "yourTotalSaving": "Your total saving is:"
+  "yourTotalSaving": "Your total saving is:",
+  "changeStatusToInProgress": "Change status to 'In progress'?",
+  "changeStatusToInProgressDescription": "You will get '{}' for completing the task '{}'",
+  "changeStatusToDone": "Change status to 'I am done'?",
+  "changeStatusToDoneDescription": "Are you sure you've finished the task '{}'?",
+  "changeStatusToPaid": "Change status to 'Paid'?",
+  "changeStatusToPaidDescription": "Task '{}' was valued at '{}⭐' and you get '{}' for it!",
+  "changePriceTo": "Suggest a new price?",
+  "changePriceToDescription": "Price will be changed from '{}' to '{}'",
+  "assignedToTask": "Assigned to task: {}",
+  "deleteThisWish": "Delete this wish?",
+  "deleteThisWishDescription": "This wish isn't assigned to any task. You can delete it.",
+  "notAssignedWish": "Not assigned wish"
 }

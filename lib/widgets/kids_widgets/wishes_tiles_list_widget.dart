@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -131,8 +132,51 @@ class _WishesTilesListWidgetState extends State<WishesTilesListWidget> {
                                                   ),
                                                 ],
                                               ),
-                                              Text(wishes[index]['whyNeed'],
-                                                style: kTextStyle.copyWith(fontSize: 18.sp),),
+                                              ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  minHeight: 40,
+                                                  maxHeight: double.infinity,
+                                                ),
+                                                child: Text(
+                                                  wishes[index]['whyNeed'],
+                                                  style: kTextStyle.copyWith(fontSize: 18.sp),
+                                                ),
+                                              ),
+                                              FutureBuilder<String>(
+                                                future: kidData.getTaskName(
+                                                  wishes[index]['id'].toString(),
+                                                  wishes[index]['isAssignedToMultitask'],
+                                                ),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    return const Row(
+                                                      children: [
+                                                        SpinKitSpinningLines(
+                                                          color: kWhite,
+                                                          size: 10,
+                                                        ),
+                                                        Spacer()
+                                                      ],
+                                                    );
+                                                  }
+                                                  if (snapshot.hasData) {
+                                                    return Text(
+                                                      'assignedToTask'.tr(args: [snapshot.data.toString()]),
+                                                      style: kTextStyleWhite.copyWith(fontSize: 18.sp),
+                                                    );
+                                                  }
+                                                  return GestureDetector(
+                                                      onTap: () => data.deleteWish(context, wishes[index]['id'].toString()),
+                                                      child: Row(
+                                                        spacing: 2,
+                                                        children: [
+                                                          Text('notAssignedWish'.tr(), style: kSmallTextStyleWhite,),
+                                                          Icon(Icons.delete, color: kRed, size: 18.sp,),
+                                                        ],
+                                                      )
+                                                  );
+                                                },
+                                              ),
                                             ],
                                           ),
                                         ),

@@ -219,32 +219,31 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                           ),
                           SizedBox(
                             height: 10,
-                            child: StreamBuilder(
-                                stream: Supabase.instance.client
-                                    .from('wishes')
-                                    .stream(primaryKey: ['id']),
-                                builder: (context, snapshot){
-                                  if(snapshot.hasData){
-                                    final wishes = snapshot.data!;
-                                    return ListView.builder(
-                                        itemCount: wishes.length,
-                                        itemBuilder: (context, index){
-                                          for(int w = 0; w < wishes.length;){
-                                            if(wishes[index]['parent${w}Name'].toLowerCase() == data.email
-                                                && wishes[index]['kidName'] == data.selectedKidName){
-                                              data.wishList.addAll({'${wishes[index]['wish']}' : '${wishes[index]['imageUrl']}'});
-                                              return const SizedBox.shrink();
-                                            }else{
-                                              return const SizedBox.shrink();
-                                            }
-                                          }
-                                          return null;
+                            child: StreamBuilder<List<Map<String, dynamic>>>(
+                              stream: Supabase.instance.client
+                                  .from('wishes')
+                                  .stream(primaryKey: ['id']),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final wishes = snapshot.data!;
+                                  data.wishList.clear();
+                                  for (var wish in wishes) {
+                                    for (int w = 0; w < 10; w++) {
+                                      String parentKey = 'parent${w}Name';
+                                      if (wish.containsKey(parentKey) && wish[parentKey] != null) {
+                                        if (wish[parentKey].toString().toLowerCase() == data.email?.toLowerCase() &&
+                                            wish['kidName'] == data.selectedKidName) {
+                                          data.wishList[wish['wish'].toString()] = wish['imageUrl'].toString();
+                                          break;
                                         }
-                                    );
-                                  }else{
-                                    return const CircularProgressIndicator();
+                                      }
+                                    }
                                   }
+                                  return const SizedBox.shrink();
+                                } else {
+                                  return const CircularProgressIndicator();
                                 }
+                              },
                             ),
                           ),
                           SizedBox(

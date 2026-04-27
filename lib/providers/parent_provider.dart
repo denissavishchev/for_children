@@ -11,6 +11,7 @@ import 'package:for_children/screens/parent_screens/ads_list_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
+import 'package:for_children/widgets/round_button.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -506,53 +507,196 @@ class ParentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future changePriceStatus(Map<String, dynamic> snapshot, int index, String? role, bool isSingle)async{
-    isSingle
-      ? await Supabase.instance.client
-        .from('tasks')
-        .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
-        .eq('id', snapshot['id'])
-      : await Supabase.instance.client
-        .from('multiTasks')
-        .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
-        .eq('id', snapshot['id']);
+  Future changePriceStatus(context, Map<String, dynamic> snapshot, int index, String? role, bool isSingle)async{
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    spacing: 12,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('changePriceTo'.tr(), style: kBigTextStyle,),
+                      Text('changePriceToDescription'.tr(args: [snapshot['price'], priceController.text.trim()]), style: kTextStyle,),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                      RoundButton(
+                        onTap: () async {
+                          isSingle
+                              ? await Supabase.instance.client
+                              .from('tasks')
+                              .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
+                              .eq('id', snapshot['id'])
+                              : await Supabase.instance.client
+                              .from('multiTasks')
+                              .update({'price': priceController.text.trim(), 'priceStatus': role == 'parent' ? 'set' : 'changed'})
+                              .eq('id', snapshot['id']);
+                          if (!context.mounted) return;
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              role == 'parent'
+                                  ? const MainParentScreen()
+                                  : const MainKidScreen()));
+                        },
+                        icon: Icons.check,
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          );
+        });
   }
 
   Future changeToInProgress(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
-    log('snapshotID: ${snapshot['id']}');
-    isSingle
-      ? await Supabase.instance.client
-      .from('tasks')
-      .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
-      .eq('id', snapshot['id'])
-      : await Supabase.instance.client
-      .from('multiTasks')
-      .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
-      .eq('id', snapshot['id']);
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) =>
-        role == 'parent'
-            ? const MainParentScreen()
-            : const MainKidScreen()));
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    spacing: 12,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('changeStatusToInProgress'.tr(), style: kBigTextStyle,),
+                      Text('changeStatusToInProgressDescription'.tr(args: [snapshot['price'], snapshot['taskName']]), style: kTextStyle,),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                      RoundButton(
+                        onTap: () async {
+                          isSingle
+                          ? await Supabase.instance.client
+                              .from('tasks')
+                              .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
+                              .eq('id', snapshot['id'])
+                          : await Supabase.instance.client
+                              .from('multiTasks')
+                              .update({'status': 'inProgress', 'time' : DateTime.now().toString()})
+                              .eq('id', snapshot['id']);
+                          if (!context.mounted) return;
+                          Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) =>
+                          role == 'parent'
+                          ? const MainParentScreen()
+                          : const MainKidScreen()));
+                        },
+                        icon: Icons.check,
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          );
+        });
   }
 
   Future changeToDone(Map<String, dynamic> snapshot, int index, context, bool isSingle, bool changeScreen)async{
-    isSingle
-        ? await Supabase.instance.client
-          .from('tasks')
-          .update({'status': 'done'})
-          .eq('id', snapshot['id'])
-        : await Supabase.instance.client
-          .from('multiTasks')
-          .update({'status': 'done'})
-          .eq('id', snapshot['id']);
-    if(changeScreen){
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) =>
-          role == 'parent'
-              ? const MainParentScreen()
-              : const MainKidScreen()));
-    }
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    spacing: 12,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('changeStatusToDone'.tr(), style: kBigTextStyle,),
+                      Text('changeStatusToDoneDescription'.tr(args: [snapshot['taskName']]), style: kTextStyle,),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                      RoundButton(
+                        onTap: () async {
+                          isSingle
+                              ? await Supabase.instance.client
+                              .from('tasks')
+                              .update({'status': 'done'})
+                              .eq('id', snapshot['id'])
+                              : await Supabase.instance.client
+                              .from('multiTasks')
+                              .update({'status': 'done'})
+                              .eq('id', snapshot['id']);
+                          if(changeScreen){
+                            if (!context.mounted) return;
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) =>
+                                role == 'parent'
+                                    ? const MainParentScreen()
+                                    : const MainKidScreen()));
+                          }
+                        },
+                        icon: Icons.check,
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          );
+        });
+  }
+
+  Future changeToDoneWithoutDialog(context, Map<String, dynamic> snapshot)async{
+    await Supabase.instance.client
+        .from('multiTasks')
+        .update({'status': 'done'})
+        .eq('id', snapshot['id']);
   }
 
   Future changeToChecked(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
@@ -573,20 +717,65 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future changeToPaid(Map<String, dynamic> snapshot, int index, context, bool isSingle)async{
-    isSingle
-        ? await Supabase.instance.client
-          .from('tasks')
-          .update({'status': 'paid'})
-          .eq('id', snapshot['id'])
-        : await Supabase.instance.client
-          .from('multiTasks')
-          .update({'status': 'paid'})
-          .eq('id', snapshot['id']);
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) =>
-        role == 'parent'
-            ? const MainParentScreen()
-            : const MainKidScreen()));
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    spacing: 12,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('changeStatusToPaid'.tr(), style: kBigTextStyle,),
+                      Text('changeStatusToPaidDescription'.tr(args: [snapshot['taskName'], snapshot['stars'], snapshot['price']]),
+                        style: kTextStyle,),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                      RoundButton(
+                        onTap: () async {
+                          isSingle
+                              ? await Supabase.instance.client
+                              .from('tasks')
+                              .update({'status': 'paid'})
+                              .eq('id', snapshot['id'])
+                              : await Supabase.instance.client
+                              .from('multiTasks')
+                              .update({'status': 'paid'})
+                              .eq('id', snapshot['id']);
+                          if(!context.mounted) return;
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              role == 'parent'
+                                  ? const MainParentScreen()
+                                  : const MainKidScreen()));
+                        },
+                        icon: Icons.check,
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          );
+        });
   }
 
   void selectKid(String key, String value){
@@ -629,6 +818,22 @@ class ParentProvider with ChangeNotifier {
           'type' : selectedTypeStatus,
           'expQty' : selectedExp.toString(),
         });
+      final Map<String, dynamic>? taskId = await Supabase.instance.client
+          .from('tasks')
+          .select('id')
+          .eq('kidEmail', selectedKidEmail.toLowerCase())
+          .eq('taskName', addTaskNameController.text)
+          .eq('description', addTaskDescriptionController.text,)
+          .maybeSingle();
+      await Supabase.instance.client
+          .from('wishes')
+          .update({
+        'assignedToTask': taskId?['id'],
+        'isAssignedToMultitask': false,
+
+      })
+          .eq('wish', addTaskPriceController.text)
+          .eq('kidEmail', selectedKidEmail.toLowerCase());
     final Map<String, dynamic>? kidDoc = await Supabase.instance.client
         .from('users')
         .select('fcmToken, notificationsNewTask')
@@ -693,6 +898,22 @@ class ParentProvider with ChangeNotifier {
         'expQty' : selectedExp.toString(),
         'daysNumber' : List.filled(daySlider.toInt(), 0),
       });
+      final Map<String, dynamic>? taskId = await Supabase.instance.client
+          .from('multiTasks')
+          .select('id')
+          .eq('kidEmail', selectedKidEmail.toLowerCase())
+          .eq('taskName', addTaskNameController.text)
+          .eq('description', addTaskDescriptionController.text,)
+          .maybeSingle();
+      await Supabase.instance.client
+          .from('wishes')
+          .update({
+        'assignedToTask': taskId?['id'],
+        'isAssignedToMultitask': true,
+
+      })
+          .eq('wish', addTaskPriceController.text)
+          .eq('kidEmail', selectedKidEmail.toLowerCase());
       final Map<String, dynamic>? kidDoc = await Supabase.instance.client
           .from('users')
           .select('fcmToken, notificationsNewTask')
@@ -839,13 +1060,13 @@ class ParentProvider with ChangeNotifier {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
                             taskName, description, price, stars, type, expQty).then((v) async =>
                         await Supabase.instance.client
-                              .from('tasks')
-                              .delete()
-                              .eq('id', snapshot['id']));
+                            .from('tasks')
+                            .delete()
+                            .eq('id', snapshot['id']));
                         if(url != 'false'){
-                          await Supabase.instance.client.storage
-                              .from('images')
-                              .remove([url]);
+                        await Supabase.instance.client.storage
+                            .from('images')
+                            .remove([url]);
                         }
                         if (!context.mounted) return;
                         Navigator.of(context).pop();
@@ -854,6 +1075,7 @@ class ParentProvider with ChangeNotifier {
                             role == 'parent'
                                 ? const MainParentScreen()
                                 : const MainKidScreen()));
+
                         },
                       text: 'add')
                 ],
@@ -1069,7 +1291,8 @@ class ParentProvider with ChangeNotifier {
 
   void switchTaskScreen(int index){
     taskPageController.animateToPage(
-        index, duration: const Duration(milliseconds: 400),
+        index,
+        duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOut);
     pageIndex = index;
     notifyListeners();
@@ -1445,6 +1668,67 @@ class ParentProvider with ChangeNotifier {
       30: '13',
     };
     return values[value] ?? value.toStringAsFixed(0);
+  }
+
+  Future<void> deleteWish(context, String id)async{
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 300),
+              decoration: const BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    spacing: 12,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('deleteThisWish'.tr(), style: kBigTextStyle,),
+                      Text('deleteThisWishDescription'.tr(),
+                        style: kTextStyle,),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.clear), color: kBlue,),
+                      RoundButton(
+                        onTap: () async {
+                          final image = await Supabase.instance.client
+                              .from('wishes')
+                              .select('imageUrl')
+                              .eq('id', id)
+                              .maybeSingle();
+                          await Supabase.instance.client
+                              .from('wishes')
+                              .delete()
+                              .eq('id', id);
+                          if(image?['imageUrl'] != null){
+                            await Supabase.instance.client.storage
+                                .from('images')
+                                .remove([image?['imageUrl']]);
+                          }
+                        },
+                        icon: Icons.check,
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          );
+        });
   }
 
 

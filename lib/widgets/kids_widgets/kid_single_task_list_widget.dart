@@ -37,29 +37,30 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
                 visible: data.adTitle != '' && data.adDescription != '',
                 child: AdWidget(),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(bottom: 80, top: 2),
-                itemCount: widget.snapshot.length,
-                itemBuilder: (context, index){
-                  final taskData = widget.snapshot[index];
-                  if(taskData['kidEmail'].toLowerCase() == data.email){
-                    return GestureDetector(
-                      onTap: () {
-                        data.priceController.text = taskData['price'];
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) =>
-                                KidsDescriptionScreen(index: index, snapshot: taskData)));
-                      },
-                      child: KidSingleBasicContainerWidget(
-                        snapshot: taskData,
-                        index: index,
-                        nameOf: 'parentName',
-                      ),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                }),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 80, top: 2),
+                  itemCount: widget.snapshot.length,
+                  itemBuilder: (context, index){
+                    final taskData = widget.snapshot[index];
+                    if(taskData['kidEmail'].toLowerCase() == data.email){
+                      return GestureDetector(
+                        onTap: () {
+                          data.priceController.text = taskData['price'];
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                                  KidsDescriptionScreen(index: index, snapshot: taskData)));
+                        },
+                        child: KidSingleBasicContainerWidget(
+                          snapshot: taskData,
+                          index: index,
+                          nameOf: 'parentName',
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
+              ),
             ],
           );
         });

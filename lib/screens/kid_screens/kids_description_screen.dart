@@ -228,7 +228,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 300,
+                            height: 250,
                             padding: const EdgeInsets.all(8),
                             margin: EdgeInsets.fromLTRB(12, 12,
                                 snapshot['imageUrl'] == 'false' ? 12 : 3, 0),
@@ -635,14 +635,8 @@ class KidsDescriptionScreen extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      data.changePriceStatus(snapshot, index, data.role, data.pageIndex == 0);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) =>
-                          data.role == 'parent'
-                              ? const MainParentScreen()
-                              : const MainKidScreen()));
-                    },
+                    onTap: () =>
+                      data.changePriceStatus(context, snapshot, index, data.role, data.pageIndex == 0),
                       child: const Icon(Icons.autorenew, color: kOrange,))
                 ],
               ),

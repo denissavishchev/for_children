@@ -61,7 +61,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
                       boxShadow: [
                         BoxShadow(
-                            color: kGrey.withValues(alpha: 0.5),
+                            color: kGrey.withValues(alpha: 0.3),
                             blurRadius: 2,
                             spreadRadius: 2,
                             offset: const Offset(0, -3)
@@ -114,14 +114,6 @@ class _MainKidScreenState extends State<MainKidScreen> {
                   ),
                 ),
                 KidBottomNavigationBarWidget()
-                // Positioned(
-                //     top: 24,
-                //     left: 55,
-                //     child: KidInfoWidget(
-                //       info: data.mainKidInfo,
-                //       onTap: () => data.switchMainKidInfo(),
-                //       text: 'mainKidInfo',
-                //       height: 0.2,)),
               ],
             ),
           );

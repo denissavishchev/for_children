@@ -417,7 +417,7 @@ class TaskDescriptionScreen extends StatelessWidget {
                     ),
                     IconButton(
                         onPressed: () {
-                          data.changePriceStatus(snapshot, index, data.role, data.pageIndex == 0);
+                          data.changePriceStatus(context, snapshot, index, data.role, data.pageIndex == 0);
                           Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) =>
                               data.role == 'parent'

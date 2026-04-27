@@ -53,8 +53,6 @@ class KidProvider with ChangeNotifier {
   TextEditingController whyYouNeedThisController = TextEditingController();
   TextEditingController addMoneyController = TextEditingController();
 
-  bool mainKidInfo = false;
-  bool wishInfo = false;
   bool settingsKidInfo = false;
 
   Map <String, int> savedMoney = {
@@ -67,11 +65,6 @@ class KidProvider with ChangeNotifier {
     '100': 0,
   };
 
-
-  void switchMainKidInfo(){
-    mainKidInfo = !mainKidInfo;
-    notifyListeners();
-  }
 
   void switchSettingsKidInfo(){
     settingsKidInfo = !settingsKidInfo;
@@ -444,6 +437,25 @@ class KidProvider with ChangeNotifier {
       ? null
       : savedMoney.update(key, (value) => value = value - 1);
     notifyListeners();
+  }
+
+  Future<String> getTaskName(String wishId, bool isMultitask) async {
+    final supabase = Supabase.instance.client;
+    final table = isMultitask ? 'multiTasks' : 'tasks';
+
+    final id = await supabase
+        .from('wishes')
+        .select('assignedToTask')
+        .eq('id', wishId)
+        .maybeSingle();
+
+    final data = await supabase
+        .from(table)
+        .select('taskName')
+        .eq('id', id?['assignedToTask'])
+        .maybeSingle();
+
+    return data?['taskName'] ?? 'NoTask';
   }
 
 

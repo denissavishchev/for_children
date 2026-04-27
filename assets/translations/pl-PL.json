@@ -70,7 +70,6 @@
   "mainParentInfo": "Pamiętaj:\n\nDobrze zdefiniowane zadanie jest już w połowie drogi\n\nDwa małe zadania są łatwiejsze do wykonania niż jedno duże.",
   "addTaskInfo": "Pamiętać:\n\n1. Dziecko musi zrozumieć zadanie\n2. Dziecko musi dobrze rozumieć zadanie\n3. Dziecko musi chcieć wykonać zadanie. Motywuj ciekawym zadaniem lub dobrym wynagrodzeniem",
   "settingsParentInfo": "Zanim przydzielisz zadania, dodaj swoje dziecko do listy dzieci. Następnie poczekaj, aż potwierdzi\n\nChcesz nauczyć się nowego języka? Ucz się ze swoim dzieckiem",
-  "mainKidInfo": "Pamiętaj:\n\nBez pracy nie ma kołaczy\n\nNie ma zadania, nie ma rezultatu",
   "wishInfo": "\uD83D\uDCA1 Pamiętaj, aby nie dodawać kosztownych pragnień, które mogą powodować trudne zadania lub wiele zadań. Twoje życzenia powinny być również jasne",
   "settingsKidInfo": "Spróbuj zainstalować aplikację w innym języku. Pomoże Ci to nauczyć się kilku nowych słów, rozwijając w ten sposób połączenia neuronowe\n\nAby dodać zadania, dodawaj tylko swoich bliskich",
   "addToHistoryQuestion": "Przenieść to zadanie do historii?",
@@ -302,6 +301,18 @@
   "howToEarnAdvice5": "Narysuj na kartce termometr lub pasek postępu swojego celu (np. \"Nowe Słuchawki\") i powieś nad biurkiem. Za każdym razem, gdy dołożysz coś do swoich oszczędności, zamaluj kawałek paska. Widok tego, jak fizycznie zbliżasz się do celu, daje mega kopa i powstrzymuje przed wydaniem tej kasy na bzdury! \uD83C\uDFC1✨",
   "someAdvicesBelow": "\uD83D\uDCA1 Sprawdź poniżej 5 pro-tipów, jak łatwiej odkładać na swoje marzenia! 👇✨",
   "pennyTip": "\uD83D\uDCA1 Pamiętaj: bez grosza nie ma złotówki! \uD83E\uDE99",
-  "yourTotalSaving": "Twoje całkowite oszczędności to:"
+  "yourTotalSaving": "Twoje całkowite oszczędności to:",
+  "changeStatusToInProgress": "Zmienić status na „W toku”?",
+  "changeStatusToInProgressDescription": "Otrzymasz „{}” za wykonanie zadania „{}”",
+  "changeStatusToDone": "Zmienić status na „Skończone”?",
+  "changeStatusToDoneDescription": "Czy na pewno skończyłeś już zadanie „{}”?",
+  "changeStatusToPaid": "Zmienić status na „Zapłacone”?",
+  "changeStatusToPaidDescription": "Zadanie „{}” zostało wycenione na „{}⭐” i otrzymujesz za nie „{}”!",
+  "changePriceTo": "Zaproponować nową cenę?",
+  "changePriceToDescription": "Cena zostanie zmieniona z „{}” na „{}”",
+  "assignedToTask": "Przypisano do zadania: {}",
+  "deleteThisWish": "Usunąć to życzenie?",
+  "deleteThisWishDescription": "To życzenie nie jest przypisane do żadnego zadania. Możesz je usunąć.",
+  "notAssignedWish": "Nieprzypisane życzenie"
 
 }
