@@ -273,7 +273,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                             ? const SizedBox.shrink()
                             : Expanded(
                           child: Container(
-                            height: 300,
+                            height: 250,
                             clipBehavior: Clip.hardEdge,
                             margin: const EdgeInsets.fromLTRB(3, 12, 12, 0),
                             decoration: BoxDecoration(
@@ -281,10 +281,10 @@ class KidsDescriptionScreen extends StatelessWidget {
                               borderRadius: const BorderRadius.all(Radius.circular(18)),
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.black.withValues(alpha: 0.15),
-                                      blurRadius: 4,
+                                      color: kDarkGrey.withValues(alpha: 0.6),
+                                      blurRadius: 12,
                                       spreadRadius: 1,
-                                      offset: const Offset(2, 2)
+                                      offset: const Offset(2, 6)
                                   )
                                 ]
                             ),
