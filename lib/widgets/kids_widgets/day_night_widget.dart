@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
+import '../../providers/parent_provider.dart';
 import 'day_duration_widget.dart';
 
 class DayNightWidget extends StatefulWidget {
@@ -43,13 +44,14 @@ class _DayNightWidgetState extends State<DayNightWidget> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return Consumer<KidProvider>(
-        builder: (context, data, _){
+    return Consumer2<KidProvider, ParentProvider>(
+        builder: (context, data, parentData, _){
           final h = size.height * 0.2;
           return StreamBuilder<List<Map<String, dynamic>>>(
               stream: Supabase.instance.client
                   .from('users')
                   .stream(primaryKey: ['id'])
+                  .eq('email', parentData.email.toString())
                   .order('time', ascending: false),
               builder: (context, snapshot){
                 if(!snapshot.hasData) {

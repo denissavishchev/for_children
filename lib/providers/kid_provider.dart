@@ -271,18 +271,15 @@ class KidProvider with ChangeNotifier {
     final data = Provider.of<ParentProvider>(context, listen: false);
     isDay = !isDay;
     if(isDay){
-      startDayTime = DateFormat('HH:mm:ss').format(
-          DateTime.parse(DateTime.now().toString()));
-      prefs.setString('startDayTime', startDayTime);
       prefs.setString('endDateTime', endTime);
       prefs.setString('today', DateFormat('dd.MM.yyyy').format(DateTime.parse(DateTime.now().toString())));
       endDateTime = endTime;
-      final Map<String, dynamic>? docEmail = await Supabase.instance.client
+      final Map<String, dynamic>? doc = await Supabase.instance.client
           .from('users')
           .select('dayStart, dayEnd')
           .eq('email', data.email.toString())
           .maybeSingle();
-      if (docEmail != null){
+      if (doc != null){
         await Supabase.instance.client
             .from('daysDuration')
             .upsert({
@@ -290,11 +287,13 @@ class KidProvider with ChangeNotifier {
           'day': DateFormat('dd.MM.yyyy').format(DateTime.parse(DateTime.now().toString())),
           'start': DateTime.now().toString(),
           'end' : '',
-          'parentStart': docEmail['dayStart'],
-          'parentEnd': docEmail['dayEnd'],
+          'parentStart': doc['dayStart'],
+          'parentEnd': doc['dayEnd'],
         },
             onConflict: 'email, day');
       }
+      startDayTime = DateFormat('HH:mm:ss').format(DateTime.parse(DateTime.now().toString()));
+      prefs.setString('startDayTime', startDayTime);
     }else{
       endDateTime = DateFormat('HH:mm:ss').format(
           DateTime.parse(DateTime.now().toString()));
@@ -311,11 +310,29 @@ class KidProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void initTimes() async{
+  void initTimes(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final data = Provider.of<ParentProvider>(context, listen: false);
     isDay = prefs.getBool('isDay') ?? false;
-    startDayTime = prefs.getString('startDayTime') ?? '06:00:00';
-    endDateTime = prefs.getString('endDateTime') ?? '22:00:00';
+    final Map<String, dynamic>? doc = await Supabase.instance.client
+        .from('daysDuration')
+        .select('start, end')
+        .eq('email', data.email.toString())
+        .eq('day', DateFormat('dd.MM.yyyy').format(DateTime.parse(DateTime.now().toString())))
+        .maybeSingle();
+    if (doc != null){
+      startDayTime = doc['start'] != null && doc['start'] != ''
+          ? DateFormat('HH:mm:ss').format(DateTime.parse(doc['start']))
+          : '06:00:00';
+      endDateTime = doc['end'] != null && doc['end'] != ''
+          ? DateFormat('HH:mm:ss').format(DateTime.parse(doc['end']))
+          : '22:00:00';
+    }else{
+      startDayTime = '06:00:00';
+      endDateTime = '22:00:00';
+    }
+    prefs.setString('startDayTime', startDayTime);
+    prefs.setString('endDayTime', endDateTime);
     notifyListeners();
   }
 

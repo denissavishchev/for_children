@@ -27,7 +27,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
     final kidsData = Provider.of<KidProvider>(context, listen: false);
     kidsData.setupKidNotification();
     data.getEmailAndName();
-    kidsData.initTimes();
+    kidsData.initTimes(context);
     super.initState();
   }
 
