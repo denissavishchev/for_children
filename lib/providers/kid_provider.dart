@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
@@ -264,19 +266,46 @@ class KidProvider with ChangeNotifier {
         });
   }
 
-  void switchDay(String endTime) async{
+  void switchDay(context, String endTime) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    final data = Provider.of<ParentProvider>(context, listen: false);
     isDay = !isDay;
     if(isDay){
       startDayTime = DateFormat('HH:mm:ss').format(
           DateTime.parse(DateTime.now().toString()));
       prefs.setString('startDayTime', startDayTime);
       prefs.setString('endDateTime', endTime);
+      prefs.setString('today', DateFormat('dd.MM.yyyy').format(DateTime.parse(DateTime.now().toString())));
       endDateTime = endTime;
+      final Map<String, dynamic>? docEmail = await Supabase.instance.client
+          .from('users')
+          .select('dayStart, dayEnd')
+          .eq('email', data.email.toString())
+          .maybeSingle();
+      if (docEmail != null){
+        await Supabase.instance.client
+            .from('daysDuration')
+            .upsert({
+          'email': data.email,
+          'day': DateFormat('dd.MM.yyyy').format(DateTime.parse(DateTime.now().toString())),
+          'start': DateTime.now().toString(),
+          'end' : '',
+          'parentStart': docEmail['dayStart'],
+          'parentEnd': docEmail['dayEnd'],
+        },
+            onConflict: 'email, day');
+      }
     }else{
       endDateTime = DateFormat('HH:mm:ss').format(
           DateTime.parse(DateTime.now().toString()));
       prefs.setString('endDateTime', endDateTime);
+      await Supabase.instance.client
+          .from('daysDuration')
+          .update({
+        'end' : DateTime.now().toString(),
+      })
+          .eq('email', data.email.toString())
+          .eq('day', prefs.getString('today').toString());
     }
     prefs.setBool('isDay', isDay);
     notifyListeners();

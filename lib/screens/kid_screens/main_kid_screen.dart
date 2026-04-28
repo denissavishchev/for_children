@@ -50,7 +50,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                         color: kBlue,
                         size: 40,
                       )
-                      : DayNightWidget(email: parent.email ?? '',),
+                      : DayNightWidget(),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,

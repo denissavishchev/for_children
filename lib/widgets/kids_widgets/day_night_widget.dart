@@ -13,10 +13,7 @@ import 'day_duration_widget.dart';
 class DayNightWidget extends StatefulWidget {
   const DayNightWidget({
     super.key,
-    required this.email,
   });
-
-  final String email;
 
   @override
   State<DayNightWidget> createState() => _DayNightWidgetState();
@@ -122,7 +119,7 @@ class _DayNightWidgetState extends State<DayNightWidget> {
                             : size.width - 126,
                         width: 90,
                         child: GestureDetector(
-                          onLongPress: () => data.switchDay(docs['dayEnd']),
+                          onLongPress: () => data.switchDay(context, docs['dayEnd']),
                           child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 1000),
                             transitionBuilder: (child, anim) {
