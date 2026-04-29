@@ -295,16 +295,26 @@ class KidProvider with ChangeNotifier {
       startDayTime = DateFormat('HH:mm:ss').format(DateTime.parse(DateTime.now().toString()));
       prefs.setString('startDayTime', startDayTime);
     }else{
+      final Map<String, dynamic>? time = await Supabase.instance.client
+          .from('daysDuration')
+          .select('start')
+          .eq('email', data.email.toString())
+          .eq('day', DateFormat('dd.MM.yyyy').format(DateTime.parse(DateTime.now().toString())),)
+          .maybeSingle();
+      if (time != null){
+        await Supabase.instance.client
+            .from('daysDuration')
+            .update({
+          'end' : DateTime.now().toString(),
+          'duration' : DateTime.now().difference(DateTime.parse(time['start'])).toString(),
+        })
+            .eq('email', data.email.toString())
+            .eq('day', prefs.getString('today').toString());
+      }
       endDateTime = DateFormat('HH:mm:ss').format(
           DateTime.parse(DateTime.now().toString()));
       prefs.setString('endDateTime', endDateTime);
-      await Supabase.instance.client
-          .from('daysDuration')
-          .update({
-        'end' : DateTime.now().toString(),
-      })
-          .eq('email', data.email.toString())
-          .eq('day', prefs.getString('today').toString());
+
     }
     prefs.setBool('isDay', isDay);
     notifyListeners();
