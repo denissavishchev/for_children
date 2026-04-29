@@ -5,11 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
+import 'package:for_children/widgets/round_button.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/flag_widget.dart';
 import '../../widgets/info_widget.dart';
+import 'days_duration_screen.dart';
 
 class KidsSettingsScreen extends StatefulWidget {
   const KidsSettingsScreen({super.key});
@@ -243,7 +245,13 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: size.height * 0.2,),
+                            SizedBox(height: 20),
+                            RoundButton(
+                                onTap: () => Navigator.pushReplacement(context,
+                                    MaterialPageRoute(builder: (context) => const DaysDurationScreen())),
+                                icon: Icons.insert_chart
+                            ),
+                            SizedBox(height: size.height * 0.15,),
                             LogoutButtonWidget(),
                           ],
                         ),

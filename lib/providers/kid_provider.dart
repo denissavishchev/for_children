@@ -67,6 +67,13 @@ class KidProvider with ChangeNotifier {
     '100': 0,
   };
 
+  List<String> durations = [
+    '6-22', '7-23', '6-21', '5-21', '7-21', '5-23', '6-23',
+  ];
+
+  List<String> parentDurations = [
+    '6-22', '6-22', '6-22', '5-22', '5-22', '5-22', '5-22',
+  ];
 
   void switchSettingsKidInfo(){
     settingsKidInfo = !settingsKidInfo;

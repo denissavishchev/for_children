@@ -50,7 +50,7 @@ class _AddWishScreenState extends State<AddWishScreen> {
                                       MaterialPageRoute(builder: (context) => const WishesScreen())),
                                   icon: Icons.close
                               ),
-                              Text('whatDoYoWant'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp)),
+                              Text('whatDoYouWant'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp)),
                               const SizedBox(width: 40,)
                             ],
                           ),
