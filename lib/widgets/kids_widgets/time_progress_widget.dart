@@ -112,7 +112,7 @@ class TimeProgressContainer extends StatelessWidget {
               width: fullWidth,
               height: 12,
               decoration: BoxDecoration(
-                color: kOrange.withValues(alpha: 0.2),
+                color: kOrange,
                 borderRadius: BorderRadius.circular(6),
               ),
             ),
