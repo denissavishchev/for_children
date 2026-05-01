@@ -316,5 +316,6 @@
   "dailyDuration": "Дневная продолжительность",
   "parentDailyDuration": "Дневная продолжительность (родитель)",
   "kidDailyDuration": "Дневная продолжительность (ребенок)",
-  "yourDayStarted": "Твой день начался в: "
+  "yourDayStarted": "Твой день начался в: ",
+  "andEnded": "и закончился в: {}"
 }

@@ -29,7 +29,15 @@ class DayDurationWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('yourDayStarted'.tr(args: [(userStartTime.split(':').take(2).join(':'))]), style: kTextStyle,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('yourDayStarted'.tr(args: [(userStartTime.split(':').take(2).join(':'))]), style: kTextStyle,),
+                    Visibility(
+                      visible: !kidsData.isDay,
+                        child: Text('andEnded'.tr(args: [(userEndTime.split(':').take(2).join(':'))]), style: kTextStyle,)),
+                  ],
+                ),
                 TimeProgressContainer(
                   startTime: TimeOfDay(
                       hour: int.parse(docs?['dayStart'].split(':')[0]),

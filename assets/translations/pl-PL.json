@@ -316,6 +316,8 @@
   "dailyDuration": "Dzienne czasy trwania",
   "parentDailyDuration": "Dzienne czasy trwania rodzica",
   "kidDailyDuration": "Dzienne czasy trwania dziecka",
-  "yourDayStarted": "Twój dzień zaczął się o: "
+  "yourDayStarted": "Twój dzień zaczął się o: ",
+  "andEnded": "i skończył się o: {}"
+
 
 }

@@ -316,5 +316,6 @@
   "dailyDuration": "Daily durations",
   "parentDailyDuration": "Parent's daily durations",
   "kidDailyDuration": "Kid's daily durations",
-  "yourDayStarted": "Your day started at: {}"
+  "yourDayStarted": "Your day started at: {}",
+  "andEnded": "and ended at: {}"
 }
