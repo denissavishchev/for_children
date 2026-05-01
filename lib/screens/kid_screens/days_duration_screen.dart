@@ -61,14 +61,14 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                             spacing: 4,
                             children: [
                               Icon(Icons.circle, size: 12, color: kOrange),
-                              Text('parentDailyDuration'.tr(), style: kTextStyleOrange,),
+                              Text('kidDailyDuration'.tr(), style: kTextStyleOrange,),
                             ],
                           ),
                           Row(
                             spacing: 4,
                             children: [
                               Icon(Icons.circle, size: 12, color: kBlue),
-                              Text('kidDailyDuration'.tr(), style: kTextStyle,),
+                              Text('parentDailyDuration'.tr(), style: kTextStyle,),
                             ],
                           ),
                         ],
@@ -107,12 +107,12 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
 
                                   return BarTooltipItem(
                                     '$label${currentDur.toStringAsFixed(1)}h\n',
-                                    kTextStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                                    kTextStyleWhite,
                                     children: [
                                       TextSpan(
                                         text: 'Difference: $diffSign${difference.toStringAsFixed(1)}h',
                                         style: TextStyle(
-                                          color: difference == 0 ? Colors.white70 : (difference > 0 ? Colors.greenAccent : Colors.orangeAccent),
+                                          color: difference == 0 ? kWhite : (difference > 0 ? kGreen : kOrange),
                                           fontSize: 10,
                                           fontWeight: FontWeight.normal,
                                         ),
@@ -152,7 +152,7 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                                     if (index < 0 || index >= data.durations.length) return const SizedBox();
                                     return Text(
                                       data.durations[index],
-                                      style: kTextStyle,
+                                      style: kTextStyleOrange,
                                     );
                                   },
                                 ),
@@ -176,7 +176,7 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                                         children: [
                                           Text(
                                             data.parentDurations[index],
-                                            style: kTextStyleOrange,
+                                            style: kTextStyle,
                                           ),
                                           Text(
                                               days[index],
@@ -208,13 +208,13 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                                   BarChartRodData(
                                     fromY: p[0],
                                     toY: p[1],
-                                    color: kOrange,
+                                    color: kBlue,
                                     width: 12,
                                   ),
                                   BarChartRodData(
                                     fromY: k[0],
                                     toY: k[1],
-                                    color: kBlue,
+                                    color: kOrange,
                                     width: 12,
                                   ),
                                 ],
