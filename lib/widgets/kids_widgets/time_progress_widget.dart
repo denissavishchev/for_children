@@ -31,12 +31,12 @@ class TimeProgressContainer extends StatelessWidget {
     final int kidStart = _toMinutesOfDay(userStartTime);
     final int kidEnd = _toMinutesOfDay(userEndTime);
     final int globalStart = min(parentStart, kidStart);
-    final int globalEnd = max(parentEnd, kidEnd);
+    final int globalEnd = max(parentEnd, max(kidEnd, nowM));
     final int totalSpan = globalEnd - globalStart;
 
     if (totalSpan <= 0) return const SizedBox.shrink();
 
-    double pxPerMin = containerWidth / totalSpan;
+    double pxPerMin = (containerWidth) / totalSpan;
 
     return Consumer<KidProvider>(
       builder: (context, kidsData, _) {
@@ -44,7 +44,7 @@ class TimeProgressContainer extends StatelessWidget {
           spacing: 4,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildKidBar(kidStart, kidEnd, nowM, globalStart, pxPerMin),
+            _buildKidBar(context, kidStart, kidEnd, nowM, globalStart, pxPerMin),
             _buildParentBar(context, parentStart, parentEnd, globalStart, pxPerMin),
           ],
         );
@@ -92,41 +92,47 @@ class TimeProgressContainer extends StatelessWidget {
     );
   }
 
-  Widget _buildKidBar(int start, int end, int now, int globalStart, double pxPerMin) {
+  Widget _buildKidBar(BuildContext context, int start, int end, int now, int globalStart, double pxPerMin) {
     double leftOffset = (start - globalStart) * pxPerMin;
-    double fullWidth = (end - start) * pxPerMin;
-    double progressWidth = 0;
-    if (now > start) {
-      int elapsed = min(now, end) - start;
-      progressWidth = elapsed * pxPerMin;
-    }
+
+    int effectiveEnd = max(start, now);
+    double progressWidth = (effectiveEnd - start) * pxPerMin;
 
     return SizedBox(
       width: containerWidth,
       height: 12,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Positioned(
-            left: leftOffset,
-            child: Container(
-              width: fullWidth,
-              height: 12,
-              decoration: BoxDecoration(
-                color: kOrange,
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ),
-          ),
           Positioned(
             left: leftOffset,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 500),
               width: progressWidth,
               height: 12,
+              padding: const EdgeInsets.only(right: 2),
               decoration: BoxDecoration(
                 color: kOrange,
                 borderRadius: BorderRadius.circular(6),
+                boxShadow: [
+                  if (now > end)
+                    BoxShadow(
+                      color: kOrange.withValues(alpha: 0.4),
+                      blurRadius: 4,
+                    ),
+                ],
               ),
+              child: progressWidth > 45 && now < end
+                  ? Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  TimeOfDay.now().format(context),
+                  style: kSmallTextStyleWhite.copyWith(
+                    height: 0.9,
+                  ),
+                ),
+              )
+                  : null,
             ),
           ),
         ],
