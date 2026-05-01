@@ -315,5 +315,6 @@
   "notAssignedWish": "Not assigned wish",
   "dailyDuration": "Daily durations",
   "parentDailyDuration": "Parent's daily durations",
-  "kidDailyDuration": "Kid's daily durations"
+  "kidDailyDuration": "Kid's daily durations",
+  "yourDayStarted": "Your day started at: {}"
 }

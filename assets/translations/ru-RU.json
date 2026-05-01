@@ -315,5 +315,6 @@
   "notAssignedWish": "Непривязанное желание",
   "dailyDuration": "Дневная продолжительность",
   "parentDailyDuration": "Дневная продолжительность (родитель)",
-  "kidDailyDuration": "Дневная продолжительность (ребенок)"
+  "kidDailyDuration": "Дневная продолжительность (ребенок)",
+  "yourDayStarted": "Твой день начался в: "
 }

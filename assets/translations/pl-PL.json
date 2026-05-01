@@ -315,6 +315,7 @@
   "notAssignedWish": "Nieprzypisane życzenie",
   "dailyDuration": "Dzienne czasy trwania",
   "parentDailyDuration": "Dzienne czasy trwania rodzica",
-  "kidDailyDuration": "Dzienne czasy trwania dziecka"
+  "kidDailyDuration": "Dzienne czasy trwania dziecka",
+  "yourDayStarted": "Twój dzień zaczął się o: "
 
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/kid_provider.dart';
 import 'package:for_children/widgets/kids_widgets/time_progress_widget.dart';
@@ -26,14 +27,9 @@ class DayDurationWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('P ${docs?['dayStart'].split(':').take(2).join(':')} - ${docs?['dayEnd'].split(':').take(2).join(':')}', style: kTextStyle,),
-                    Text('K ${userStartTime.split(':').take(2).join(':')} - ${userEndTime.split(':').take(2).join(':')}', style: kTextStyle,),
-                  ],
-                ),
+                Text('yourDayStarted'.tr(args: [(userStartTime.split(':').take(2).join(':'))]), style: kTextStyle,),
                 TimeProgressContainer(
                   startTime: TimeOfDay(
                       hour: int.parse(docs?['dayStart'].split(':')[0]),
