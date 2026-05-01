@@ -312,6 +312,9 @@
   "assignedToTask": "Przypisano do zadania: {}",
   "deleteThisWish": "Usunąć to życzenie?",
   "deleteThisWishDescription": "To życzenie nie jest przypisane do żadnego zadania. Możesz je usunąć.",
-  "notAssignedWish": "Nieprzypisane życzenie"
+  "notAssignedWish": "Nieprzypisane życzenie",
+  "dailyDuration": "Dzienne czasy trwania",
+  "parentDailyDuration": "Dzienne czasy trwania rodzica",
+  "kidDailyDuration": "Dzienne czasy trwania dziecka"
 
 }

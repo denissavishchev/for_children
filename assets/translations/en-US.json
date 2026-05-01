@@ -312,5 +312,8 @@
   "assignedToTask": "Assigned to task: {}",
   "deleteThisWish": "Delete this wish?",
   "deleteThisWishDescription": "This wish isn't assigned to any task. You can delete it.",
-  "notAssignedWish": "Not assigned wish"
+  "notAssignedWish": "Not assigned wish",
+  "dailyDuration": "Daily durations",
+  "parentDailyDuration": "Parent's daily durations",
+  "kidDailyDuration": "Kid's daily durations"
 }
