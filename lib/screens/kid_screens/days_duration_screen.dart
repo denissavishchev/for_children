@@ -19,8 +19,8 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
 
   @override
   void initState() {
-    // final data = Provider.of<KidProvider>(context, listen: false);
-    // data.getParentsData();
+    final data = Provider.of<KidProvider>(context, listen: false);
+    data.getDayDurationData(context);();
     super.initState();
   }
 

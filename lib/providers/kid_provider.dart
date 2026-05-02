@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
+import '../models/durations_model.dart';
 import '../screens/kid_screens/wishes_screen.dart';
 import '../screens/kid_screens/kids_settings_screen.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
@@ -20,6 +21,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 class KidProvider with ChangeNotifier {
 
   late Future<void> getParent;
+  late Future<void> getDayDuration;
   Map<String, String> parentsList = {};
   List<bool> parentsListAccept = [];
   List<String> parentsEmailsList = [];
@@ -32,6 +34,7 @@ class KidProvider with ChangeNotifier {
   String startDayTime = '';
   String endDateTime = '';
   String dayDuration = '';
+  List<DurationsModel> durationsList = [];
 
   final Map<IconData, Widget> routes = {
     Icons.home: MainKidScreen(),
@@ -84,6 +87,10 @@ class KidProvider with ChangeNotifier {
     getParent = getParents();
   }
 
+  void getDayDurationData(context){
+    getDayDuration = getDurations(context);
+  }
+
   Future<void> getParents() async{
     parentsList.clear();
     parentsListAccept.clear();
@@ -106,7 +113,6 @@ class KidProvider with ChangeNotifier {
           parentsListAccept.add(doc['kid${k}Accept']);
           parentsEmailsList.add(doc['kid$k']);
         }
-
         notifyListeners();
       }
     }
@@ -521,5 +527,31 @@ class KidProvider with ChangeNotifier {
     return data?['taskName'] ?? 'NoTask';
   }
 
+  Future<void> getDurations(context) async{
+    final data = Provider.of<ParentProvider>(context, listen: false);
+    final PostgrestList durations = await Supabase.instance.client
+        .from('daysDuration')
+        .select('*')
+        .eq('email', data.email.toString())
+        .order('start', ascending: true);
+
+    durationsList.clear();
+
+    for (var d in durations) {
+      final duration = DurationsModel(
+          day: d['day'] ?? '',
+          start: d['start'] ?? '',
+          end: d['end'] ?? '',
+          parentStart: d['parentStart'] ?? '',
+          parentEnd: d['parentEnd'] ?? '',
+          duration: d['duration'] ?? '',
+      );
+      durationsList.add(duration);
+    }
+    for(var d in durationsList) {
+      log('day ${d.day} start ${d.start} end ${d.end}');
+    }
+    notifyListeners();
+  }
 
 }
