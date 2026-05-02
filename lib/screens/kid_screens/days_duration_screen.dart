@@ -77,7 +77,7 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                     Container(
                         width: size.width,
                         constraints: BoxConstraints(
-                          maxHeight: 300,
+                          maxHeight: 400,
                           minHeight: 50,
                         ),
                         margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -92,29 +92,46 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                             barTouchData: BarTouchData(
                               enabled: true,
                               touchTooltipData: BarTouchTooltipData(
-                                getTooltipColor: (group) => Colors.blueGrey.withValues(alpha: 0.9),
+                                getTooltipColor: (group) => kDarkWhite,
                                 tooltipBorderRadius: BorderRadius.circular(12),
                                 getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                                  final pParts = data.parentDurations[groupIndex].split('-').map(double.parse).toList();
-                                  final kParts = data.durations[groupIndex].split('-').map(double.parse).toList();
-                                  final pDuration = pParts[1] - pParts[0];
-                                  final kDuration = kParts[1] - kParts[0];
-                                  final difference = kDuration - pDuration;
-                                  final diffSign = difference >= 0 ? '+' : '';
+                                  final pStartParts = data.durationsList[groupIndex].parentStart.split(':');
+                                  final pEndParts = data.durationsList[groupIndex].parentEnd.split(':');
+
+                                  final pDur = Duration(
+                                    hours: int.parse(pEndParts[0]) - int.parse(pStartParts[0]),
+                                    minutes: int.parse(pEndParts[1]) - int.parse(pStartParts[1]),
+                                  );
+
+                                  final kStart = DateTime.parse(data.durationsList[groupIndex].start);
+                                  final kEnd = data.durationsList[groupIndex].end.isEmpty
+                                      ? DateTime.now()
+                                      : DateTime.parse(data.durationsList[groupIndex].end);
+
+                                  final kDur = kEnd.difference(kStart);
+                                  final diff = kDur - pDur;
+                                  final isPositive = !diff.isNegative;
+                                  final diffSign = isPositive ? '+' : '-';
+
+                                  String formatDur(Duration d) {
+                                    final hours = d.inHours.abs();
+                                    final minutes = d.inMinutes.abs().remainder(60);
+                                    return '${hours}h ${minutes}m';
+                                  }
 
                                   String label = rodIndex == 0 ? 'Parent: ' : 'Kid: ';
-                                  double currentDur = rodIndex == 0 ? pDuration : kDuration;
+                                  String currentDurStr = rodIndex == 0 ? formatDur(pDur) : formatDur(kDur);
 
                                   return BarTooltipItem(
-                                    '$label${currentDur.toStringAsFixed(1)}h\n',
-                                    kTextStyleWhite,
+                                    '$label$currentDurStr\n',
+                                    kTextStyle,
                                     children: [
                                       TextSpan(
-                                        text: 'Difference: $diffSign${difference.toStringAsFixed(1)}h',
+                                        text: 'Difference: $diffSign${formatDur(diff)}',
                                         style: TextStyle(
-                                          color: difference == 0 ? kWhite : (difference > 0 ? kGreen : kOrange),
+                                          color: diff.inMinutes == 0 ? kWhite : (isPositive ? kRed : kGreen),
                                           fontSize: 10,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
@@ -146,13 +163,17 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                               topTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
-                                  reservedSize: 30,
+                                  reservedSize: 36,
                                   getTitlesWidget: (value, meta) {
                                     int index = value.toInt();
-                                    if (index < 0 || index >= data.durations.length) return const SizedBox();
-                                    return Text(
-                                      data.durations[index],
-                                      style: kTextStyleOrange,
+                                    if (index < 0 || index >= data.durationsList.length) return const SizedBox();
+                                    return Column(
+                                      children: [
+                                        Text(data.durationsList[index].start.split(' ')[1].substring(0, 5), style: kTextStyleOrange),
+                                        data.durationsList[index].end == ''
+                                        ? const SizedBox()
+                                        : Text(data.durationsList[index].end.split(' ')[1].substring(0, 5), style: kTextStyleOrange,),
+                                      ],
                                     );
                                   },
                                 ),
@@ -161,12 +182,9 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                               bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
-                                  reservedSize: 45,
+                                  reservedSize: 60,
                                   getTitlesWidget: (value, meta) {
-                                    const days = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'];
                                     int index = value.toInt();
-
-                                    if (index < 0 || index >= days.length) return const SizedBox();
 
                                     return Padding(
                                       padding: const EdgeInsets.only(top: 4),
@@ -174,12 +192,13 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                                         spacing: 4,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Text(
-                                            data.parentDurations[index],
-                                            style: kTextStyle,
+                                          Column(
+                                            children: [
+                                              Text(data.durationsList[index].parentStart.substring(0, 5), style: kTextStyle),
+                                              Text(data.durationsList[index].parentEnd.substring(0, 5), style: kTextStyle),
+                                            ],
                                           ),
-                                          Text(
-                                              days[index],
+                                          Text(DateFormat('dd.MM').format(DateTime.parse(data.durationsList[index].start)),
                                               style: kTextStyle.copyWith(color: kGrey),
                                           ),
                                         ],
@@ -198,22 +217,26 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                               ),
                             ),
                             borderData: FlBorderData(show: false),
-                            barGroups: List.generate(data.durations.length, (index) {
-                              final p = data.parentDurations[index].split('-').map(double.parse).toList();
-                              final k = data.durations[index].split('-').map(double.parse).toList();
+                            barGroups: List.generate(data.durationsList.length, (index) {
+                              final pStart = double.parse(data.durationsList[index].parentStart.split(':')[0]);
+                              final pEnd = double.parse(data.durationsList[index].parentEnd.split(':')[0]);
+                              final kStart = double.parse(data.durationsList[index].start.split(' ')[1].split(':')[0]);
+                              final kEnd = data.durationsList[index].end == ''
+                                  ? DateTime.now().hour.toDouble()
+                                  : double.parse(data.durationsList[index].end.split(' ')[1].split(':')[0]);
 
                               return BarChartGroupData(
                                 x: index,
                                 barRods: [
                                   BarChartRodData(
-                                    fromY: p[0],
-                                    toY: p[1],
+                                    fromY: pStart,
+                                    toY: pEnd,
                                     color: kBlue,
                                     width: 12,
                                   ),
                                   BarChartRodData(
-                                    fromY: k[0],
-                                    toY: k[1],
+                                    fromY: kStart,
+                                    toY: kEnd,
                                     color: kOrange,
                                     width: 12,
                                   ),
