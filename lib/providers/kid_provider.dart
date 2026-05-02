@@ -540,9 +540,6 @@ class KidProvider with ChangeNotifier {
       );
       durationsList.add(duration);
     }
-    for(var d in durationsList) {
-      log('day ${d.day} start ${d.start} end ${d.end} parentStart ${d.parentStart} parentEnd ${d.parentEnd} duration ${d.duration}');
-    }
     notifyListeners();
   }
 

@@ -9,6 +9,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../providers/parent_provider.dart';
+import '../../screens/kid_screens/days_duration_screen.dart';
+import '../round_button.dart';
 import 'day_duration_widget.dart';
 
 class DayNightWidget extends StatefulWidget {
@@ -229,7 +231,19 @@ class _DayNightWidgetState extends State<DayNightWidget> {
                               ),
                             ),
                           )
-                      )
+                      ),
+                      Positioned(
+                        right: 12,
+                        top: 38,
+                        child: Visibility(
+                          visible: data.isDay,
+                          child: RoundButton(
+                              onTap: () => Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) => const DaysDurationScreen())),
+                              icon: Icons.stacked_bar_chart_sharp
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 );

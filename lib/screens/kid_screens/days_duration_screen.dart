@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:for_children/screens/kid_screens/kids_settings_screen.dart';
+import 'package:for_children/screens/kid_screens/main_kid_screen.dart';
 import 'package:for_children/widgets/round_button.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
@@ -44,7 +44,7 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                         children: [
                           RoundButton(
                               onTap: () => Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) => const KidsSettingsScreen())),
+                                  MaterialPageRoute(builder: (context) => const MainKidScreen())),
                               icon: Icons.close
                           ),
                           Text('dailyDuration'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp)),
