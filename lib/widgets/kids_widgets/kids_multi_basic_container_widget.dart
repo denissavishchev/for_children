@@ -166,11 +166,9 @@ class KidsMultiBasicContainerWidget extends StatelessWidget {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: List.generate(5, ((i) {
-                                          // Pobieramy wartość expQty (bezpieczna obsługa)
                                           final int expQty = snapshot.containsKey('expQty')
                                               ? int.parse(snapshot['expQty'].toString())
                                               : 1;
-
                                           return Container(
                                             decoration: BoxDecoration(
                                                 borderRadius: const BorderRadius.all(Radius.circular(12)),

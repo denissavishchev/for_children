@@ -20,6 +20,7 @@ import '../models/ads_model.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../screens/parent_screens/add_ads_screen.dart';
+import '../screens/parent_screens/parent_settings_screen.dart';
 import '../widgets/toasts.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
 
@@ -134,7 +135,6 @@ class ParentProvider with ChangeNotifier {
 
   double stars = 0.0;
 
-  bool mainParentInfo = false;
   bool addTaskInfo = false;
   bool settingsParentInfo = false;
   bool isEdit = false;
@@ -146,10 +146,14 @@ class ParentProvider with ChangeNotifier {
     'RU': const Locale('ru', 'RU'),
   };
 
-  void switchParentInfo(){
-    mainParentInfo = !mainParentInfo;
-    notifyListeners();
-  }
+  final Map<IconData, Widget> routes = {
+    Icons.home: MainParentScreen(),
+    Icons.add_circle_outline: MainParentScreen(),
+    Icons.settings: ParentSettingsScreen(),
+    Icons.campaign: AdsListScreen(),
+  };
+
+  IconData selectedRoute = Icons.home;
 
   void switchAddTaskInfo(){
     addTaskInfo = !addTaskInfo;

@@ -11,7 +11,7 @@ import '../constants.dart';
 class BasicMultiContainerWidget extends StatelessWidget {
   const  BasicMultiContainerWidget({
     super.key,
-    this.height = 120,
+    this.height = 130,
     required this.snapshot,
     required this.index,
     required this.nameOf,
@@ -149,31 +149,55 @@ class BasicMultiContainerWidget extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Row(
+                          child: Column(
                             children: [
-                              Text('taskPrice'.tr(),
-                                style: kTextStyle.copyWith(
-                                    color: kBlue.withValues(alpha: 0.6)),),
-                              Text(snapshot['price'],
-                                style: kTextStyle,),
-                              Spacer(),
-                              Text('taskType'.tr(),
-                                style: kTextStyle.copyWith(
-                                    color: kBlue.withValues(alpha: 0.6)),),
-                              Text(snapshot['type'],
-                                style: kTextStyle,),
-                              Spacer(),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: List.generate(5, ((i){
-                                  return SvgPicture.asset('assets/icons/pepper.svg',
-                                    width: 12,
-                                    colorFilter: ColorFilter.mode((4 - i) < (snapshot.containsKey('expQty')
-                                        ? int.parse(snapshot['expQty'])
-                                        : 1)
-                                        ? kRed : kGrey, BlendMode.srcIn),
-                                  );
-                                })),
+                                children: [
+                                  Text('taskPrice'.tr(),
+                                    style: kTextStyle.copyWith(
+                                        color: kBlue.withValues(alpha: 0.6)),),
+                                  Text(snapshot['price'],
+                                    style: kTextStyle,),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text('taskType'.tr(),
+                                    style: kTextStyle.copyWith(
+                                        color: kBlue.withValues(alpha: 0.6)),),
+                                  Text(snapshot['type'],
+                                    style: kTextStyle,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: List.generate(5, ((i) {
+                                      final int expQty = snapshot.containsKey('expQty')
+                                          ? int.parse(snapshot['expQty'].toString())
+                                          : 1;
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: i < expQty
+                                                      ? kWhite.withValues(alpha: 0.2)
+                                                      : Colors.transparent,
+                                                  blurRadius: 2,
+                                                  spreadRadius: 2
+                                              )
+                                            ]
+                                        ),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/pepper.svg',
+                                          width: 14,
+                                          colorFilter: ColorFilter.mode(
+                                              i < expQty ? kRed : Colors.transparent,
+                                              BlendMode.srcIn
+                                          ),
+                                        ),
+                                      );
+                                    })),
+                                  ),
+                                ],
                               )
                             ],
                           ),

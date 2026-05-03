@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/parent_provider.dart';
 
-class SwitchTaskTabWidget extends StatelessWidget {
-  const SwitchTaskTabWidget({
+class ParentsSwitchTaskTabWidget extends StatelessWidget {
+  const ParentsSwitchTaskTabWidget({
     super.key,
   });
 
@@ -56,10 +56,10 @@ class SwitchTaskButtonWidget extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(size.width * 0.45,)),
                   boxShadow: [
                     BoxShadow(
-                      color: kGrey.withValues(alpha: 0.3),
-                      blurRadius: isIndex ? 3 : 0,
-                      spreadRadius: isIndex ? 0.5 : 0,
-                      offset: Offset(0, isIndex ? 2 : 0)
+                        color: kGrey.withValues(alpha: 0.3),
+                        blurRadius: isIndex ? 3 : 0,
+                        spreadRadius: isIndex ? 0.5 : 0,
+                        offset: Offset(0, isIndex ? 2 : 0)
                     ),
                   ]
               ),

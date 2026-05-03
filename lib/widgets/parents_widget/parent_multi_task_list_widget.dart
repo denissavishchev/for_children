@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
-import '../../constants.dart';
 import '../../screens/parent_screens/task_description_screen.dart';
 import '../basic_multi_container_widget.dart';
 
@@ -58,20 +57,6 @@ class _ParentMultiTaskListWidgetState extends State<ParentMultiTaskListWidget> {
                         return const SizedBox.shrink();
                       })
               ),
-              GestureDetector(
-                onTap: () => data.switchTaskScreen(0),
-                child: Container(
-                  width: 80,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: kBlue,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        bottomRight: Radius.circular(8)),
-                  ),
-                  child: Icon(Icons.arrow_back_ios, color: kWhite, size: 32,),
-                ),
-              )
             ],
           );
         });

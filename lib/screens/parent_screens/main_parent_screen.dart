@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/history_screen.dart';
-import 'package:for_children/widgets/info_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
+import '../../widgets/parents_widget/parent_bottom_navigation_bar_widget.dart';
+import '../../widgets/parents_widget/parent_switch_task_tab_widget.dart';
 import 'add_multi_task_screen.dart';
 import 'add_single_task_screen.dart';
-import 'ads_list_screen.dart';
-import 'parent_settings_screen.dart';
 import '../../widgets/parents_widget/parent_single_task_list_widget.dart';
 import '../../widgets/parents_widget/parent_multi_task_list_widget.dart';
 import 'package:rxdart/rxdart.dart';
@@ -34,63 +34,36 @@ class _MainParentScreenState extends State<MainParentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kWhite,
       body: SafeArea(
         child: Consumer<ParentProvider>(
           builder: (context, data, _){
-            return SingleChildScrollView(
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.1,
-                        child: Stack(
-                          alignment: Alignment.centerRight,
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 58,
-                                ),
-                                IconButton(
-                                    onPressed: () =>
-                                      Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) =>
-                                          const ParentSettingsScreen())),
-                                    icon: const Icon(
-                                      Icons.settings,
-                                      color: kBlue,
-                                      size: 32,
-                                    )),
-                                IconButton(
-                                    onPressed: () => Navigator.pushReplacement(context,
-                                        MaterialPageRoute(builder: (context) =>
-                                        const HistoryScreen())),
-                                    icon: const Icon(
-                                      Icons.history,
-                                      color: kBlue,
-                                      size: 32,
-                                    )),
-                                IconButton(
-                                    onPressed: () => Navigator.pushReplacement(context,
-                                        MaterialPageRoute(builder: (context) =>
-                                        const AdsListScreen())),
-                                    icon: const Icon(
-                                      Icons.campaign,
-                                      color: kBlue,
-                                      size: 32,
-                                    )),
-                              ],
-                            ),
-                            SelectTaskButtonWidget()
-                          ],
-                        ),
-                      ),
-                      StreamBuilder<List<List<Map<String, dynamic>>>>(
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                Column(
+                  spacing: 12,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            onPressed: () => Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) =>
+                                const HistoryScreen())),
+                            icon: const Icon(
+                              Icons.history,
+                              color: kBlue,
+                              size: 32,
+                            )),
+                        SelectTaskButtonWidget(),
+                      ],
+                    ),
+                    ParentsSwitchTaskTabWidget(),
+                    Expanded(
+                      child: StreamBuilder<List<List<Map<String, dynamic>>>>(
                           stream: CombineLatestStream.list([
                             Supabase.instance.client
                                 .from('tasks')
@@ -102,33 +75,28 @@ class _MainParentScreenState extends State<MainParentScreen> {
                                 .order('time', ascending: false),
                           ]),
                           builder: (context, snapshot){
-                            if (!snapshot.hasData) return CircularProgressIndicator();
-                            return SizedBox(
-                              height: size.height * 0.8,
-                              child: PageView.builder(
-                                  controller: data.taskPageController,
-                                  itemCount: 2,
-                                  itemBuilder: (context, index){
-                                    return index == 0
-                                      ? ParentSingleTaskListWidget(snapshot: snapshot.data![0])
-                                      : ParentMultiTaskListWidget(snapshot: snapshot.data![1]);
-                                  }
-                              ),
+                            if (!snapshot.hasData) {
+                              return Center(child: SpinKitSpinningLines(
+                              color: kBlue,
+                              size: 40,
+                            ));
+                            }
+                            return PageView.builder(
+                                controller: data.taskPageController,
+                                itemCount: 2,
+                                itemBuilder: (context, index){
+                                  return index == 0
+                                    ? ParentSingleTaskListWidget(snapshot: snapshot.data![0])
+                                    : ParentMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                }
                             );
                           }
                       ),
-                    ],
-                  ),
-                  Positioned(
-                    top: 20,
-                      left: 12,
-                      child: InfoWidget(
-                        info: data.mainParentInfo,
-                        onTap: () => data.switchParentInfo(),
-                        text: 'mainParentInfo',
-                        height: 0.2,)),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                ParentBottomNavigationBarWidget()
+              ],
             );
           },
         )

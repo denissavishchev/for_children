@@ -10,7 +10,7 @@ import '../../widgets/kids_widgets/day_night_widget.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
 import '../../widgets/kids_widgets/kid_single_task_list_widget.dart';
 import '../../widgets/kids_widgets/kids_multitask_list_widget.dart';
-import '../../widgets/kids_widgets/switch_task_tab_widget.dart';
+import '../../widgets/kids_widgets/kids_switch_task_tab_widget.dart';
 
 class MainKidScreen extends StatefulWidget {
   const MainKidScreen({super.key});
@@ -72,7 +72,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                     child: Column(
                       spacing: 12,
                       children: [
-                        SwitchTaskTabWidget(),
+                        KidsSwitchTaskTabWidget(),
                         Expanded(
                           child: StreamBuilder<List<List<Map<String, dynamic>>>>(
                               stream: CombineLatestStream.list([
