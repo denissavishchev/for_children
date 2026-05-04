@@ -67,7 +67,7 @@
   "advancedOnboardingDescription": "Dla tych, którzy chcą zrozumieć dlaczego i dla kogo powstała ta aplikacja, i lubi czytać książki lub dobre opowiadania",
   "withoutOnboardingDescription": "Przejdź bezpośrednio do rejestracji (niezalecane)",
   "registerInfo": "Powinieneś wybrać imię, aby Twoje dzieci lub rodzice mogli Cię rozpoznać. Dodatkowo możesz wskazać swoją rolę w rodzinie\n\nHasło musi mieć co najmniej 8 znaków i zawierać cyfrę, dużą i małą literę.\nNigdy nie mów nikomu swoich haseł",
-  "mainParentInfo": "Pamiętaj:\n\nDobrze zdefiniowane zadanie jest już w połowie drogi\n\nDwa małe zadania są łatwiejsze do wykonania niż jedno duże.",
+  "mainParentInfo": "Pamiętaj:\n\uD83C\uDFC1 Dobrze zdefiniowane zadanie jest już w połowie drogi\n\uD83C\uDFAF Dwa małe zadania są łatwiejsze do wykonania niż jedno duże.",
   "addTaskInfo": "Pamiętać:\n\n1. Dziecko musi zrozumieć zadanie\n2. Dziecko musi dobrze rozumieć zadanie\n3. Dziecko musi chcieć wykonać zadanie. Motywuj ciekawym zadaniem lub dobrym wynagrodzeniem",
   "settingsParentInfo": "Zanim przydzielisz zadania, dodaj swoje dziecko do listy dzieci. Następnie poczekaj, aż potwierdzi\n\nChcesz nauczyć się nowego języka? Ucz się ze swoim dzieckiem",
   "wishInfo": "\uD83D\uDCA1 Pamiętaj, aby nie dodawać kosztownych pragnień, które mogą powodować trudne zadania lub wiele zadań. Twoje życzenia powinny być również jasne",
@@ -87,9 +87,9 @@
   "waitingForPay": "Waiting for {} oceni pracę i zapłaci\nW międzyczasie możesz zrobić coś innego lub sprawdzić inne zadania",
   "taskType": "Typ: ",
   "daysLeft": "Pozostało tylko {} dni.\nTo już naprawdę niedużo! Rób zadania starannie i z uśmiechem – wierzę, że dasz radę utrzymać świetną formę do samego końca!",
-  "multiTask": "Wielierazowe zadanie",
+  "multiTask": "Zadanie codzienne \uD83D\uDDD3\uFE0F",
   "multiTaskDescription": "Pozwala tworzyć zadania powtarzane codziennie (np. mycie zębów, sprzątanie, lekcje).\nDzięki temu dziecko widzi, że zadanie wraca każdego dnia, a rodzic może łatwo sprawdzić, czy zostało wykonane",
-  "singleTask": "Pojedyncze zadanie",
+  "singleTask": "Zadanie jednorazowe \uD83D\uDCCC",
   "singleTaskDescription": "Pozwala tworzyć zadania jednorazowe (np. kupno prezentu, pomoc w ogrodzie, dodatkowe ćwiczenie).\nDzięki temu dziecko widzi jasno określone zadanie do wykonania, a rodzic może szybko sprawdzić, czy zostało zrealizowane.",
   "setDayDurationFor" : "Ustaw czas trwania dnia dla {}",
   "ok" : "OK",
@@ -317,7 +317,7 @@
   "parentDailyDuration": "Dzienne czasy trwania rodzica",
   "kidDailyDuration": "Dzienne czasy trwania dziecka",
   "yourDayStarted": "Twój dzień zaczął się o: ",
-  "andEnded": "i skończył się o: {}"
-
+  "andEnded": "i skończył się o: {}",
+  "whatTaskWillAdd": "Jaki rodzaj zadania zostanie dodany?"
 
 }

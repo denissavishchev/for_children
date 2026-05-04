@@ -67,7 +67,7 @@
   "advancedOnboardingDescription": "For those who want to understand why and for whom this application was created, and love to read the books or good stories",
   "withoutOnboardingDescription": "Go straight to registration (not recommended)",
   "registerInfo": "You should choose a name so that your children or parents can recognize you. Additionally, you can indicate your role in the family\n\nThe password must be at least 8 characters long and include a number, a capital letter, and a small letter.\nNever tell anyone your passwords",
-  "mainParentInfo": "Remember:\n\nA well-defined task is halfway there\n\nTwo small tasks are easier to complete than one large one.",
+  "mainParentInfo": "Remember:\n\uD83C\uDFC1 A well-defined task is halfway there\n\uD83C\uDFAF Two small tasks are easier to complete than one large one.",
   "addTaskInfo": "Remember:\n\n1. The child must understand the task\n2. The child must understand the task well\n3. The child must want to complete the task. Motivate with an interesting task or good pay",
   "settingsParentInfo": "Before assigning tasks, add your child to the list of children. Then wait until he confirms\n\nDo you want to learn a new language? Learn with your child",
   "wishInfo": "\uD83D\uDCA1 Remember not to add expensive desires that may trigger difficult tasks or multiple tasks. Also, your wishes should be clear",
@@ -87,9 +87,9 @@
   "waitingForPay": "Waiting for {} for rate and payment\nIn the meantime, you can do something else or check other tasks",
   "taskType": "Type: ",
   "daysLeft": "Only days left {}\nThis is the home stretch. Keep doing your best in every task, just like you have been. Give it your all – victory is just around the corner!",
-  "multiTask": "Recurring task",
+  "multiTask": "Daily task \uD83D\uDDD3\uFE0F",
   "multiTaskDescription": "Allows you to create tasks repeated daily (e.g. brushing teeth, cleaning, homework).\nThis way the child sees that the task returns every day, and the parent can easily check if it has been completed.",
-  "singleTask": "Single task",
+  "singleTask": "Single task \uD83D\uDCCC",
   "singleTaskDescription": "Allows you to create one-time tasks (e.g. buying a gift, helping in the garden, extra exercise).\nThis way the child sees a clearly defined task to complete, and the parent can quickly check if it has been done.",
   "setDayDurationFor" : "Set day duration for {}",
   "ok" : "OK",
@@ -317,5 +317,6 @@
   "parentDailyDuration": "Parent's daily durations",
   "kidDailyDuration": "Kid's daily durations",
   "yourDayStarted": "Your day started at: {}",
-  "andEnded": "and ended at: {}"
+  "andEnded": "and ended at: {}",
+  "whatTaskWillAdd": "What type of task will be added?"
 }

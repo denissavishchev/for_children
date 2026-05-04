@@ -52,7 +52,7 @@ class SwitchTaskButtonWidget extends StatelessWidget {
                       end: Alignment.topLeft,
                       stops: [0.1, 1]
                   ),
-                  border: Border.all(color: isIndex ? kDarkWhite : kGrey.withValues(alpha: 0.2), width: 1),
+                  border: Border.all(color: isIndex ? kDarkWhite : kGrey.withValues(alpha: 0.2), width: 0.3),
                   borderRadius: BorderRadius.all(Radius.circular(size.width * 0.45,)),
                   boxShadow: [
                     BoxShadow(

@@ -33,7 +33,7 @@ class BasicSingleContainerWidget extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    margin: const EdgeInsets.fromLTRB(12, 3, 3, 12),
+                    margin: const EdgeInsets.fromLTRB(12, 3, 3, 0),
                     width: size.width,
                     height: height,
                     decoration: BoxDecoration(
@@ -42,13 +42,13 @@ class BasicSingleContainerWidget extends StatelessWidget {
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
+                              color: kDarkGrey.withValues(alpha: 0.2),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(0, 6)
                           ),
                           BoxShadow(
-                            color: kGrey.withValues(alpha: 0.2),
+                            color: kBlue.withValues(alpha: 0.2),
                             blurRadius: 2,
                             spreadRadius: 2,
                           ),
@@ -117,7 +117,7 @@ class BasicSingleContainerWidget extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Container(
-                    margin: const EdgeInsets.fromLTRB(3, 0, 12, 12),
+                    margin: const EdgeInsets.fromLTRB(3, 3, 12, 0),
                     width: size.width,
                     height: height,
                     padding: const EdgeInsets.symmetric(vertical: 3),
@@ -127,13 +127,13 @@ class BasicSingleContainerWidget extends StatelessWidget {
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
+                              color: kDarkGrey.withValues(alpha: 0.2),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(0, 6)
                           ),
                           BoxShadow(
-                            color: kGrey.withValues(alpha: 0.2),
+                            color: kBlue.withValues(alpha: 0.2),
                             blurRadius: 2,
                             spreadRadius: 2,
                           ),

@@ -13,50 +13,94 @@ class ParentBottomNavigationBarWidget extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Positioned(
         bottom: 10,
-        child: Container(
-            width: size.width - 24,
-            height: 54,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(152)),
-                border: Border.all(color: kWhite, width: 1),
-                color: kGrey.withValues(alpha: 0.2),
-                boxShadow: [
-                  BoxShadow(
-                      color: kGrey.withValues(alpha: 0.2),
-                      spreadRadius: 4,
-                      blurRadius: 4,
-                      offset: Offset(0, 3)
-                  ),
-                  const BoxShadow(
-                    color: kDarkWhite,
-                    spreadRadius: -12.0,
-                    blurRadius: 20,
-                  ),
-                ]
-            ),
-            child: Consumer<ParentProvider>(
-                builder: (context, data, _){
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: List.generate(data.routes.length, ((i){
+        child: SizedBox(
+          width: size.width - 24,
+          child: Row(
+            spacing: 12,
+            children: [
+              Expanded(
+                child: Container(
+                    height: 54,
+                    decoration: BoxDecoration(
+                        color: kWhite,
+                        border: Border.all(width: 0.6, color: kBlue.withValues(alpha: 0.7)),
+                        borderRadius: const BorderRadius.all(Radius.circular(152)),
+                        boxShadow: [
+                          BoxShadow(
+                              color: kDarkGrey.withValues(alpha: 0.2),
+                              blurRadius: 6,
+                              spreadRadius: 2,
+                              offset: const Offset(0, 6)
+                          ),
+                          BoxShadow(
+                            color: kBlue.withValues(alpha: 0.2),
+                            blurRadius: 6,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                    ),
+                    child: Consumer<ParentProvider>(
+                        builder: (context, data, _){
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: List.generate(data.routes.length, ((i){
+                              return GestureDetector(
+                                onTap: () {
+                                  data.selectedRoute = data.routes.keys.elementAt(i);
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) =>
+                                          data.routes.values.elementAt(i)));
+                                },
+                                child: Icon(
+                                  data.routes.keys.elementAt(i),
+                                  color: data.selectedRoute == data.routes.keys.elementAt(i)
+                                      ? kOrange.withValues(alpha: 0.8)
+                                      : kDarkGrey.withValues(alpha: 0.5),
+                                  size: 32,),
+                              );
+                            })),
+                          );
+                        }
+                    )
+                ),
+              ),
+              Container(
+                height: 54,
+                width: 54,
+                decoration: BoxDecoration(
+                    color: kWhite,
+                    border: Border.all(width: 0.6, color: kBlue.withValues(alpha: 0.7)),
+                    borderRadius: const BorderRadius.all(Radius.circular(152)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: kDarkGrey.withValues(alpha: 0.2),
+                          blurRadius: 6,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 6)
+                      ),
+                      BoxShadow(
+                        color: kBlue.withValues(alpha: 0.2),
+                        blurRadius: 6,
+                        spreadRadius: 2,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                ),
+                child: Consumer<ParentProvider>(
+                    builder: (context, data, _){
                       return GestureDetector(
-                        onTap: () {
-                          data.selectedRoute = data.routes.keys.elementAt(i);
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) =>
-                                  data.routes.values.elementAt(i)));
-                        },
+                        onTap: () => data.showSelectAddedTaskDialog(context),
                         child: Icon(
-                          data.routes.keys.elementAt(i),
-                          color: data.selectedRoute == data.routes.keys.elementAt(i)
-                              ? kOrange.withValues(alpha: 0.8)
-                              : kDarkGrey.withValues(alpha: 0.5),
+                          Icons.add_circle_outline,
+                          color: kBlue.withValues(alpha: 0.8),
                           size: 32,),
                       );
-                    })),
-                  );
-                }
-            )
+                    }
+                ),
+              )
+            ],
+          ),
         )
     );
   }

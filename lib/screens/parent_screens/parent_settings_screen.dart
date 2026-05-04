@@ -6,7 +6,7 @@ import '../../constants.dart';
 import '../../providers/parent_provider.dart';
 import '../../widgets/flag_widget.dart';
 import '../../widgets/info_widget.dart';
-import 'main_parent_screen.dart';
+import '../../widgets/parents_widget/parent_bottom_navigation_bar_widget.dart';
 
 class ParentSettingsScreen extends StatefulWidget {
   const ParentSettingsScreen({super.key});
@@ -34,6 +34,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
           child: Consumer<ParentProvider>(
             builder: (context, data, _){
               return Stack(
+                alignment: Alignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -48,15 +49,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                               const SizedBox(height: 18,),
                               Row(
                                 children: [
-                                  IconButton(
-                                      onPressed: () => Navigator.pushReplacement(context,
-                                          MaterialPageRoute(builder: (context) =>
-                                          const MainParentScreen())),
-                                      icon: const Icon(
-                                        Icons.arrow_back_ios_new,
-                                        color: kBlue,
-                                        size: 32,
-                                      )),
+                                  const SizedBox(width: 32,),
                                   const Spacer(),
                                   Text('${data.email}', style: kTextStyle,),
                                   const Spacer(),
@@ -177,6 +170,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                         onTap: () => data.switchSettingsParentInfo(),
                         text: 'settingsParentInfo',
                         height: 0.2,)),
+                  ParentBottomNavigationBarWidget()
                 ],
               );
             },

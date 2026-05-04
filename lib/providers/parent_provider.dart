@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:for_children/constants.dart';
-import 'package:for_children/screens/history_screen.dart';
+import 'package:for_children/screens/parent_screens/parent_history_screen.dart';
 import 'package:for_children/screens/parent_screens/ads_list_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
@@ -20,6 +20,8 @@ import '../models/ads_model.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../screens/parent_screens/add_ads_screen.dart';
+import '../screens/parent_screens/add_multi_task_screen.dart';
+import '../screens/parent_screens/add_single_task_screen.dart';
 import '../screens/parent_screens/parent_settings_screen.dart';
 import '../widgets/toasts.dart';
 import 'package:googleapis_auth/auth_io.dart' as auth;
@@ -112,7 +114,6 @@ class ParentProvider with ChangeNotifier {
 
   String selectedTypeStatus = 'home';
   int selectedExp = 1;
-  bool isSelectButtonOpen = false;
 
   String imageUrl = '';
   String fileName = '';
@@ -148,9 +149,9 @@ class ParentProvider with ChangeNotifier {
 
   final Map<IconData, Widget> routes = {
     Icons.home: MainParentScreen(),
-    Icons.add_circle_outline: MainParentScreen(),
     Icons.settings: ParentSettingsScreen(),
     Icons.campaign: AdsListScreen(),
+    Icons.history: ParentHistoryScreen(),
   };
 
   IconData selectedRoute = Icons.home;
@@ -1185,7 +1186,7 @@ class ParentProvider with ChangeNotifier {
                         if (!context.mounted) return;
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) =>
-                            const HistoryScreen()));
+                            const ParentHistoryScreen()));
                       },
                       child: Text('yes'.tr(), style: kTextStyle,)
                   )
@@ -1326,11 +1327,6 @@ class ParentProvider with ChangeNotifier {
     DateTime newDay = DateTime(dt.year, dt.month, dt.day);
     DateTime today = DateTime(now.year, now.month, now.day);
     return today.difference(newDay).inDays;
-  }
-
-  void openSelectButton(){
-    isSelectButtonOpen = !isSelectButtonOpen;
-    notifyListeners();
   }
 
   int historyBoxSums(List<Map<String, dynamic>> snapshot, int index, String kidName) {
@@ -1731,6 +1727,72 @@ class ParentProvider with ChangeNotifier {
                   ),
                 ],
               )
+          );
+        });
+  }
+
+  Future<void> showSelectAddedTaskDialog(context)async{
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return SafeArea(
+            child: Container(
+                height: size.height * 0.35,
+                width: size.width,
+                padding: const EdgeInsets.all(12),
+                decoration: const BoxDecoration(
+                  color: kWhite,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                ),
+                child: Column(
+                  spacing: 18,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('whatTaskWillAdd'.tr(), style: kBigTextStyle,),
+                    Column(
+                      spacing: 12,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              const AddSingleTaskScreen())),
+                          child: Container(
+                            width: size.width,
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: kBlue.withValues(alpha: 0.1),
+                              border: Border.all(color: kBlue, width: 1),
+                              borderRadius: const BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Text('singleTask'.tr(), style: kBigTextStyle),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              const AddMultiTaskScreen())),
+                          child: Container(
+                            width: size.width,
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: kBlue.withValues(alpha: 0.1),
+                              border: Border.all(color: kBlue, width: 1),
+                              borderRadius: const BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Text('multiTask'.tr(), style: kBigTextStyle),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(child: Text('mainParentInfo'.tr(), style: kTextStyle,)),
+                  ],
+                )
+            ),
           );
         });
   }

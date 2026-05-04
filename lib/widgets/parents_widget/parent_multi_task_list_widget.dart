@@ -26,37 +26,33 @@ class _ParentMultiTaskListWidgetState extends State<ParentMultiTaskListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.sizeOf(context);
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Stack(
             alignment: Alignment.bottomLeft,
             children: [
-              SizedBox(
-                  height: size.height * 0.8,
-                  child: ListView.builder(
-                      padding: EdgeInsets.only(bottom: 50),
-                      itemCount: widget.snapshot.length,
-                      itemBuilder: (context, index){
-                        final taskData = widget.snapshot[index];
-                        if(taskData['parentEmail'].toLowerCase() == data.email){
-                          return GestureDetector(
-                            onTap: () {
-                              data.priceController.text = taskData['price'];
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) =>
-                                      TaskDescriptionScreen(index: index, snapshot: taskData)));
-                            },
-                            child: BasicMultiContainerWidget(
-                              snapshot: taskData,
-                              index: index,
-                              nameOf: 'kidName',
-                            ),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      })
-              ),
+              ListView.builder(
+                  padding: EdgeInsets.only(bottom: 80),
+                  itemCount: widget.snapshot.length,
+                  itemBuilder: (context, index){
+                    final taskData = widget.snapshot[index];
+                    if(taskData['parentEmail'].toLowerCase() == data.email){
+                      return GestureDetector(
+                        onTap: () {
+                          data.priceController.text = taskData['price'];
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                                  TaskDescriptionScreen(index: index, snapshot: taskData)));
+                        },
+                        child: BasicMultiContainerWidget(
+                          snapshot: taskData,
+                          index: index,
+                          nameOf: 'kidName',
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
             ],
           );
         });
