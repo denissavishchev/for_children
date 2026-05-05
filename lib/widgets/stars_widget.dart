@@ -35,7 +35,7 @@ class StarsWidget extends StatelessWidget {
                 stars >= 1
                     ? Icons.star
                     : Icons.star_border,
-                color: kGrey,
+                color: kOrange,
                 size: 40,
                 shadows: shadow,
               )),
@@ -45,7 +45,7 @@ class StarsWidget extends StatelessWidget {
                 stars >= 2
                     ? Icons.star
                     : Icons.star_border,
-                color: kGrey,
+                color: kOrange,
                 size: 45,
                 shadows: shadow,
               )),
@@ -56,7 +56,7 @@ class StarsWidget extends StatelessWidget {
                 stars >= 3
                     ? Icons.star
                     : Icons.star_border,
-                color: kGrey,
+                color: kOrange,
                 size: 40,
                 shadows: shadow,
               )),

@@ -236,15 +236,7 @@ class BasicMultiContainerWidget extends StatelessWidget {
                       stars: double.parse(snapshot['stars']).toInt(),
                       snapshot: snapshot,
                       index: index,)
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(3, (i){
-                        return StatusWidget(
-                          snapshot: snapshot,
-                          index: index,
-                          name: data.status[i],);
-                      }),
-                    ),
+                        : StatusWidget(snapshot: snapshot)
                   ),
                 )
               ],
