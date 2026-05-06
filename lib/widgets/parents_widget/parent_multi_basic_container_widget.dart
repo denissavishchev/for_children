@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
@@ -6,12 +5,12 @@ import 'package:for_children/widgets/stars_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:for_children/widgets/task_square_widget.dart';
 import 'package:provider/provider.dart';
-import '../constants.dart';
+import '../../constants.dart';
 
-class BasicMultiContainerWidget extends StatelessWidget {
-  const  BasicMultiContainerWidget({
+class ParentMultiBasicContainerWidget extends StatelessWidget {
+  const  ParentMultiBasicContainerWidget({
     super.key,
-    this.height = 130,
+    this.height = 144,
     required this.snapshot,
     required this.index,
     required this.nameOf,
@@ -39,23 +38,19 @@ class BasicMultiContainerWidget extends StatelessWidget {
                   flex: 3,
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(12, 3, 3, 0),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     width: size.width,
                     height: height,
                     decoration: BoxDecoration(
                         color: kWhite,
-                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
+                        border: Border.all(width: 1, color: kGrey.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: kDarkGrey.withValues(alpha: 0.2),
-                              blurRadius: 6,
-                              spreadRadius: 2,
-                              offset: const Offset(0, 6)
-                          ),
-                          BoxShadow(
                             color: kBlue.withValues(alpha: 0.2),
-                            blurRadius: 2,
+                            blurRadius: 6,
                             spreadRadius: 2,
+                            offset: const Offset(0, 6)
                           ),
                         ]
                     ),
@@ -63,14 +58,12 @@ class BasicMultiContainerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 4,
                             children: [
-                              Text(snapshot['taskName'],
-                                style: kBigTextStyle,),
-                              Text(snapshot[nameOf],
-                                style: kTextStyle,),
+                              Image.asset('assets/images/todo.png', width: 16,),
+                              Text(snapshot['taskName'], style: kBigTextStyle,),
                             ],
                           ),
                         ),
@@ -122,26 +115,6 @@ class BasicMultiContainerWidget extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          TaskSquareWidget(number: 2),
-                                          Text('-', style: kTextStyle,),
-                                          Text(counts[2].toString(), style: kTextStyle,),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          TaskSquareWidget(number: 3),
-                                          Text('-', style: kTextStyle,),
-                                          Text(counts[3].toString(), style: kTextStyle,),
-                                        ],
-                                      ),
-                                    ],
-                                  )
                                 ],
                               ),
                             ],
@@ -153,20 +126,10 @@ class BasicMultiContainerWidget extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Text('taskPrice'.tr(),
-                                    style: kTextStyle.copyWith(
-                                        color: kBlue.withValues(alpha: 0.6)),),
-                                  Text(snapshot['price'],
-                                    style: kTextStyle,),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Text('taskType'.tr(),
-                                    style: kTextStyle.copyWith(
-                                        color: kBlue.withValues(alpha: 0.6)),),
-                                  Text(snapshot['type'],
-                                    style: kTextStyle,),
+                                  Image.asset('assets/images/medal.png', width: 14,),
+                                  const SizedBox(width: 4),
+                                  Text(snapshot['price'], style: kBigTextStyle,),
+                                  const SizedBox(width: 4),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: List.generate(5, ((i) {
@@ -198,6 +161,13 @@ class BasicMultiContainerWidget extends StatelessWidget {
                                     })),
                                   ),
                                 ],
+                              ),
+                              Row(
+                                spacing: 4,
+                                children: [
+                                  Image.asset('assets/images/person.png', width: 14,),
+                                  Text(snapshot[nameOf], style: kTextKidStyle,),
+                                ],
                               )
                             ],
                           ),
@@ -215,19 +185,14 @@ class BasicMultiContainerWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 3),
                     decoration: BoxDecoration(
                         color: kWhite,
-                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
+                        border: Border.all(width: 1, color: kGrey.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: kDarkGrey.withValues(alpha: 0.2),
+                              color: kBlue.withValues(alpha: 0.2),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(0, 6)
-                          ),
-                          BoxShadow(
-                            color: kBlue.withValues(alpha: 0.2),
-                            blurRadius: 2,
-                            spreadRadius: 2,
                           ),
                         ]
                     ),

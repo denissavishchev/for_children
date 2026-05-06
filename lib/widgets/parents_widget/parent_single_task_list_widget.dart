@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/task_description_screen.dart';
 import 'package:provider/provider.dart';
-import '../basic_single_container_widget.dart';
+import 'parent_single_basic_container_widget.dart';
 
 class ParentSingleTaskListWidget extends StatefulWidget {
   const ParentSingleTaskListWidget({
@@ -44,7 +44,7 @@ class _ParentSingleTaskListWidgetState extends State<ParentSingleTaskListWidget>
                               MaterialPageRoute(builder: (context) =>
                                   TaskDescriptionScreen(index: index, snapshot: taskData)));
                         },
-                        child: BasicSingleContainerWidget(
+                        child: ParentSingleBasicContainerWidget(
                           snapshot: taskData,
                           index: index,
                           nameOf: 'kidName',

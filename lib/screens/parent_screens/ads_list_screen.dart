@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/screens/parent_screens/add_ads_screen.dart';
@@ -44,7 +45,10 @@ class _AdsListScreenState extends State<AdsListScreen> {
                           future: data.getKid,
                           builder: (context, snapshot){
                             if(snapshot.connectionState == ConnectionState.waiting){
-                              return const Center(child: CircularProgressIndicator(),);
+                              return const Center(child: SpinKitSpinningLines(
+                                color: kBlue,
+                                size: 40,
+                              ),);
                             }else{
                               return ListView.builder(
                                 shrinkWrap: true,
@@ -127,7 +131,10 @@ class _AdsListScreenState extends State<AdsListScreen> {
                                                         fit: BoxFit.cover,
                                                         loadingBuilder: (context, child, loadingProgress) {
                                                           if (loadingProgress == null) return child;
-                                                          return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+                                                          return const Center(child: SpinKitSpinningLines(
+                                                            color: kBlue,
+                                                            size: 40,
+                                                          ),);
                                                         },
                                                         errorBuilder: (context, error, stackTrace) {
                                                           return const Center(

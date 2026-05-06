@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/kid_screens/save_money_screen.dart';
-import 'package:for_children/widgets/round_button.dart';
+import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -64,12 +64,12 @@ class SingleSaveMoneyScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RoundButton(
+                                KidRoundButton(
                                   icon: Icons.close,
                                   onTap: () => Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) => const SaveMoneyScreen())),
                                 ),
-                                RoundButton(
+                                KidRoundButton(
                                   icon: Icons.add,
                                   onTap: () => data.showToAddMoney(context, doc['id'].toString()),
                                 ),

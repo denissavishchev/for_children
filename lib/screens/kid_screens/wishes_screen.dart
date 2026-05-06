@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/wishes_tiles_list_widget.dart';
-import '../../widgets/round_button.dart';
+import '../../widgets/kids_widgets/kid_round_button.dart';
 import 'add_wish_screen.dart';
 
 class WishesScreen extends StatelessWidget {
@@ -39,7 +39,7 @@ class WishesScreen extends StatelessWidget {
                               Image.asset('assets/images/star.png', width: 24,),
                               Text('yourWishes'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp),),
                               const Spacer(),
-                              RoundButton(
+                              KidRoundButton(
                                 icon: Icons.add_circle_outline,
                                 onTap: () => Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) => const AddWishScreen())),),

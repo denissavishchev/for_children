@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
-import '../round_button.dart';
+import 'kid_round_button.dart';
 
 class AddSaveMoneyWidget extends StatelessWidget {
   const AddSaveMoneyWidget({
@@ -90,7 +90,7 @@ class AddSaveMoneyWidget extends StatelessWidget {
                     Text('yourTotalSaving'.tr(), style: kSmallTextStyle),
                     Text('${data.totalBanknotesSum}', style: kBigTextStyle.copyWith(color: kBlue)),
                     const SizedBox(height: 12),
-                    RoundButton(
+                    KidRoundButton(
                         onTap: () => data.updateMoney(context, id),
                         icon: Icons.check),
                   ],

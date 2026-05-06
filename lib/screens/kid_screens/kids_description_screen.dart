@@ -2,9 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
-import 'package:for_children/screens/parent_screens/add_single_task_screen.dart';
-import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
-import 'package:for_children/widgets/round_button.dart';
+import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../constants.dart';
@@ -65,22 +63,19 @@ class KidsDescriptionScreen extends StatelessWidget {
                                 spacing: 4,
                                 children: [
                                   Image.asset('assets/images/person.png', width: 12,),
-                                  Text(snapshot[data.role == 'parent'
-                                      ? 'kidName' : 'parentName'],
+                                  Text(snapshot['parentName'],
                                     style: kBigTextStyleWhite,)
                                 ],
                               ),
                             ),
                           ),
-                          RoundButton(
+                          KidRoundButton(
                             icon: Icons.close,
                             onTap: () {
                               data.pageIndex = 0;
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) =>
-                                  data.role == 'parent'
-                                      ? const MainParentScreen()
-                                      : const MainKidScreen()));
+                                    const MainKidScreen()));
                             },
                           ),
                         ],
@@ -326,43 +321,7 @@ class KidsDescriptionScreen extends StatelessWidget {
                           ? _buildChecked(snapshot, data, context, size)
                           : _buildComplete(snapshot),
                     ),
-                    const SizedBox(height: 20,),
-                    data.role == 'parent' && snapshot['status'] == 'paid'
-                        ? IconButton(
-                        onPressed: () => data.addTaskToHistory(context, snapshot, index,
-                          snapshot['parentName'],
-                          snapshot['parentEmail'],
-                          snapshot['kidName'],
-                          snapshot['kidEmail'],
-                          snapshot['taskName'],
-                          snapshot['description'],
-                          snapshot['price'],
-                          snapshot['stars'],
-                          snapshot['imageUrl'],
-                          snapshot['type'],
-                          snapshot['expQty'],
-                        ),
-                        icon: const Icon(Icons.history, size: 32, color: kOrange,))
-                        : data.role == 'parent'
-                        && snapshot['status'] == 'price'
-                        && snapshot['priceStatus'] == 'set'
-                        ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 18),
-                      child: Row(
-                        children: [
-                          Expanded(child: Text('editTaskDescription'.tr(), style: kTextStyleWhite,)),
-                          IconButton(
-                              onPressed: () {
-                                data.searchSingleTaskForEditing(snapshot['id'].toString());
-                                Navigator.pushReplacement(context,
-                                    MaterialPageRoute(builder: (context) =>
-                                    const AddSingleTaskScreen()));
-                              },
-                              icon: const Icon(Icons.edit, size: 32, color: kBlue,))
-                        ],
-                      ),
-                    )
-                        : const SizedBox.shrink()
+                    const SizedBox(height: 12,),
                   ],
                 ),
               ),
@@ -404,11 +363,11 @@ class KidsDescriptionScreen extends StatelessWidget {
                           )
                         ]),
                   ),
-                empty: const Icon(Icons.star_border,
-                    color: kGrey,
+                empty: Icon(Icons.star_border,
+                    color: kWhite.withValues(alpha: 0.5),
                     shadows: [
                       BoxShadow(
-                          color: kBlue,
+                          color: kBlue.withValues(alpha: 0.3),
                           blurRadius: 9,
                           spreadRadius: 6,
                           offset: Offset(0.5, 0.5)
@@ -441,148 +400,87 @@ class KidsDescriptionScreen extends StatelessWidget {
   _buildChecked(Map<String, dynamic> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: data.role == 'child'
-          ? Column(
-              spacing: 12,
-              children: [
-                int.parse(snapshot['stars']) == 3
-                  ? Text('goodResult'.tr(), style: kTextStyle)
-                  : int.parse(snapshot['stars']) == 2
-                  ? Text('meddleResult'.tr(), style: kTextStyle)
-                  : Text('weakResult'.tr(), style: kTextStyle),
-                Center(
-                  child: RatingBar(
-                    initialRating: double.parse(snapshot['stars']),
-                    ignoreGestures: true,
-                    allowHalfRating: false,
-                    itemCount: 3,
-                    itemSize: 60,
-                    ratingWidget: RatingWidget(
-                      full: ShaderMask(
-                        blendMode: BlendMode.srcIn,
-                        shaderCallback: (Rect bounds) {
-                          return const LinearGradient(
-                            colors: [kDarkWhite, kBlue],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ).createShader(bounds);
-                        },
-                        child: Icon(Icons.star,
-                            shadows: const [
-                              BoxShadow(
-                                  color: kRed,
-                                  blurRadius: 4,
-                                  spreadRadius: 2,
-                                  offset: Offset(0.5, 0.5)
-                              ),
-                              BoxShadow(
-                                  color: kDarkBlue,
-                                  blurRadius: 9,
-                                  spreadRadius: 6,
-                                  offset: Offset(1, 1)
-                              ),
+      child: Column(
+        spacing: 12,
+        children: [
+          int.parse(snapshot['stars']) == 3
+              ? Text('goodResult'.tr(), style: kTextStyle)
+              : int.parse(snapshot['stars']) == 2
+              ? Text('middleResult'.tr(), style: kTextStyle)
+              : Text('weakResult'.tr(), style: kTextStyle),
+          Center(
+            child: RatingBar(
+              initialRating: double.parse(snapshot['stars']),
+              ignoreGestures: true,
+              allowHalfRating: false,
+              itemCount: 3,
+              itemSize: 60,
+              ratingWidget: RatingWidget(
+                full: ShaderMask(
+                  blendMode: BlendMode.srcIn,
+                  shaderCallback: (Rect bounds) {
+                    return const LinearGradient(
+                      colors: [kDarkWhite, kBlue],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(bounds);
+                  },
+                  child: Icon(Icons.star,
+                      shadows: const [
+                        BoxShadow(
+                            color: kBlue,
+                            blurRadius: 4,
+                            spreadRadius: 2,
+                            offset: Offset(0.5, 0.5)
+                        ),
+                        BoxShadow(
+                            color: kDarkBlue,
+                            blurRadius: 9,
+                            spreadRadius: 6,
+                            offset: Offset(1, 1)
+                        ),
 
-                            ]),
+                      ]),
+                ),
+                empty: Icon(Icons.star_border,
+                    color: kWhite.withValues(alpha: 0.5),
+                    shadows: [
+                      BoxShadow(
+                          color: kBlue.withValues(alpha: 0.3),
+                          blurRadius: 4,
+                          spreadRadius: 2,
+                          offset: Offset(0.5, 0.5)
                       ),
-                      empty: Icon(Icons.star_border,
-                          color: kOrange.withValues(alpha: 0.9),
-                          shadows: const [
-                            BoxShadow(
-                                color: kRed,
-                                blurRadius: 4,
-                                spreadRadius: 2,
-                                offset: Offset(0.5, 0.5)
-                            ),
-                            BoxShadow(
-                                color: kDarkBlue,
-                                blurRadius: 9,
-                                spreadRadius: 6,
-                                offset: Offset(1, 1)
-                            )
-                          ]), half: const SizedBox.shrink(),
-                    ),
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    onRatingUpdate: (r){},
-                  ),
-                ),
-                Text('ifPaid'.tr(), style: kTextStyle,),
-                ChangeButtonWidget(
-                  index: index,
-                  snapshot: snapshot,
-                  onTap: () => data.changeToPaid(snapshot, index, context, data.pageIndex == 0),
-                  text: 'paid',
-                ),
-                const SizedBox(height: 2,),
-              ],
-            )
-          : _buildComplete(snapshot),
+                    ]), half: const SizedBox.shrink(),
+              ),
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              onRatingUpdate: (r){},
+            ),
+          ),
+          Text('ifPaid'.tr(), style: kTextStyle,),
+          ChangeButtonWidget(
+            index: index,
+            snapshot: snapshot,
+            onTap: () => data.changeToPaid(snapshot, index, context, data.pageIndex == 0),
+            text: 'paid',
+          ),
+          const SizedBox(height: 2,),
+        ],
+      ),
     );
   }
 
   _buildDone(Map<String, dynamic> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: data.role == 'parent'
-          ? Column(
-        children: [
-          Text('checkCompletedWork'.tr(), style: kTextStyle,),
-          const SizedBox(height: 8,),
-          Center(
-            child: RatingBar(
-              initialRating: 0,
-              allowHalfRating: false,
-              itemCount: 3,
-              itemSize: 60,
-              ratingWidget: RatingWidget(
-                full: const Icon(Icons.star,
-                    color: kGrey,
-                    shadows: [
-                      BoxShadow(
-                          color: kBlue,
-                          blurRadius: 9,
-                          spreadRadius: 6,
-                          offset: Offset(0.5, 0.5)
-                      )
-                    ]),
-                empty: const Icon(Icons.star_border,
-                    color: kGrey,
-                    shadows: [
-                      BoxShadow(
-                          color: kBlue,
-                          blurRadius: 9,
-                          spreadRadius: 6,
-                          offset: Offset(0.5, 0.5)
-                      )
-                    ]), half: const SizedBox.shrink(),
-              ),
-              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              onRatingUpdate: (rating) => data.updateRating(rating),
-            ),
-          ),
-          const SizedBox(height: 8,),
-          Text('notForgotToPay'.tr(), style: kTextStyle,),
-          const SizedBox(height: 8,),
-          ChangeButtonWidget(
-            index: index,
-            snapshot: snapshot,
-            onTap: () => data.changeToChecked(snapshot, index, context, data.pageIndex == 0),
-            text: 'rate',
-          )
-        ],
-      )
-          : Text('waitingForPay'.tr(args: [snapshot[
-          data.role == 'parent'
-              ? 'kidName'
-              : 'parentName'
-      ]]), style: kTextStyle,),
+      child: Text('waitingForPay'.tr(args: [snapshot['parentName']]), style: kTextStyle,)
     );
   }
 
   _buildInProgress(Map<String, dynamic> snapshot, ParentProvider data, context, Size size) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: data.role == 'child'
-          ? snapshot.containsKey('daysNumber')
+      child: snapshot.containsKey('daysNumber')
           ? Column(
               children: [
                 Text('daysLeft'.tr(args: [(snapshot['daysNumber'].length - data.whatDayIs(snapshot['time']) - 1).toString()]),
@@ -604,11 +502,6 @@ class KidsDescriptionScreen extends StatelessWidget {
               const SizedBox(height: 2,),
             ],
           )
-          : Text('waitingForDone'.tr(args: [snapshot[
-          data.role == 'parent'
-              ? 'kidName'
-              : 'parentName'
-      ]]), style: kTextStyle,),
     );
   }
 

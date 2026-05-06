@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/widgets/parents_widget/parent_bottom_navigation_bar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -52,7 +53,10 @@ class _ParentHistoryScreenState extends State<ParentHistoryScreen> {
                                   future: data.getKid,
                                   builder: (context, snapShot){
                                     if(snapShot.connectionState == ConnectionState.waiting){
-                                      return const Center(child: CircularProgressIndicator(),);
+                                      return const Center(child: SpinKitSpinningLines(
+                                        color: kBlue,
+                                        size: 40,
+                                      ),);
                                     }else{
                                       return SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
@@ -69,7 +73,10 @@ class _ParentHistoryScreenState extends State<ParentHistoryScreen> {
                             ],
                           );
                         }else{
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(child: SpinKitSpinningLines(
+                            color: kBlue,
+                            size: 40,
+                          ),);
                         }
                       }
                   ),

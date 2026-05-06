@@ -1,16 +1,15 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:for_children/widgets/stars_widget.dart';
 import 'package:for_children/widgets/status_widget.dart';
 import 'package:provider/provider.dart';
-import '../constants.dart';
+import '../../constants.dart';
 
-class BasicSingleContainerWidget extends StatelessWidget {
-  const BasicSingleContainerWidget({
+class ParentSingleBasicContainerWidget extends StatelessWidget {
+  const ParentSingleBasicContainerWidget({
     super.key,
-    this.height = 120,
+    this.height = 124,
     required this.snapshot,
     required this.index,
     required this.nameOf,
@@ -38,19 +37,14 @@ class BasicSingleContainerWidget extends StatelessWidget {
                     height: height,
                     decoration: BoxDecoration(
                         color: kWhite,
-                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
+                        border: Border.all(width: 1, color: kGrey.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: kDarkGrey.withValues(alpha: 0.2),
+                              color: kBlue.withValues(alpha: 0.2),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(0, 6)
-                          ),
-                          BoxShadow(
-                            color: kBlue.withValues(alpha: 0.2),
-                            blurRadius: 2,
-                            spreadRadius: 2,
                           ),
                         ]
                     ),
@@ -58,16 +52,34 @@ class BasicSingleContainerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(snapshot[nameOf],
-                                style: kBigTextStyle,),
-                              Text((snapshot.containsKey('type')
-                                  ? snapshot['type']
-                                  : ''),
-                                style: kTextStyle,),
+                              Row(
+                                spacing: 4,
+                                children: [
+                                  Image.asset('assets/images/person.png', width: 12,),
+                                  Text(snapshot[nameOf], style: kBigTextStyle,),
+                                ],
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                decoration: BoxDecoration(
+                                    color: kDarkWhite.withValues(alpha: 0.7),
+                                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kBlue.withValues(alpha: 0.2),
+                                          blurRadius: 1,
+                                          spreadRadius: 0.5,
+                                          offset: Offset(0.5, 0.5)
+                                      )
+                                    ]
+                                ),
+                                child: Text((snapshot['type']),
+                                  style: kTextStyle,),
+                              ),
                             ],
                           ),
                         ),
@@ -82,18 +94,56 @@ class BasicSingleContainerWidget extends StatelessWidget {
                                 right: Radius.circular(4)
                             ),
                           ),
-                          child: Text(snapshot['taskName'],
-                            style: kBigTextStyle,),
+                          child: Row(
+                            spacing: 4,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/todo.png', width: 18,),
+                              Expanded(
+                                child: Text(
+                                  snapshot['taskName'],
+                                  style: kBigTextStyle,
+                                ),
+                              ),
+                              snapshot['imageUrl'] == 'false'
+                                  ? const SizedBox.shrink()
+                                  : Container(
+                                height: 40,
+                                width: 40,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        colors: [
+                                          kWhite.withValues(alpha: 0.4),
+                                          kDarkWhite.withValues(alpha: 0.5),
+                                          kWhite.withValues(alpha: 0.4),
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight
+                                    ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withValues(alpha: 0.15),
+                                          blurRadius: 4,
+                                          spreadRadius: 1,
+                                          offset: const Offset(2, 2)
+                                      )
+                                    ]
+                                ),
+                                child: Image.network(snapshot['imageUrl'], fit: BoxFit.cover),
+                              )
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Row(
                             children: [
-                              Text('taskPrice'.tr(),
-                                style: kTextStyle.copyWith(
-                                    color: kBlue.withValues(alpha: 0.6)),),
-                              Text(snapshot['price'],
-                                style: kTextStyle,),
+                              Image.asset('assets/images/medal.png', width: 18,),
+                              const SizedBox(width: 4),
+                              Text(snapshot['price'], style: kBigTextStyle,),
+                              const SizedBox(width: 4),
                               Spacer(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -123,19 +173,14 @@ class BasicSingleContainerWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 3),
                     decoration: BoxDecoration(
                         color: kWhite,
-                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
+                        border: Border.all(width: 1, color: kGrey.withValues(alpha: 0.3)),
                         borderRadius: const BorderRadius.all(Radius.circular(4)),
                         boxShadow: [
                           BoxShadow(
-                              color: kDarkGrey.withValues(alpha: 0.2),
+                              color: kBlue.withValues(alpha: 0.2),
                               blurRadius: 6,
                               spreadRadius: 2,
                               offset: const Offset(0, 6)
-                          ),
-                          BoxShadow(
-                            color: kBlue.withValues(alpha: 0.2),
-                            blurRadius: 2,
-                            spreadRadius: 2,
                           ),
                         ]
                     ),

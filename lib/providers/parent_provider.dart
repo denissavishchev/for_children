@@ -5,13 +5,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/screens/parent_screens/parent_history_screen.dart';
 import 'package:for_children/screens/parent_screens/ads_list_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
-import 'package:for_children/widgets/round_button.dart';
+import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -545,7 +546,7 @@ class ParentProvider with ChangeNotifier {
                       IconButton(
                         onPressed: () => Navigator.of(context).pop(),
                         icon: const Icon(Icons.clear), color: kBlue,),
-                      RoundButton(
+                      KidRoundButton(
                         onTap: () async {
                           isSingle
                               ? await Supabase.instance.client
@@ -606,7 +607,7 @@ class ParentProvider with ChangeNotifier {
                       IconButton(
                         onPressed: () => Navigator.of(context).pop(),
                         icon: const Icon(Icons.clear), color: kBlue,),
-                      RoundButton(
+                      KidRoundButton(
                         onTap: () async {
                           isSingle
                           ? await Supabase.instance.client
@@ -667,7 +668,7 @@ class ParentProvider with ChangeNotifier {
                       IconButton(
                         onPressed: () => Navigator.of(context).pop(),
                         icon: const Icon(Icons.clear), color: kBlue,),
-                      RoundButton(
+                      KidRoundButton(
                         onTap: () async {
                           isSingle
                               ? await Supabase.instance.client
@@ -755,7 +756,7 @@ class ParentProvider with ChangeNotifier {
                       IconButton(
                         onPressed: () => Navigator.of(context).pop(),
                         icon: const Icon(Icons.clear), color: kBlue,),
-                      RoundButton(
+                      KidRoundButton(
                         onTap: () async {
                           isSingle
                               ? await Supabase.instance.client
@@ -1255,7 +1256,10 @@ class ParentProvider with ChangeNotifier {
         return Image.file(File(file!.path), fit: BoxFit.cover,);
       }
     }
-    return const Center(child: CircularProgressIndicator());
+    return const Center(child: SpinKitSpinningLines(
+      color: kBlue,
+      size: 40,
+    ),);
 
   }
 
@@ -1704,7 +1708,7 @@ class ParentProvider with ChangeNotifier {
                       IconButton(
                         onPressed: () => Navigator.of(context).pop(),
                         icon: const Icon(Icons.clear), color: kBlue,),
-                      RoundButton(
+                      KidRoundButton(
                         onTap: () async {
                           final image = await Supabase.instance.client
                               .from('wishes')

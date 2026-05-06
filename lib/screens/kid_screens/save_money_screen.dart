@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
-import '../../widgets/round_button.dart';
+import '../../widgets/kids_widgets/kid_round_button.dart';
 import 'add_save_money_screen.dart';
 
 class SaveMoneyScreen extends StatelessWidget {
@@ -40,7 +40,7 @@ class SaveMoneyScreen extends StatelessWidget {
                           Image.asset('assets/images/piggy.png', width: 24,),
                           Text('yourSavings'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp),),
                           const Spacer(),
-                          RoundButton(
+                          KidRoundButton(
                             icon: Icons.add_circle_outline,
                             onTap: () => Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) => const AddSaveMoneyScreen())),),

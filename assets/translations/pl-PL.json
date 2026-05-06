@@ -5,7 +5,6 @@
   "name": "Imię",
   "task": "Zadanie",
   "description": "Opis",
-  "taskPrice": "Cena: ",
   "price": "Cena",
   "deadline": "Termin",
   "add": "Dodaj",
@@ -50,7 +49,7 @@
   "changeStatus": "Zmień status",
   "acceptPriceChangeStatus": "Zaakceptuj cenę i zmień status",
   "imDoneStatus": "Skończyłem",
-  "checkCompletedWork": "Sprawdź wykonaną pracę i oceń...",
+  "checkCompletedWork": "Sprawdź wykonaną pracę i oceń starania swojego dziecka.\nTwoja opinia to najlepsza nagroda i motywacja do dalszego działania!\n⭐ 1 gwiazdka: Zadanie zrobione, ale wymaga poprawy.\n⭐⭐ 2 gwiazdki: Dobra robota! Wszystko zgodnie z planem.\n⭐⭐⭐ 3 gwiazdki: Rewelacja! Wyjątkowe zaangażowanie...",
   "notForgotToPay": "...i nie zapomnij o płatności",
   "rate": "Oceń",
   "ifPaid": "Jeśli zadanie zostało opłacone, zakończ je",
@@ -318,6 +317,11 @@
   "kidDailyDuration": "Dzienne czasy trwania dziecka",
   "yourDayStarted": "Twój dzień zaczął się o: ",
   "andEnded": "i skończył się o: {}",
-  "whatTaskWillAdd": "Jaki rodzaj zadania zostanie dodany?"
+  "whatTaskWillAdd": "Jaki rodzaj zadania zostanie dodany?",
+  "parentPriceStatusDescription": "To propozycja nagrody za wykonane zadanie.\nMożesz ją:\n✔ Zatwierdzić, jeśli uważasz, że jest odpowiednia.\n\uD83D\uDCAC Zaproponować korektę, aby lepiej dopasować ją do Waszych zasad.\n\uD83E\uDD1D Pamiętajcie, że najlepsze efekty daje wspólna decyzja! Krótka rozmowa pomoże Wam wypracować kompromis, który zadowoli obie strony.",
+  "parentInProgressStatusDescription": "\uD83D\uDCA1 Mała wskazówka: Jeśli zadanie zajmuje więcej czasu, możesz wysłać krótkie przypomnienie lub zapytać, czy potrzebna jest pomoc.\n\uD83E\uDD1D Cierpliwość popłaca: Daj dziecku przestrzeń do samodzielności – satysfakcja z dobrze wykonanej pracy będzie wtedy jeszcze większa!",
+  "payForIt": "Czas na rozliczenie! \uD83D\uDCB3\nZadanie zostało ocenione, więc teraz pora na najprzyjemniejszą część – przekazanie nagrody.\n\n\uD83D\uDCCC Dlaczego to ważne? Dotrzymywanie terminów buduje zaufanie i uczy dziecko, że rzetelna praca zawsze kończy się obiecanym rezultatem.\n\n\uD83D\uDE80 Motywacja: Płacąc na czas, pokazujesz, że szanujesz wysiłek dziecka. To sprawia, że z jeszcze większym zapałem podejmie się kolejnych wyzwań!",
+  "taskCompletedParentDescription": "Misja wykonana! \uD83D\uDE80 Zadanie jest rozliczone i domknięte. ✅\nMożesz odetchnąć z ulgą – Twoja rola jako mentora dobiegła końca. ☕ Dobra robota! Zasłużyłeś na chwilę przerwy przed kolejnym wspólnym startem! ✨",
+  "addToHistoryDescription": "Zapisz to osiągnięcie w historii! \uD83D\uDCDC\nWarto zachować ten sukces na później.\n\n\uD83D\uDCC8 Śledź postępy: Buduj historię sukcesów swojego dziecka, aby widzieć, jak się rozwija.\n\n\uD83D\uDCF8 Wspomnienia: Każde domknięte zadanie to mały krok w stronę wielkich nawyków."
 
 }

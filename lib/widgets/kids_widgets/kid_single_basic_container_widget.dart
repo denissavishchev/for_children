@@ -26,7 +26,7 @@ class KidSingleBasicContainerWidget extends StatelessWidget {
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Container(
-            margin: const EdgeInsets.fromLTRB(12, 0,12, 12),
+            margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [

@@ -5,7 +5,6 @@
   "name": "Name",
   "task": "Task",
   "description": "Description",
-  "taskPrice": "Price: ",
   "price": "Price",
   "deadline": "Deadline",
   "add": "Add",
@@ -50,7 +49,7 @@
   "changeStatus": "Change status",
   "acceptPriceChangeStatus": "Accept price and change status",
   "imDoneStatus": "I'm done",
-  "checkCompletedWork": "Check the completed work and give a rating...",
+  "checkCompletedWork": "Review the completed work and rate your child's effort.\nYour feedback is the best reward and motivation to keep going!\n⭐ 1 star: Task done, but needs some touch-ups.\n⭐⭐ 2 stars: Good job! Everything went according to plan.\n⭐⭐⭐ 3 stars: Amazing! Exceptional effort and dedication...",
   "notForgotToPay": "...and don't forget about payment",
   "rate": "Rate",
   "ifPaid": "If the task is paid, complete it",
@@ -318,5 +317,10 @@
   "kidDailyDuration": "Kid's daily durations",
   "yourDayStarted": "Your day started at: {}",
   "andEnded": "and ended at: {}",
-  "whatTaskWillAdd": "What type of task will be added?"
+  "whatTaskWillAdd": "What type of task will be added?",
+  "parentPriceStatusDescription": "This is a reward proposal for the completed task.\nYou can:\n✔ Approve it, if you find it appropriate.\n\uD83D\uDCAC Suggest a change, to better align it with your household rules.\n\uD83E\uDD1D Remember, the best results come from mutual decisions! A quick chat will help you reach a compromise that satisfies both sides.",
+  "parentInProgressStatusDescription": "💡 Quick tip: If the task is taking longer than expected, you can send a gentle reminder or ask if they need any help.\n🤝 Patience pays off: Give your child space to be independent – the satisfaction from a job well done will be even greater!",
+  "payForIt": "Time to settle up! \uD83D\uDCB3\nThe task has been reviewed, so now it’s time for the best part – giving the reward.\n\n\uD83D\uDCCC Why does it matter? Paying on time builds trust and teaches your child that honest work always leads to the promised result.\n\n\uD83D\uDE80 Motivation: By settling up promptly, you show respect for your child's effort. This encourages them to take on next challenges with even more enthusiasm!",
+  "taskCompletedParentDescription": "Mission accomplished! \uD83D\uDE80 The task is settled and closed. ✅\nYou can breathe a sigh of relief – your role as a mentor is complete. ☕ Great job! You’ve earned a moment of rest before the next joint liftoff! ✨",
+  "addToHistoryDescription": "Add this achievement to history! \uD83D\uDCDC\nIt’s worth keeping this success for the record.\n\n\uD83D\uDCC8 Track progress: Build a success story for your child to see how much they’ve grown.\n\n\uD83D\uDCF8 Memories: Every closed task is a small step towards great habits."
 }

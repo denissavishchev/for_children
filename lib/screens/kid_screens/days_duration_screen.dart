@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/screens/kid_screens/main_kid_screen.dart';
-import 'package:for_children/widgets/round_button.dart';
+import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
@@ -42,7 +42,7 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          RoundButton(
+                          KidRoundButton(
                               onTap: () => Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) => const MainKidScreen())),
                               icon: Icons.close

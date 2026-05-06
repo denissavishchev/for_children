@@ -110,10 +110,10 @@ final kRedTextStyle = TextStyle(
 final textFieldDecoration = InputDecoration(
     hintStyle: kTextStyle,
     enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: kDarkGrey)
+        borderSide: BorderSide(color: kBlue)
     ),
     focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: kDarkGrey)
+        borderSide: BorderSide(color: kBlue)
     ),
     focusedErrorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: kRed)

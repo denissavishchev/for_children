@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,10 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                                       future: data.getKid,
                                       builder: (context, snapshot){
                                         if(snapshot.connectionState == ConnectionState.waiting){
-                                          return const Center(child: CircularProgressIndicator(),);
+                                          return const Center(child: SpinKitSpinningLines(
+                                            color: kBlue,
+                                            size: 40,
+                                          ),);
                                         }else{
                                           return GridView.builder(
                                             physics: const NeverScrollableScrollPhysics(),
@@ -241,7 +245,10 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                                   }
                                   return const SizedBox.shrink();
                                 } else {
-                                  return const CircularProgressIndicator();
+                                  return const Center(child: SpinKitSpinningLines(
+                                    color: kBlue,
+                                    size: 40,
+                                  ),);
                                 }
                               },
                             ),
@@ -266,7 +273,10 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                     width: size.width,
                     height: size.height,
                     color: kGrey.withValues(alpha: 0.3),
-                    child: const Center(child: CircularProgressIndicator(color: kBlue,),),
+                    child: const Center(child: SpinKitSpinningLines(
+                      color: kBlue,
+                      size: 40,
+                    ),),
                   ) : const SizedBox.shrink()
                 ],
               );

@@ -7,7 +7,7 @@ import 'package:for_children/screens/kid_screens/save_money_screen.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/kid_provider.dart';
-import '../../widgets/round_button.dart';
+import '../../widgets/kids_widgets/kid_round_button.dart';
 
 class AddSaveMoneyScreen extends StatelessWidget {
   const AddSaveMoneyScreen({super.key});
@@ -34,7 +34,7 @@ class AddSaveMoneyScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              RoundButton(
+                              KidRoundButton(
                                   onTap: () => Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) => const SaveMoneyScreen())),
                                   icon: Icons.close
