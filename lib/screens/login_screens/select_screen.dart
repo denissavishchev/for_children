@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/login_provider.dart';
-import 'package:for_children/widgets/button_widget.dart';
+import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../widgets/info_widget.dart';
@@ -70,7 +70,7 @@ class SelectScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    ButtonWidget(
+                    KidButtonWidget(
                         onTap: () {
                           if(data.role != ''){
                             Navigator.pushReplacement(context,

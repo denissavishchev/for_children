@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:for_children/widgets/button_widget.dart';
+import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:for_children/widgets/toasts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -171,7 +171,7 @@ class LoginProvider with ChangeNotifier {
                       },
                     ),
                     const SizedBox(height: 36,),
-                    ButtonWidget(
+                    KidButtonWidget(
                         onTap: () async{
                           // try{
                           //   await FirebaseAuth.instance.sendPasswordResetEmail(

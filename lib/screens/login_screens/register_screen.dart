@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../providers/login_provider.dart';
-import '../../widgets/button_widget.dart';
+import '../../widgets/kids_widgets/kid_button_widget.dart';
 import '../../widgets/info_widget.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -129,7 +129,7 @@ class RegisterScreen extends StatelessWidget {
                                   },
                                 ),
                                 const SizedBox(height: 36,),
-                                ButtonWidget(
+                                KidButtonWidget(
                                     onTap: () {
                                       if(data.registerKey.currentState!.validate()){
                                         data.signUp(context);

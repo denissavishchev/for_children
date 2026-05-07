@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:for_children/constants.dart';
-import '../../../widgets/button_widget.dart';
+import '../../../widgets/kids_widgets/kid_button_widget.dart';
 import '../register_screen.dart';
 
 class KidOnboardingScreenSix extends StatelessWidget {
@@ -91,7 +91,7 @@ class KidOnboardingScreenSix extends StatelessWidget {
                   ),
                   Positioned(
                     bottom: size.height * 0.22,
-                    child: ButtonWidget(
+                    child: KidButtonWidget(
                         onTap: () => Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) =>
                             const RegisterScreen())),

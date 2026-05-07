@@ -10,7 +10,7 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/screens/parent_screens/parent_history_screen.dart';
 import 'package:for_children/screens/parent_screens/ads_list_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
-import 'package:for_children/widgets/button_widget.dart';
+import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
 import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -137,7 +137,6 @@ class ParentProvider with ChangeNotifier {
 
   double stars = 0.0;
 
-  bool addTaskInfo = false;
   bool settingsParentInfo = false;
   bool isEdit = false;
   String editDocId = '';
@@ -156,11 +155,6 @@ class ParentProvider with ChangeNotifier {
   };
 
   IconData selectedRoute = Icons.home;
-
-  void switchAddTaskInfo(){
-    addTaskInfo = !addTaskInfo;
-    notifyListeners();
-  }
 
   void switchSettingsParentInfo(){
     settingsParentInfo = !settingsParentInfo;
@@ -257,7 +251,7 @@ class ParentProvider with ChangeNotifier {
                     ],
                   ),
                   Text('deleteThisTask'.tr(), style: kTextStyle,),
-                  ButtonWidget(
+                  KidButtonWidget(
                       onTap: () async => await Supabase.instance.client
                         .from('history')
                         .delete()
@@ -418,7 +412,7 @@ class ParentProvider with ChangeNotifier {
                   ),
                   Text('addKidSure'.tr(args: ['$name $surname']), style: kTextStyle,),
                   Text('email: $email', style: kTextStyle,),
-                  ButtonWidget(
+                  KidButtonWidget(
                       onTap: () => addKidToParent(context),
                       text: 'add')
                 ],
@@ -1061,7 +1055,7 @@ class ParentProvider with ChangeNotifier {
                     ],
                   ),
                   Text('addToHistoryQuestion'.tr(), style: kTextStyle,),
-                  ButtonWidget(
+                  KidButtonWidget(
                       onTap: () async {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
                             taskName, description, price, stars, type, expQty).then((v) async =>
@@ -1141,7 +1135,7 @@ class ParentProvider with ChangeNotifier {
                     ),
                     child: Text(snapshot['description'], style: kTextStyle),
                   ),
-                  ButtonWidget(
+                  KidButtonWidget(
                       onTap: () => deleteFromHistory(context, snapshot, index),
                       text: 'deleteFromHistory')
                 ],
@@ -1610,7 +1604,7 @@ class ParentProvider with ChangeNotifier {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 18),
-                    child: ButtonWidget(
+                    child: KidButtonWidget(
                         onTap: () => deleteAd(context, imageUrl),
                         text: 'okIWantToAddNew',
                         width: 0.55,

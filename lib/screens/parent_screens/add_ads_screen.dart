@@ -5,8 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/button_widget.dart';
-import '../../widgets/info_widget.dart';
+import '../../widgets/kids_widgets/kid_button_widget.dart';
 import 'ads_list_screen.dart';
 
 class AddAdsScreen extends StatelessWidget {
@@ -183,7 +182,7 @@ class AddAdsScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          ButtonWidget(
+                          KidButtonWidget(
                             onTap: () => data.addAdToBase(context),
                             text: 'add',
                           ),
@@ -194,14 +193,6 @@ class AddAdsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                      top: 0,
-                      right: 20,
-                      child: InfoWidget(
-                        info: data.addTaskInfo,
-                        onTap: () => data.switchAddTaskInfo(),
-                        text: 'addTaskInfo',
-                        height: 0.2,)),
                   data.isLoading
                       ? Container(
                     width: size.width,

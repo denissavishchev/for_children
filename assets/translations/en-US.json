@@ -67,7 +67,7 @@
   "withoutOnboardingDescription": "Go straight to registration (not recommended)",
   "registerInfo": "You should choose a name so that your children or parents can recognize you. Additionally, you can indicate your role in the family\n\nThe password must be at least 8 characters long and include a number, a capital letter, and a small letter.\nNever tell anyone your passwords",
   "mainParentInfo": "Remember:\n\uD83C\uDFC1 A well-defined task is halfway there\n\uD83C\uDFAF Two small tasks are easier to complete than one large one.",
-  "addTaskInfo": "Remember:\n\n1. The child must understand the task\n2. The child must understand the task well\n3. The child must want to complete the task. Motivate with an interesting task or good pay",
+  "addTaskInfo": "Remember:\n\uD83E\uDDE0 The child must understand the task\n\uD83C\uDFAF The child must understand the task well\n\uD83D\uDE80 The child must want to complete the task.",
   "settingsParentInfo": "Before assigning tasks, add your child to the list of children. Then wait until he confirms\n\nDo you want to learn a new language? Learn with your child",
   "wishInfo": "\uD83D\uDCA1 Remember not to add expensive desires that may trigger difficult tasks or multiple tasks. Also, your wishes should be clear",
   "settingsKidInfo": "Try installing the application in a different language. This will help you learn a few new words, thereby developing your neural connections\n\nAdd only your relatives to add tasks",

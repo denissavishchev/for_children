@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/screens/login_screens/select_screen.dart';
-import 'package:for_children/widgets/button_widget.dart';
+import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/login_provider.dart';
@@ -90,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                               },
                             ),
                             SizedBox(height: size.height * 0.15,),
-                            ButtonWidget(
+                            KidButtonWidget(
                                 onTap: () => data.logIn(),
                                 text: 'login'
                             ),

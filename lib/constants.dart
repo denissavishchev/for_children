@@ -29,7 +29,6 @@ final kTextStyleNormal = TextStyle(
     // fontFamily: 'Roboto'
 );
 
-
 final kTextKidStyle = TextStyle(
     color: kBlue,
     fontWeight: FontWeight.bold,

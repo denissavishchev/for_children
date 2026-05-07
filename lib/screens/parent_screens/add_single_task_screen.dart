@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/widgets/parents_widget/parent_button_widget.dart';
+import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../widgets/button_widget.dart';
-import '../../widgets/info_widget.dart';
 import '../../widgets/parents_widget/exp_widget.dart';
 import '../../widgets/parents_widget/select_task_type_widget.dart';
 
@@ -46,17 +46,16 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                       spacing: 18,
                       children: [
                         Row(
+                          spacing: 12,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            IconButton(
-                                onPressed: () => Navigator.pushReplacement(context,
+                            ParentRoundButton(
+                                onTap: () => Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (context) =>
                                     const MainParentScreen())),
-                                icon: const Icon(
-                                  Icons.arrow_back_ios_new,
-                                  color: kBlue,
-                                  size: 32,
-                                )),
-                            const Spacer(),
+                                icon: Icons.arrow_back_ios_new
+                            ),
+                            Expanded(child: Text('addTaskInfo'.tr(), style: kTextStyle,))
                           ],
                         ),
                         Form(
@@ -80,6 +79,7 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                           physics: const NeverScrollableScrollPhysics(),
                                           itemCount: data.kidsList.length,
                                           itemBuilder: (context, index){
+                                            final isSelected = data.selectedKidName == data.kidsList[index].name;
                                             return data.kidsList[index].accept == true
                                                 ? GestureDetector(
                                               onTap: () => data.selectKid(data.kidsList[index].name, data.kidsList[index].email),
@@ -87,15 +87,33 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                                 width: size.width * 0.4,
                                                 margin: const EdgeInsets.all(2),
                                                 decoration: BoxDecoration(
-                                                    color: kDarkWhite,
+                                                    color: isSelected ? kDarkWhite : Colors.transparent,
                                                     borderRadius: const BorderRadius.all(Radius.circular(12)),
                                                     border: Border.all(
-                                                        width: 2,
-                                                        color: data.selectedKidName == data.kidsList[index].name
-                                                            ? kOrange : kDarkGrey)
+                                                        width: isSelected ? 1 : 0.5,
+                                                        color: isSelected ? kBlue : kDarkGrey),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                      color: kDarkGrey.withValues(alpha: 0.6),
+                                                    ),
+                                                      isSelected
+                                                          ? BoxShadow(
+                                                              color: kBlue.withValues(alpha: 0.1),
+                                                              blurRadius: 1,
+                                                              spreadRadius: 2,
+                                                              offset: const Offset(1, 1))
+                                                          : BoxShadow(
+                                                              color: kWhite,
+                                                              blurRadius: 2,
+                                                              spreadRadius: -1,
+                                                              offset: const Offset(0, 1)
+                                                      )
+                                                  ]
                                                 ),
                                                 child: Center(
-                                                    child: Text(data.kidsList[index].name, style: kTextStyle,)),
+                                                    child: Text(
+                                                      data.kidsList[index].name,
+                                                      style: isSelected ? kTextStyle : kTextStyleGrey,)),
                                               ),
                                             )
                                                 : Container(
@@ -106,7 +124,7 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                                               ),
                                               child: Center(
-                                                  child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyle,)),
+                                                  child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyleGrey,)),
                                             );
                                           },
                                           gridDelegate:
@@ -229,11 +247,14 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                             child: data.image(),
                           ),
                         ),
-                        ButtonWidget(
-                          onTap: () => data.isEdit
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: ParentButtonWidget(
+                              onTap: () => data.isEdit
                                   ? data.editSingleTaskInBase(context, data.editDocId)
                                   : data.addSingleTaskToBase(context),
-                          text: data.isEdit ? 'edit' : 'add',
+                              text: data.isEdit ? 'edit' : 'add'
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -274,14 +295,6 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                     ),
                   ),
                 ),
-                Positioned(
-                    top: 0,
-                    right: 20,
-                    child: InfoWidget(
-                      info: data.addTaskInfo,
-                      onTap: () => data.switchAddTaskInfo(),
-                      text: 'addTaskInfo',
-                      height: 0.2,)),
                 data.isLoading
                     ? Container(
                   width: size.width,

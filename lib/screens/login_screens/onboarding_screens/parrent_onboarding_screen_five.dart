@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/constants.dart';
-import 'package:for_children/widgets/button_widget.dart';
+import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/parent_provider.dart';
 
@@ -29,7 +29,7 @@ class ParentOnboardingScreenFive extends StatelessWidget {
                     _three(context),
                     Align(
                       alignment: Alignment.center,
-                      child: ButtonWidget(
+                      child: KidButtonWidget(
                           onTap: (){},
                           text: 'add'
                       ),

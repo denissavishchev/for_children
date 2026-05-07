@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import '../../constants.dart';
 
-class ButtonWidget extends StatelessWidget {
-  const ButtonWidget({
+class KidButtonWidget extends StatelessWidget {
+  const KidButtonWidget({
     super.key,
     required this.onTap,
     required this.text,

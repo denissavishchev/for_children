@@ -6,8 +6,7 @@ import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../widgets/button_widget.dart';
-import '../../widgets/info_widget.dart';
+import '../../widgets/kids_widgets/kid_button_widget.dart';
 import '../../widgets/parents_widget/exp_widget.dart';
 import '../../widgets/parents_widget/select_task_type_widget.dart';
 
@@ -215,7 +214,7 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                               child: data.image(),
                             ),
                           ),
-                          ButtonWidget(
+                          KidButtonWidget(
                             onTap: () => data.isEdit
                                 ? data.editMultiTaskInBase(context, data.editDocId)
                                 : data.addMultiTaskToBase(context),
@@ -260,14 +259,6 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                       ),
                     ),
                   ),
-                  Positioned(
-                      top: 24,
-                      right: 20,
-                      child: InfoWidget(
-                        info: data.addTaskInfo,
-                        onTap: () => data.switchAddTaskInfo(),
-                        text: 'addTaskInfo',
-                        height: 0.2,)),
                   data.isLoading
                       ? Container(
                     width: size.width,
