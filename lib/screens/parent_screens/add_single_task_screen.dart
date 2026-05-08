@@ -10,7 +10,6 @@ import 'package:for_children/widgets/parents_widget/parent_button_widget.dart';
 import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../widgets/parents_widget/exp_widget.dart';
 import '../../widgets/parents_widget/select_task_type_widget.dart';
 
@@ -338,38 +337,6 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                 ? data.editSingleTaskInBase(context, data.editDocId)
                                 : data.addSingleTaskToBase(context),
                             text: data.isEdit ? 'edit' : 'add'
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                        child: StreamBuilder<List<Map<String, dynamic>>>(
-                          stream: Supabase.instance.client
-                              .from('wishes')
-                              .stream(primaryKey: ['id']),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              final wishes = snapshot.data!;
-                              data.wishList.clear();
-                              for (var wish in wishes) {
-                                for (int w = 0; w < 10; w++) {
-                                  String parentKey = 'parent${w}Name';
-                                  if (wish.containsKey(parentKey) && wish[parentKey] != null) {
-                                    if (wish[parentKey].toString().toLowerCase() == data.email?.toLowerCase() &&
-                                        wish['kidName'] == data.selectedKidName) {
-                                      data.wishList[wish['wish'].toString()] = wish['imageUrl'].toString();
-                                      break;
-                                    }
-                                  }
-                                }
-                              }
-                              return const SizedBox.shrink();
-                            } else {
-                              return const Center(child: SpinKitSpinningLines(
-                                color: kBlue,
-                                size: 40,
-                              ),);
-                            }
-                          },
                         ),
                       ),
                       SizedBox(

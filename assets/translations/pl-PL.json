@@ -57,7 +57,7 @@
   "notConfirmed": "{} (nie potwierdzone)",
   "wish": "Życzenie",
   "selectParent": "Wybierz co najmniej jednego rodzica",
-  "kidHasNoWishes": "Dzieciak nie ma żadnych życzeń",
+  "kidHasNoWishes": "Lista życzeń Twojego dziecka jest na razie pusta. Wygląda na to, że wszystkie marzenia są już spełnione... albo jeszcze nie zapisane! Może to idealny czas na wspólną rozmowę i pomoc w dodaniu tych pierwszych?",
   "continue": "Kontynuować",
   "basicOnboarding": "Podstawowe wdrożenie",
   "advancedOnboarding": "Zaawansowane wdrażanie",
@@ -325,6 +325,6 @@
   "addToHistoryDescription": "Zapisz to osiągnięcie w historii! \uD83D\uDCDC\nWarto zachować ten sukces na później.\n\n\uD83D\uDCC8 Śledź postępy: Buduj historię sukcesów swojego dziecka, aby widzieć, jak się rozwija.\n\n\uD83D\uDCF8 Wspomnienia: Każde domknięte zadanie to mały krok w stronę wielkich nawyków.",
   "taskTypeDescription": "Wybrany rodzaj zadania pozwoli później określić, jakie aktywności Twoje dziecko lubi najbardziej i co sprawia mu największą frajdę.",
   "taskExpDescription": "Zdobywanie punktów za zadania buduje w dziecku poczucie postępu. Dzięki temu widzi, jak „rośnie” jego poziom umiejętności, co zamienia zwykłe obowiązki w wciągającą grę.",
-  "addPhotoDescription": "\uD83D\uDCF8 Dodaj zdjęcie, aby wszystko było jasne!\nObraz znaczy więcej niż tysiąc słów. Dodanie zdjęcia pomaga dziecku lepiej zrozumieć cel zadania i precyzyjnie pokazuje, jakiego efektu oczekujesz. To świetny sposób na naukę przez obserwację i budowanie pewności siebie u Twojego małego odkrywcy!"
-
+  "wishesIsSacred": "Lista życzeń to coś więcej niż przedmioty – to okno do pasji i marzeń Twojego dziecka \uD83C\uDF1F Traktując te prośby z szacunkiem, budujesz fundament zaufania i poczucie, że głos malucha jest ważny. Wykorzystaj to jako lekcję odpowiedzialności: zamiast zwykłego „tak” lub „nie”, stwórz dziecku przestrzeń, by na swój cel mogło aktywnie zapracować poprzez codzienne zadania! \uD83D\uDE80\uD83D\uDCAA",
+  "selectWish": "Wybierz marzenie"
 }

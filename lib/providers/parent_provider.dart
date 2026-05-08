@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
+import 'package:for_children/models/wish_model.dart';
 import 'package:for_children/screens/parent_screens/parent_history_screen.dart';
 import 'package:for_children/screens/parent_screens/ads_list_screen.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
 import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
+import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,8 +126,8 @@ class ParentProvider with ChangeNotifier {
   Future<void> getAds = Future.value(null);
   late Future<void> getEmailVoid;
   List<KidModel> kidsList = [];
+  List<WishModel> wishList = [];
   List<AdsModel> adsList = [];
-  Map<String, String> wishList = {};
 
   String? email = '';
   String? name = '';
@@ -428,44 +430,124 @@ class ParentProvider with ChangeNotifier {
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (context) {
-          return Container(
-              height: size.height * 0.6,
-              width: size.width,
-              decoration: const BoxDecoration(
-                color: kWhite,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+          return SafeArea(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: size.height * 0.7,
               ),
-              child: wishList.isNotEmpty
-              ? ListView.builder(
-                  itemCount: wishList.length,
-                  itemBuilder: (context, index){
-                    String wish = wishList.keys.elementAt(index);
-                    String image = wishList.values.elementAt(index);
-                    return GestureDetector(
-                      onTap: () => addWishToField(context, wish),
-                      child: Container(
-                        width: size.width,
-                        height: image == ''
-                            ? 50 : 100,
-                        margin: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: const BoxDecoration(
-                            color: kDarkGrey,
-                            borderRadius: BorderRadius.all(Radius.circular(12))
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Container(
+                width: size.width,
+                decoration: const BoxDecoration(
+                  color: kWhite,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                ),
+                child: Column(
+                  spacing: 4,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('selectWish'.tr(), style: kBigTextStyle),
+                          ParentRoundButton(
+                              onTap: () => Navigator.of(context).pop(),
+                              icon: Icons.close
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text('wishesIsSacred'.tr(), style: kTextStyle),
+                    ),
+                    Flexible(
+                      child: wishList.isNotEmpty
+                          ? ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 18),
+                          itemCount: wishList.length,
+                          itemBuilder: (context, index) {
+                            final wish = wishList[index];
+                            final bool hasImage = wish.imageUrl.isNotEmpty;
+                            return GestureDetector(
+                              onTap: () => addWishToField(context, wish.wish),
+                              child: Container(
+                                  width: size.width,
+                                  constraints: BoxConstraints(
+                                    minHeight: hasImage ? 100 : 60,
+                                  ),
+                                  margin: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8)),
+                                      border: Border.all(
+                                          width: 0.8, color: kBlue),
+                                      color: kWhite,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: kBlue.withValues(alpha: 0.3),
+                                            blurRadius: 4,
+                                            spreadRadius: 1,
+                                            offset: const Offset(0, 2))
+                                      ]),
+                                  child: IntrinsicHeight(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(wish.wish,
+                                                  style: kBigTextStyle),
+                                              const SizedBox(height: 4),
+                                              Text(wish.whyNeed,
+                                                  style: kTextStyle),
+                                              const SizedBox(height: 0),
+                                            ],
+                                          ),
+                                        ),
+                                        if (hasImage) ...[
+                                          const SizedBox(width: 8),
+                                          ClipRRect(
+                                            borderRadius:
+                                            BorderRadius.circular(4),
+                                            child: Image.network(
+                                              wish.imageUrl,
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                  )),
+                            );
+                          })
+                          : Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(wish, style: kTextStyle,),
-                            image == ''
-                                ? const SizedBox.shrink()
-                                : Image.network(image),
+                            Text('kidHasNoWishes'.tr(),
+                                style: kBigTextStyle),
                           ],
                         ),
                       ),
-                    );
-                  })
-              : Center(child: Text('kidHasNoWishes'.tr(), style: kBigTextStyle,)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           );
         });
   }
@@ -502,7 +584,7 @@ class ParentProvider with ChangeNotifier {
           .from(bucketName)
           .getPublicUrl(fileName);
     } catch (e) {
-      log('❌ Błąd Supabase przy wgrywaniu zdjęcia: $e');
+      log('❌ Supabase error during image upload: $e');
     }
     notifyListeners();
   }
@@ -778,10 +860,25 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
-  void selectKid(String key, String value){
+  Future<void> selectKid(String key, String value) async {
     selectedKidName = key;
     selectedKidEmail = value;
     wishList.clear();
+    final List<Map<String, dynamic>> wishes = await Supabase.instance.client
+        .from('wishes')
+        .select('wish, whyNeed, imageUrl')
+        .or('parent0Name.eq.$email, parent1Name.eq.$email, parent2Name.eq.$email, parent3Name.eq.$email, parent4Name.eq.$email')
+        .eq('kidEmail', value);
+    if (wishes.isNotEmpty) {
+      for (var wish in wishes) {
+        final w = WishModel(
+            wish: wish['wish'] ?? '',
+            whyNeed: wish['whyNeed'] ?? '',
+            imageUrl: wish['imageUrl'] ?? ''
+        );
+        wishList.add(w);
+      }
+    }
     notifyListeners();
   }
 

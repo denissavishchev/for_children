@@ -5,7 +5,6 @@ import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../widgets/kids_widgets/kid_button_widget.dart';
 import '../../widgets/parents_widget/exp_widget.dart';
 import '../../widgets/parents_widget/select_task_type_widget.dart';
@@ -219,38 +218,6 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                                 ? data.editMultiTaskInBase(context, data.editDocId)
                                 : data.addMultiTaskToBase(context),
                             text: data.isEdit ? 'edit' : 'add',
-                          ),
-                          SizedBox(
-                            height: 10,
-                            child: StreamBuilder<List<Map<String, dynamic>>>(
-                              stream: Supabase.instance.client
-                                  .from('wishes')
-                                  .stream(primaryKey: ['id']),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  final wishes = snapshot.data!;
-                                  data.wishList.clear();
-                                  for (var wish in wishes) {
-                                    for (int w = 0; w < 10; w++) {
-                                      String parentKey = 'parent${w}Name';
-                                      if (wish.containsKey(parentKey) && wish[parentKey] != null) {
-                                        if (wish[parentKey].toString().toLowerCase() == data.email?.toLowerCase() &&
-                                            wish['kidName'] == data.selectedKidName) {
-                                          data.wishList[wish['wish'].toString()] = wish['imageUrl'].toString();
-                                          break;
-                                        }
-                                      }
-                                    }
-                                  }
-                                  return const SizedBox.shrink();
-                                } else {
-                                  return const Center(child: SpinKitSpinningLines(
-                                    color: kBlue,
-                                    size: 40,
-                                  ),);
-                                }
-                              },
-                            ),
                           ),
                           SizedBox(
                             height: MediaQuery.viewInsetsOf(context).bottom == 0
