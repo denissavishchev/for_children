@@ -6,7 +6,7 @@
   "task": "Zadanie",
   "description": "Opis",
   "price": "Cena",
-  "deadline": "Termin",
+  "deadline": "⏰ Wybierz termin będący wyzwaniem, dopasowując go do energii dziecka oraz trudności zadania. Daj więcej czasu na naukę nowych rzeczy, a krótszy na znane już rutyny",
   "add": "Dodaj",
   "inProgress": "W trakcie",
   "done": "Zrobione",
@@ -324,6 +324,7 @@
   "taskCompletedParentDescription": "Misja wykonana! \uD83D\uDE80 Zadanie jest rozliczone i domknięte. ✅\nMożesz odetchnąć z ulgą – Twoja rola jako mentora dobiegła końca. ☕ Dobra robota! Zasłużyłeś na chwilę przerwy przed kolejnym wspólnym startem! ✨",
   "addToHistoryDescription": "Zapisz to osiągnięcie w historii! \uD83D\uDCDC\nWarto zachować ten sukces na później.\n\n\uD83D\uDCC8 Śledź postępy: Buduj historię sukcesów swojego dziecka, aby widzieć, jak się rozwija.\n\n\uD83D\uDCF8 Wspomnienia: Każde domknięte zadanie to mały krok w stronę wielkich nawyków.",
   "taskTypeDescription": "Wybrany rodzaj zadania pozwoli później określić, jakie aktywności Twoje dziecko lubi najbardziej i co sprawia mu największą frajdę.",
-  "taskExpDescription": "Zdobywanie punktów za zadania buduje w dziecku poczucie postępu. Dzięki temu widzi, jak „rośnie” jego poziom umiejętności, co zamienia zwykłe obowiązki w wciągającą grę."
+  "taskExpDescription": "Zdobywanie punktów za zadania buduje w dziecku poczucie postępu. Dzięki temu widzi, jak „rośnie” jego poziom umiejętności, co zamienia zwykłe obowiązki w wciągającą grę.",
+  "addPhotoDescription": "\uD83D\uDCF8 Dodaj zdjęcie, aby wszystko było jasne!\nObraz znaczy więcej niż tysiąc słów. Dodanie zdjęcia pomaga dziecku lepiej zrozumieć cel zadania i precyzyjnie pokazuje, jakiego efektu oczekujesz. To świetny sposób na naukę przez obserwację i budowanie pewności siebie u Twojego małego odkrywcy!"
 
 }

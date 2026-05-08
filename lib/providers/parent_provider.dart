@@ -432,7 +432,7 @@ class ParentProvider with ChangeNotifier {
               height: size.height * 0.6,
               width: size.width,
               decoration: const BoxDecoration(
-                color: kGrey,
+                color: kWhite,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
               ),
               child: wishList.isNotEmpty

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,13 +41,13 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
           builder: (context, data, _){
             return Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      spacing: 18,
-                      children: [
-                        Row(
+                SingleChildScrollView(
+                  child: Column(
+                    spacing: 18,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
                           spacing: 12,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -58,10 +60,13 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                             Expanded(child: Text('addTaskInfo'.tr(), style: kTextStyle,))
                           ],
                         ),
-                        Form(
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Form(
                           key: data.taskKey,
                           child: Column(
-                            spacing: 18,
+                            spacing: 12,
                             children: [
                               SizedBox(
                                   width: size.width,
@@ -155,6 +160,7 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                   )
                                 ],
                               ),
+                              const SizedBox(height: 2,),
                               TextFormField(
                                 controller: data.addTaskNameController,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -199,16 +205,24 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 12.0),
                                       child: GestureDetector(
-                                        onTap: () =>
-                                          data.showWishList(context, data),
+                                        onTap: () => data.showWishList(context, data),
                                         child: Container(
                                           width: 55,
                                           height: 55,
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                                            color: kDarkGrey,
+                                          decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                              border: Border.all(width: 0.8, color: kBlue),
+                                              color: kWhite,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: kBlue.withValues(alpha: 0.3),
+                                                    blurRadius: 4,
+                                                    spreadRadius: 1,
+                                                    offset: const Offset(0, 2)
+                                                )
+                                              ]
                                           ),
-                                          child: const Icon(Icons.favorite, color: kBlue,),
+                                          child: const Icon(Icons.favorite_border_outlined, color: kBlue, size: 32,),
                                         ),
                                       ),
                                     ),
@@ -218,94 +232,150 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Column(
+                          spacing: 8,
                           children: [
-                            SizedBox(
-                              width: size.width * 0.7,
-                              height: size.height * 0.1,
-                              child: Opacity(
-                                opacity: data.isDeadline ? 1 : 0.1,
-                                child: AbsorbPointer(
-                                  absorbing: !data.isDeadline,
-                                  child: CupertinoDatePicker(
-                                    backgroundColor: kGrey,
-                                    initialDateTime: DateTime.now(),
-                                    use24hFormat: true,
-                                    mode: CupertinoDatePickerMode.date,
-                                    onDateTimeChanged: (DateTime time) => data.setTaskTime(time),
+                            Text('deadline'.tr(), style: kTextStyle,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: size.width * 0.8,
+                                  height: 80,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                      border: Border.all(width: 0.8, color: data.isDeadline ? kBlue : kGrey.withValues(alpha: 0.5)),
+                                      color: kWhite,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: kBlue.withValues(alpha: data.isDeadline ? 0.3 : 0),
+                                            blurRadius: 4,
+                                            spreadRadius: 1,
+                                            offset: const Offset(0, 2)
+                                        )
+                                      ]
+                                  ),
+                                  child: Opacity(
+                                    opacity: data.isDeadline ? 1 : 0.35,
+                                    child: AbsorbPointer(
+                                      absorbing: !data.isDeadline,
+                                      child: CupertinoTheme(
+                                          data: CupertinoThemeData(
+                                            barBackgroundColor: Colors.transparent,
+                                            textTheme: CupertinoTextThemeData(
+                                              dateTimePickerTextStyle: kTextStyle,
+                                              pickerTextStyle: kTextStyle,
+                                            )
+                                          ),
+                                          child: CupertinoDatePicker(
+                                            backgroundColor: Colors.transparent,
+                                            initialDateTime: DateTime.now(),
+                                            minimumDate: DateTime.now().subtract(const Duration(minutes: 1)),
+                                            use24hFormat: true,
+                                            mode: CupertinoDatePickerMode.date,
+                                            onDateTimeChanged: (DateTime time) => data.setTaskTime(time),
+                                          ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Text('deadline'.tr(), style: kTextStyle,),
-                                Switch(
+                                RotatedBox(
+                                  quarterTurns: 3,
+                                  child: Switch(
+                                    activeThumbColor: kBlue,
+                                    activeTrackColor: kGrey.withValues(alpha: 0.2),
+                                    inactiveThumbColor: kGrey,
+                                    inactiveTrackColor: kWhite,
+                                      trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+                                        if (states.contains(WidgetState.selected)) {
+                                          return kBlue;
+                                        }
+                                        return kGrey;
+                                      }),
                                     value: data.isDeadline,
                                     onChanged: (value) => data.setIsDeadline(value)),
+                                )
                               ],
-                            )
+                            ),
                           ],
                         ),
-                        GestureDetector(
-                          onTap: () => data.isEdit ? null : data.pickAnImage(),
-                          child: Container(
-                            width: 100,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                              color: kBlue.withValues(alpha: 0.3),
-                              borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Row(
+                          spacing: 12,
+                          children: [
+                            GestureDetector(
+                              onTap: () => data.isEdit ? null : data.pickAnImage(),
+                              child: Container(
+                                width: size.width * 0.4,
+                                height: size.width * 0.5,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: kBlue, width: data.fileName == '' ? 2 : 0),
+                                  borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                ),
+                                child: data.fileName == ''
+                                    ? Icon(Icons.camera_alt, size: 80, color: kBlue.withValues(alpha: 0.8),)
+                                    : ClipRRect(
+                                    clipBehavior: Clip.hardEdge,
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    child: Image.file(File(data.file!.path), fit: BoxFit.cover,)),
+                              ),
                             ),
-                            child: data.image(),
-                          ),
+                            Expanded(child: Text('addPhotoDescription'.tr(), style: kTextStyle))
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: ParentButtonWidget(
-                              onTap: () => data.isEdit
-                                  ? data.editSingleTaskInBase(context, data.editDocId)
-                                  : data.addSingleTaskToBase(context),
-                              text: data.isEdit ? 'edit' : 'add'
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: ParentButtonWidget(
+                            onTap: () => data.isEdit
+                                ? data.editSingleTaskInBase(context, data.editDocId)
+                                : data.addSingleTaskToBase(context),
+                            text: data.isEdit ? 'edit' : 'add'
                         ),
-                        SizedBox(
-                          height: 10,
-                          child: StreamBuilder<List<Map<String, dynamic>>>(
-                            stream: Supabase.instance.client
-                                .from('wishes')
-                                .stream(primaryKey: ['id']),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                final wishes = snapshot.data!;
-                                data.wishList.clear();
-                                for (var wish in wishes) {
-                                  for (int w = 0; w < 10; w++) {
-                                    String parentKey = 'parent${w}Name';
-                                    if (wish.containsKey(parentKey) && wish[parentKey] != null) {
-                                      if (wish[parentKey].toString().toLowerCase() == data.email?.toLowerCase() &&
-                                          wish['kidName'] == data.selectedKidName) {
-                                        data.wishList[wish['wish'].toString()] = wish['imageUrl'].toString();
-                                        break;
-                                      }
+                      ),
+                      SizedBox(
+                        height: 10,
+                        child: StreamBuilder<List<Map<String, dynamic>>>(
+                          stream: Supabase.instance.client
+                              .from('wishes')
+                              .stream(primaryKey: ['id']),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final wishes = snapshot.data!;
+                              data.wishList.clear();
+                              for (var wish in wishes) {
+                                for (int w = 0; w < 10; w++) {
+                                  String parentKey = 'parent${w}Name';
+                                  if (wish.containsKey(parentKey) && wish[parentKey] != null) {
+                                    if (wish[parentKey].toString().toLowerCase() == data.email?.toLowerCase() &&
+                                        wish['kidName'] == data.selectedKidName) {
+                                      data.wishList[wish['wish'].toString()] = wish['imageUrl'].toString();
+                                      break;
                                     }
                                   }
                                 }
-                                return const SizedBox.shrink();
-                              } else {
-                                return const Center(child: SpinKitSpinningLines(
-                                  color: kBlue,
-                                  size: 40,
-                                ),);
                               }
-                            },
-                          ),
+                              return const SizedBox.shrink();
+                            } else {
+                              return const Center(child: SpinKitSpinningLines(
+                                color: kBlue,
+                                size: 40,
+                              ),);
+                            }
+                          },
                         ),
-                        SizedBox(
-                          height: MediaQuery.viewInsetsOf(context).bottom == 0
-                              ? size.height * 0.05 : size.height * 0.4,),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.viewInsetsOf(context).bottom == 0
+                            ? size.height * 0.01 : size.height * 0.4,),
+                    ],
                   ),
                 ),
                 data.isLoading
