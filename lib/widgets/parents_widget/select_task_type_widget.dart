@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
@@ -5,8 +6,10 @@ import '../../constants.dart';
 
 class SelectTaskTypeWidget extends StatelessWidget {
   const SelectTaskTypeWidget({
-    super.key,
+    super.key, required this.width,
   });
+
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +18,34 @@ class SelectTaskTypeWidget extends StatelessWidget {
           return GestureDetector(
             onTap: () => selectType(context, data),
             child: Container(
-              width: 100,
-              height: 50,
-              decoration: BoxDecoration(
-                color: kDarkGrey,
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
-              ),
-              child: Center(child: Text(data.selectedTypeStatus)),
+              width: width,
+                padding: const EdgeInsets.fromLTRB(12, 2, 4, 2),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    border: Border.all(width: 0.8, color: kBlue),
+                    color: kWhite,
+                    boxShadow: [
+                      BoxShadow(
+                          color: kBlue.withValues(alpha: 0.3),
+                          blurRadius: 4,
+                          spreadRadius: 1,
+                          offset: const Offset(0, 2)
+                      )
+                    ]
+                ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('taskType'.tr(), style: kTextStyle,),
+                          Text(data.selectedTypeStatus, style: kBigTextStyle,),
+                        ],
+                      ),
+                      Icon(Icons.arrow_drop_down, color: kBlue)
+                    ],
+                  ),
             ),
           );
         }
@@ -43,9 +67,18 @@ class SelectTaskTypeWidget extends StatelessWidget {
                     width: size.width,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     margin: EdgeInsets.fromLTRB(12, 0, 12, size.height * 0.2),
-                    decoration: const BoxDecoration(
-                      color: kGrey,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(width: 0.8, color: kBlue),
+                        color: kWhite,
+                        boxShadow: [
+                          BoxShadow(
+                              color: kBlue.withValues(alpha: 0.3),
+                              blurRadius: 4,
+                              spreadRadius: 1,
+                              offset: const Offset(0, 2)
+                          )
+                        ]
                     ),
                     child: Column(
                       spacing: 12,
@@ -61,19 +94,27 @@ class SelectTaskTypeWidget extends StatelessWidget {
                           spacing: 12,
                           children: List.generate(data.taskTypes.length, (index){
                             return GestureDetector(
-                              onTap: () => setState(() => data.changeTypeStatus(data.taskTypes.keys.elementAt(index))),
+                              onTap: (){
+                                setState(() => data.changeTypeStatus(data.taskTypes.keys.elementAt(index)));
+                                Navigator.pop(context);
+                              },
                               child: Container(
-                                width: 200,
+                                width: size.width,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                    color: kDarkGrey,
-                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                    border: Border.all(
-                                        width: 2,
-                                        color: data.selectedTypeStatus == data.taskTypes.keys.elementAt(index)
-                                            ? kBlue : kDarkGrey)
+                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                    border: Border.all(width: 0.8, color: kBlue),
+                                    color: kWhite,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kBlue.withValues(alpha: 0.3),
+                                          blurRadius: 4,
+                                          spreadRadius: 1,
+                                          offset: const Offset(0, 2)
+                                      )
+                                    ]
                                 ),
-                                child: Center(child: Text(data.taskTypes.keys.elementAt(index))),
+                                child: Center(child: Text(data.taskTypes.keys.elementAt(index), style: kTextStyle,)),
                               ),
                             );
                           }),

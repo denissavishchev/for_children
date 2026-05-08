@@ -84,7 +84,7 @@
   "waitingForPrice": "Waiting for {} accept the price.\nIn the meantime, you can do something else and come back later.",
   "waitingForDone": "Waiting for {} done the task",
   "waitingForPay": "Waiting for {} for rate and payment\nIn the meantime, you can do something else or check other tasks",
-  "taskType": "Type: ",
+  "taskType": "Task type: ",
   "daysLeft": "Only days left {}\nThis is the home stretch. Keep doing your best in every task, just like you have been. Give it your all – victory is just around the corner!",
   "multiTask": "Daily task \uD83D\uDDD3\uFE0F",
   "multiTaskDescription": "Allows you to create tasks repeated daily (e.g. brushing teeth, cleaning, homework).\nThis way the child sees that the task returns every day, and the parent can easily check if it has been completed.",
@@ -322,5 +322,7 @@
   "parentInProgressStatusDescription": "💡 Quick tip: If the task is taking longer than expected, you can send a gentle reminder or ask if they need any help.\n🤝 Patience pays off: Give your child space to be independent – the satisfaction from a job well done will be even greater!",
   "payForIt": "Time to settle up! \uD83D\uDCB3\nThe task has been reviewed, so now it’s time for the best part – giving the reward.\n\n\uD83D\uDCCC Why does it matter? Paying on time builds trust and teaches your child that honest work always leads to the promised result.\n\n\uD83D\uDE80 Motivation: By settling up promptly, you show respect for your child's effort. This encourages them to take on next challenges with even more enthusiasm!",
   "taskCompletedParentDescription": "Mission accomplished! \uD83D\uDE80 The task is settled and closed. ✅\nYou can breathe a sigh of relief – your role as a mentor is complete. ☕ Great job! You’ve earned a moment of rest before the next joint liftoff! ✨",
-  "addToHistoryDescription": "Add this achievement to history! \uD83D\uDCDC\nIt’s worth keeping this success for the record.\n\n\uD83D\uDCC8 Track progress: Build a success story for your child to see how much they’ve grown.\n\n\uD83D\uDCF8 Memories: Every closed task is a small step towards great habits."
+  "addToHistoryDescription": "Add this achievement to history! \uD83D\uDCDC\nIt’s worth keeping this success for the record.\n\n\uD83D\uDCC8 Track progress: Build a success story for your child to see how much they’ve grown.\n\n\uD83D\uDCF8 Memories: Every closed task is a small step towards great habits.",
+  "taskTypeDescription": "Selecting the task type will later show which types of activities your child enjoys more and what motivates them the most.",
+  "taskExpDescription": "Earning points for tasks builds a sense of progress. It allows the child to see their skill level \"level up,\" turning everyday chores into an engaging game."
 }

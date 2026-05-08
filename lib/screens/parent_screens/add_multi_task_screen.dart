@@ -118,7 +118,7 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    SelectTaskTypeWidget(),
+                                    SelectTaskTypeWidget(width: 200,),
                                     ExpWidget(count: 5,)
                                   ],
                                 ),

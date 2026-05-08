@@ -135,11 +135,24 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                     },
                                   )
                               ),
-                              Row(
+                              Column(
+                                spacing: 8,
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  SelectTaskTypeWidget(),
-                                  ExpWidget(count: 3,)
+                                  Row(
+                                    spacing: 8,
+                                    children: [
+                                      SelectTaskTypeWidget(width: 120,),
+                                      Expanded(child: Text('taskTypeDescription'.tr(), style: kSmallTextStyle))
+                                    ],
+                                  ),
+                                  Row(
+                                    spacing: 8,
+                                    children: [
+                                      ExpWidget(count: 3,),
+                                      Expanded(child: Text('taskExpDescription'.tr(), style: kSmallTextStyle))
+                                    ],
+                                  )
                                 ],
                               ),
                               TextFormField(

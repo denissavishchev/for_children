@@ -84,7 +84,7 @@
   "waitingForPrice": "Czekamy póki {} zaakceptuje cene\nW tym czasie możesz zrobić coś innego i wrócić później",
   "waitingForDone": "Waiting for {} kończy zadanie",
   "waitingForPay": "Waiting for {} oceni pracę i zapłaci\nW międzyczasie możesz zrobić coś innego lub sprawdzić inne zadania",
-  "taskType": "Typ: ",
+  "taskType": "Typ zadania:",
   "daysLeft": "Pozostało tylko {} dni.\nTo już naprawdę niedużo! Rób zadania starannie i z uśmiechem – wierzę, że dasz radę utrzymać świetną formę do samego końca!",
   "multiTask": "Zadanie codzienne \uD83D\uDDD3\uFE0F",
   "multiTaskDescription": "Pozwala tworzyć zadania powtarzane codziennie (np. mycie zębów, sprzątanie, lekcje).\nDzięki temu dziecko widzi, że zadanie wraca każdego dnia, a rodzic może łatwo sprawdzić, czy zostało wykonane",
@@ -322,6 +322,8 @@
   "parentInProgressStatusDescription": "\uD83D\uDCA1 Mała wskazówka: Jeśli zadanie zajmuje więcej czasu, możesz wysłać krótkie przypomnienie lub zapytać, czy potrzebna jest pomoc.\n\uD83E\uDD1D Cierpliwość popłaca: Daj dziecku przestrzeń do samodzielności – satysfakcja z dobrze wykonanej pracy będzie wtedy jeszcze większa!",
   "payForIt": "Czas na rozliczenie! \uD83D\uDCB3\nZadanie zostało ocenione, więc teraz pora na najprzyjemniejszą część – przekazanie nagrody.\n\n\uD83D\uDCCC Dlaczego to ważne? Dotrzymywanie terminów buduje zaufanie i uczy dziecko, że rzetelna praca zawsze kończy się obiecanym rezultatem.\n\n\uD83D\uDE80 Motywacja: Płacąc na czas, pokazujesz, że szanujesz wysiłek dziecka. To sprawia, że z jeszcze większym zapałem podejmie się kolejnych wyzwań!",
   "taskCompletedParentDescription": "Misja wykonana! \uD83D\uDE80 Zadanie jest rozliczone i domknięte. ✅\nMożesz odetchnąć z ulgą – Twoja rola jako mentora dobiegła końca. ☕ Dobra robota! Zasłużyłeś na chwilę przerwy przed kolejnym wspólnym startem! ✨",
-  "addToHistoryDescription": "Zapisz to osiągnięcie w historii! \uD83D\uDCDC\nWarto zachować ten sukces na później.\n\n\uD83D\uDCC8 Śledź postępy: Buduj historię sukcesów swojego dziecka, aby widzieć, jak się rozwija.\n\n\uD83D\uDCF8 Wspomnienia: Każde domknięte zadanie to mały krok w stronę wielkich nawyków."
+  "addToHistoryDescription": "Zapisz to osiągnięcie w historii! \uD83D\uDCDC\nWarto zachować ten sukces na później.\n\n\uD83D\uDCC8 Śledź postępy: Buduj historię sukcesów swojego dziecka, aby widzieć, jak się rozwija.\n\n\uD83D\uDCF8 Wspomnienia: Każde domknięte zadanie to mały krok w stronę wielkich nawyków.",
+  "taskTypeDescription": "Wybrany rodzaj zadania pozwoli później określić, jakie aktywności Twoje dziecko lubi najbardziej i co sprawia mu największą frajdę.",
+  "taskExpDescription": "Zdobywanie punktów za zadania buduje w dziecku poczucie postępu. Dzięki temu widzi, jak „rośnie” jego poziom umiejętności, co zamienia zwykłe obowiązki w wciągającą grę."
 
 }
