@@ -121,12 +121,12 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                               ),
                                             )
                                                 : Container(
-                                              width: size.width * 0.4,
-                                              margin: const EdgeInsets.all(2),
-                                              decoration: BoxDecoration(
-                                                color: kDarkGrey.withValues(alpha: 0.3),
-                                                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                              ),
+                                                    width: size.width * 0.4,
+                                                    margin: const EdgeInsets.all(2),
+                                                    decoration: BoxDecoration(
+                                                      color: kDarkGrey.withValues(alpha: 0.3),
+                                                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                    ),
                                               child: Center(
                                                   child: Text('notConfirmed'.tr(args: [data.kidsList[index].name]), style: kTextStyleGrey,)),
                                             );

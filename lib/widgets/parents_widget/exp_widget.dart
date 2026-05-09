@@ -5,16 +5,21 @@ import '../../providers/parent_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ExpWidget extends StatelessWidget {
-  const ExpWidget({super.key, required this.count});
+  const ExpWidget({
+    super.key,
+    required this.count,
+    this.isSingle = true,
+  });
 
   final double count;
+  final bool isSingle;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return Container(
-            width: 40 * count,
+            width: (isSingle ? 40 : 35) * count,
             height: 50,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
