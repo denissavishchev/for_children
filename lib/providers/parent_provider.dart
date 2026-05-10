@@ -14,6 +14,7 @@ import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:for_children/widgets/parents_widget/day_duration_scroll_widget.dart';
 import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
+import 'package:for_children/widgets/parents_widget/parent_button_widget.dart';
 import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
@@ -1467,11 +1468,12 @@ class ParentProvider with ChangeNotifier {
         backgroundColor: Colors.transparent,
         builder: (context) {
           return Container(
-              height: size.height * 0.35,
+              height: size.height * 0.55,
               width: size.width,
-              margin: const EdgeInsets.only(bottom: 300),
+              margin: const EdgeInsets.only(bottom: 200),
+              padding: const EdgeInsets.all(12),
               decoration: const BoxDecoration(
-                color: kGrey,
+                color: kWhite,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Column(
@@ -1480,34 +1482,61 @@ class ParentProvider with ChangeNotifier {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.clear), color: kBlue,),
+                      Text('setDayDurationFor'.tr(args: [name]), style: kBigTextStyle,),
+                      ParentRoundButton(
+                          onTap: () => Navigator.of(context).pop(),
+                          icon: Icons.close
+                      ),
                     ],
                   ),
-                  Center(child: Text('setDayDurationFor'.tr(args: [name]), style: kTextStyle,)),
-                  SizedBox(
+                  Text('setDayDurationDescription'.tr(), style: kTextStyle,),
+                  Container(
                     height: size.height * 0.2,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    decoration: BoxDecoration(
+                        color: kWhite,
+                        border: Border.all(color: kBlue, width: 0.5),
+                        borderRadius: const BorderRadius.all(Radius.circular(8)
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                              color: kBlue.withValues(alpha: 0.2),
+                              blurRadius: 3,
+                              spreadRadius: 1,
+                              offset: const Offset(1, 2)
+                          )
+                        ]
+                    ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        DayDurationScrollWidget(controller: _startHourController, timeValue: 'sh', from: 4, to: 10,),
-                        Text(':', style: kTextStyle),
-                        DayDurationScrollWidget(controller: _startMinController, timeValue: 'sm', from: 0, to: 59,),
-                        Text('-', style: kTextStyle),
-                        DayDurationScrollWidget(controller: _endHourController, timeValue: 'eh', from: 18, to: 23,),
-                        Text(':', style: kTextStyle),
-                        DayDurationScrollWidget(controller: _endMinController, timeValue: 'em', from: 0, to: 59,)
+                        Row(
+                          spacing: 2,
+                          children: [
+                            Text('from'.tr(), style: kTextStyle),
+                            DayDurationScrollWidget(controller: _startHourController, timeValue: 'sh', from: 4, to: 10,),
+                            Text(':', style: kTextStyle),
+                            DayDurationScrollWidget(controller: _startMinController, timeValue: 'sm', from: 0, to: 59,),
+                          ],
+                        ),
+                        Row(
+                          spacing: 2,
+                          children: [
+                            Text('to'.tr(), style: kTextStyle),
+                            DayDurationScrollWidget(controller: _endHourController, timeValue: 'eh', from: 18, to: 23,),
+                            Text(':', style: kTextStyle),
+                            DayDurationScrollWidget(controller: _endMinController, timeValue: 'em', from: 0, to: 59,)
+                          ],
+                        )
                       ],
                     ),
                   ),
-                  TextButton(
-                      onPressed: () {
+                  ParentButtonWidget(
+                      onTap: (){
                         updateDayDuration(email);
                         Navigator.of(context).pop();
                       },
-                      child: Text('ok'.tr(), style: kTextStyle,)
+                      text: 'confirm'
                   )
                 ],
               )

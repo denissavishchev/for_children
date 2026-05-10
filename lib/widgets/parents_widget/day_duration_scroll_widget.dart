@@ -22,31 +22,44 @@ class DayDurationScrollWidget extends StatelessWidget {
     return Consumer<ParentProvider>(
         builder: (context, data, _){
           return SizedBox(
-            width: 30,
-            child: ScrollConfiguration(
-              behavior: const ScrollBehavior().copyWith(overscroll: false),
-              child: ListWheelScrollView.useDelegate(
-                controller: controller,
-                itemExtent: 60,
-                perspective: 0.005,
-                diameterRatio: 2.5,
-                onSelectedItemChanged: (value) => data.changeTimeValue(value + from, timeValue),
-                physics: const FixedExtentScrollPhysics(),
-                childDelegate: ListWheelChildBuilderDelegate(
-                    childCount: to - from + 1,
-                    builder: (context, index) {
-                      final t = from + index;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Center(
-                          child: Text(
-                              t < 10 ? '0$t' : t.toString(),
-                              style: kTextStyle),
-                        ),
-                      );
-                    }
+            width: 40,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: 34,
+                  width: 36,
+                  decoration: BoxDecoration(
+                    color: kBlue.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-              ),
+                ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(overscroll: false),
+                  child: ListWheelScrollView.useDelegate(
+                    controller: controller,
+                    itemExtent: 60,
+                    perspective: 0.005,
+                    diameterRatio: 2.5,
+                    onSelectedItemChanged: (value) => data.changeTimeValue(value + from, timeValue),
+                    physics: const FixedExtentScrollPhysics(),
+                    childDelegate: ListWheelChildBuilderDelegate(
+                        childCount: to - from + 1,
+                        builder: (context, index) {
+                          final t = from + index;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            child: Center(
+                              child: Text(
+                                  t < 10 ? '0$t' : t.toString(),
+                                  style: kTextStyle),
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         }

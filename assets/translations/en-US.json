@@ -331,5 +331,9 @@
   "daysSliderDescription": "Find the right balance! ⚖\uFE0F\nMatch the days to the task's difficulty while focusing on consistency. Short deadlines frustrate, while long ones lose focus. Build habits through a sweet spot, turning regularity into your child's natural routine. \uD83C\uDF31",
   "notAccepted": "not accepted",
   "dayDurationTime": "Day duration time:",
-  "yourKidsDescription": "Child added! New features coming soon ⏳\nNow, please wait for your child to accept the invitation and confirm that you are their parent. Once they do, you'll get full access: you can start adding tasks, adjusting the day duration, and making dreams come true together! \uD83D\uDC4B"
+  "yourKidsDescription": "Child added! New features coming soon ⏳\nNow, please wait for your child to accept the invitation and confirm that you are their parent. Once they do, you'll get full access: you can start adding tasks, adjusting the day duration, and making dreams come true together! \uD83D\uDC4B",
+  "confirm": "Confirm",
+  "setDayDurationDescription": "Daily rhythm is the key to stability ⏰\nA consistent routine provides security and better rest. Be a guide, not just a judge, in building these habits. Use our charts to track your child's progress in morning and evening discipline. It’s a simple way to build life-long healthy routines! \uD83D\uDCCA",
+  "from": "from: ",
+  "to": "to: "
 }
