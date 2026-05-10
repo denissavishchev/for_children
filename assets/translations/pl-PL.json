@@ -335,5 +335,7 @@
   "confirm": "Zatwierdź",
   "setDayDurationDescription": "Rytm dnia to fundament spokoju ⏰\nStały plan daje dziecku poczucie bezpieczeństwa i lepszą regenerację. Zamiast tylko wymagać, wspieraj je w budowaniu nawyków. Dzięki wykresom w aplikacji sprawdzisz, jak rośnie dyscyplina Twojej pociechy przy wstawaniu i zasypianiu. To zdrowe nawyki, które zostaną na lata! \uD83D\uDCCA",
   "from": "od: ",
-  "to": "do: "
+  "to": "do: ",
+  "searchingEmail": "Przeszukiwanie e-maila: {}",
+  "searchingEmailDescription": "Będziesz widzieć to dziecko na swojej liście, a po zatwierdzeniu przez nie zaproszenia, będziesz mógł przydzielać mu zadania oraz śledzić jego postępy."
 }

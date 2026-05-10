@@ -394,6 +394,7 @@ class ParentProvider with ChangeNotifier {
     kidsList = temporaryList;
     notifyListeners();
   }
+
   Future showKidSearchInfo(context, String name, String surname, String email) {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
@@ -405,24 +406,32 @@ class ParentProvider with ChangeNotifier {
               height: size.height * 0.3,
               width: size.width,
               margin: const EdgeInsets.only(bottom: 300),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: const BoxDecoration(
-                color: kGrey,
+                color: kWhite,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.clear), color: kBlue,),
+                      Text('searchingEmail'.tr(args: [email]), style: kTextStyle,),
+                      ParentRoundButton(
+                        onTap: () => Navigator.of(context).pop(),
+                        icon: Icons.clear),
                     ],
                   ),
-                  Text('addKidSure'.tr(args: ['$name $surname']), style: kTextStyle,),
-                  Text('email: $email', style: kTextStyle,),
-                  KidButtonWidget(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 8,
+                    children: [
+                      Text('addKidSure'.tr(args: ['$name $surname']), style: kTextStyle,),
+                      Text('searchingEmailDescription'.tr(), style: kTextStyle,),
+                    ],
+                  ),
+                  ParentButtonWidget(
                       onTap: () => addKidToParent(context),
                       text: 'add')
                 ],

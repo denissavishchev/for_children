@@ -335,5 +335,7 @@
   "confirm": "Confirm",
   "setDayDurationDescription": "Daily rhythm is the key to stability ⏰\nA consistent routine provides security and better rest. Be a guide, not just a judge, in building these habits. Use our charts to track your child's progress in morning and evening discipline. It’s a simple way to build life-long healthy routines! \uD83D\uDCCA",
   "from": "from: ",
-  "to": "to: "
+  "to": "to: ",
+  "searchingEmail": "Searching email: {}",
+  "searchingEmailDescription": "You will see the child on your list, and once they accept the invitation, you will be able to assign them tasks and track their progress."
 }

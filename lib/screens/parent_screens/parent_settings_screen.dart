@@ -258,7 +258,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                             const SizedBox(height: 18,),
                             Container(
                               margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+                              padding: const EdgeInsets.fromLTRB(6, 6, 0, 6),
                               decoration: BoxDecoration(
                                   color: kWhite,
                                   border: Border.all(color: kBlue, width: 0.5),
@@ -297,9 +297,9 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: IconButton(
-                                        onPressed: () => data.kidSearch(context),
-                                        icon: const Icon(Icons.search, size: 44,))
+                                    child: GestureDetector(
+                                      onTap: () => data.kidSearch(context),
+                                        child: Icon(Icons.search, size: 44, color: kBlue,))
                                   )
                                 ],
                               ),
