@@ -15,26 +15,29 @@ class ParentButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return Container(
-      width: size.width,
-      height: 50,
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.all(width: 0.8, color: kBlue),
-          color: kWhite,
-          boxShadow: [
-            BoxShadow(
-                color: kBlue.withValues(alpha: 0.3),
-                blurRadius: 4,
-                spreadRadius: 1,
-                offset: const Offset(0, 2)
-            )
-          ]
-      ),
-      child: Center(
-        child: Text(text.tr(),
-          style: kBigTextStyle,
-          textAlign: TextAlign.center,),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: size.width,
+        height: 50,
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            border: Border.all(width: 0.8, color: kBlue),
+            color: kWhite,
+            boxShadow: [
+              BoxShadow(
+                  color: kBlue.withValues(alpha: 0.3),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                  offset: const Offset(0, 2)
+              )
+            ]
+        ),
+        child: Center(
+          child: Text(text.tr(),
+            style: kBigTextStyle,
+            textAlign: TextAlign.center,),
+        ),
       ),
     );
   }

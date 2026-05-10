@@ -55,6 +55,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
+                    height: size.height * 0.82 - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
                     padding: const EdgeInsets.only(top: 12),
                     decoration: BoxDecoration(
                       color: kWhite,
@@ -68,7 +69,6 @@ class _MainKidScreenState extends State<MainKidScreen> {
                         ),
                       ],
                     ),
-                    height: size.height * 0.82 - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
                     child: Column(
                       spacing: 12,
                       children: [
