@@ -339,7 +339,6 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void> getKids() async {
-    kidsList.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? parentEmail = prefs.getString('email')?.toLowerCase();
 
@@ -352,40 +351,48 @@ class ParentProvider with ChangeNotifier {
         .maybeSingle();
 
     if (doc == null) return;
+
+    List<KidModel> temporaryList = [];
+
     for (int k = 0; k < 6; k++) {
-      String? kidEmail = doc['kid$k']?.toLowerCase();
+      String? kidEmail = doc['kid$k']?.toString().toLowerCase();
       if (kidEmail == null || kidEmail.isEmpty) continue;
+
       final Map<String, dynamic>? docEmail = await Supabase.instance.client
           .from('users')
           .select('*')
           .eq('email', kidEmail)
           .maybeSingle();
+
       if (docEmail == null) continue;
+
       bool isAcceptedByChild = false;
       for (int i = 0; i < 6; i++) {
-        if (docEmail['kid$i']?.toLowerCase() == parentEmail) {
+        if (docEmail['kid$i']?.toString().toLowerCase() == parentEmail) {
           if (docEmail['kid${i}Accept'] == true) {
             isAcceptedByChild = true;
           }
           break;
         }
       }
-        final kid = KidModel(
-            name: docEmail['name'] ?? '',
-            email: kidEmail,
-            accept: isAcceptedByChild,
-            startDay: docEmail['dayStart'] ?? '',
-            endDay: docEmail['dayEnd'] ?? '',
-            adTitle: docEmail['adTitle'] ?? '',
-            adDescription: docEmail['adDescription'] ?? '',
-            adImageUrl: docEmail['adImageUrl'] ?? '',
-            adEndTime: docEmail['adEndTime'] ?? ''
-        );
-        kidsList.add(kid);
+
+      final kid = KidModel(
+          name: docEmail['name'] ?? '',
+          email: kidEmail,
+          accept: isAcceptedByChild,
+          startDay: docEmail['dayStart'] ?? '',
+          endDay: docEmail['dayEnd'] ?? '',
+          adTitle: docEmail['adTitle'] ?? '',
+          adDescription: docEmail['adDescription'] ?? '',
+          adImageUrl: docEmail['adImageUrl'] ?? '',
+          adEndTime: docEmail['adEndTime'] ?? ''
+      );
+
+      temporaryList.add(kid);
     }
+    kidsList = temporaryList;
     notifyListeners();
   }
-
   Future showKidSearchInfo(context, String name, String surname, String email) {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
