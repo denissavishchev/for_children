@@ -158,6 +158,7 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                   ]
                               ),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 spacing: 8,
                                 children: [
                                   Row(
@@ -167,6 +168,8 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                       Text('yourParents'.tr(), style: kBigTextStyle,),
                                     ],
                                   ),
+                                  Text('yourParentsDescription'.tr(), style: kTextStyle,),
+                                  const Divider(),
                                   SizedBox(
                                     height: 32.0 * data.parentsList.length,
                                     child: FutureBuilder(

@@ -5,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:for_children/screens/parent_screens/main_parent_screen.dart';
 import '../../widgets/parents_widget/exp_widget.dart';
 import '../../widgets/parents_widget/parent_button_widget.dart';
 import '../../widgets/parents_widget/parent_round_button.dart';
@@ -51,9 +50,7 @@ class _AddMultiTaskScreenState extends State<AddMultiTaskScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 ParentRoundButton(
-                                    onTap: () => Navigator.pushReplacement(context,
-                                        MaterialPageRoute(builder: (context) =>
-                                        const MainParentScreen())),
+                                    onTap: () => data.showExitAddTaskDialog(context),
                                     icon: Icons.arrow_back_ios_new
                                 ),
                                 Expanded(child: Text('addTaskInfo'.tr(), style: kTextStyle,))

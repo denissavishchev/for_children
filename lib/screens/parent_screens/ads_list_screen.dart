@@ -41,6 +41,29 @@ class _AdsListScreenState extends State<AdsListScreen> {
                     child: Column(
                       spacing: 18,
                       children: [
+                        Text('adsListTitle'.tr(), style: kBigTextStyle, textAlign: TextAlign.center),
+                        Container(
+                          width: size.width,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                              color: kWhite,
+                              border: Border.all(color: kBlue, width: 0.5),
+                              borderRadius: const BorderRadius.all(Radius.circular(8)
+                              ),
+                          ),
+                          child: Text('whyNeedAdDescription'.tr(), style: kTextStyle),
+                        ),
+                        Container(
+                          width: size.width,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: kWhite,
+                            border: Border.all(color: kBlue, width: 0.5),
+                            borderRadius: const BorderRadius.all(Radius.circular(8)
+                            ),
+                          ),
+                          child: Text('adDurationDescription'.tr(), style: kTextStyle),
+                        ),
                         FutureBuilder(
                           future: data.getKid,
                           builder: (context, snapshot){
@@ -58,17 +81,16 @@ class _AdsListScreenState extends State<AdsListScreen> {
                                       ? Container(
                                       margin: const EdgeInsets.only(bottom: 12),
                                       decoration: BoxDecoration(
-                                          color: kDarkWhite,
-                                          borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                          border: Border.all(
-                                              width: 2,
-                                              color: kDarkGrey),
+                                          color: kWhite,
+                                          border: Border.all(color: kBlue, width: 0.5),
+                                          borderRadius: const BorderRadius.all(Radius.circular(8)
+                                          ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: kGrey.withValues(alpha: 0.4),
-                                              spreadRadius: 1.5,
-                                              blurRadius: 3,
-                                              offset: const Offset(0, 2),
+                                                color: kBlue.withValues(alpha: 0.2),
+                                                blurRadius: 6,
+                                                spreadRadius: 1,
+                                                offset: const Offset(2, 4)
                                             )
                                           ]
                                       ),
@@ -190,7 +212,9 @@ class _AdsListScreenState extends State<AdsListScreen> {
                                               Text(data.kidsList[index].name,
                                                 style: kTextStyle,),
                                               Text('noAdAdded'.tr(), style: kTextStyle),
-                                              Icon(Icons.auto_awesome, color: kOrange,)
+                                              Icon(Icons.auto_awesome, color: kOrange,),
+                                              const Spacer(),
+                                              Text('clickToAdd'.tr(), style: kTextStyle),
                                             ],
                                           ),
                                         ),

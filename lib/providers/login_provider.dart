@@ -51,14 +51,14 @@ class LoginProvider with ChangeNotifier {
   Future logIn() async{
     try{
       await Supabase.instance.client.auth.signInWithPassword(
-          email: emailController.text.trim(),
+          email: emailController.text.trim().toLowerCase(),
           password: passwordController.text.trim()
       );
     }catch (e){
       sadToast('noUser');
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('email', emailController.text.trim());
+    prefs.setString('email', emailController.text.trim().toLowerCase());
   }
 
   Future logOut(context) async{
@@ -96,7 +96,7 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
     try {
       await Supabase.instance.client.auth.signUp(
-        email: emailController.text.trim(),
+        email: emailController.text.trim().toLowerCase(),
         password: passwordController.text.trim(),
       );
       await Supabase.instance.client.from('users').insert({
@@ -119,7 +119,7 @@ class LoginProvider with ChangeNotifier {
         'time': DateTime.now().toString(),
         'dayStart': '06:00:00',
         'dayEnd': '22:00:00',
-        'email': emailController.text.trim()
+        'email': emailController.text.trim().toLowerCase()
       });
       successSighUp(context);
     }catch(e){

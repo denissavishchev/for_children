@@ -1937,5 +1937,46 @@ class ParentProvider with ChangeNotifier {
         });
   }
 
+  Future showExitAddTaskDialog(context) {
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+              height: size.height * 0.25,
+              width: size.width,
+              margin: const EdgeInsets.only(bottom: 300),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: const BoxDecoration(
+                color: kWhite,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(width: 32,),
+                      Text('areYouSure'.tr(), style: kBigTextStyle,),
+                      ParentRoundButton(
+                          onTap: () => Navigator.of(context).pop(),
+                          icon: Icons.clear),
+                    ],
+                  ),
+                  Text('addTaskExitDescription'.tr(), style: kTextStyle,),
+                  ParentButtonWidget(
+                      onTap: () => Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) =>
+                          const MainParentScreen())),
+                      text: 'yesExit')
+                ],
+              )
+          );
+        });
+  }
+
 
 }

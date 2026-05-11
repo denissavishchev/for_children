@@ -337,5 +337,20 @@
   "from": "od: ",
   "to": "do: ",
   "searchingEmail": "Przeszukiwanie e-maila: {}",
-  "searchingEmailDescription": "Będziesz widzieć to dziecko na swojej liście, a po zatwierdzeniu przez nie zaproszenia, będziesz mógł przydzielać mu zadania oraz śledzić jego postępy."
+  "searchingEmailDescription": "Będziesz widzieć to dziecko na swojej liście, a po zatwierdzeniu przez nie zaproszenia, będziesz mógł przydzielać mu zadania oraz śledzić jego postępy.",
+  "clickToAdd": "Kliknij, aby dodać",
+  "whyNeedAdDescription": "\"Codziennie widzimy setki reklam, na które nie mamy wpływu... a co gdybyś to TY decydował, co widzi Twoje dziecko? \uD83D\uDE0A Zainspiruj je! Wyślij mu 'reklamę' gry na gitarze \uD83C\uDFB8 lub zdrowego stylu życia \uD83E\uDD57. Gdy dziecko doda to do swojej listy marzeń ✅ – gratulacje! Właśnie zaszczepiłeś w nim nową, wartościową pasję! \uD83C\uDF1F",
+  "adsListTitle": "Twoje dziecko, Twoje wartości – zostań „Dyrektorem Kreatywnym” w świecie swojego dziecka! \uD83C\uDFA8",
+  "adDurationDescription": "Reklamy są dodawane na określony czas i znikają po jego upływie ⏱️. Możesz jednak podmienić trwającą reklamę na nową w dowolnym momencie! 🔄",
+  "addTaskExitDescription": "Jeśli wyjdziesz teraz, stracisz wprowadzone dane, a Twoje dziecko nie otrzyma tego wspaniałego zadania do wykonania! Czy na pewno chcesz porzucić edycję?",
+  "yesExit": "Tak, wychodzę",
+  "yourParentsDescription": "Gdy rodzic doda Cię do listy, musisz to zatwierdzić ✅. Dzięki temu rodzic będzie mógł przesyłać Ci zadania, a Ty będziesz mógł dzielić się z nim swoimi marzeniami!",
+  "kidWeeklyAvgDuration": "Tygodniowe czasy trwania dziecka",
+  "parentWeeklyAvgDuration": "Tygodniowe czasy trwania rodzica",
+  "day": "dzień",
+  "week": "Tydzień",
+  "month": "Miesiąc",
+  "parent": "Rodzic: {}",
+  "kid": "Dziecko: {}",
+  "dif": "Różnica: {}"
 }

@@ -337,5 +337,20 @@
   "from": "from: ",
   "to": "to: ",
   "searchingEmail": "Searching email: {}",
-  "searchingEmailDescription": "You will see the child on your list, and once they accept the invitation, you will be able to assign them tasks and track their progress."
+  "searchingEmailDescription": "You will see the child on your list, and once they accept the invitation, you will be able to assign them tasks and track their progress.",
+  "clickToAdd": "Click to add",
+  "whyNeedAdDescription": "Every day we see hundreds of ads that we can't control... but what if YOU decided what your child sees? 😊 Inspire them! Send them an 'ad' for playing the guitar 🎸 or a healthy lifestyle 🥗. When your child adds it to their wishlist ✅ – congratulations! You've just sparked a new, meaningful passion in them! 🌟",
+  "adsListTitle": "Your child, your values – become the 'Creative Director' of your child's world! 🎨",
+  "adDurationDescription": "Ads are set for a specific duration and will disappear once the time is up ⏱️. However, you can swap an active ad for a new one at any time! 🔄",
+  "addTaskExitDescription": "If you leave now, you'll lose the entered data and your child won't receive this wonderful task! Are you sure you want to discard your changes? 😱",
+  "yesExit": "Yes, exit",
+  "yourParentsDescription": "When your parent adds you to their list, you need to confirm it ✅. This way, your parent can assign you tasks, and you can share your wishes with them!",
+  "kidWeeklyAvgDuration": "Kid's weekly average duration",
+  "parentWeeklyAvgDuration": "Parent's weekly average duration",
+  "day": "day",
+  "week": "Week",
+  "month": "Month",
+  "parent": "Parent: {}",
+  "kid": "Kid: {}",
+  "dif": "Difference: {}"
 }
