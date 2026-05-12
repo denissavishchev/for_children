@@ -178,7 +178,6 @@ class SaveMoneyScreen extends StatelessWidget {
                                                           onTap: () => Navigator.pushReplacement(context,
                                                               MaterialPageRoute(builder: (context) =>
                                                                   SingleSaveMoneyScreen(documentId: money[index]['id'].toString(),))),
-                                                          width: 0.4,
                                                           text: 'addSomeMoney'
                                                       )
                                                     ],

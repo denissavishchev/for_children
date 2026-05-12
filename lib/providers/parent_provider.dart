@@ -1749,7 +1749,6 @@ class ParentProvider with ChangeNotifier {
                     child: KidButtonWidget(
                         onTap: () => deleteAd(context, imageUrl),
                         text: 'okIWantToAddNew',
-                        width: 0.55,
                     ),
                   ),
                 ],
