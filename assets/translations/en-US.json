@@ -352,5 +352,7 @@
   "month": "Month",
   "parent": "Parent: {}",
   "kid": "Kid: {}",
-  "dif": "Difference: {}"
+  "dif": "Difference: {}",
+  "setNewPasswordDescription": "Your identity has been verified. You can now change your password",
+  "passwordUpdatedSuccess": "Password updated success"
 }

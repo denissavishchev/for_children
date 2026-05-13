@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:for_children/widgets/toasts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,11 +10,13 @@ import '../constants.dart';
 import '../screens/login_screens/auth_screen.dart';
 import '../screens/login_screens/login_screen.dart';
 import '../widgets/language.dart';
+import '../widgets/parents_widget/parent_button_widget.dart';
 import 'kid_provider.dart';
 
 class LoginProvider with ChangeNotifier {
 
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+  GlobalKey<FormState> resetPasswordKey = GlobalKey<FormState>();
   GlobalKey<FormState> registerKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
@@ -133,7 +136,7 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future resetPassword(context) {
+  Future resetPassword(context) async {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -171,14 +174,21 @@ class LoginProvider with ChangeNotifier {
                       },
                     ),
                     const SizedBox(height: 36,),
-                    KidButtonWidget(
+                    ParentButtonWidget(
                         onTap: () async{
-                          // try{
-                          //   await FirebaseAuth.instance.sendPasswordResetEmail(
-                          //       email: resetPasswordController.text.trim());
-                          // }on FirebaseAuthException {
-                          //   sadToast('noEmail');
-                          // }
+                          try {
+                            await Supabase.instance.client.auth.resetPasswordForEmail(
+                              resetPasswordController.text.trim(),
+                              redirectTo: 'forkids://reset-hasla',
+                            );
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('link wysłany')),);
+                              Navigator.pop(context);
+                            }
+                          } catch (e) {
+                           log('reset password error: $e');
+                          }
                         },
                         text: 'resetPassword'),
                     const Spacer(),
@@ -187,6 +197,19 @@ class LoginProvider with ChangeNotifier {
               ),
           );
         });
+  }
+
+  Future<bool> updatePassword(String newPassword) async {
+    try {
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+      await Supabase.instance.client.auth.signOut();
+      return true;
+    } catch (e) {
+      log("Error updating password: $e");
+      return false;
+    }
   }
 
   Future<void> successSighUp(context)async {

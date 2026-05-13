@@ -352,5 +352,7 @@
   "month": "Miesiąc",
   "parent": "Rodzic: {}",
   "kid": "Dziecko: {}",
-  "dif": "Różnica: {}"
+  "dif": "Różnica: {}",
+  "setNewPasswordDescription": "Twoja tożsamość została potwierdzona. Możesz teraz zmienić hasło",
+  "passwordUpdatedSuccess": "Hasło zostało pomyślnie zaktualizowane"
 }

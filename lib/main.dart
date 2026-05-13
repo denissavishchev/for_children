@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/providers/kid_provider.dart';
 import 'package:for_children/providers/login_provider.dart';
 import 'package:for_children/screens/login_screens/auth_screen.dart';
+import 'package:for_children/screens/login_screens/reset_password_screen.dart';
 import 'package:for_children/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -52,13 +53,45 @@ void main() async{
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
-                  home: prefs.getString('email') == null
-                    ? const AuthScreen()
-                    : const MainScreen(),
+                  home: AuthWrapper(initialEmail: prefs.getString('email')),
                 ),
               );
             }
         )));
+}
+
+class AuthWrapper extends StatefulWidget {
+  final String? initialEmail;
+  const AuthWrapper({super.key, this.initialEmail});
+
+  @override
+  State<AuthWrapper> createState() => _AuthWrapperState();
+}
+
+class _AuthWrapperState extends State<AuthWrapper> {
+
+  @override
+  void initState() {
+    super.initState();
+    Supabase.instance.client.auth.onAuthStateChange.listen((data) {
+      if (data.event == AuthChangeEvent.passwordRecovery) {
+        if (!mounted) return;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
+                (route) => false,
+          );
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.initialEmail == null ? const AuthScreen() : const MainScreen();
+  }
 }
 
 
