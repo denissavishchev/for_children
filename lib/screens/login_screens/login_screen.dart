@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:for_children/screens/login_screens/select_screen.dart';
-import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../providers/login_provider.dart';
 import '../../widgets/language_widget.dart';
+import '../../widgets/parents_widget/parent_button_widget.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -23,10 +24,10 @@ class LoginScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
+                    spacing: 12,
                     children: [
-                      const SizedBox(height: 10,),
                       const Padding(
-                        padding: EdgeInsets.only(right: 12.0),
+                        padding: EdgeInsets.only(right: 12, top: 8),
                         child: Row(
                           children: [
                             Spacer(),
@@ -34,19 +35,11 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10,),
-                      Row(
-                        children: [
-                          SizedBox(
-                            height: 250,
-                            child: Image.asset('assets/images/login.png'),),
-                          Expanded(child: Text('hello'.tr(),
-                            style: kTextStyle,
-                              textAlign: TextAlign.justify)),
-                          const SizedBox(width: 12,)
-                        ],
-                      ),
-                      const SizedBox(height: 50,),
+                      SizedBox(
+                        height: 200,
+                        child: Image.asset('assets/images/login.png'),),
+                      Text('hello'.tr(), style: kBigTextStyle, textAlign: TextAlign.center,),
+                      const SizedBox(height: 2,),
                       Form(
                         key: data.loginKey,
                         child: Column(
@@ -89,18 +82,19 @@ class LoginScreen extends StatelessWidget {
                                 return null;
                               },
                             ),
-                            SizedBox(height: size.height * 0.15,),
-                            KidButtonWidget(
+                            SizedBox(height: size.height * 0.075,),
+                            ParentButtonWidget(
                                 onTap: () => data.logIn(),
                                 text: 'login'
                             ),
-                            const SizedBox(height: 20,),
+                            const SizedBox(height: 32,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 GestureDetector(
                                     onTap: () => data.resetPassword(context),
-                                    child: Text('forgotPassword'.tr())),
+                                    child: Text('forgotPassword'.tr(),
+                                      style: kTextStyle.copyWith(fontSize: 28.sp),)),
                                 GestureDetector(
                                     onTap: () {
                                       data.emailController.clear();
@@ -109,7 +103,21 @@ class LoginScreen extends StatelessWidget {
                                           MaterialPageRoute(builder: (context) =>
                                           const SelectScreen()));
                                     },
-                                    child: Text('createAccount'.tr())),
+                                    child: Container(
+                                      padding: const EdgeInsets.fromLTRB(12, 6, 8, 6),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(18),),
+                                        border: Border.all(color: kBlue),
+                                      ),
+                                      child: Row(
+                                        spacing: 4,
+                                        children: [
+                                          Text('createAccount'.tr(),
+                                            style: kTextStyle.copyWith(fontSize: 28.sp),),
+                                          Icon(Icons.arrow_forward_ios, color: kBlue, size: 14,)
+                                        ],
+                                      ),
+                                    )),
                               ],
                             ),
                             SizedBox(
