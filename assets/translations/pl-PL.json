@@ -354,5 +354,6 @@
   "kid": "Dziecko: {}",
   "dif": "Różnica: {}",
   "setNewPasswordDescription": "Twoja tożsamość została potwierdzona. Możesz teraz zmienić hasło",
-  "passwordUpdatedSuccess": "Hasło zostało pomyślnie zaktualizowane"
+  "passwordUpdatedSuccess": "Hasło zostało pomyślnie zaktualizowane",
+  "quitRegistrationDescription": "Śmiało, zrób co musisz! Pamiętamy, rejestrację dokończymy przy następnej okazji. Do zobaczenia za chwilę!"
 }

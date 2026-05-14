@@ -354,5 +354,6 @@
   "kid": "Kid: {}",
   "dif": "Difference: {}",
   "setNewPasswordDescription": "Your identity has been verified. You can now change your password",
-  "passwordUpdatedSuccess": "Password updated success"
+  "passwordUpdatedSuccess": "Password updated success",
+  "quitRegistrationDescription": "Go ahead and take care of what you need! We've got you covered, and you can pick up right where you left off next time. See you in a bit!"
 }

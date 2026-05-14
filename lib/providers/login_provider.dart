@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:for_children/widgets/toasts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,16 +83,56 @@ class LoginProvider with ChangeNotifier {
     );
   }
 
-  void toLoginScreen(context){
-    role = '';
-    emailController.clear();
-    passwordController.clear();
-    nameController.clear();
-    surnameController.clear();
-    resetPasswordController.clear();
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) =>
-        const LoginScreen()));
+  Future toLoginScreen(context){
+    Size size = MediaQuery.sizeOf(context);
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return Container(
+            height: size.height * 0.3,
+            width: size.width,
+            margin: const EdgeInsets.only(bottom: 300),
+            decoration: const BoxDecoration(
+              color: kWhite,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(width: 32,),
+                      Text('areYouSure'.tr(), style: kTextStyle,),
+                      ParentRoundButton(
+                          onTap: () => Navigator.pop(context),
+                          icon: Icons.clear
+                      )
+                    ],
+                  ),
+                  Text('quitRegistrationDescription'.tr(), style: kTextStyle,),
+                  ParentButtonWidget(
+                      onTap: () {
+                        role = '';
+                        emailController.clear();
+                        passwordController.clear();
+                        nameController.clear();
+                        surnameController.clear();
+                        resetPasswordController.clear();
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) =>
+                            const LoginScreen()));
+                      },
+                      text: 'yesExit'),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   Future signUp(context) async{

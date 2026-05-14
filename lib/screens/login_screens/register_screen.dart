@@ -25,6 +25,7 @@ class RegisterScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Column(
+                        spacing: 18,
                         children: [
                           SizedBox(
                             height: 250,
@@ -32,7 +33,6 @@ class RegisterScreen extends StatelessWidget {
                                 data.role == 'parent'
                                     ? 'assets/images/registerParent.png'
                                     : 'assets/images/registerKid.png'),),
-                          const SizedBox(height: 20,),
                           Form(
                             key: data.registerKey,
                             child: Column(
@@ -82,7 +82,6 @@ class RegisterScreen extends StatelessWidget {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 18,),
                                 TextFormField(
                                   controller: data.passwordController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -105,7 +104,6 @@ class RegisterScreen extends StatelessWidget {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 18,),
                                 TextFormField(
                                   controller: data.confirmPasswordController,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -128,7 +126,7 @@ class RegisterScreen extends StatelessWidget {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 36,),
+                                const SizedBox(height: 18,),
                                 KidButtonWidget(
                                     onTap: () {
                                       if(data.registerKey.currentState!.validate()){
