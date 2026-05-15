@@ -375,6 +375,7 @@ class ParentProvider with ChangeNotifier {
           }
           break;
         }
+
       }
 
       final kid = KidModel(
@@ -1975,6 +1976,33 @@ class ParentProvider with ChangeNotifier {
               )
           );
         });
+  }
+
+  Future<List<Map<String, dynamic>>> getKidsDurationsForToday(List<String> kidsEmails) async {
+    if (kidsEmails.isEmpty) return [];
+    String todayDateStr = DateFormat('dd.MM.yyyy').format(DateTime.now());
+    try {
+      final List<dynamic> response = await Supabase.instance.client
+          .from('daysDuration')
+          .select('*')
+          .inFilter('email', kidsEmails)
+          .eq('day', todayDateStr);
+
+      return List<Map<String, dynamic>>.from(response);
+    } catch (e) {
+      log("Error day durations: $e");
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> loadDashboardData() async {
+    await getKids();
+    if (kidsList.isEmpty) return [];
+
+    List<String> kidsEmails = kidsList
+        .map((kid) => kid.email.toLowerCase())
+        .toList();
+    return await getKidsDurationsForToday(kidsEmails);
   }
 
 

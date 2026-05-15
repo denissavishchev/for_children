@@ -315,7 +315,7 @@
   "dailyDuration": "Dzienne czasy trwania",
   "parentDailyDuration": "Dzienne czasy trwania rodzica",
   "kidDailyDuration": "Dzienne czasy trwania dziecka",
-  "yourDayStarted": "Twój dzień zaczął się o: ",
+  "yourDayStarted": "Twój dzień zaczął się o: {}",
   "andEnded": "i skończył się o: {}",
   "whatTaskWillAdd": "Jaki rodzaj zadania zostanie dodany?",
   "parentPriceStatusDescription": "To propozycja nagrody za wykonane zadanie.\nMożesz ją:\n✔ Zatwierdzić, jeśli uważasz, że jest odpowiednia.\n\uD83D\uDCAC Zaproponować korektę, aby lepiej dopasować ją do Waszych zasad.\n\uD83E\uDD1D Pamiętajcie, że najlepsze efekty daje wspólna decyzja! Krótka rozmowa pomoże Wam wypracować kompromis, który zadowoli obie strony.",

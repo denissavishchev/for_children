@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/widgets/parents_widget/durations_of_kids_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/kid_provider.dart';
@@ -31,6 +32,7 @@ class _MainParentScreenState extends State<MainParentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kWhite,
@@ -41,8 +43,18 @@ class _MainParentScreenState extends State<MainParentScreen> {
               alignment: Alignment.center,
               children: [
                 Column(
-                  spacing: 12,
+                  spacing: 8,
                   children: [
+                    Container(
+                      width: size.width,
+                      margin: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        border: Border.all(color: kBlue),
+                      ),
+                      child: DurationsOfKidsWidget(),
+                    ),
                     ParentsSwitchTaskTabWidget(),
                     Expanded(
                       child: StreamBuilder<List<List<Map<String, dynamic>>>>(
