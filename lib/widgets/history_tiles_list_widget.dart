@@ -18,7 +18,7 @@ class HistoryTilesListWidget extends StatelessWidget {
               itemCount: snapshot.length,
               itemBuilder: (context, index){
                 final history = snapshot[index];
-                if(history['parentEmail'].toLowerCase() == data.email){
+                if (history['parentEmail'].toLowerCase() == data.email){
                   return GestureDetector(
                     onTap: () => data.historyDescription(context,
                         history['price'],
@@ -48,12 +48,20 @@ class HistoryTilesListWidget extends StatelessWidget {
                             ]
                         ),
                         child: Row(
+                          spacing: 4,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(data.role == 'parent'
-                                ? history['kidName']
-                                : history['parentName'], style: kTextStyle,),
-                            Text(history['taskName'], style: kTextStyle,),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(data.role == 'parent'
+                                    ? history['kidName']
+                                    : history['parentName'], style: kTextStyle,),
+                                Text(history['taskName'], style: kTextStyle,),
+                              ],
+                            ),
+                            const Spacer(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: List.generate(5, ((i){
@@ -64,8 +72,6 @@ class HistoryTilesListWidget extends StatelessWidget {
                                 );
                               })),
                             ),
-                            Text(history['type'],
-                              style: kTextStyle.copyWith(color: data.taskTypes[history['type']]),),
                             Text(history['daysNumber'] != null
                                 ? 'M'
                                 : 'S', style: kTextStyle,),
