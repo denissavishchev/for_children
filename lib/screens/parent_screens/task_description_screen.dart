@@ -314,6 +314,8 @@ class TaskDescriptionScreen extends StatelessWidget {
                                         snapshot['imageUrl'],
                                         snapshot.containsKey('type') ? snapshot['type'] : 'home',
                                         snapshot.containsKey('expQty') ? snapshot['expQty'] : '1',
+                                        snapshot.containsKey('daysNumber') ? snapshot['daysNumber'] : [],
+                                        !snapshot.containsKey('daysNumber')
                                       ),
                                       icon: Icons.history),
                                     ],

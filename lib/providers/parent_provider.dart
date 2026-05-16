@@ -1123,7 +1123,7 @@ class ParentProvider with ChangeNotifier {
   }
 
   Future<void>saveTaskToHistory(String parentName, String parentEmail, String kidName, String kidEmail,
-      String taskName, String description, String price, String stars, String type, String expQty)async {
+      String taskName, String description, String price, String stars, String type, String expQty, List daysNumber)async {
     await Supabase.instance.client
         .from('history')
         .insert({
@@ -1138,12 +1138,14 @@ class ParentProvider with ChangeNotifier {
           'time' : DateTime.now().toString(),
           'expQty' : expQty,
           'type' : type,
+          'daysNumber' : daysNumber
     });
   }
 
   Future<void>addTaskToHistory(context, Map<String, dynamic> snapshot,
       int index, String parentName, String parentEmail, String kidName, String kidEmail,
-      String taskName, String description, String price, String stars, String url, String type, String expQty)async {
+      String taskName, String description, String price, String stars, String url, String type, String expQty,
+      List daysNumber, bool isSingle)async {
     Size size = MediaQuery.sizeOf(context);
     return showModalBottomSheet(
         context: context,
@@ -1173,24 +1175,31 @@ class ParentProvider with ChangeNotifier {
                   KidButtonWidget(
                       onTap: () async {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
-                            taskName, description, price, stars, type, expQty).then((v) async =>
-                        await Supabase.instance.client
-                            .from('tasks')
-                            .delete()
-                            .eq('id', snapshot['id']));
-                        if(url != 'false'){
-                        await Supabase.instance.client.storage
-                            .from('images')
-                            .remove([url]);
-                        }
-                        if (!context.mounted) return;
-                        Navigator.of(context).pop();
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) =>
-                            role == 'parent'
-                                ? const MainParentScreen()
-                                : const MainKidScreen()));
-
+                            taskName, description, price, stars, type, expQty, daysNumber).then((v) async {
+                          if(isSingle){
+                            await Supabase.instance.client
+                                .from('tasks')
+                                .delete()
+                                .eq('id', snapshot['id']);
+                          }else{
+                            await Supabase.instance.client
+                                .from('multiTasks')
+                                .delete()
+                                .eq('id', snapshot['id']);
+                          }
+                          if(url != 'false'){
+                          await Supabase.instance.client.storage
+                              .from('images')
+                              .remove([url]);
+                          }
+                          if (!context.mounted) return;
+                          Navigator.of(context).pop();
+                          Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) =>
+                          role == 'parent'
+                          ? const MainParentScreen()
+                              : const MainKidScreen()));
+                        });
                         },
                       text: 'add')
                 ],
