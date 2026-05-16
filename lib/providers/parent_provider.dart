@@ -1153,26 +1153,29 @@ class ParentProvider with ChangeNotifier {
         backgroundColor: Colors.transparent,
         builder: (context) {
           return Container(
-              height: size.height * 0.3,
+              height: size.height * 0.5,
               width: size.width,
-              margin: const EdgeInsets.only(bottom: 300),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              margin: const EdgeInsets.only(bottom: 200),
               decoration: const BoxDecoration(
-                color: kGrey,
+                color: kWhite,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.clear), color: kBlue,),
+                      const SizedBox(width: 18),
+                      Text('addToHistoryQuestion'.tr(), style: kBigTextStyle,),
+                      ParentRoundButton(
+                        onTap: () => Navigator.of(context).pop(),
+                        icon: Icons.clear),
                     ],
                   ),
-                  Text('addToHistoryQuestion'.tr(), style: kTextStyle,),
-                  KidButtonWidget(
+                  Text('addToHistoryQuestionDescription'.tr(), style: kTextStyle,),
+                  ParentButtonWidget(
                       onTap: () async {
                         saveTaskToHistory(parentName, parentEmail, kidName, kidEmail,
                             taskName, description, price, stars, type, expQty, daysNumber).then((v) async {
