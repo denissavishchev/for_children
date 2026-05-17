@@ -356,5 +356,7 @@
   "setNewPasswordDescription": "Twoja tożsamość została potwierdzona. Możesz teraz zmienić hasło",
   "passwordUpdatedSuccess": "Hasło zostało pomyślnie zaktualizowane",
   "quitRegistrationDescription": "Śmiało, zrób co musisz! Pamiętamy, rejestrację dokończymy przy następnej okazji. Do zobaczenia za chwilę!",
-  "addToHistoryQuestionDescription": "Przechowywanie historii zadań to klucz do efektywności i rozwoju. Warto to robić z trzech powodów:\n\n\uD83D\uDCBE Pamięć i dowód pracy: Działa jak „zewnętrzna pamięć” – pozwala szybko sprawdzić szczegóły projektów i stanowi czarno-biały dowód Twoich osiągnięć przed szefem lub klientem.\n\n\uD83D\uDCCA Mądrzejsze planowanie: Analizując czas realizacji dawnych zadań, dokładniej oszacujesz terminy kolejnych i unikniesz powtarzania tych samych błędów.\n\n✅ Motywacja: Spojrzenie na listę zamkniętych spraw daje poczucie progresu i zastrzyk energii do dalszego działania."
+  "addToHistoryQuestionDescription": "Przechowywanie historii zadań to klucz do efektywności i rozwoju. Warto to robić z trzech powodów:\n\n\uD83D\uDCBE Pamięć i dowód pracy: Działa jak „zewnętrzna pamięć” – pozwala szybko sprawdzić szczegóły projektów i stanowi czarno-biały dowód Twoich osiągnięć przed szefem lub klientem.\n\n\uD83D\uDCCA Mądrzejsze planowanie: Analizując czas realizacji dawnych zadań, dokładniej oszacujesz terminy kolejnych i unikniesz powtarzania tych samych błędów.\n\n✅ Motywacja: Spojrzenie na listę zamkniętych spraw daje poczucie progresu i zastrzyk energii do dalszego działania.",
+  "emptyList": "Twoja lista historii jest jeszcze pusta",
+  "noResults": "Brak wpisów spełniających wybrane kryteria"
 }

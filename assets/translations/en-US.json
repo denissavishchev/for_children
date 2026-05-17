@@ -356,5 +356,7 @@
   "setNewPasswordDescription": "Your identity has been verified. You can now change your password",
   "passwordUpdatedSuccess": "Password updated success",
   "quitRegistrationDescription": "Go ahead and take care of what you need! We've got you covered, and you can pick up right where you left off next time. See you in a bit!",
-  "addToHistoryQuestionDescription_en": "Keeping a task history is the key to efficiency and growth. There are three reasons why it's worth doing:\n\n💾 Memory and proof of work: It acts as \"external memory\" – allowing you to quickly check project details and providing black-and-white proof of your achievements to your boss or client.\n\n📊 Smarter planning: By analyzing the completion time of past tasks, you can estimate future deadlines more accurately and avoid repeating the same mistakes.\n\n✅ Motivation: Looking back at the list of completed tasks gives you a sense of progress and a boost of energy for further action."
+  "addToHistoryQuestionDescription_en": "Keeping a task history is the key to efficiency and growth. There are three reasons why it's worth doing:\n\n💾 Memory and proof of work: It acts as \"external memory\" – allowing you to quickly check project details and providing black-and-white proof of your achievements to your boss or client.\n\n📊 Smarter planning: By analyzing the completion time of past tasks, you can estimate future deadlines more accurately and avoid repeating the same mistakes.\n\n✅ Motivation: Looking back at the list of completed tasks gives you a sense of progress and a boost of energy for further action.",
+  "emptyList": "Your history list is still empty",
+  "noResults": "No entries match the selected criteria"
 }
