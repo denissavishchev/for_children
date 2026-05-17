@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:for_children/widgets/task_square_widget.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../providers/parent_provider.dart';
+import '../screens/parent_screens/parent_day_duration_screen.dart';
 
 class HistoryTilesListWidget extends StatefulWidget {
   const HistoryTilesListWidget({super.key, required this.snapshot});
@@ -111,6 +113,11 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                           });
                         },
                       ),
+                      ParentRoundButton(
+                          onTap: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => const ParentDayDurationScreen())),
+                          icon: Icons.stacked_bar_chart_sharp
+                      )
                     ],
                   ),
                 ],

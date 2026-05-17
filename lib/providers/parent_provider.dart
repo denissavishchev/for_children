@@ -21,6 +21,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/ads_model.dart';
+import '../models/durations_model.dart';
 import '../models/kid_model.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
 import '../screens/parent_screens/add_ads_screen.dart';
@@ -65,6 +66,8 @@ class ParentProvider with ChangeNotifier {
   bool isDeadline = false;
 
   bool isLoading = false;
+
+  List<List<DurationsModel>> durationsList = [];
 
   final aiModel = GenerativeModel(
     model: 'gemini-2.5-flash-lite',
@@ -375,7 +378,6 @@ class ParentProvider with ChangeNotifier {
           }
           break;
         }
-
       }
 
       final kid = KidModel(
@@ -2017,6 +2019,79 @@ class ParentProvider with ChangeNotifier {
         .map((kid) => kid.email.toLowerCase())
         .toList();
     return await getKidsDurationsForToday(kidsEmails);
+  }
+
+  Future<void> fetchAndStoreKidsDurations() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? parentEmail = prefs.getString('email')?.toLowerCase();
+
+    if (parentEmail == null) return;
+    final Map<String, dynamic>? parentDoc = await Supabase.instance.client
+        .from('users')
+        .select('kid0, kid1, kid2, kid3, kid4, kid5')
+        .eq('email', parentEmail)
+        .maybeSingle();
+
+    if (parentDoc == null) return;
+    List<String> validatedKidEmails = [];
+    for (int k = 0; k < 6; k++) {
+      String? kidEmail = parentDoc['kid$k']?.toString().toLowerCase();
+      if (kidEmail == null || kidEmail.isEmpty) continue;
+
+      final Map<String, dynamic>? kidDoc = await Supabase.instance.client
+          .from('users')
+          .select('*')
+          .eq('email', kidEmail)
+          .maybeSingle();
+
+      if (kidDoc == null) continue;
+
+      bool isAcceptedByChild = false;
+      for (int i = 0; i < 6; i++) {
+        if (kidDoc['kid$i']?.toString().toLowerCase() == parentEmail) {
+          if (kidDoc['kid${i}Accept'] == true) {
+            isAcceptedByChild = true;
+          }
+          break;
+        }
+      }
+
+      if (isAcceptedByChild) {
+        validatedKidEmails.add(kidEmail);
+      }
+    }
+    if (validatedKidEmails.isEmpty) {
+      durationsList.clear();
+      notifyListeners();
+      return;
+    }
+    final PostgrestList allDurations = await Supabase.instance.client
+        .from('daysDuration')
+        .select('*')
+        .inFilter('email', validatedKidEmails)
+        .order('start', ascending: true);
+    durationsList.clear();
+    for (String email in validatedKidEmails) {
+      List<DurationsModel> singleKidDurations = [];
+      final kidRecords = allDurations.where(
+              (d) => d['email']?.toString().toLowerCase() == email
+      );
+
+      for (var d in kidRecords) {
+        singleKidDurations.add(
+          DurationsModel(
+            day: d['day'] ?? '',
+            start: d['start'] ?? '',
+            end: d['end'] ?? '',
+            parentStart: d['parentStart'] ?? '',
+            parentEnd: d['parentEnd'] ?? '',
+            duration: d['duration'] ?? '',
+          ),
+        );
+      }
+      durationsList.add(singleKidDurations);
+    }
+    notifyListeners();
   }
 
 
