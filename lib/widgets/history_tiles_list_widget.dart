@@ -140,6 +140,7 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                     )
                   : ListView.builder(
                 itemCount: filteredHistory.length,
+                padding: const EdgeInsets.only(bottom: 80),
                 itemBuilder: (context, index) {
                   final history = filteredHistory[index];
                   Size size = MediaQuery.sizeOf(context);

@@ -12,7 +12,6 @@ class ParentHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kWhite,
@@ -32,8 +31,7 @@ class ParentHistoryScreen extends StatelessWidget {
                           return Column(
                             children: [
                               const SizedBox(height: 12,),
-                              SizedBox(
-                                  height: size.height * 0.8,
+                              Expanded(
                                   child: HistoryTilesListWidget(snapshot: snapshot.data!,)),
                             ],
                           );

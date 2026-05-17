@@ -1219,54 +1219,56 @@ class ParentProvider with ChangeNotifier {
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (context) {
-          return Container(
-              height: size.height * 0.5,
-              width: size.width,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              decoration: const BoxDecoration(
-                color: kGrey,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(Icons.clear), color: kBlue,),
-                    ],
-                  ),
-                  Container(
-                    height: 60,
-                    width: size.width,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: kBlue.withValues(alpha: 0.1),
-                      borderRadius: const BorderRadius.horizontal(
-                          right: Radius.circular(4)
-                      ),
+          return SafeArea(
+            child: Container(
+                height: size.height * 0.5,
+                width: size.width,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: const BoxDecoration(
+                  color: kWhite,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          icon: const Icon(Icons.clear), color: kBlue,),
+                      ],
                     ),
-                    child: Text(snapshot['taskName'],
-                      style: kBigTextStyle,),
-                  ),
-                  Container(
-                    height: 200,
-                    width: size.width,
-                    padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
+                    Container(
+                      height: 60,
+                      width: size.width,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
                         color: kBlue.withValues(alpha: 0.1),
-                        borderRadius: const BorderRadius.all(Radius.circular(4))
+                        borderRadius: const BorderRadius.horizontal(
+                            right: Radius.circular(4)
+                        ),
+                      ),
+                      child: Text(snapshot['taskName'],
+                        style: kBigTextStyle,),
                     ),
-                    child: Text(snapshot['description'], style: kTextStyle),
-                  ),
-                  KidButtonWidget(
-                      onTap: () => deleteFromHistory(context, snapshot, index),
-                      text: 'deleteFromHistory')
-                ],
-              )
+                    Container(
+                      height: 60,
+                      width: size.width,
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                          color: kBlue.withValues(alpha: 0.1),
+                          borderRadius: const BorderRadius.all(Radius.circular(4))
+                      ),
+                      child: Text(snapshot['description'], style: kTextStyle),
+                    ),
+                    ParentButtonWidget(
+                        onTap: () => deleteFromHistory(context, snapshot, index),
+                        text: 'deleteFromHistory')
+                  ],
+                )
+            ),
           );
         });
   }
@@ -1283,7 +1285,7 @@ class ParentProvider with ChangeNotifier {
               width: size.width,
               margin: const EdgeInsets.only(bottom: 300),
               decoration: const BoxDecoration(
-                color: kGrey,
+                color: kWhite,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: Column(

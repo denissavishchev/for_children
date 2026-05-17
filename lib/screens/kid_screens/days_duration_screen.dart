@@ -41,7 +41,6 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
   }
 
-  // Pomocnicza metoda do obliczania czasu trwania (label do tooltipa)
   String _getDurationLabel(double start, double end) {
     double duration = (end - start).abs();
     int hours = duration.floor();
