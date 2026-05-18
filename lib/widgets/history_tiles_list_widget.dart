@@ -24,6 +24,7 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return Consumer<ParentProvider>(
       builder: (context, data, _) {
         final parentHistory = widget.snapshot.where((history) {
@@ -62,12 +63,10 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                         spacing: 8,
                         children: uniqueKidNames.map((kidName) {
                           final isSelected = _selectedKidNames.contains(kidName);
-                          return FilterChip(
-                            label: Text(kidName),
-                            selected: isSelected,
-                            onSelected: (bool selected) {
+                          return GestureDetector(
+                            onTap: () {
                               setState(() {
-                                if (selected) {
+                                if (!isSelected) {
                                   _selectedKidNames.add(kidName);
                                 } else {
                                   if (_selectedKidNames.length > 1) {
@@ -76,50 +75,173 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                                 }
                               });
                             },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              width: size.width * 0.4,
+                              margin: const EdgeInsets.all(2),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                              decoration: BoxDecoration(
+                                color: isSelected ? kDarkWhite : Colors.transparent,
+                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                border: Border.all(
+                                  width: isSelected ? 1 : 0.5,
+                                  color: isSelected ? kBlue : kDarkGrey,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kDarkGrey.withValues(alpha: 0.6),
+                                  ),
+                                  isSelected
+                                      ? BoxShadow(
+                                    color: kBlue.withValues(alpha: 0.1),
+                                    blurRadius: 1,
+                                    spreadRadius: 2,
+                                    offset: const Offset(1, 1),
+                                  )
+                                      : BoxShadow(
+                                    color: kWhite,
+                                    blurRadius: 2,
+                                    spreadRadius: -1,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  kidName,
+                                  style: isSelected ? kTextStyle : kTextStyleGrey,
+                                ),
+                              ),
+                            ),
                           );
                         }).toList(),
                       ),
                     ),
-                  Row(
-                    spacing: 8,
-                    children: [
-                      FilterChip(
-                        label: Text('multi'.tr()),
-                        selected: _selectedTaskTypes.contains('long'),
-                        onSelected: (bool selected) {
-                          setState(() {
-                            if (selected) {
-                              _selectedTaskTypes.add('long');
-                            } else {
-                              if (_selectedTaskTypes.length > 1) {
-                                _selectedTaskTypes.remove('long');
+                  IntrinsicHeight(
+                    child: Row(
+                      spacing: 8,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              final isSelected = _selectedTaskTypes.contains('long');
+                              if (!isSelected) {
+                                _selectedTaskTypes.add('long');
+                              } else {
+                                if (_selectedTaskTypes.length > 1) {
+                                  _selectedTaskTypes.remove('long');
+                                }
                               }
-                            }
-                          });
-                        },
-                      ),
-                      FilterChip(
-                        label: Text('single'.tr()),
-                        selected: _selectedTaskTypes.contains('normal'),
-                        onSelected: (bool selected) {
-                          setState(() {
-                            if (selected) {
-                              _selectedTaskTypes.add('normal');
-                            } else {
-                              if (_selectedTaskTypes.length > 1) {
-                                _selectedTaskTypes.remove('normal');
+                            });
+                          },
+                          child: () {
+                            final isSelected = _selectedTaskTypes.contains('long');
+                            return AnimatedContainer(
+                              width: size.width * 0.32,
+                              duration: const Duration(milliseconds: 200),
+                              margin: const EdgeInsets.all(2),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                              decoration: BoxDecoration(
+                                color: isSelected ? kDarkWhite : Colors.transparent,
+                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                border: Border.all(
+                                  width: isSelected ? 1 : 0.5,
+                                  color: isSelected ? kBlue : kDarkGrey,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(color: kDarkGrey.withValues(alpha: 0.6)),
+                                  isSelected
+                                      ? BoxShadow(
+                                    color: kBlue.withValues(alpha: 0.1),
+                                    blurRadius: 1,
+                                    spreadRadius: 2,
+                                    offset: const Offset(1, 1),
+                                  )
+                                      : BoxShadow(
+                                    color: kWhite,
+                                    blurRadius: 2,
+                                    spreadRadius: -1,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text('multi'.tr(),
+                                  style: isSelected ? kTextStyle : kTextStyleGrey,
+                                ),
+                              ),
+                            );
+                          }(),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              final isSelected = _selectedTaskTypes.contains('normal');
+                              if (!isSelected) {
+                                _selectedTaskTypes.add('normal');
+                              } else {
+                                if (_selectedTaskTypes.length > 1) {
+                                  _selectedTaskTypes.remove('normal');
+                                }
                               }
-                            }
-                          });
-                        },
-                      ),
-                      ParentRoundButton(
-                          onTap: () => Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => const ParentDayDurationScreen())),
-                          icon: Icons.stacked_bar_chart_sharp
-                      )
-                    ],
-                  ),
+                            });
+                          },
+                          child: () {
+                            final isSelected = _selectedTaskTypes.contains('normal');
+                            return AnimatedContainer(
+                              width: size.width * 0.32,
+                              duration: const Duration(milliseconds: 200),
+                              margin: const EdgeInsets.all(2),
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                              decoration: BoxDecoration(
+                                color: isSelected ? kDarkWhite : Colors.transparent,
+                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                border: Border.all(
+                                  width: isSelected ? 1 : 0.5,
+                                  color: isSelected ? kBlue : kDarkGrey,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(color: kDarkGrey.withValues(alpha: 0.6)),
+                                  isSelected
+                                      ? BoxShadow(
+                                    color: kBlue.withValues(alpha: 0.1),
+                                    blurRadius: 1,
+                                    spreadRadius: 2,
+                                    offset: const Offset(1, 1),
+                                  )
+                                      : BoxShadow(
+                                    color: kWhite,
+                                    blurRadius: 2,
+                                    spreadRadius: -1,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text('single'.tr(),
+                                  style: isSelected ? kTextStyle : kTextStyleGrey,
+                                ),
+                              ),
+                            );
+                          }(),
+                        ),
+                        const VerticalDivider(
+                          color: kDarkGrey,
+                          thickness: 1,
+                          indent: 4,
+                          endIndent: 4,
+                        ),
+                        ParentRoundButton(
+                          onTap: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ParentDayDurationScreen()),
+                          ),
+                          icon: Icons.stacked_bar_chart_sharp,
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
