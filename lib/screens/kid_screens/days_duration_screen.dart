@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:for_children/screens/kid_screens/main_kid_screen.dart';
+import 'package:for_children/screens/kid_screens/kid_history_screen.dart';
 import 'package:for_children/widgets/kids_widgets/kid_round_button.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
@@ -155,7 +155,7 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         KidRoundButton(
-                            onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MainKidScreen())),
+                            onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KidHistoryScreen())),
                             icon: Icons.close),
                         Text('dailyDuration'.tr(), style: kBigTextStyle),
                         const SizedBox(width: 40),
@@ -227,160 +227,157 @@ class _DaysDurationScreenState extends State<DaysDurationScreen> {
                       size: 40,
                     ))
                         : BarChart(
-                      BarChartData(
-                        barTouchData: BarTouchData(
-                          enabled: true,
-                          touchTooltipData: BarTouchTooltipData(
-                            getTooltipColor: (group) => kWhite,
-                            tooltipBorderRadius: BorderRadius.circular(12),
-                            getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                              final item = displayList[groupIndex];
-                              double ps, pe, ks, ke;
-                              String title = "";
+                            BarChartData(
+                              barTouchData: BarTouchData(
+                                enabled: true,
+                                touchTooltipData: BarTouchTooltipData(
+                                  getTooltipColor: (group) => kWhite,
+                                  tooltipBorderRadius: BorderRadius.circular(12),
+                                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                                    final item = displayList[groupIndex];
+                                    double ps, pe, ks, ke;
+                                    String title = "";
 
-                              if (_isMonthView) {
-                                ps = item['pStart']; pe = item['pEnd'];
-                                ks = item['kStart']; ke = item['kEnd'];
-                                title = "Weekly Avg:\n";
-                              } else {
-                                ps = _timeToDouble(item.parentStart);
-                                pe = _timeToDouble(item.parentEnd);
-                                ks = _timeToDouble(item.start);
-                                ke = item.end == '' ? _timeToDouble(DateFormat('HH:mm').format(DateTime.now())) : _timeToDouble(item.end);
-                                title = "${DateFormat('dd.MM').format(DateTime.parse(item.start))}\n";
-                              }
+                                    if (_isMonthView) {
+                                      ps = item['pStart']; pe = item['pEnd'];
+                                      ks = item['kStart']; ke = item['kEnd'];
+                                      title = "Weekly Avg:\n";
+                                    } else {
+                                      ps = _timeToDouble(item.parentStart);
+                                      pe = _timeToDouble(item.parentEnd);
+                                      ks = _timeToDouble(item.start);
+                                      ke = item.end == '' ? _timeToDouble(DateFormat('HH:mm').format(DateTime.now())) : _timeToDouble(item.end);
+                                      title = "${DateFormat('dd.MM').format(DateTime.parse(item.start))}\n";
+                                    }
 
-                              String parentDur = _getDurationLabel(ps, pe);
-                              String kidDur = _getDurationLabel(ks, ke);
-                              String diffLabel = _getDurationLabel(0, ((pe - ps) - (ke - ks)).abs());
+                                    String parentDur = _getDurationLabel(ps, pe);
+                                    String kidDur = _getDurationLabel(ks, ke);
+                                    String diffLabel = _getDurationLabel(0, ((pe - ps) - (ke - ks)).abs());
 
-                              return BarTooltipItem(
-                                title,
-                                kTextStyle.copyWith(color: kWhite, fontWeight: FontWeight.bold),
-                                children: [
-                                  TextSpan(text: 'parent'.tr(args: ['$parentDur\n']), style: kTextStyle),
-                                  TextSpan(text: 'kid'.tr(args: ['$kidDur\n']), style: kTextStyleOrange),
-                                  TextSpan(text: 'dif'.tr(args: [diffLabel]), style: kTextStyleGrey),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                        alignment: BarChartAlignment.spaceAround,
-                        maxY: maxY,
-                        minY: minY,
-                        titlesData: FlTitlesData(
-                          show: true,
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              interval: 3,
-                              reservedSize: 45,
-                              getTitlesWidget: (value, meta) {
-                                if (value <= minY || value >= maxY) return const SizedBox();
-                                return Text('${value.toInt()}:00', style: kTextStyle.copyWith(color: kGrey));
-                              },
-                            ),
-                          ),
-                          topTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 45,
-                              getTitlesWidget: (value, meta) {
-                                int index = value.toInt();
-                                if (index < 0 || index >= displayList.length) return const SizedBox();
-
-                                if (_isMonthView) {
-                                  return Column(
-                                    children: [
-                                      Text(displayList[index]['avgKStartTime'], style: kTextStyleOrange),
-                                      Text(displayList[index]['avgKEndTime'], style: kTextStyleOrange),
-                                    ],
-                                  );
-                                }
-
-                                return Column(
-                                  children: [
-                                    Text(displayList[index].start.split(' ')[1].substring(0, 5), style: kTextStyleOrange),
-                                    displayList[index].end == '' ? const SizedBox() : Text(displayList[index].end.split(' ')[1].substring(0, 5), style: kTextStyleOrange),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 80,
-                              getTitlesWidget: (value, meta) {
-                                int index = value.toInt();
-                                if (index < 0 || index >= displayList.length) return const SizedBox();
-
-                                if (_isMonthView) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      displayList[index]['label'],
-                                      textAlign: TextAlign.center,
-                                      style: kTextStyle.copyWith(color: kGrey),
-                                    ),
-                                  );
-                                }
-
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Column(
-                                    spacing: 4,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Column(
+                                    return BarTooltipItem(
+                                      title,
+                                      kTextStyle.copyWith(color: kWhite, fontWeight: FontWeight.bold),
+                                      children: [
+                                        TextSpan(text: 'parent'.tr(args: ['$parentDur\n']), style: kTextStyle),
+                                        TextSpan(text: 'kid'.tr(args: ['$kidDur\n']), style: kTextStyleOrange),
+                                        TextSpan(text: 'dif'.tr(args: [diffLabel]), style: kTextStyleGrey),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            alignment: BarChartAlignment.spaceAround,
+                            maxY: maxY,
+                            minY: minY,
+                            titlesData: FlTitlesData(
+                              show: true,
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  interval: 3,
+                                  reservedSize: 45,
+                                  getTitlesWidget: (value, meta) {
+                                    if (value <= minY || value >= maxY) return const SizedBox();
+                                    return Text('${value.toInt()}:00', style: kTextStyle.copyWith(color: kGrey));
+                                  },
+                                ),
+                              ),
+                              topTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 45,
+                                  getTitlesWidget: (value, meta) {
+                                    int index = value.toInt();
+                                    if (index < 0 || index >= displayList.length) return const SizedBox();
+                                    if (_isMonthView) {
+                                      return Column(
                                         children: [
-                                          Text(displayList[index].parentStart.substring(0, 5), style: kTextStyle),
-                                          Text(displayList[index].parentEnd.substring(0, 5), style: kTextStyle),
+                                          Text(displayList[index]['avgKStartTime'], style: kTextStyleOrange),
+                                          Text(displayList[index]['avgKEndTime'], style: kTextStyleOrange),
+                                        ],
+                                      );
+                                    }
+                                    return Column(
+                                      children: [
+                                        Text(displayList[index].start.split(' ')[1].substring(0, 5), style: kTextStyleOrange),
+                                        displayList[index].end == '' ? const SizedBox() : Text(displayList[index].end.split(' ')[1].substring(0, 5), style: kTextStyleOrange),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 80,
+                                  getTitlesWidget: (value, meta) {
+                                    int index = value.toInt();
+                                    if (index < 0 || index >= displayList.length) return const SizedBox();
+
+                                    if (_isMonthView) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          displayList[index]['label'],
+                                          textAlign: TextAlign.center,
+                                          style: kTextStyle.copyWith(color: kGrey),
+                                        ),
+                                      );
+                                    }
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 4),
+                                      child: Column(
+                                        spacing: 4,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Text(displayList[index].parentStart.substring(0, 5), style: kTextStyle),
+                                              Text(displayList[index].parentEnd.substring(0, 5), style: kTextStyle),
+                                            ],
+                                          ),
+                                          Text(DateFormat('dd.MM').format(DateTime.parse(displayList[index].start)), style: kTextStyle.copyWith(color: kGrey)),
                                         ],
                                       ),
-                                      Text(DateFormat('dd.MM').format(DateTime.parse(displayList[index].start)), style: kTextStyle.copyWith(color: kGrey)),
-                                    ],
-                                  ),
-                                );
-                              },
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
+                            gridData: FlGridData(
+                                show: true,
+                                horizontalInterval: 3,
+                                getDrawingHorizontalLine: (value) {
+                                  if (value <= minY || value >= maxY) return const FlLine(color: Colors.transparent);
+                                  return FlLine(color: kGrey.withValues(alpha: 0.2), strokeWidth: 1);
+                                }
+                            ),
+                            borderData: FlBorderData(show: false),
+                            barGroups: List.generate(displayList.length, (index) {
+                              double ps, pe, ks, ke;
+                              if (_isMonthView) {
+                                ps = displayList[index]['pStart']; pe = displayList[index]['pEnd'];
+                                ks = displayList[index]['kStart']; ke = displayList[index]['kEnd'];
+                              } else {
+                                ps = _timeToDouble(displayList[index].parentStart); pe = _timeToDouble(displayList[index].parentEnd);
+                                ks = _timeToDouble(displayList[index].start);
+                                ke = displayList[index].end == '' ? _timeToDouble(DateFormat('HH:mm').format(DateTime.now())) : _timeToDouble(displayList[index].end);
+                              }
+                              return BarChartGroupData(
+                                x: index,
+                                barRods: [
+                                  BarChartRodData(fromY: ps, toY: pe, color: kBlue, width: _isMonthView ? 35 : 12),
+                                  BarChartRodData(fromY: ks, toY: ke, color: kOrange, width: _isMonthView ? 35 : 12),
+                                ],
+                              );
+                            }),
                           ),
                         ),
-                        gridData: FlGridData(
-                            show: true,
-                            horizontalInterval: 3,
-                            getDrawingHorizontalLine: (value) {
-                              if (value <= minY || value >= maxY) return const FlLine(color: Colors.transparent);
-                              return FlLine(color: kGrey.withValues(alpha: 0.2), strokeWidth: 1);
-                            }
-                        ),
-                        borderData: FlBorderData(show: false),
-                        barGroups: List.generate(displayList.length, (index) {
-                          double ps, pe, ks, ke;
-                          if (_isMonthView) {
-                            ps = displayList[index]['pStart']; pe = displayList[index]['pEnd'];
-                            ks = displayList[index]['kStart']; ke = displayList[index]['kEnd'];
-                          } else {
-                            ps = _timeToDouble(displayList[index].parentStart); pe = _timeToDouble(displayList[index].parentEnd);
-                            ks = _timeToDouble(displayList[index].start);
-                            ke = displayList[index].end == '' ? _timeToDouble(DateFormat('HH:mm').format(DateTime.now())) : _timeToDouble(displayList[index].end);
-                          }
-                          return BarChartGroupData(
-                            x: index,
-                            barRods: [
-                              BarChartRodData(fromY: ps, toY: pe, color: kBlue, width: _isMonthView ? 35 : 12),
-                              BarChartRodData(fromY: ks, toY: ke, color: kOrange, width: _isMonthView ? 35 : 12),
-                            ],
-                          );
-                        }),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            );
+                      )
+                    ],
+                  ),
+                );
           },
         ),
       ),

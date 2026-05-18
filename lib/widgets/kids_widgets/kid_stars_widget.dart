@@ -29,7 +29,7 @@ class KidStarsWidget extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-              top: 10,
+              top: 8,
               left: 0,
               child: Icon(
                 stars >= 1
@@ -50,7 +50,7 @@ class KidStarsWidget extends StatelessWidget {
                 shadows: shadow,
               )),
           Positioned(
-              top: 10,
+              top: 8,
               right: 0,
               child: Icon(
                 stars >= 3

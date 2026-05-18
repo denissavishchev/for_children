@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 import '../models/durations_model.dart';
+import '../screens/kid_screens/kid_history_screen.dart';
 import '../screens/kid_screens/wishes_screen.dart';
 import '../screens/kid_screens/kids_settings_screen.dart';
 import '../screens/kid_screens/main_kid_screen.dart';
@@ -41,6 +42,7 @@ class KidProvider with ChangeNotifier {
     Icons.monetization_on_sharp: SaveMoneyScreen(),
     Icons.settings: KidsSettingsScreen(),
     Icons.favorite: WishesScreen(),
+    Icons.history: KidHistoryScreen(),
   };
 
   IconData selectedRoute = Icons.home;

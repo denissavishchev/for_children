@@ -32,7 +32,7 @@ class AddSaveMoneyScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 12,
                             children: [
                               KidRoundButton(
                                   onTap: () => Navigator.pushReplacement(context,
@@ -40,7 +40,6 @@ class AddSaveMoneyScreen extends StatelessWidget {
                                   icon: Icons.close
                               ),
                               Text('addYourNewSaving'.tr(), style: kBigTextStyle.copyWith(fontSize: 44.sp)),
-                              const SizedBox(width: 40,)
                             ],
                           ),
                         ),

@@ -1,23 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:for_children/widgets/task_square_widget.dart';
 import 'package:provider/provider.dart';
-import '../constants.dart';
-import '../providers/parent_provider.dart';
-import '../screens/parent_screens/parent_day_duration_screen.dart';
+import '../../constants.dart';
+import '../../providers/parent_provider.dart';
+import '../../screens/kid_screens/days_duration_screen.dart';
+import 'kid_round_button.dart';
 
-class HistoryTilesListWidget extends StatefulWidget {
-  const HistoryTilesListWidget({super.key, required this.snapshot});
+class KidHistoryTilesListWidget extends StatefulWidget {
+  const KidHistoryTilesListWidget({super.key, required this.snapshot});
 
   final List<Map<String, dynamic>> snapshot;
 
   @override
-  State<HistoryTilesListWidget> createState() => _HistoryTilesListWidgetState();
+  State<KidHistoryTilesListWidget> createState() => _KidHistoryTilesListWidgetState();
 }
 
-class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
+class _KidHistoryTilesListWidgetState extends State<KidHistoryTilesListWidget> {
   final Set<String> _selectedKidNames = {};
   final Set<String> _selectedTaskTypes = {'long', 'normal'};
   bool _isInitialized = false;
@@ -28,16 +28,16 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
     return Consumer<ParentProvider>(
       builder: (context, data, _) {
         final parentHistory = widget.snapshot.where((history) {
-          return history['parentEmail'].toLowerCase() == data.email;
+          return history['kidEmail'].toLowerCase() == data.email;
         }).toList();
         final uniqueKidNames = parentHistory
-            .map((h) => h['kidName'] as String).toSet().toList();
+            .map((h) => h['parentName'] as String).toSet().toList();
         if (!_isInitialized && uniqueKidNames.isNotEmpty) {
           _selectedKidNames.addAll(uniqueKidNames);
           _isInitialized = true;
         }
         final filteredHistory = parentHistory.where((history) {
-          if (!_selectedKidNames.contains(history['kidName'])) {
+          if (!_selectedKidNames.contains(history['parentName'])) {
             return false;
           }
           final hasDays = history['daysNumber'] != null;
@@ -81,30 +81,29 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                               margin: const EdgeInsets.all(2),
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                               decoration: BoxDecoration(
-                                color: isSelected ? kDarkWhite : Colors.transparent,
-                                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                border: Border.all(
-                                  width: isSelected ? 1 : 0.5,
-                                  color: isSelected ? kBlue : kDarkGrey,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: kDarkGrey.withValues(alpha: 0.6),
-                                  ),
-                                  isSelected
-                                      ? BoxShadow(
-                                    color: kBlue.withValues(alpha: 0.1),
-                                    blurRadius: 1,
-                                    spreadRadius: 2,
-                                    offset: const Offset(1, 1),
-                                  )
-                                      : BoxShadow(
-                                    color: kWhite,
-                                    blurRadius: 2,
-                                    spreadRadius: -1,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
+                                  color: isSelected ? kWhite : Colors.transparent,
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                  border: Border.all(color: isSelected ? kBlue : kGrey, width: 0.5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kDarkGrey.withValues(alpha: 0.8),
+                                        blurRadius: 0,
+                                        spreadRadius: 0,
+                                        offset: const Offset(0, 0)
+                                    ),
+                                    isSelected
+                                        ? BoxShadow(
+                                          color: kBlue.withValues(alpha: 0.15),
+                                          blurRadius: 2,
+                                          spreadRadius: 3,
+                                          offset: const Offset(0, 1))
+                                        : BoxShadow(
+                                          color: kWhite,
+                                          blurRadius: 2,
+                                          spreadRadius: -1,
+                                          offset: const Offset(0, 1)
+                                    )
+                                  ]
                               ),
                               child: Center(
                                 child: Text(
@@ -143,28 +142,29 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                               margin: const EdgeInsets.all(2),
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                               decoration: BoxDecoration(
-                                color: isSelected ? kDarkWhite : Colors.transparent,
-                                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                border: Border.all(
-                                  width: isSelected ? 1 : 0.5,
-                                  color: isSelected ? kBlue : kDarkGrey,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(color: kDarkGrey.withValues(alpha: 0.6)),
-                                  isSelected
-                                      ? BoxShadow(
-                                    color: kBlue.withValues(alpha: 0.1),
-                                    blurRadius: 1,
-                                    spreadRadius: 2,
-                                    offset: const Offset(1, 1),
-                                  )
-                                      : BoxShadow(
-                                    color: kWhite,
-                                    blurRadius: 2,
-                                    spreadRadius: -1,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
+                                  color: isSelected ? kWhite : Colors.transparent,
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                  border: Border.all(color: isSelected ? kBlue : kGrey, width: 0.5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kDarkGrey.withValues(alpha: 0.8),
+                                        blurRadius: 0,
+                                        spreadRadius: 0,
+                                        offset: const Offset(0, 0)
+                                    ),
+                                    isSelected
+                                        ? BoxShadow(
+                                          color: kBlue.withValues(alpha: 0.15),
+                                          blurRadius: 2,
+                                          spreadRadius: 3,
+                                          offset: const Offset(0, 1))
+                                        : BoxShadow(
+                                          color: kWhite,
+                                          blurRadius: 2,
+                                          spreadRadius: -1,
+                                          offset: const Offset(0, 1)
+                                    )
+                                  ]
                               ),
                               child: Center(
                                 child: Text('multi'.tr(),
@@ -195,28 +195,29 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                               margin: const EdgeInsets.all(2),
                               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                               decoration: BoxDecoration(
-                                color: isSelected ? kDarkWhite : Colors.transparent,
-                                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                border: Border.all(
-                                  width: isSelected ? 1 : 0.5,
-                                  color: isSelected ? kBlue : kDarkGrey,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(color: kDarkGrey.withValues(alpha: 0.6)),
-                                  isSelected
-                                      ? BoxShadow(
-                                    color: kBlue.withValues(alpha: 0.1),
-                                    blurRadius: 1,
-                                    spreadRadius: 2,
-                                    offset: const Offset(1, 1),
-                                  )
-                                      : BoxShadow(
-                                    color: kWhite,
-                                    blurRadius: 2,
-                                    spreadRadius: -1,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
+                                  color: isSelected ? kWhite : Colors.transparent,
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                  border: Border.all(color: isSelected ? kBlue : kGrey, width: 0.5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kDarkGrey.withValues(alpha: 0.8),
+                                        blurRadius: 0,
+                                        spreadRadius: 0,
+                                        offset: const Offset(0, 0)
+                                    ),
+                                    isSelected
+                                        ? BoxShadow(
+                                          color: kBlue.withValues(alpha: 0.15),
+                                          blurRadius: 2,
+                                          spreadRadius: 3,
+                                          offset: const Offset(0, 1))
+                                        : BoxShadow(
+                                          color: kWhite,
+                                          blurRadius: 2,
+                                          spreadRadius: -1,
+                                          offset: const Offset(0, 1)
+                                    )
+                                  ]
                               ),
                               child: Center(
                                 child: Text('single'.tr(),
@@ -232,11 +233,9 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                           indent: 4,
                           endIndent: 4,
                         ),
-                        ParentRoundButton(
-                          onTap: () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ParentDayDurationScreen()),
-                          ),
+                        KidRoundButton(
+                          onTap: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => const DaysDurationScreen())),
                           icon: Icons.stacked_bar_chart_sharp,
                         ),
                       ],
@@ -249,37 +248,37 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
             Expanded(
               child: filteredHistory.isEmpty
                   ? Center(
-                      child: Column(
-                        spacing: 18,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            parentHistory.isEmpty
-                              ? 'assets/images/emptyList.png'
-                              : 'assets/images/noShopping.png',
-                            width: 180,),
-                          Text(
-                            parentHistory.isEmpty
-                                ? 'emptyList'.tr()
-                                : 'noResults'.tr(),
-                            style: kTextStyle,
-                          ),
-                        ],
-                      ),
-                    )
+                child: Column(
+                  spacing: 18,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      parentHistory.isEmpty
+                          ? 'assets/images/emptyList.png'
+                          : 'assets/images/noShopping.png',
+                      width: 180,),
+                    Text(
+                      parentHistory.isEmpty
+                          ? 'emptyList'.tr()
+                          : 'noResults'.tr(),
+                      style: kTextStyle,
+                    ),
+                  ],
+                ),
+              )
                   : ListView.builder(
-                itemCount: filteredHistory.length,
-                padding: const EdgeInsets.only(bottom: 80),
-                itemBuilder: (context, index) {
-                  final history = filteredHistory[index];
-                  Size size = MediaQuery.sizeOf(context);
-                  List<int> counts = [0, 0, 0, 0];
+                    itemCount: filteredHistory.length,
+                    padding: const EdgeInsets.only(bottom: 80),
+                    itemBuilder: (context, index) {
+                      final history = filteredHistory[index];
+                      Size size = MediaQuery.sizeOf(context);
+                      List<int> counts = [0, 0, 0, 0];
 
-                  if (history['daysNumber'] != null) {
-                    for (var n in history['daysNumber']) {
-                      counts[n] += 1;
-                    }
-                  }
+                      if (history['daysNumber'] != null) {
+                        for (var n in history['daysNumber']) {
+                          counts[n] += 1;
+                        }
+                      }
 
                   final originalIndex = widget.snapshot.indexOf(history);
 
@@ -296,22 +295,32 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                       width: size.width,
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: kWhite,
-                        border: Border.all(width: 1, color: kBlue.withValues(alpha: 0.2)),
-                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                        gradient: LinearGradient(
+                            colors: [
+                              kWhite.withValues(alpha: 0.75),
+                              kWhite.withValues(alpha: 0.35),
+                              kWhite.withValues(alpha: 0.55)
+                            ],
+                            stops: [0, 0.4, 1],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight
+                        ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            blurRadius: 6,
-                            spreadRadius: 2,
-                            offset: const Offset(0, 6),
+                              color: kDarkBlue.withValues(alpha: 0.1),
+                              blurRadius: 2,
+                              spreadRadius: 2,
+                              offset: Offset(-2, 2)
                           ),
                           BoxShadow(
-                            color: kGrey.withValues(alpha: 0.2),
-                            blurRadius: 2,
-                            spreadRadius: 2,
+                              color: kGrey.withValues(alpha: 0.1),
+                              blurRadius: 2,
+                              spreadRadius: 2,
+                              offset: Offset(2, 2)
                           ),
                         ],
+                        border: Border.all(width: 2, color: kDarkWhite),
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
                       ),
                       child: Column(
                         children: [
@@ -327,7 +336,7 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                                     spacing: 4,
                                     children: [
                                       Image.asset('assets/images/person.png', width: 14),
-                                      Text(history['kidName'], style: kBigTextStyle),
+                                      Text(history['parentName'], style: kBigTextStyle),
                                     ],
                                   ),
                                   const SizedBox(
@@ -372,7 +381,7 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                                     child: Stack(
                                       children: [
                                         Positioned(
-                                          top: 10,
+                                          top: 8,
                                           left: 0,
                                           child: Icon(
                                             double.parse(history['stars']).toInt() >= 1 ? Icons.star : Icons.star_border,
@@ -405,7 +414,7 @@ class _HistoryTilesListWidgetState extends State<HistoryTilesListWidget> {
                                           ),
                                         ),
                                         Positioned(
-                                          top: 10,
+                                          top: 8,
                                           right: 0,
                                           child: Icon(
                                             double.parse(history['stars']).toInt() >= 3 ? Icons.star : Icons.star_border,

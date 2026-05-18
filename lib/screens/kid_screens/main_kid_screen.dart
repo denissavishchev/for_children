@@ -25,6 +25,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
   void initState() {
     final data = Provider.of<ParentProvider>(context, listen: false);
     final kidsData = Provider.of<KidProvider>(context, listen: false);
+    data.selectedRoute = Icons.home;
     kidsData.setupKidNotification();
     data.getEmailAndName();
     kidsData.initTimes(context);

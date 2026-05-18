@@ -35,35 +35,46 @@ class _DurationsOfKidsWidgetState extends State<DurationsOfKidsWidget> {
                   child: SpinKitSpinningLines(color: kBlue, size: 40),
                 );
               }
-              final List<Map<String, dynamic>> todayDurations = snapshot.data!;
+
+              final List<Map<String, dynamic>> todayDurations = snapshot.data ?? [];
+              final int kidsCount = parentData.kidsList.length;
+
               return Column(
                 children: List.generate(
-                  todayDurations.length, (index) {
-                    final data = todayDurations[index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ParentDayDurationWidget(
-                          userStartTime: DateFormat('HH:mm:ss').format(
-                            DateTime.tryParse(data['start']?.toString() ?? '') ?? DateTime.now(),
-                          ),
-                          userEndTime: DateFormat('HH:mm:ss').format(
-                            DateTime.tryParse(data['end']?.toString() ?? '') ?? DateTime.now(),
-                          ),
-                          docs: data,
-                          kidsList: parentData.kidsList,
-                          index: index,
+                  kidsCount, (index) {
+                  final kid = parentData.kidsList[index];
+                  final Map<String, dynamic>? data = todayDurations.cast<Map<String, dynamic>?>().firstWhere(
+                        (element) => element?['email'] == kid.email,
+                    orElse: () => null,
+                  );
+                  final String userStartTime = (data != null && data['start'] != null)
+                      ? DateFormat('HH:mm:ss').format(DateTime.tryParse(data['start'].toString()) ?? DateTime.now())
+                      : DateFormat('HH:mm:ss').format(DateTime.now());
+
+                  final String userEndTime = (data != null && data['end'] != null)
+                      ? DateFormat('HH:mm:ss').format(DateTime.tryParse(data['end'].toString()) ?? DateTime.now())
+                      : DateFormat('HH:mm:ss').format(DateTime.now());
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ParentDayDurationWidget(
+                        userStartTime: userStartTime,
+                        userEndTime: userEndTime,
+                        docs: data,
+                        kidsList: parentData.kidsList,
+                        index: index,
+                      ),
+                      if (index < kidsCount - 1)
+                        const Divider(
+                          color: kBlue,
+                          thickness: 1,
+                          indent: 4,
+                          endIndent: 4,
                         ),
-                        if (index < todayDurations.length - 1)
-                          Divider(
-                            color: kBlue,
-                            thickness: 1,
-                            indent: 4,
-                            endIndent: 4,
-                          ),
-                      ],
-                    );
-                  },
+                    ],
+                  );
+                },
                 ),
               );
             },

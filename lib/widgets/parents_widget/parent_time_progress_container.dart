@@ -10,6 +10,8 @@ class ParentTimeProgressContainer extends StatelessWidget {
   final TimeOfDay userStartTime;
   final TimeOfDay userEndTime;
   final double containerWidth;
+  final String kidName;
+
 
   const ParentTimeProgressContainer({
     super.key,
@@ -18,6 +20,7 @@ class ParentTimeProgressContainer extends StatelessWidget {
     required this.userStartTime,
     required this.userEndTime,
     required this.containerWidth,
+    required this.kidName,
   });
 
   int _toMinutesOfDay(TimeOfDay time) => time.hour * 60 + time.minute;
@@ -44,6 +47,7 @@ class ParentTimeProgressContainer extends StatelessWidget {
           spacing: 4,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(kidName, style: kTextStyle,),
             _buildKidBar(context, kidStart, kidEnd, nowM, globalStart, pxPerMin),
             _buildParentBar(context, parentStart, parentEnd, globalStart, pxPerMin),
           ],
