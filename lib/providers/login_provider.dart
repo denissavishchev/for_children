@@ -130,9 +130,10 @@ class LoginProvider with ChangeNotifier {
                         surnameController.clear();
                         resetPasswordController.clear();
                         onboardingController.dispose();
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) =>
-                            const LoginScreen()));
+                        Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (context) => const LoginScreen()),
+                              (Route<dynamic> route) => false,
+                        );
                       },
                       text: 'yesExit')
                     : ParentButtonWidget(
@@ -144,9 +145,10 @@ class LoginProvider with ChangeNotifier {
                           surnameController.clear();
                           resetPasswordController.clear();
                           onboardingController.dispose();
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) =>
-                              const LoginScreen()));
+                          Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) => const LoginScreen()),
+                                (Route<dynamic> route) => false,
+                          );
                         },
                         text: 'yesExit'),
                 ],
