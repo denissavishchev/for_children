@@ -10,6 +10,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 import '../screens/login_screens/auth_screen.dart';
 import '../screens/login_screens/login_screen.dart';
+import '../widgets/kids_widgets/kid_button_widget.dart';
+import '../widgets/kids_widgets/kid_round_button.dart';
 import '../widgets/language.dart';
 import '../widgets/parents_widget/parent_button_widget.dart';
 import 'kid_provider.dart';
@@ -108,14 +110,18 @@ class LoginProvider with ChangeNotifier {
                     children: [
                       const SizedBox(width: 32,),
                       Text('areYouSure'.tr(), style: kTextStyle,),
-                      ParentRoundButton(
+                      role == 'child'
+                        ? KidRoundButton(
                           onTap: () => Navigator.pop(context),
-                          icon: Icons.clear
-                      )
+                          icon: Icons.clear,)
+                        : ParentRoundButton(
+                            onTap: () => Navigator.pop(context),
+                            icon: Icons.clear)
                     ],
                   ),
                   Text('quitRegistrationDescription'.tr(), style: kTextStyle,),
-                  ParentButtonWidget(
+                  role == 'child'
+                    ? KidButtonWidget(
                       onTap: () {
                         role = '';
                         emailController.clear();
@@ -123,11 +129,26 @@ class LoginProvider with ChangeNotifier {
                         nameController.clear();
                         surnameController.clear();
                         resetPasswordController.clear();
+                        onboardingController.dispose();
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) =>
                             const LoginScreen()));
                       },
-                      text: 'yesExit'),
+                      text: 'yesExit')
+                    : ParentButtonWidget(
+                        onTap: () {
+                          role = '';
+                          emailController.clear();
+                          passwordController.clear();
+                          nameController.clear();
+                          surnameController.clear();
+                          resetPasswordController.clear();
+                          onboardingController.dispose();
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) =>
+                              const LoginScreen()));
+                        },
+                        text: 'yesExit'),
                 ],
               ),
             ),

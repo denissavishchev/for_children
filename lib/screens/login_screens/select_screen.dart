@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:for_children/providers/login_provider.dart';
-import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
 import '../../widgets/info_widget.dart';
+import '../../widgets/parents_widget/parent_button_widget.dart';
 import 'onboarding_screens/onboarding_screens.dart';
 
 class SelectScreen extends StatelessWidget {
@@ -70,19 +70,22 @@ class SelectScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    KidButtonWidget(
-                        onTap: () {
-                          if(data.role != ''){
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) =>
-                                const OnboardingScreens()));
-                          }
-                        },
-                        text: data.role == 'parent'
-                            ? 'ImTheParent'
-                            : data.role == 'child'
-                            ? 'ImTheKid'
-                            : 'selectYourRole'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: ParentButtonWidget(
+                          onTap: () {
+                            if(data.role != ''){
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                  const OnboardingScreens()));
+                            }
+                          },
+                          text: data.role == 'parent'
+                              ? 'ImTheParent'
+                              : data.role == 'child'
+                              ? 'ImTheKid'
+                              : 'selectYourRole'),
+                    ),
                     const SizedBox(height: 40,),
                   ],
                 ),

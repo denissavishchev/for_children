@@ -7,6 +7,9 @@ import '../../constants.dart';
 import '../../providers/login_provider.dart';
 import '../../widgets/kids_widgets/kid_button_widget.dart';
 import '../../widgets/info_widget.dart';
+import '../../widgets/kids_widgets/kid_round_button.dart';
+import '../../widgets/parents_widget/parent_button_widget.dart';
+import '../../widgets/parents_widget/parent_round_button.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -127,14 +130,21 @@ class RegisterScreen extends StatelessWidget {
                                   },
                                 ),
                                 const SizedBox(height: 18,),
-                                KidButtonWidget(
+                                data.role == 'child'
+                                  ? KidButtonWidget(
                                     onTap: () {
                                       if(data.registerKey.currentState!.validate()){
                                         data.signUp(context);
                                       }
                                     },
-                                    text: 'register'
-                                ),
+                                    text: 'register')
+                                  : ParentButtonWidget(
+                                    onTap: () {
+                                      if(data.registerKey.currentState!.validate()){
+                                        data.signUp(context);
+                                      }
+                                    },
+                                    text: 'register'),
                                 SizedBox(
                                   height: MediaQuery.viewInsetsOf(context).bottom == 0
                                       ? size.height * 0.05 : size.height * 0.4,),
@@ -153,9 +163,16 @@ class RegisterScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           const Spacer(),
-                          IconButton(
-                              onPressed: () => data.toLoginScreen(context),
-                              icon: const Icon(Icons.clear, size: 34,))
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: data.role == 'child'
+                                ? KidRoundButton(
+                                  onTap: () => data.toLoginScreen(context),
+                                  icon: Icons.clear,)
+                                : ParentRoundButton(
+                                  onTap: () => data.toLoginScreen(context),
+                                  icon: Icons.clear),
+                          )
                         ],
                       ),
                     ),

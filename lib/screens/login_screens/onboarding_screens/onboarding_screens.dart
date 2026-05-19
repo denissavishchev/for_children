@@ -9,9 +9,11 @@ import 'package:for_children/screens/login_screens/onboarding_screens/parent_onb
 import 'package:for_children/screens/login_screens/onboarding_screens/parrent_onboarding_screen_five.dart';
 import 'package:for_children/screens/login_screens/onboarding_screens/parrent_onboarding_screen_four.dart';
 import 'package:for_children/screens/login_screens/register_screen.dart';
+import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../widgets/kids_widgets/kid_round_button.dart';
 import 'kid_onboarding_screen_five.dart';
 import 'kid_onboarding_screen_four.dart';
 import 'kid_onboarding_screen_one.dart';
@@ -19,8 +21,21 @@ import 'kid_onboarding_screen_six.dart';
 import 'kid_onboarding_screen_three.dart';
 import 'kid_onboarding_screen_two.dart';
 
-class OnboardingScreens extends StatelessWidget {
+class OnboardingScreens extends StatefulWidget {
   const OnboardingScreens({super.key});
+
+  @override
+  State<OnboardingScreens> createState() => _OnboardingScreensState();
+}
+
+class _OnboardingScreensState extends State<OnboardingScreens> {
+
+  @override
+  void initState() {
+    super.initState();
+    final data = Provider.of<LoginProvider>(context, listen: false);
+    data.onboardingController = PageController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +49,7 @@ class OnboardingScreens extends StatelessWidget {
               children: [
                 Column(
                   children: [
+                    const SizedBox(height: 36,),
                     Expanded(
                       child: PageView(
                         controller: data.onboardingController,
@@ -105,14 +121,17 @@ class OnboardingScreens extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 12, top: 12),
+                  padding: const EdgeInsets.only(right: 12, top: 4),
                   child: Row(
                     children: [
                       const Spacer(),
-                      GestureDetector(
-                        onTap: () => data.toLoginScreen(context),
-                        child: Icon(Icons.clear, size: 32, color: kDarkBlue,),
-                      )
+                      data.role == 'child'
+                        ? KidRoundButton(
+                          onTap: () => data.toLoginScreen(context),
+                          icon: Icons.clear,)
+                        : ParentRoundButton(
+                            onTap: () => data.toLoginScreen(context),
+                            icon: Icons.clear)
                     ],
                   ),
                 ),
