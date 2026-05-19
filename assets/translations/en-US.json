@@ -331,7 +331,7 @@
   "daysSliderDescription": "Find the right balance! ⚖\uFE0F\nMatch the days to the task's difficulty while focusing on consistency. Short deadlines frustrate, while long ones lose focus. Build habits through a sweet spot, turning regularity into your child's natural routine. \uD83C\uDF31",
   "notAccepted": "not accepted",
   "dayDurationTime": "Day duration time:",
-  "yourKidsDescription": "Child added! New features coming soon ⏳\nNow, please wait for your child to accept the invitation and confirm that you are their parent. Once they do, you'll get full access: you can start adding tasks, adjusting the day duration, and making dreams come true together! \uD83D\uDC4B",
+  "yourKidsDescription": "Add child! New features coming soon ⏳\nNow, please wait for your child to accept the invitation and confirm that you are their parent. Once they do, you'll get full access: you can start adding tasks, adjusting the day duration, and making dreams come true together! \uD83D\uDC4B",
   "confirm": "Confirm",
   "setDayDurationDescription": "Daily rhythm is the key to stability ⏰\nA consistent routine provides security and better rest. Be a guide, not just a judge, in building these habits. Use our charts to track your child's progress in morning and evening discipline. It’s a simple way to build life-long healthy routines! \uD83D\uDCCA",
   "from": "from: ",
@@ -360,5 +360,6 @@
   "emptyList": "Your history list is still empty",
   "noResults": "No entries match the selected criteria",
   "dayDurationDescription": "\uDCCA How do charts help in care?\n\n\uDD0D Quick change detection: Instantly spot unusual shortening or lengthening of the day.\n\n\uDD52 Daily rhythm: Weekly averages help better adjust sleep, study, and meal times to your child's needs.\n\n⚖\uFE0F Realistic expectations: See the exact difference between the plan and reality, allowing you to fine-tune the home schedule.\n\n\uDDD8 Parent's peace of mind: Monitor trends over the whole month without constant micromanagement or questioning your child.",
-  "kidDoesNotStartsDay": "{} does not start day yet"
+  "kidDoesNotStartsDay": "{} does not start day yet",
+  "expired": "expired"
 }

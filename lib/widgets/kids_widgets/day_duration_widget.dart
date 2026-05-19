@@ -4,7 +4,6 @@ import 'package:for_children/providers/kid_provider.dart';
 import 'package:for_children/widgets/kids_widgets/time_progress_widget.dart';
 import 'package:provider/provider.dart';
 import '../../constants.dart';
-import '../../providers/parent_provider.dart';
 
 class DayDurationWidget extends StatelessWidget {
   const DayDurationWidget({
@@ -21,8 +20,8 @@ class DayDurationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return Consumer2<ParentProvider, KidProvider>(
-        builder: (context, data, kidsData, _){
+    return Consumer<KidProvider>(
+        builder: (context, data, _){
           return Padding(
             padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
             child: Column(
@@ -34,22 +33,15 @@ class DayDurationWidget extends StatelessWidget {
                   children: [
                     Text('yourDayStarted'.tr(args: [(userStartTime.split(':').take(2).join(':'))]), style: kTextStyle,),
                     Visibility(
-                      visible: !kidsData.isDay,
+                      visible: !data.isDay,
                         child: Text('andEnded'.tr(args: [(userEndTime.split(':').take(2).join(':'))]), style: kTextStyle,)),
                   ],
                 ),
                 TimeProgressContainer(
-                  startTime: TimeOfDay(
-                      hour: int.parse(docs?['dayStart'].split(':')[0]),
-                      minute: int.parse(docs?['dayStart'].split(':')[1])),
-                  endTime: TimeOfDay(
-                      hour: int.parse(docs?['dayEnd'].split(':')[0]),
-                      minute: int.parse(docs?['dayEnd'].split(':')[1])),
-                  userStartTime: TimeOfDay(
-                      hour: int.parse(userStartTime.split(':')[0]),
-                      minute: int.parse(userStartTime.split(':')[1])),
-                  userEndTime: TimeOfDay(hour: int.parse(userEndTime.split(':')[0]),
-                      minute: int.parse(userEndTime.split(':')[1])),
+                  startTime: data.parseTime(docs?['dayStart']?.toString()),
+                  endTime: data.parseTime(docs?['dayEnd']?.toString()),
+                  userStartTime: data.parseTime(userStartTime),
+                  userEndTime: data.parseTime(userEndTime),
                   containerWidth: size.width - 48,
                 ),
               ],

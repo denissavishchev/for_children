@@ -66,7 +66,7 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                             children: [
                               SizedBox(
                                   width: size.width,
-                                  height: 40.0 * (data.kidsList.length / 2).round(),
+                                  height: data.kidsList.isEmpty ? null : 40.0 * (data.kidsList.length / 2).round(),
                                   child: FutureBuilder(
                                     future: data.getKid,
                                     builder: (context, snapshot){
@@ -76,7 +76,16 @@ class _AddSingleTaskScreenState extends State<AddSingleTaskScreen> {
                                           size: 40,
                                         ),);
                                       }else{
-                                        return GridView.builder(
+                                        return data.kidsList.isEmpty
+                                            ? Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(color: kBlue, width: 0.5),
+                                                  borderRadius: BorderRadius.all(Radius.circular(8))
+                                              ),
+                                              child: Text('noAddedKids'.tr(), style: kTextStyle, textAlign: TextAlign.center,),
+                                            )
+                                        : GridView.builder(
                                           physics: const NeverScrollableScrollPhysics(),
                                           itemCount: data.kidsList.length,
                                           itemBuilder: (context, index){

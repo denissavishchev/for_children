@@ -269,7 +269,7 @@ class LoginProvider with ChangeNotifier {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 margin: const EdgeInsets.only(bottom: 300),
                 decoration: const BoxDecoration(
-                  color: kGrey,
+                  color: kWhite,
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
                 child: Row(

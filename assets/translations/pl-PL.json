@@ -331,7 +331,7 @@
   "daysSliderDescription": "Znajdź balans w zadaniach! ⚖\uFE0F\nDopasuj liczbę dni do trudności wyzwania, ale dbaj o regularność. Zbyt krótkie terminy zniechęcają, a zbyt długie rozmywają cel. Buduj nawyk poprzez złoty środek – tak, by systematyczność stała się dla dziecka naturalnym odruchem. \uD83C\uDF31",
   "notAccepted": "Niezaakceptowane",
   "dayDurationTime": "Czas trwania dnia:",
-  "yourKidsDescription": "Dziecko dodane! Nowe możliwości już blisko ⏳\nTeraz poczekaj, aż Twoja pociecha zatwierdzi zaproszenie i potwierdzi, że jesteś jej rodzicem. Gdy tylko to zrobi, zyskasz pełny dostęp: będziesz mógł dodawać zadania, zmieniać czas trwania dnia i wspólnie realizować marzenia! \uD83D\uDC4B",
+  "yourKidsDescription": "Dodaj dziecko! Nowe możliwości już blisko ⏳\nTeraz poczekaj, aż Twoja pociecha zatwierdzi zaproszenie i potwierdzi, że jesteś jej rodzicem. Gdy tylko to zrobi, zyskasz pełny dostęp: będziesz mógł dodawać zadania, zmieniać czas trwania dnia i wspólnie realizować marzenia! \uD83D\uDC4B",
   "confirm": "Zatwierdź",
   "setDayDurationDescription": "Rytm dnia to fundament spokoju ⏰\nStały plan daje dziecku poczucie bezpieczeństwa i lepszą regenerację. Zamiast tylko wymagać, wspieraj je w budowaniu nawyków. Dzięki wykresom w aplikacji sprawdzisz, jak rośnie dyscyplina Twojej pociechy przy wstawaniu i zasypianiu. To zdrowe nawyki, które zostaną na lata! \uD83D\uDCCA",
   "from": "od: ",
@@ -360,5 +360,6 @@
   "emptyList": "Twoja lista historii jest jeszcze pusta",
   "noResults": "Brak wpisów spełniających wybrane kryteria",
   "dayDurationDescription": "\uD83D\uDCCA Jak wykresy pomagają w opiece?\n\n\uD83D\uDD0D Szybkie wykrywanie zmian: Natychmiast widzisz nietypowe skrócenie lub wydłużenie dnia.\n\n\uD83D\uDD52 Rytm dobowy: Średnie tygodniowe pomagają lepiej dopasować godziny snu, nauki i posiłków do potrzeb dziecka.\n\n⚖\uFE0F Realne oczekiwania: Widzisz dokładną różnicę między planem a rzeczywistością, co pozwala urealnić domowy harmonogram.\n\n\uD83E\uDDD8 Spokój rodzica: Monitorujesz trendy z całego miesiąca bez ciągłego kontrolowania i pytania dziecka o szczegóły.",
-  "kidDoesNotStartsDay": "{} jeszcze nie zaczął dnia"
+  "kidDoesNotStartsDay": "{} jeszcze nie zaczął dnia",
+  "expired": "wygasło"
 }

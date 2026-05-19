@@ -545,4 +545,14 @@ class KidProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  TimeOfDay parseTime(String? timeStr) {
+    if (timeStr == null || !timeStr.contains(':')) {
+      return const TimeOfDay(hour: 0, minute: 0);
+    }
+    final parts = timeStr.split(':');
+    final hour = int.tryParse(parts[0]) ?? 0;
+    final minute = parts.length > 1 ? (int.tryParse(parts[1]) ?? 0) : 0;
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
 }
