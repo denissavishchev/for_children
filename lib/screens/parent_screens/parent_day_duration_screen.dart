@@ -35,7 +35,42 @@ class _ParentDayDurationScreenState extends State<ParentDayDurationScreen> {
       body: SafeArea(
         child: Consumer<ParentProvider>(
           builder: (context, data, _) {
-            if (data.durationsList.isEmpty) {
+            if (data.kidsList.isEmpty || !data.kidsList.any((kid) => kid.accept == true)) {
+              return Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  spacing: 24,
+                  children: [
+                    Row(
+                      children: [
+                        ParentRoundButton(
+                            onTap: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ParentHistoryScreen())),
+                            icon: Icons.arrow_back_ios_new),
+                      ],
+                    ),
+                    Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: kBlue, width: 1),
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              'noAddedOrAcceptedKids'.tr(),
+                              style: kBigTextStyle,
+                              textAlign: TextAlign.center,
+                            ),
+                            Image.asset('assets/images/playground.png', width: 140,)
+                          ],
+                        )),
+                  ],
+                ),
+              );
+            }if (data.durationsList.isEmpty) {
               return const Center(
                 child: SpinKitSpinningLines(
                   color: kBlue,
