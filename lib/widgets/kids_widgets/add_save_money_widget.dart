@@ -35,7 +35,7 @@ class AddSaveMoneyWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  width: size.width * 0.65,
+                  width: size.width * 0.56,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(data.savedMoney.length, (i) {

@@ -8,7 +8,7 @@ import 'package:for_children/widgets/kids_widgets/kid_button_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../providers/kid_provider.dart';
+import '../../providers/parent_provider.dart';
 import '../../widgets/kids_widgets/kid_bottom_navigation_bar_widget.dart';
 import '../../widgets/kids_widgets/kid_round_button.dart';
 import 'add_save_money_screen.dart';
@@ -22,7 +22,7 @@ class SaveMoneyScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kWhite,
       resizeToAvoidBottomInset: true,
-      body: Consumer<KidProvider>(
+      body: Consumer<ParentProvider>(
         builder: (context, data, _){
           return SafeArea(
             child: Stack(
@@ -54,9 +54,10 @@ class SaveMoneyScreen extends StatelessWidget {
                         stream: Supabase.instance.client
                             .from('saveMoney')
                             .stream(primaryKey: ['id'])
+                            .eq('email', data.email.toString())
                             .order('time', ascending: false),
                         builder: (context, snapshot){
-                          if (!snapshot.hasData) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
                             return Expanded(
                               child: Center(
                                   child: SpinKitSpinningLines(
@@ -64,7 +65,26 @@ class SaveMoneyScreen extends StatelessWidget {
                                     size: 150,
                                   )));
                           }
-                          final money = snapshot.data!;
+                          final money = snapshot.data == null ? [] : snapshot.data!;
+                          if (money.isEmpty) {
+                            return GestureDetector(
+                              onTap: () => Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) => const AddSaveMoneyScreen())),
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 12),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(width: 1, color: kBlue),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+                                child: Text(
+                                  'noSavingsYet'.tr(),
+                                  style: kTextStyle,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
                           return Expanded(
                             child: ListView.builder(
                                 padding: const EdgeInsets.only(bottom: 80, top: 4),

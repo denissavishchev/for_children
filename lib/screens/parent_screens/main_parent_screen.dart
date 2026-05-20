@@ -38,67 +38,68 @@ class _MainParentScreenState extends State<MainParentScreen> {
       resizeToAvoidBottomInset: true,
       backgroundColor: kWhite,
       body: SafeArea(
-        child: Consumer<ParentProvider>(
-          builder: (context, data, _){
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                Column(
-                  spacing: 8,
-                  children: [
-                    Container(
-                      width: size.width,
-                      margin: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
-                        border: Border.all(color: kBlue),
+          child: Consumer<ParentProvider>(
+            builder: (context, data, _){
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  Column(
+                    spacing: 8,
+                    children: [
+                      Container(
+                        width: size.width,
+                        margin: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(12)),
+                          border: Border.all(color: kBlue),
+                        ),
+                        child: const DurationsOfKidsWidget(),
                       ),
-                      child: DurationsOfKidsWidget(),
-                    ),
-                    ParentsSwitchTaskTabWidget(),
-                    Expanded(
-                      child: StreamBuilder<List<List<Map<String, dynamic>>>>(
-                          stream: CombineLatestStream.list([
-                            Supabase.instance.client
-                                .from('tasks')
-                                .stream(primaryKey: ['id'])
-                                .order('time', ascending: false),
-                            Supabase.instance.client
-                                .from('multiTasks')
-                                .stream(primaryKey: ['id'])
-                                .order('time', ascending: false),
-                          ]),
-                          builder: (context, snapshot){
-                            if (!snapshot.hasData) {
-                              return Center(child: SpinKitSpinningLines(
-                              color: kBlue,
-                              size: 40,
-                            ));
+                      const ParentsSwitchTaskTabWidget(),
+                      Expanded(
+                        child: data.email == ''
+                            ? const Center(child: SpinKitSpinningLines(color: kBlue, size: 40))
+                            : StreamBuilder<List<List<Map<String, dynamic>>>>(
+                            stream: CombineLatestStream.list([
+                              Supabase.instance.client
+                                  .from('tasks')
+                                  .stream(primaryKey: ['id'])
+                                  .eq('parentEmail', (data.email ?? '').toLowerCase())
+                                  .order('time', ascending: false),
+                              Supabase.instance.client
+                                  .from('multiTasks')
+                                  .stream(primaryKey: ['id'])
+                                  .eq('parentEmail', (data.email ?? '').toLowerCase())
+                                  .order('time', ascending: false),
+                            ]),
+                            builder: (context, snapshot){
+                              if (!snapshot.hasData) {
+                                return const Center(child: SpinKitSpinningLines(
+                                  color: kBlue,
+                                  size: 40,
+                                ));
+                              }
+                              return PageView.builder(
+                                  controller: data.taskPageController,
+                                  itemCount: 2,
+                                  itemBuilder: (context, index){
+                                    return index == 0
+                                        ? ParentSingleTaskListWidget(snapshot: snapshot.data![0])
+                                        : ParentMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                  }
+                              );
                             }
-                            return PageView.builder(
-                                controller: data.taskPageController,
-                                itemCount: 2,
-                                itemBuilder: (context, index){
-                                  return index == 0
-                                    ? ParentSingleTaskListWidget(snapshot: snapshot.data![0])
-                                    : ParentMultiTaskListWidget(snapshot: snapshot.data![1]);
-                                }
-                            );
-                          }
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                ParentBottomNavigationBarWidget()
-              ],
-            );
-          },
-        )
+                    ],
+                  ),
+                  const ParentBottomNavigationBarWidget()
+                ],
+              );
+            },
+          )
       ),
     );
   }
 }
-
-
-

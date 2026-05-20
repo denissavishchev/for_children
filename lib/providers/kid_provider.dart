@@ -36,6 +36,7 @@ class KidProvider with ChangeNotifier {
   String endDateTime = '';
   String dayDuration = '';
   List<DurationsModel> durationsList = [];
+  bool isNullDay = false;
 
   final Map<IconData, Widget> routes = {
     Icons.home: MainKidScreen(),
@@ -49,6 +50,7 @@ class KidProvider with ChangeNotifier {
   int totalBanknotesSum = 0;
 
   Map<String, bool> selectedParentsEmail = {};
+  bool _isProcessingAccept = false;
 
   final GlobalKey<FormState> saveMoneyKey = GlobalKey<FormState>();
   final GlobalKey<FormState> wishKey = GlobalKey<FormState>();
@@ -112,48 +114,63 @@ class KidProvider with ChangeNotifier {
     }
   }
 
-  Future acceptParent(int index) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? myEmail = prefs.getString('email')?.toLowerCase();
-    final String parentEmail = parentsEmailsList[index].toLowerCase();
+  Future<void> acceptParent(int index) async {
+    if (_isProcessingAccept) {
+      return;
+    }
+    _isProcessingAccept = true;
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? myEmail = prefs.getString('email')?.toLowerCase();
+      final String parentEmail = parentsEmailsList[index].toLowerCase();
 
-    if (myEmail == null) return;
+      if (myEmail == null) {
+        _isProcessingAccept = false;
+        return;
+      }
 
-    final Map<String, dynamic>? docEmail = await Supabase.instance.client
-        .from('users')
-        .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
-        .eq('email', myEmail)
-        .maybeSingle();
+      final Map<String, dynamic>? docEmail = await Supabase.instance.client
+          .from('users')
+          .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
+          .eq('email', myEmail)
+          .maybeSingle();
 
-    if (docEmail != null) {
-      for (int k = 0; k < 6; k++) {
-        if (docEmail['kid$k'] == parentEmail) {
-          await Supabase.instance.client
-              .from('users')
-              .update({'kid${k}Accept': true,})
-              .eq('email', myEmail);
-          break;
+      if (docEmail != null) {
+        for (int k = 0; k < 6; k++) {
+          if (docEmail['kid$k'] == parentEmail) {
+            await Supabase.instance.client
+                .from('users')
+                .update({'kid${k}Accept': true,})
+                .eq('email', myEmail);
+            break;
+          }
         }
       }
-    }
-    final Map<String, dynamic>? parentDoc = await Supabase.instance.client
-        .from('users')
-        .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
-        .eq('email', parentEmail)
-        .maybeSingle();
 
-    if (parentDoc != null) {
-      for (int k = 0; k < 6; k++) {
-        if (parentDoc['kid$k'] == myEmail) {
-          await Supabase.instance.client
-              .from('users')
-              .update({'kid${k}Accept': true,})
-              .eq('email', parentEmail);
-          break;
+      final Map<String, dynamic>? parentDoc = await Supabase.instance.client
+          .from('users')
+          .select('kid0, kid0Accept, kid1, kid1Accept, kid2, kid2Accept, kid3, kid3Accept, kid4, kid4Accept, kid5, kid5Accept, name',)
+          .eq('email', parentEmail)
+          .maybeSingle();
+
+      if (parentDoc != null) {
+        for (int k = 0; k < 6; k++) {
+          if (parentDoc['kid$k'] == myEmail) {
+            await Supabase.instance.client
+                .from('users')
+                .update({'kid${k}Accept': true,})
+                .eq('email', parentEmail);
+            break;
+          }
         }
       }
+      await getParents();
+
+    } catch (e) {
+      log('acceptingError: $e');
+    } finally {
+      _isProcessingAccept = false;
     }
-    getParentsData();
   }
 
   Future<void> pickAnImage() async {
@@ -323,14 +340,38 @@ class KidProvider with ChangeNotifier {
       prefs.setString('endDateTime', endDateTime);
 
     }
-    prefs.setBool('isDay', isDay);
+    await Supabase.instance.client
+        .from('users')
+        .update({'isDay': isDay})
+        .eq('email', data.email.toString());
+    final Map<String, dynamic>? isDayCheck = await Supabase.instance.client
+        .from('users')
+        .select('isDay')
+        .eq('email', data.email.toString())
+        .maybeSingle();
+    if(isDayCheck != null && isDayCheck['isDay'] != null){
+      isDay = isDayCheck['isDay'];
+      isNullDay = false;
+    }else{
+      isNullDay = true;
+    }
     notifyListeners();
   }
 
   void initTimes(context) async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final data = Provider.of<ParentProvider>(context, listen: false);
-    isDay = prefs.getBool('isDay') ?? false;
+    final Map<String, dynamic>? isDayCheck = await Supabase.instance.client
+        .from('users')
+        .select('isDay')
+        .eq('email', data.email.toString())
+        .maybeSingle();
+    if(isDayCheck != null && isDayCheck['isDay'] != null){
+      isDay = isDayCheck['isDay'];
+      isNullDay = false;
+    }else{
+      isNullDay = true;
+    }
     final Map<String, dynamic>? doc = await Supabase.instance.client
         .from('daysDuration')
         .select('start, end')
@@ -354,6 +395,7 @@ class KidProvider with ChangeNotifier {
   }
 
   Future<void>saveSaveMoneyItem(context)async {
+    final data = Provider.of<ParentProvider>(context, listen: false);
     isLoading = true;
     notifyListeners();
     await Supabase.instance.client
@@ -367,6 +409,7 @@ class KidProvider with ChangeNotifier {
       'imageUrl': fileName == '' ? 'false' : imageUrl,
       'money': <int>[],
       'time': DateTime.now().toString(),
+      'email' : data.email,
     });
     whatDoYoWantController.clear();
     whatDoYoWantPriceController.clear();

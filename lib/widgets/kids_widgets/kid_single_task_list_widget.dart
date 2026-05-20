@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -34,36 +35,51 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
           return Column(
             children: [
               Visibility(
-                visible: data.adTitle != '' && data.adDescription != '',
-                child: AdWidget(),
+                visible: (data.adTitle != null && data.adTitle!.isNotEmpty) ||
+                    (data.adDescription != null && data.adDescription!.isNotEmpty),
+                child: const AdWidget(),
               ),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 80, top: 2),
-                  itemCount: widget.snapshot.length,
-                  itemBuilder: (context, index){
-                    final taskData = widget.snapshot[index];
-                    if(taskData['kidEmail'].toLowerCase() == data.email){
-                      return GestureDetector(
-                        onTap: () {
-                          data.priceController.text = taskData['price'];
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) =>
-                                  KidsDescriptionScreen(index: index, snapshot: taskData)));
-                        },
-                        child: KidSingleBasicContainerWidget(
-                          snapshot: taskData,
-                          index: index,
-                          nameOf: 'parentName',
+              widget.snapshot.isEmpty
+                  ? SizedBox(
+                    width: 200,
+                    child: Column(
+                      spacing: 12,
+                      children: [
+                        Text('noTasksKids'.tr(),
+                          style: kBigTextStyle,
+                          textAlign: TextAlign.center,
                         ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  }),
-              ),
-            ],
-          );
-        });
+                        Image.asset('assets/images/emptyList.png', width: 140,)
+                      ],
+                    ),
+                  )
+                  : Expanded(
+                      child: ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 80, top: 2),
+                          itemCount: widget.snapshot.length,
+                          itemBuilder: (context, index){
+                            final taskData = widget.snapshot[index];
+                            return GestureDetector(
+                              onTap: () {
+                                data.priceController.text = taskData['price'];
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => KidsDescriptionScreen(index: index, snapshot: taskData),
+                                  ),
+                                );
+                              },
+                              child: KidSingleBasicContainerWidget(
+                                snapshot: taskData,
+                                index: index,
+                                nameOf: 'parentName',
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                );
+              });
   }
 }
 

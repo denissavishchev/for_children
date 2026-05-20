@@ -20,7 +20,6 @@ class MainKidScreen extends StatefulWidget {
 }
 
 class _MainKidScreenState extends State<MainKidScreen> {
-
   @override
   void initState() {
     final data = Provider.of<ParentProvider>(context, listen: false);
@@ -39,7 +38,7 @@ class _MainKidScreenState extends State<MainKidScreen> {
       resizeToAvoidBottomInset: true,
       backgroundColor: kWhite,
       body: Consumer<ParentProvider>(
-        builder: (context, parent, _){
+        builder: (context, parent, _) {
           return SafeArea(
             child: Stack(
               alignment: Alignment.center,
@@ -47,11 +46,8 @@ class _MainKidScreenState extends State<MainKidScreen> {
                 Positioned(
                   top: 0,
                   child: parent.email == ''
-                      ? SpinKitSpinningLines(
-                        color: kBlue,
-                        size: 40,
-                      )
-                      : DayNightWidget(),
+                      ? const SpinKitSpinningLines(color: kBlue, size: 40)
+                      : const DayNightWidget(),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -60,61 +56,58 @@ class _MainKidScreenState extends State<MainKidScreen> {
                     padding: const EdgeInsets.only(top: 12),
                     decoration: BoxDecoration(
                       color: kWhite,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
                       boxShadow: [
                         BoxShadow(
-                            color: kGrey.withValues(alpha: 0.3),
-                            blurRadius: 2,
-                            spreadRadius: 2,
-                            offset: const Offset(0, -3)
+                          color: kGrey.withValues(alpha: 0.3),
+                          blurRadius: 2,
+                          spreadRadius: 2,
+                          offset: const Offset(0, -3),
                         ),
                       ],
                     ),
                     child: Column(
                       spacing: 12,
                       children: [
-                        KidsSwitchTaskTabWidget(),
+                        const KidsSwitchTaskTabWidget(),
                         Expanded(
-                          child: StreamBuilder<List<List<Map<String, dynamic>>>>(
-                              stream: CombineLatestStream.list([
-                                Supabase.instance.client
-                                    .from('tasks')
-                                    .stream(primaryKey: ['id'])
-                                    .order('time', ascending: false),
-                                Supabase.instance.client
-                                    .from('multiTasks')
-                                    .stream(primaryKey: ['id'])
-                                    .order('time', ascending: false),
-                              ]),
-                              builder: (context, snapshot){
-                                if (!snapshot.hasData) {
-                                  return Center(child: SpinKitSpinningLines(
-                                  color: kBlue,
-                                  size: 40,
-                                ));
-                                }
-                                return Consumer<ParentProvider>(
-                                    builder: (context, data, _){
-                                      return PageView.builder(
-                                          controller: parent.taskPageController,
-                                          onPageChanged: (index) => parent.switchTaskScreen(index),
-                                          itemCount: 2,
-                                          itemBuilder: (context, index){
-                                            return index == 0
-                                                ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
-                                                : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
-                                          }
-                                      );
-                                    }
-                                );
+                          child: parent.email == ''
+                              ? const Center(child: SpinKitSpinningLines(color: kBlue, size: 40))
+                              : StreamBuilder<List<List<Map<String, dynamic>>>>(
+                            stream: CombineLatestStream.list([
+                              Supabase.instance.client
+                                  .from('tasks')
+                                  .stream(primaryKey: ['id'])
+                                  .eq('kidEmail', (parent.email ?? '').toLowerCase())
+                                  .order('time', ascending: false),
+                              Supabase.instance.client
+                                  .from('multiTasks')
+                                  .stream(primaryKey: ['id'])
+                                  .eq('kidEmail', (parent.email ?? '').toLowerCase())
+                                  .order('time', ascending: false),
+                            ]),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(child: SpinKitSpinningLines(color: kBlue, size: 40));
                               }
+                              return PageView.builder(
+                                controller: parent.taskPageController,
+                                onPageChanged: (index) => parent.switchTaskScreen(index),
+                                itemCount: 2,
+                                itemBuilder: (context, index) {
+                                  return index == 0
+                                      ? KidSingleTaskListWidget(snapshot: snapshot.data![0])
+                                      : KidsMultiTaskListWidget(snapshot: snapshot.data![1]);
+                                },
+                              );
+                            },
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                KidBottomNavigationBarWidget()
+                const KidBottomNavigationBarWidget()
               ],
             ),
           );

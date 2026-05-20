@@ -194,41 +194,48 @@ class _DayNightWidgetState extends State<DayNightWidget> {
                               ],
                               borderRadius: BorderRadius.all(Radius.circular(8))
                           ),
-                          child: DayDurationWidget(
-                            userStartTime: data.startDayTime,
-                            userEndTime: data.endDateTime,
-                            docs: docs,),
-                        ),
+                          child: data.isNullDay
+                              ? Center(child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Text('startYourFirstDay'.tr(), style: kTextStyle,),
+                                  ),)
+                              : DayDurationWidget(
+                                userStartTime: data.startDayTime,
+                                userEndTime: data.endDateTime,
+                                docs: docs,),
+                            ),
                       ),
-                      Positioned(
-                        top: 4,
-                          right: data.isDay ? 12 : null,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(18)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: kWhite.withValues(alpha: 0.5),
-                                  blurRadius: 3,
-                                  spreadRadius: 3,
-                                )
-                              ],
-                            ),
-                            child: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 300),
-                              transitionBuilder: (Widget child, Animation<double> animation) {
-                                return FadeTransition(opacity: animation, child: child);
-                              },
-                              child: Text(
-                                data.isDay
-                                    ? 'helloName'.tr(args: [docs['name']])
-                                    : 'goodNightName'.tr(args: [docs['name']]),
-                                key: ValueKey<bool>(data.isDay),
-                                style: kBigTextStyle,
+                      data.isNullDay
+                        ? SizedBox.shrink()
+                        : Positioned(
+                          top: 4,
+                            right: data.isDay ? 12 : null,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kWhite.withValues(alpha: 0.5),
+                                    blurRadius: 3,
+                                    spreadRadius: 3,
+                                  )
+                                ],
                               ),
-                            ),
-                          )
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                transitionBuilder: (Widget child, Animation<double> animation) {
+                                  return FadeTransition(opacity: animation, child: child);
+                                },
+                                child: Text(
+                                  data.isDay
+                                      ? 'helloName'.tr(args: [docs['name']])
+                                      : 'goodNightName'.tr(args: [docs['name']]),
+                                  key: ValueKey<bool>(data.isDay),
+                                  style: kBigTextStyle,
+                                ),
+                              ),
+                            )
                       ),
                     ],
                   ),
