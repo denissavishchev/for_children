@@ -163,7 +163,9 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
                                   ),
                                   Text('yourKidsDescription'.tr(), style: kTextStyle,),
                                   SizedBox(
-                                    height: 72.0 * data.kidsList.length,
+                                    height: (72.0 * data.kidsList.length) < 72.0
+                                        ? 72.0
+                                        : 72.0 * data.kidsList.length,
                                     child: FutureBuilder(
                                       future: data.getKid,
                                       builder: (context, snapshot){

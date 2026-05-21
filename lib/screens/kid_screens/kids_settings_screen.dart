@@ -171,7 +171,9 @@ class _KidsSettingsScreenState extends State<KidsSettingsScreen> {
                                   Text('yourParentsDescription'.tr(), style: kTextStyle,),
                                   const Divider(),
                                   SizedBox(
-                                    height: 32.0 * data.parentsList.length,
+                                    height: (32.0 * data.parentsList.length) < 32.0
+                                        ? 32.0
+                                        : 32.0 * data.parentsList.length,
                                     child: FutureBuilder(
                                       future: data.getParent,
                                       builder: (context, snapshot){
