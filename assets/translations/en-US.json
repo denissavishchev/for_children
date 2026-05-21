@@ -366,5 +366,6 @@
   "noTasksKids": "You don't have any tasks to complete yet",
   "noTasksParent": "You haven't added any tasks to complete yet",
   "startYourFirstDay": "Start your first day",
-  "noSavingsYet": "You don't have any savings yet, add them!"
+  "noSavingsYet": "You don't have any savings yet, add them!",
+  "addAdFor": "Add Ad for: {}"
 }

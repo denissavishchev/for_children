@@ -28,6 +28,7 @@ class _MainParentScreenState extends State<MainParentScreen> {
     parentsData.selectedRoute = Icons.home;
     kidsData.setupKidNotification();
     parentsData.getKids();
+    parentsData.getEmailAndName();
     super.initState();
   }
 

@@ -173,7 +173,7 @@ class ParentProvider with ChangeNotifier {
 
   Future<void> getEmailAndName() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    email = prefs.getString('email');
+    email = prefs.getString('email') ?? '';
     final Map<String, dynamic>? doc = await Supabase.instance.client
         .from('users')
         .select('name, adTitle, adDescription, adImageUrl, adEndTime')

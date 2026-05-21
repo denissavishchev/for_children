@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:for_children/constants.dart';
 import 'package:for_children/providers/parent_provider.dart';
+import 'package:for_children/widgets/parents_widget/parent_round_button.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/kids_widgets/kid_button_widget.dart';
+import '../../widgets/parents_widget/parent_button_widget.dart';
 import 'ads_list_screen.dart';
 
 class AddAdsScreen extends StatelessWidget {
@@ -29,21 +30,28 @@ class AddAdsScreen extends StatelessWidget {
                         spacing: 18,
                         children: [
                           Row(
+                            spacing: 12,
                             children: [
-                              IconButton(
-                                  onPressed: () => Navigator.pushReplacement(context,
+                              ParentRoundButton(
+                                  onTap: () => Navigator.pushReplacement(context,
                                       MaterialPageRoute(builder: (context) =>
                                       const AdsListScreen())),
-                                  icon: const Icon(
-                                    Icons.arrow_back_ios_new,
-                                    color: kBlue,
-                                    size: 32,
-                                  )),
-                              const Spacer(),
+                                  icon: Icons.arrow_back_ios_new,),
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: kWhite,
+                                    border: Border.all(color: kBlue, width: 0.5),
+                                    borderRadius: const BorderRadius.all(Radius.circular(8)
+                                    ),
+                                  ),
+                                  child: Text('adDurationDescription'.tr(), style: kTextStyle),
+                                ),
+                              ),
                             ],
                           ),
-                          Text('kid name ${data.selectedKidName}'),
-                          Text('kid email ${data.selectedKidEmail}'),
+                          Text('addAdFor'.tr(args: [(data.selectedKidName)]), style: kBigTextStyle,),
                           Form(
                             key: data.adsKey,
                             child: Column(
@@ -87,9 +95,9 @@ class AddAdsScreen extends StatelessWidget {
                                         child: Container(
                                           width: 55,
                                           height: 55,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(Radius.circular(12)),
-                                            color: kDarkGrey,
+                                            color: kBlue,
                                           ),
                                           child: const Icon(Icons.psychology, color: kWhite, size: 44),
                                         ),
@@ -182,7 +190,7 @@ class AddAdsScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          KidButtonWidget(
+                          ParentButtonWidget(
                             onTap: () => data.addAdToBase(context),
                             text: 'add',
                           ),

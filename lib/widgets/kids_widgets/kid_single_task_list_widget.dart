@@ -8,25 +8,12 @@ import '../../providers/parent_provider.dart';
 import '../../screens/kid_screens/kids_description_screen.dart';
 import 'kid_single_basic_container_widget.dart';
 
-class KidSingleTaskListWidget extends StatefulWidget {
+class KidSingleTaskListWidget extends StatelessWidget {
   const KidSingleTaskListWidget({
     super.key, required this.snapshot,
   });
 
   final List<Map<String, dynamic>> snapshot;
-
-  @override
-  State<KidSingleTaskListWidget> createState() => _KidSingleTaskListWidgetState();
-}
-
-class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
-
-  @override
-  void initState() {
-    final data = Provider.of<ParentProvider>(context, listen: false);
-    data.getEmailData();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +26,7 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
                     (data.adDescription != null && data.adDescription!.isNotEmpty),
                 child: const AdWidget(),
               ),
-              widget.snapshot.isEmpty
+              snapshot.isEmpty
                   ? SizedBox(
                     width: 200,
                     child: Column(
@@ -56,9 +43,9 @@ class _KidSingleTaskListWidgetState extends State<KidSingleTaskListWidget> {
                   : Expanded(
                       child: ListView.builder(
                           padding: const EdgeInsets.only(bottom: 80, top: 2),
-                          itemCount: widget.snapshot.length,
+                          itemCount: snapshot.length,
                           itemBuilder: (context, index){
-                            final taskData = widget.snapshot[index];
+                            final taskData = snapshot[index];
                             return GestureDetector(
                               onTap: () {
                                 data.priceController.text = taskData['price'];

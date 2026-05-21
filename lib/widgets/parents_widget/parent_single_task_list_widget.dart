@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../constants.dart';
 import 'parent_single_basic_container_widget.dart';
 
-class ParentSingleTaskListWidget extends StatefulWidget {
+class ParentSingleTaskListWidget extends StatelessWidget {
   const ParentSingleTaskListWidget({
     super.key, required this.snapshot,
   });
@@ -14,23 +14,10 @@ class ParentSingleTaskListWidget extends StatefulWidget {
   final List<Map<String, dynamic>> snapshot;
 
   @override
-  State<ParentSingleTaskListWidget> createState() => _ParentSingleTaskListWidgetState();
-}
-
-class _ParentSingleTaskListWidgetState extends State<ParentSingleTaskListWidget> {
-
-  @override
-  void initState() {
-    final data = Provider.of<ParentProvider>(context, listen: false);
-    data.getEmailData();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Consumer<ParentProvider>(
         builder: (context, data, _){
-          if (widget.snapshot.isEmpty) {
+          if (snapshot.isEmpty) {
             return Center(
               child: SizedBox(
                 width: 200,
@@ -52,9 +39,9 @@ class _ParentSingleTaskListWidgetState extends State<ParentSingleTaskListWidget>
             children: [
               ListView.builder(
                   padding: const EdgeInsets.only(bottom: 80),
-                  itemCount: widget.snapshot.length,
+                  itemCount: snapshot.length,
                   itemBuilder: (context, index){
-                    final taskData = widget.snapshot[index];
+                    final taskData = snapshot[index];
                     return GestureDetector(
                       onTap: () {
                         data.priceController.text = taskData['price'];

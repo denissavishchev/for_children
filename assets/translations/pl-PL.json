@@ -366,5 +366,6 @@
   "noTasksKids": "Nie masz jeszcze żadnych tasków do wykonania",
   "noTasksParent": "Nie dodałeś jeszcze żadnych tasków do wykonania",
   "startYourFirstDay": "Zacznij swój pierwszy dzień",
-  "noSavingsYet": "Nie masz jeszcze oszczędności, dodaj je!"
+  "noSavingsYet": "Nie masz jeszcze oszczędności, dodaj je!",
+  "addAdFor": "Dodaj ogłoszenie dla: {}"
 }
